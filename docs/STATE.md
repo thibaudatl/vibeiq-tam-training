@@ -90,6 +90,11 @@ irreversible decisions and new unverified claims all belong there.
 - `partialAssortmentUpdate` defaults to FALSE, meaning REPLACE. A partial file
   wipes everything not in it.
 - Loader validation is fail-fast; there are NO partial loads.
+- assortmentSplit rows whose split value matches no entry are SKIPPED silently.
+- Workflow tasks are strictly serial; a failed task means later tasks never run.
+- Deleting a workflow destroys its process/task/logs immediately. Disable instead.
+- Option Set Hierarchy configs are keyed on TypePropertyIds; "a slug-based config
+  silently fails to load". An off-hierarchy parent value empties the child dropdown.
 - `failureArea` on LoaderProcess localises a failure in one field.
 - Docs URL note: the loader config and validation pages are at
   /data_loading/loader_configuration/ and /data_loading/validation_and_errors/

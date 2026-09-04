@@ -78,6 +78,20 @@ Confirm what is actually enforced before a customer security review.
 installing org runs `contrail workflow-template-definitions install` → live workflows, `config`
 preserved. Therefore: changing a workflow is a **release**, not a setting.
 
+## Task execution
+"For each time a workflow is triggered, a process is created. Each process contains one or more
+tasks." **"Only one task runs at a time in a process, and tasks always run in order. If one task
+fails, none of the subsequent tasks are run."** → later actions are *never run*, not failed.
+Order actions so the riskiest is last; never infer a later action ran from the process existing.
+
+## Managing
+- Workflows "can be disabled without deleting them… keep them for historical record without
+  changing their trigger."
+- **"Once deleted, the process list, task list, and logs for a workflow is lost."** Deletion
+  destroys the evidence trail immediately, not after 90 days. Disable, don't delete.
+- Separate from concurrency: "workflows can be configured to have limits on their run per
+  minute" — the right lever when a workflow is correct but too chatty for a downstream system.
+
 ## Observability
 Admin Console **Process List**, reverse chronological. Process → tasks → each task has an
 `Output`. Statuses UI/API: Pending/`PENDING`, Processing/`ACTIVE`, Awaiting/`AWAITING`,

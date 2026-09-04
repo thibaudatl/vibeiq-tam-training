@@ -538,7 +538,12 @@
         </div>
 
         <h3>Concept 1 — The three item layers</h3>
-        <p>VibeIQ does not store "a product" once. The same product exists at up to three levels, each with a different <strong>scope</strong>. This is the most important structural idea in the platform.</p>
+        <p>VibeIQ does not store "a product" once. There is one <strong>Item</strong> — and then two <em>relationship</em> entities that attach data to it in a particular context. That distinction is sharper than "three copies," and it is how the docs describe it:</p>
+        <ul>
+          <li>"A <code>ProjectItem</code> ties an <code>Item</code> to a <code>Project</code>. While <code>Item</code> data is global, <code>ProjectItem</code> data is specific to a project (e.g., a season)."</li>
+          <li>"An Item's membership in an Assortment is represented by an <code>AssortmentItem</code> entity."</li>
+        </ul>
+        <p>So an Item is the product; a ProjectItem is "this product, in this season"; an AssortmentItem is "this product, in this assortment." Each relationship carries its own data. This is the most important structural idea in the platform.</p>
 
         <figure>
           <svg viewBox="0 0 680 250" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The three item layers: Item is org-wide, ProjectItem is scoped to a season, AssortmentItem is scoped to one assortment">
@@ -596,6 +601,11 @@
           <li><code>ASSORTMENT</code> <strong>must be paired with</strong> <code>ITEM</code>, and can also be paired with <code>PROJECT_ITEM</code> — loading all three instances together.</li>
         </ul>
         <p><strong>Why the design exists:</strong> a style lives across many seasons; its commercial framing differs each season; and the same season's product appears in many assortments on different terms. Flattening these into one record would either lose the history or duplicate the product.</p>
+
+        <div class="card keystone">
+          <h4>How the levels interact on a write</h4>
+          <p style="margin-bottom:0">When a property exists on more than one of these entities, the loader resolves it "based on the property's level designation (Family, Option, All, Override)." So the two ideas in this module — <em>entity layer</em> and <em>property level</em> — are not independent axes you consider one at a time. They compose on every write, which is why a value can land somewhere neither the customer nor the integration expected.</p>
+        </div>
 
         <div class="card tam">
           <h4></h4>
@@ -701,6 +711,11 @@
             <tr><td><code>SHOWCASE</code></td><td>A Showcase <em>and</em> its assortment</td></tr>
           </tbody>
         </table>
+        <div class="card warn">
+          <h4>Assortment membership is replaced, not merged, by default</h4>
+          <p style="margin-bottom:0">A full assortment load has explicit semantics: CSV items not in the assortment are <strong>added</strong>; items in both are <strong>updated</strong> if changed; matching items with no changes are <strong>unchanged</strong>; and <strong>"assortment items not in CSV → deleted."</strong> That last clause is the whole risk — membership is defined by the file, so an incomplete file is a deletion instruction. Week 4 covers the flag that changes this (<code>partialAssortmentUpdate</code>); carry the semantics from here.</p>
+        </div>
+
         <div class="card keystone">
           <h4>The link back to Week 1</h4>
           <p style="margin-bottom:0">Board, Plan and Showcase are each <strong>backed by an assortment</strong>. They are three views onto the same kind of underlying object — which is exactly why a product can travel from mood board to line plan to line review without being re-created. The apps are the surface; the assortment is the substance.</p>
@@ -1236,19 +1251,25 @@ family (SH-9902) with one option.       { "default": "item:product:apparel", "to
         </div>
         <div class="card tam">
           <h4></h4>
-          <p style="margin-bottom:0">This flag is usually set for a good reason — a bulk backfill where you genuinely don't want to fire a publish per row. The failure is that it gets set once "just for the migration" and stays in a reusable configuration forever. Put it on your pre-load checklist as a question with two parts: <em>is this flag set, and is that still deliberate?</em> Then: if it is set, who re-syncs the downstream system, and when?</p>
+          <p style="margin-bottom:0">The flag has a legitimate purpose: the docs recommend it for a "high volume of changes" where "full history is not required" — a migration or backfill where you genuinely don't want a publish per row. The failure is that it gets set once "just for the migration" and stays in a reusable configuration forever. Put it on your pre-load checklist as a question with two parts: <em>is this flag set, and is that still deliberate?</em> Then: if it is set, who re-syncs the downstream system, and when?</p>
         </div>
 
         <div class="card warn">
           <h4>2 · <code>partialAssortmentUpdate</code> — a default that deletes</h4>
           <p>Defaults to <code>false</code>. When <code>false</code>, an assortment load <strong>replaces</strong> the assortment's contents; when <code>true</code>, items are added and dropped rather than replaced.</p>
-          <p style="margin-bottom:0">So sending a partial file — say, only the 40 styles that changed — against the default configuration does not update 40 items. It leaves the assortment containing <em>only</em> those 40, and everything else is gone. The load reports success.</p>
+          <p>So sending a partial file — say, only the 40 styles that changed — against the default configuration does not update 40 items. It leaves the assortment containing <em>only</em> those 40. The load reports success.</p>
+          <p style="margin-bottom:0">The full-load semantics, precisely: CSV items not in the assortment are <strong>added</strong>; items in both are <strong>updated</strong> if changed; unchanged matches are left <strong>unchanged</strong>; and <strong>"assortment items not in CSV → deleted."</strong></p>
         </div>
-        <p>Partial updates are driven by two companion columns: <code>addField</code> marks items to add, <code>dropField</code> (or top-level <code>assortmentItemDropField</code>) marks items to drop.</p>
+        <p>Partial updates use two <em>boolean</em> columns: <code>addField</code> marks rows to add or update, <code>dropField</code> (or top-level <code>assortmentItemDropField</code>) marks rows to remove. One rule worth knowing: "items marked for <strong>add</strong> that already exist in the assortment are treated as <strong>updates</strong> instead," so an add on an existing item is safe rather than duplicating.</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;line-height:1.55;margin:14px 0"><code style="background:none;color:inherit;padding:0">Style Name,addItem,dropItem,gender
+Classic Tee,false,true,womens     → removed from the womens assortment
+V-Neck Tee,true,false,womens      → added, or updated if already present
+                                  → everything else in the assortment is untouched</code></pre>
 
         <div class="card">
           <h4 style="margin-top:6px">3 · <code>assortmentSplit</code> — one file, many assortments</h4>
-          <p style="margin-bottom:0">Routes rows to different assortments based on a column value — <code>fieldToSplitOn</code> plus a <code>values</code> array mapping each value to an <code>assortmentId</code> or <code>assortmentIdentifier</code>. This is how a single export becomes a mens assortment and a womens assortment, or a set of regional ones. Worth knowing because it means <em>one</em> load can affect several assortments, and therefore several downstream publishes.</p>
+          <p>Routes rows to different assortments based on a column value — <code>fieldToSplitOn</code> plus a <code>values</code> array mapping each value to an <code>assortmentId</code> or <code>assortmentIdentifier</code>. "The Loader groups rows by the value in the <code>fieldToSplitOn</code> column. Each group is matched to an assortment from the <code>values</code> array." One load can therefore affect several assortments, and so trigger several downstream publishes.</p>
+          <p style="margin-bottom:0"><strong>The catch:</strong> "rows with <code>fieldToSplitOn</code> values not matching any entry are <em>skipped</em>." Not errored — skipped. A new region code, a typo, a trailing space, and those rows quietly never load while the job reports success. Any change to the vocabulary of that column is a silent data-loss event, so the <code>values</code> array needs to be reviewed whenever the source system gains a new category.</p>
         </div>
 
         <div class="card warn">
@@ -1761,6 +1782,10 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
         </div>
 
         <h3>Concept 5 — Actions and per-workflow config</h3>
+        <div class="card keystone">
+          <h4>Task execution is strictly serial, and fails closed</h4>
+          <p style="margin-bottom:0">"For each time a workflow is triggered, a process is created. Each process contains one or more tasks." And crucially: <strong>"Only one task runs at a time in a process, and tasks always run in order. If one task fails, none of the subsequent tasks are run."</strong> So a three-action path that fails on action one leaves actions two and three <em>unexecuted</em> — not failed, not retried, simply never run. Order your actions so the riskiest one is last, and never assume a later action ran because the process exists.</p>
+        </div>
         <p>Each entry in <code>actionDefinitionConfigs</code> needs <code>action</code> (a key matching the app's <code>actions</code> section) and <code>name</code> (the label shown in the Admin UI), plus optional <code>config</code>. Actions exposing <code>actionConfiguration</code> can be reused with different parameters per workflow:</p>
         <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">actions:
   syncItem:
@@ -1813,7 +1838,12 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
             <tr><td>Concurrent processes per organization</td><td>60</td></tr>
           </tbody>
         </table>
-        <p>The per-workflow and per-org ceilings are adjustable via the Customer Success Manager.</p>
+        <p>The per-workflow and per-org ceilings are adjustable via the Customer Success Manager. Separately, "workflows can be configured to have limits on their run <strong>per minute</strong>" — a rate limit distinct from the concurrency ceiling, and the right lever when a workflow is correct but too chatty for a downstream system to absorb.</p>
+
+        <div class="card warn">
+          <h4>Disable, don't delete</h4>
+          <p style="margin-bottom:0">"Workflows can be disabled without deleting them. This is useful when you wish to test out various workflows for a limited period of time, and keep them for historical record without changing their trigger." Deletion is different in kind: <strong>"Once deleted, the process list, task list, and logs for a workflow is lost."</strong> So deleting a workflow destroys its entire evidence trail instantly — not after 90 days, immediately. Before any cleanup of "old workflows," ask whether anyone might need to explain something that happened last month.</p>
+        </div>
         <div class="card tam">
           <h4></h4>
           <p style="margin-bottom:0">Two things to carry into customer conversations. First, the <strong>per-org ceiling of 60 is shared</strong> — one chatty workflow during a bulk load can starve every other workflow in the org, and the symptom is "unrelated automation got slow today." Second, raising <code>parallelWorkerCount</code> to fix slowness <em>without</em> a message group is how you convert a performance complaint into a data-corruption incident. Throughput and correctness are the same dial here; never turn it without asking what collides.</p>
@@ -2074,8 +2104,24 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
           <li><strong>Validation Functions</strong> — custom validation, referenceable from a rule via <code>validationFunction</code>.</li>
           <li><strong>Blueprints</strong> — templated structures for repeatable setup (the docs carry a placeholder-colour example).</li>
           <li><strong>Uniqueness</strong> — constraints preventing duplicate values. Worth pairing mentally with Week 4: uniqueness rules and <code>federatedId</code> upsert are different mechanisms answering related questions, and a customer may need both.</li>
-          <li><strong>Option Sets</strong> and the <strong>Option Set Hierarchy</strong> — the value lists behind Single/Multi Select, and the multi-level dependencies between them. Recall Week 4: display labels in a CSV are converted to internal option values during preprocessing, so option-set drift breaks loads.</li>
+          <li><strong>Option Sets</strong> — the value lists behind Single/Multi Select. Recall Week 4: display labels in a CSV are converted to internal option values during preprocessing, so option-set drift breaks loads.</li>
         </ul>
+
+        <h4>Option Set Hierarchies — cascading dropdowns, and two silent failures</h4>
+        <p>An Option Set Hierarchy (OSH) creates a parent-child cascade between single-select properties: "selecting a parent value narrows the values available in its child dropdown." Choosing <code>Merch Size Group = APPAREL</code> might restrict <code>Merch Division Code</code> to <code>M-APP</code>, <code>W-APP</code>, <code>K-APP</code>. Chains can be two levels or many — Segment → Category → SubCategory — and "the order of the parent → child chain is fixed by the <code>hierarchy</code> list. Changing the order in that list changes which property filters which."</p>
+        <p>When a user opens a child dropdown the engine finds the child's position in the chain, walks the options tree filtering by the parent values currently selected, and returns what is allowed at that depth. If a parent has no selection yet, it <em>flattens</em> all branches and shows every descendant value.</p>
+        <div class="card warn">
+          <h4>Two ways an OSH fails without saying so</h4>
+          <ol style="margin-bottom:0">
+            <li><strong>An empty dropdown.</strong> "If the parent holds a value that isn't in the hierarchy, the child dropdown will appear empty." So a legacy or imported parent value that predates the hierarchy — or one loaded straight past the UI — makes the child unusable, and the user reports "the dropdown is broken." It isn't; the parent is off-hierarchy.</li>
+            <li><strong>A config that silently doesn't load.</strong> The hierarchy is stored as an <code>OptionSetHierarchy</code> record plus a <code>TypeOptionSetHierarchyLink</code> attaching it to a Type, and it is keyed on <strong>TypePropertyIds — internal IDs, not slugs</strong>. "A slug-based config silently fails to load." Someone hand-writing or hand-editing the JSON with readable slugs gets no error and no hierarchy.</li>
+          </ol>
+        </div>
+        <p>Loading one is a two-step CLI flow — <code>parseOptionSetsHierarchyValuesToKeysLocalFile</code> converts display values to keys, then <code>parseOptionSetsHierarchyLocalFile</code> generates the JSON — after which you create the hierarchy in the Admin Console and assign it to the Item and Plan Placeholder types.</p>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Both failures present as user-facing bugs and are neither. "The dropdown is empty for some products" is an <em>off-hierarchy parent value</em>, which usually means data arrived through the Loader that the hierarchy was never told about — a Week 4 problem surfacing in Week 7's territory. Worth adding to your data-model health check: does every parent value in the data exist in the hierarchy?</p>
+        </div>
 
         <h3>Concept 5 — Configuration Copy, and how environments actually work</h3>
         <p>This answers a question that has been open since Week 1: how does configuration move between orgs?</p>
@@ -2955,6 +3001,10 @@ visibility: public            # marketplace candidate</code></pre>
             <tr><td>"We load every night but PLM has had nothing for days"</td><td><code>shouldSkipAssortmentPublish</code> on the loader config — no publish event is emitted at all</td><td>3 · 4 · 5</td></tr>
             <tr><td>"The assortment is nearly empty after a small update"</td><td><code>partialAssortmentUpdate</code> defaults to <code>false</code> — the load <em>replaced</em> the assortment</td><td>4</td></tr>
             <tr><td>"The load just stopped, nothing was applied"</td><td>Validation is fail-fast. Read <code>failureArea</code>: <code>VALIDATING_DATA</code> means it halted before transforming</td><td>4</td></tr>
+            <tr><td>"Some rows never loaded, no error anywhere"</td><td><code>assortmentSplit</code>: rows whose <code>fieldToSplitOn</code> value matches no entry are <em>skipped</em>, silently</td><td>4</td></tr>
+            <tr><td>"This dropdown is empty for some products"</td><td>An off-hierarchy parent value — the parent holds something the Option Set Hierarchy doesn't know</td><td>7</td></tr>
+            <tr><td>"The workflow ran but only the first thing happened"</td><td>Tasks are strictly serial: if one fails, none of the subsequent tasks run</td><td>6</td></tr>
+            <tr><td>"We can't investigate — the workflow logs are gone"</td><td>Deleting a workflow destroys its process list, task list and logs immediately, not after 90 days</td><td>6</td></tr>
             <tr><td>"We're missing maybe one record in a few hundred, can't reproduce it"</td><td>The polling window: exclusive boundaries, in-flight writes, or a locally computed <code>now</code></td><td>5</td></tr>
             <tr><td>"The event never arrived"</td><td>A workflow investigation — the delivery mechanism <em>is</em> an Event Workflow. Start at the Process List</td><td>5 · 6</td></tr>
             <tr><td>"Only some of the automation runs"</td><td>First-match-wins: a broad conditional high in the path list made everything below it unreachable</td><td>6</td></tr>
@@ -3020,6 +3070,11 @@ visibility: public            # marketplace candidate</code></pre>
             <li><strong><code>oldData</code> is absent on creates.</strong> So <code>{newData.x} !== {oldData.x}</code> behaves differently for new vs. existing rows <em>in the same load</em>. <span class="pill p-nice">Wk 6</span></li>
             <li><strong>Misspelled formula slugs return <code>undefined</code>.</strong> "Verify every slug against the live Type before saving a formula." <span class="pill p-nice">Wk 7</span></li>
             <li><strong>Reference data changes don't re-run formulas.</strong> "Updates to Reference Data does not cause Formulas to re-run." Correct when written, stale forever after. <span class="pill p-nice">Wk 7</span></li>
+            <li><strong>A failed task silently skips the rest.</strong> "Only one task runs at a time in a process, and tasks always run in order. If one task fails, none of the subsequent tasks are run." Later actions are never run rather than failed — so never infer they executed from the process existing. <span class="pill p-nice">Wk 6</span></li>
+            <li><strong>Deleting a workflow destroys its evidence instantly.</strong> "Once deleted, the process list, task list, and logs for a workflow is lost." Disable instead. <span class="pill p-nice">Wk 6</span></li>
+            <li><strong>Unmatched <code>assortmentSplit</code> rows are skipped.</strong> A new category value or a trailing space in the split column, and those rows quietly never load while the job succeeds. <span class="pill p-nice">Wk 4</span></li>
+            <li><strong>An off-hierarchy parent value empties a child dropdown.</strong> "If the parent holds a value that isn't in the hierarchy, the child dropdown will appear empty" — usually data loaded past a hierarchy that was never told about it. <span class="pill p-nice">Wk 4 · 7</span></li>
+            <li><strong>A slug-based Option Set Hierarchy config "silently fails to load."</strong> It is keyed on internal TypePropertyIds, not slugs. Hand-edited readable JSON produces no error and no hierarchy. <span class="pill p-nice">Wk 7</span></li>
           </ul>
         </div>
 
@@ -3043,6 +3098,7 @@ visibility: public            # marketplace candidate</code></pre>
             <tr><td><strong>Property level</strong></td><td>Changing Family↔Override↔All rewrites how existing values propagate.</td><td>"Which properties are Family, which Override, which All?" — on day one of any account.</td></tr>
             <tr><td><strong>federatedId source</strong></td><td>Change it and you get duplicates and orphans, silently.</td><td>"What generates this value, and what could ever cause it to change?"</td></tr>
             <tr><td><strong>Workflow <code>identifier</code></strong></td><td>The stable key enabling cross-org migration. Treat as immutable.</td><td>Set it deliberately at authoring time.</td></tr>
+            <tr><td><strong>Deleting a workflow</strong></td><td>Takes its process list, task list and logs with it, immediately. Disabling preserves the record and the trigger.</td><td>"Does anyone need to explain something this workflow did in the last 90 days?"</td></tr>
             <tr><td><strong>Who holds cached credentials</strong></td><td>CLI auth caches to <code>~/.vibeiq/configs/</code> on every laptop that ran it. Access outlives the engagement unless revoked.</td><td>"Who has run the CLI against this org, and what is our revocation step at offboarding?"</td></tr>
           </tbody>
         </table>

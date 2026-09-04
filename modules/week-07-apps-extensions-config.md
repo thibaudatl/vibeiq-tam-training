@@ -42,6 +42,20 @@ validation constraints accumulate.
 a UX guardrail, not a data-integrity guarantee; Loader/API writes likely bypass. CONFIRM
 INTERNALLY before asserting. Changes validation design for every integrated field.
 
+## Option Set Hierarchies
+Parent-child cascade between single-selects: "selecting a parent value narrows the values
+available in its child dropdown." Chain order "is fixed by the `hierarchy` list." If a parent has
+no selection, all branches are flattened.
+
+**Two silent failures:**
+1. "If the parent holds a value that isn't in the hierarchy, the child dropdown will appear
+   empty." Usually data loaded past a hierarchy that never knew about it (a W4 cause, W7 symptom).
+2. Stored as `OptionSetHierarchy` + `TypeOptionSetHierarchyLink`, keyed on **TypePropertyIds, not
+   slugs**: "A slug-based config silently fails to load."
+
+CLI: `parseOptionSetsHierarchyValuesToKeysLocalFile` → `parseOptionSetsHierarchyLocalFile`, then
+create in Admin Console and assign to Item and Plan Placeholder types.
+
 ## Configuration Copy — environment promotion
 `contrail types getAll` (export) / `contrail types loadAll` (import into destination org).
 Eleven categories: option set hierarchies, option sets, rule sets, type policies, type property

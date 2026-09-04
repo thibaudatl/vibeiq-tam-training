@@ -52,10 +52,13 @@ Artefacts: `loader-process-step-<Step Name>.json`, listed in `preprocessingStepR
    skips change history, summary recalculation, composite assortment updates, and the
    `assortment|publish` event." → load succeeds, downstream never hears. Set for backfills and
    left in reusable configs forever. **Check it before blaming a consumer.**
-2. **`partialAssortmentUpdate`** — default `false` = **replace**. A partial file leaves the
-   assortment containing only those rows. Companions: `addField`, `dropField`.
-3. **`assortmentSplit`** — `{fieldToSplitOn, values:[{value, assortmentId|assortmentIdentifier}]}`.
-   One load can affect several assortments → several publishes.
+2. **`partialAssortmentUpdate`** — default `false` = **replace**. Full-load semantics: not in
+   assortment → added; in both → updated; unchanged → unchanged; **"assortment items not in CSV
+   → deleted."** Partial uses boolean columns `addField` / `dropField`; "items marked for add
+   that already exist… are treated as updates instead."
+3. **`assortmentSplit`** — groups rows by `fieldToSplitOn`, matches each group to an assortment.
+   **"Rows with `fieldToSplitOn` values not matching any entry are skipped."** Silently. A new
+   category value or trailing space = quiet data loss.
 4. **`workspaceIdentifier`** — required with PROJECT_ITEM. A "project" in the UI is a `workspace`
    with `workspaceType:'PROJECT'`. Identifier "is not editable in the Hub UI; it must be set via
    direct PUT request."

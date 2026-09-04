@@ -9,6 +9,20 @@ Loading Projects; Integration Patterns / Assortment Publish Integration.
 
 ## 1. The three item layers
 
+**Framing (verbatim from the docs):** there is one Item, plus two *relationship* entities.
+- "A `ProjectItem` ties an `Item` to a `Project`. While `Item` data is global, `ProjectItem`
+  data is specific to a project (e.g., a season)."
+- "An Item's membership in an Assortment is represented by an `AssortmentItem` entity."
+
+When a property exists on more than one entity, the loader resolves it "based on the property's
+level designation (Family, Option, All, Override)" — so entity layer and property level compose
+on every write rather than being independent axes.
+
+**Assortment membership is replaced, not merged, by default.** Full load semantics: CSV items not
+in the assortment → added; in both → updated if changed; unchanged matches → unchanged;
+**"assortment items not in CSV → deleted."** Membership is defined by the file.
+
+
 VibeIQ does not store "a product" once. The same product exists at up to three levels, each
 with a different **scope**. This is the single most important structural idea in the platform.
 
