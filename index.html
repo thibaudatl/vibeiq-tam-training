@@ -264,26 +264,75 @@
       <section class="view" id="view-m1">
         <p class="eyebrow">Module 1 · Week 1</p>
         <h2 class="title">Business domain &amp; where VibeIQ sits</h2>
-        <p class="lede">The foundation week. Light on mechanics by design — you can't reason about integrations until you understand what the platform is for, and what problem it solves for whom.</p>
+        <p class="lede">The foundation week. Light on mechanics by design — you can't reason about integrations until you understand what the platform is for, whose calendar it runs on, and what problem it solves for whom.</p>
 
         <div class="card keystone">
           <h4>Learning objectives</h4>
-          <p style="margin-bottom:0">By the end of this week you can (1) explain in one minute what VibeIQ does and why it is <em>not</em> a PLM, (2) describe the apparel/footwear/CPG go-to-market process at the level a merchandiser would recognize, (3) place VibeIQ correctly in a customer's system landscape, and (4) navigate the "Contrail vs. marketing brand" distinction.</p>
+          <p style="margin-bottom:0">By the end of this week you can (1) describe the seasonal go-to-market process at the level a merchandiser would recognize, using their vocabulary, (2) explain in one minute what VibeIQ does and why it is <em>not</em> a PLM, (3) draw a customer's system landscape and say which system owns which attribute, and (4) navigate the "Contrail vs. marketing brand" distinction.</p>
         </div>
 
-        <h3>Concept 1 — The problem VibeIQ exists to solve</h3>
-        <p>A consumer brand decides months in advance what products it will make for a season. Deciding <em>which</em> products, in which colors, at which price points, hitting which margin targets, for which regions — that's <strong>line planning</strong> (or assortment planning). It happens <em>before</em> the expensive work of development and sourcing.</p>
+        <h3>Concept 1 — The domain: seasonal product creation</h3>
+        <p>VibeIQ's customers are brands and retailers that create <strong>seasonal, visual, assortment-driven product</strong> — apparel, footwear, accessories, home, hardlines, toys, beauty. The defining trait is not "manufacturing" but <strong>seasonality plus visual merchandising</strong>: a new line, several times a year, decided largely by looking at pictures of products next to each other.</p>
+
+        <h4>The seasonal calendar — the spine of everything</h4>
+        <p>A brand runs a <strong>GTM (go-to-market) calendar</strong> per season. Every conversation you have with a customer is anchored somewhere on it, so learn its shape first:</p>
+        <table>
+          <thead><tr><th>Stage</th><th>What happens</th><th>Who leads</th><th>Whose system</th></tr></thead>
+          <tbody>
+            <tr><td>Trend / concept</td><td>Research, inspiration, mood boards, colour direction</td><td>Design, trend</td><td><span class="pill p-green">VibeIQ</span></td></tr>
+            <tr><td>Line planning</td><td>How many styles, in which categories, at what price points, hitting what margin</td><td>Merchandising / planning</td><td><span class="pill p-green">VibeIQ</span></td></tr>
+            <tr><td>Design</td><td>Sketches, colourways, materials</td><td>Design</td><td><span class="pill p-green">VibeIQ</span></td></tr>
+            <tr><td>Line review / milestone meetings</td><td>Assortment is presented, edited live, cut or kept</td><td>Merch + leadership</td><td><span class="pill p-green">VibeIQ</span></td></tr>
+            <tr><td>Development &amp; sourcing</td><td>Tech packs, BOMs, costing, vendors, samples</td><td>Product dev, sourcing</td><td><span class="pill p-nice">PLM</span></td></tr>
+            <tr><td>Sell-in / market</td><td>Assortment shown to wholesale buyers or internal channels</td><td>Sales</td><td><span class="pill p-green">VibeIQ</span></td></tr>
+            <tr><td>Production &amp; launch</td><td>POs, inventory, ecommerce/retail launch</td><td>Supply chain, ecom</td><td><span class="pill p-nice">ERP</span></td></tr>
+          </tbody>
+        </table>
+        <p>VibeIQ lives in the <strong>top half</strong> — concept through line review, and again at sell-in. The bottom half (tech packs, BOM, costing, POs) belongs to PLM and ERP.</p>
+
+        <h4>Key vocabulary — learn these cold</h4>
+        <p>Customers use these constantly and will not stop to define them. Not knowing them is the fastest way to sound external in a room of merchants.</p>
+        <table>
+          <thead><tr><th>Term</th><th>What it means</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Line</strong></td><td>The full set of products a brand offers for a season.</td></tr>
+            <tr><td><strong>Assortment</strong></td><td>A curated selection of products for a purpose: a channel, region, customer, store cluster, or catalogue. One line → many assortments.</td></tr>
+            <tr><td><strong>Season</strong></td><td>SS26, FW26, Holiday 26. The planning container.</td></tr>
+            <tr><td><strong>Style / colourway / SKU</strong></td><td>Style = the design (a hoodie); colourway = that style in a colour; SKU = that colourway in a size. Volume explodes at each level — and this maps directly onto VibeIQ's property-level model in Week 2.</td></tr>
+            <tr><td><strong>Carryover vs. new</strong></td><td>A style repeated from last season vs. one newly created.</td></tr>
+            <tr><td><strong>Line review</strong></td><td>The recurring meeting where the assortment is reviewed and cut. The single most important moment VibeIQ has to make good.</td></tr>
+            <tr><td><strong>OTB / open-to-buy</strong></td><td>The budget available to buy inventory; constrains the assortment.</td></tr>
+            <tr><td><strong>Margin / IMU</strong></td><td>Initial mark-up — target profitability. Drives keep/cut decisions.</td></tr>
+            <tr><td><strong>Sell-in vs. sell-through</strong></td><td>Selling to the buyer vs. the consumer actually buying it.</td></tr>
+            <tr><td><strong>Drop / delivery</strong></td><td>A phased release within a season.</td></tr>
+          </tbody>
+        </table>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">The style → colourway → SKU hierarchy is worth over-learning now. It is the mental model behind VibeIQ's property levels (Week 2), and property levels are the single concept most likely to be at the root of a "the data is wrong" escalation.</p>
+        </div>
+
+        <h3>Concept 2 — The problem VibeIQ exists to solve</h3>
+        <p>A consumer brand decides months in advance what products it will make for a season. Deciding <em>which</em> products, in which colors, at which price points, hitting which margin targets, for which regions — that's <strong>line planning</strong>. It happens <em>before</em> the expensive work of development and sourcing.</p>
         <p>The problem: brands run separate systems for design, financial planning, product development, and selling, and many decisions about which products move forward still happen across disconnected documents and workflows. Teams lose the context behind key decisions once products enter development — nobody remembers <em>why</em> a product was chosen, dropped, or modified, and mistakes surface late when they're expensive to fix.</p>
         <p>VibeIQ gives merchandising, design, planning, and product-development teams <strong>one live view of the product line</strong> connecting creative intent with commercial context, so they decide what moves forward before unnecessary cost, complexity, and margin risk build downstream. The claimed payoff: fewer planned SKUs, decisions visible months earlier, and thousands of manual hours eliminated.</p>
+        <p>Why customers buy it, in the order they'll usually say it:</p>
+        <ol>
+          <li><strong>Cycle time</strong> — collapse the mood-board → spreadsheet → deck relay into one live workspace; line reviews stop needing a week of deck-building.</li>
+          <li><strong>One version of the truth in the decision phase</strong> — no more "which spreadsheet is current?"</li>
+          <li><strong>Better decisions</strong> — margin, cost and sell-through data sitting next to the image at the moment of the cut.</li>
+          <li><strong>Less manual work</strong> — no re-keying between Excel, PowerPoint and PLM.</li>
+          <li><strong>AI leverage</strong> — the platform is built so agents can act on the product data, rather than being bolted on.</li>
+        </ol>
         <div class="card tam">
           <h4></h4>
           <p style="margin-bottom:0">The value you protect is <em>earlier, better-informed product decisions with the reasoning preserved</em>. When usage slips, the real questions are: "Are they deciding in VibeIQ, or drifting back to spreadsheets?" and "Is the context surviving the handoff downstream?"</p>
         </div>
 
-        <h3>Concept 2 — The one sentence to remember</h3>
+        <h3>Concept 3 — Where VibeIQ sits</h3>
         <div class="card keystone">
           <h4>Keystone</h4>
-          <p style="margin-bottom:0">VibeIQ sits <strong>upstream of, and alongside,</strong> the customer's existing systems — it does <strong>not</strong> replace them. It carries approved product decisions into downstream workflows while preserving the reasoning behind them.</p>
+          <p style="margin-bottom:0">VibeIQ sits <strong>upstream of PLM</strong>, in the creative-to-commercial gap where products are still being <em>decided</em> rather than developed. It sits <strong>alongside</strong> PLM / ERP / PIM / DAM rather than replacing them, and integrates bi-directionally with all of them.</p>
         </div>
         <p>The PLM distinction, concrete:</p>
         <ul>
@@ -335,12 +384,52 @@
           </svg>
           <figcaption>Where VibeIQ sits in the customer landscape</figcaption>
         </figure>
+
+        <h4>The full system landscape — what else is in the room</h4>
+        <p>PLM and ERP are only the two loudest neighbours. You will be expected to draw all of this on a whiteboard:</p>
+        <table>
+          <thead><tr><th>System</th><th>Owns</th><th>Example vendors</th></tr></thead>
+          <tbody>
+            <tr><td><strong>PLM</strong></td><td>Product development record: tech packs, BOM, materials, costing, samples, compliance</td><td>Centric, PTC FlexPLM, Bamboo Rose, Backbone</td></tr>
+            <tr><td><strong>ERP</strong></td><td>Transactional truth: POs, inventory, finance, orders</td><td>SAP, NetSuite, Oracle, Dynamics</td></tr>
+            <tr><td><strong>PIM</strong></td><td>Commerce-ready published product attributes and copy</td><td>Akeneo, Salsify, inRiver</td></tr>
+            <tr><td><strong>DAM</strong></td><td>Master digital assets: images, video, 3D</td><td>Bynder, Aprimo, Adobe AEM Assets</td></tr>
+            <tr><td><strong>Merch / assortment planning</strong></td><td>Financial plans, OTB, store clustering</td><td>o9, Blue Yonder, RELEX, Anaplan</td></tr>
+            <tr><td><strong>Creative tools</strong></td><td>Design source files</td><td>Adobe CC, CLO / Browzwear (3D)</td></tr>
+          </tbody>
+        </table>
+
+        <div class="card keystone">
+          <h4>What VibeIQ actually displaces</h4>
+          <p style="margin-bottom:0">Not any system in that table — the tools it replaces are <strong>Miro, Excel and PowerPoint</strong>. That is VibeIQ's own framing: <strong>Board</strong> replaces Miro, <strong>Plan</strong> replaces Excel, <strong>Showcase</strong> replaces PowerPoint. The real incumbent in line planning is a spreadsheet with images pasted into it, emailed around.</p>
+        </div>
+        <p>This is usually your best answer to <em>"we already have PLM, why do we need this?"</em> — because it names the thing the customer is actually doing today, rather than arguing abstractly about categories. PLM is a system of record for how a product is made; it was never designed for a merchant and a designer to sit in a room and cut 400 styles down to 250 while looking at images. That decision-making layer is what VibeIQ owns.</p>
+
+        <h4>The three end-user apps (system of engagement)</h4>
+        <ul>
+          <li><strong>Board</strong> — visual workspace: trend research, mood boards, creative direction.</li>
+          <li><strong>Plan</strong> — structured workspace: line planning and product definition (the grid/spreadsheet replacement, but image-first and live).</li>
+          <li><strong>Showcase</strong> — presentation workspace: line reviews and stakeholder alignment.</li>
+        </ul>
+
+        <h4>The platform underneath (system of record + automation)</h4>
+        <ul>
+          <li><strong>Product Data Platform</strong> — products, assortments, assets. <em>(Week 2: the core data model.)</em></li>
+          <li><strong>Agent layer</strong> — native agents, custom agent authoring, prompt templates.</li>
+          <li><strong>Event &amp; workflow engine</strong> — triggers and automation. <em>(Week 6.)</em></li>
+          <li><strong>Integration &amp; app platform</strong> — connectors, APIs, MCP server, App Marketplace. <em>(Weeks 4–6.)</em></li>
+        </ul>
+
         <div class="card tam">
           <h4></h4>
-          <p style="margin-bottom:0">Your hardest technical conversations are almost never about VibeIQ alone — they're about the <em>seam</em> between VibeIQ and the PLM/ERP: what data flows across it, which direction, when, and what breaks. That's why Weeks 4 &amp; 5 are the technical heart of the program.</p>
+          <p style="margin-bottom:0">"Upstream" sets the data direction, and it cuts both ways. VibeIQ is often where a product record is <em>born</em> (a concept, a placeholder, "we need 4 more knits at $79") before it is real enough for PLM. Later, PLM and ERP become authoritative for costs, materials and inventory, which flow <em>back</em> into VibeIQ to inform decisions. So most customers run a <strong>two-way</strong> integration with a clear attribute-level ownership map — and getting that map right is core TAM work. Nearly every escalation you'll see ("the data is wrong in Plan", "publish didn't reach PLM") is really a question about that map.</p>
+        </div>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">"Alongside" also <em>constrains scope</em>. If a customer asks VibeIQ to do BOM costing rollups or PO management, that's a "wrong system" conversation — not a feature request. Your hardest technical conversations are almost never about VibeIQ alone; they're about the <em>seam</em> between VibeIQ and the PLM/ERP: what data flows across it, which direction, when, and what breaks. That's why Weeks 4 &amp; 5 are the technical heart of the program.</p>
         </div>
 
-        <h3>Concept 3 — Who the users are</h3>
+        <h3>Concept 4 — Who the users are</h3>
         <table>
           <thead><tr><th>Team</th><th>Owns</th><th>Cares about</th></tr></thead>
           <tbody>
@@ -356,7 +445,7 @@
           <p style="margin-bottom:0">"Adoption" is never monolithic. Merchandisers can be all-in while design still works elsewhere — meaning creative context enters VibeIQ late or not at all. That's a real, diagnosable health problem. Know <em>which</em> team is the weak link.</p>
         </div>
 
-        <h3>Concept 4 — Contrail vs. the marketing brand</h3>
+        <h3>Concept 5 — Contrail vs. the marketing brand</h3>
         <p>The platform has two voices for the same thing:</p>
         <ul>
           <li><strong>Marketing / product voice</strong> (vibeiq.com): "AI-native product decision platform," role-based AI agents, concept generation, line-plan automation. Reflects a real 2026 repositioning; VibeIQ raised $22.5M (led by Volition Capital, Aug 2026) to push this direction.</li>
@@ -402,7 +491,10 @@
         <div class="q">
           <ol class="quiz">
             <li>In one sentence, what business problem does VibeIQ primarily solve, and <em>when</em> in the product timeline does it operate?</li>
+            <li>Walk the seasonal GTM calendar from trend to production. Where does VibeIQ stop and PLM begin, and why is the boundary there?</li>
+            <li>Define <em>style</em>, <em>colourway</em> and <em>SKU</em>, and explain what "one line → many assortments" means.</li>
             <li>A customer says "VibeIQ is basically our PLM, right?" — what's wrong with that, and what's the correct relationship?</li>
+            <li>Which tools does VibeIQ actually displace, and why is that a stronger answer to the overlap objection than arguing about PLM?</li>
             <li>Name three user teams VibeIQ is built for, and one thing each cares about.</li>
             <li>What does "Contrail" refer to, and why might you hear it internally instead of "VibeIQ"?</li>
             <li>Why should a new TAM be cautious when a customer asks about VibeIQ's AI agent capabilities?</li>
@@ -417,8 +509,10 @@
         <div class="outcome">
           <h4>I know this when I can…</h4>
           <ul>
+            <li>Walk the seasonal GTM calendar and use merchant vocabulary without hesitating.</li>
             <li>Give the 60-second pitch in both registers without conflating VibeIQ with a PLM.</li>
-            <li>Explain the upstream/alongside positioning to a skeptical VP.</li>
+            <li>Draw the customer's system landscape and say which system owns which attribute.</li>
+            <li>Explain the upstream/alongside positioning to a skeptical VP — and name what VibeIQ actually displaces.</li>
             <li>Name the user teams and what each values.</li>
             <li>Decode "Contrail" and hold a grounded (not overpromised) AI conversation.</li>
           </ul>
