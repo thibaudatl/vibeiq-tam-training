@@ -16,8 +16,8 @@ a markdown tracker (`dashboard.md`) and per-week source notes (`modules/`).
 - `git@github.com:thibaudatl/vibeiq-tam-training.git`, branch `main`, public.
 - Commits use `leo.thibaudat@gmail.com` (repo-local override; global identity
   is an Akeneo address and is deliberately not used here).
-- **GitHub Pages: not yet enabled.** Settings → Pages → Deploy from a branch →
-  `main` / `(root)`. Target URL: https://thibaudatl.github.io/vibeiq-tam-training/
+- **GitHub Pages: live** at https://thibaudatl.github.io/vibeiq-tam-training/
+  (deploy from branch, `main` / root). Pushing to `main` redeploys.
 
 ## Design decisions made
 - **No gating.** The original design locked modules until each quiz was
@@ -59,7 +59,8 @@ every remaining stub carries an explicit "workflow angle" bullet.
    line planning and PLM? He comes from Akeneo (PIM), so product-data modelling,
    attribute ownership across systems and integration seams are likely familiar
    ground. If so, compress Weeks 1–3 and reinvest the time in 4, 5 and 9.
-3. GitHub Pages still needs enabling by Leo (no `gh` CLI on this machine).
+3. No `gh` CLI on this machine; repo actions that need the GitHub API must be
+   done by Leo in the browser.
 
 ## Key findings page
 `index.html` carries a **Key findings** reference view collecting the highest-value

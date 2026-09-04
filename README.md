@@ -3,51 +3,69 @@
 A self-paced, 10-week technical training program for a VibeIQ Technical Account
 Manager. Grounded in official VibeIQ / Contrail documentation (docs.vibeiq.com).
 
+**Live site → https://thibaudatl.github.io/vibeiq-tam-training/**
+
+## Status
+
+**All ten modules are written and live.** Nothing is gated — read in any order.
+
+Quizzes, exercises, scenarios and the four-phase capstone are worked through in
+conversation with a tutor; the site holds the material and the progress tracker.
+
+| Phase | State |
+|---|---|
+| Curriculum design | Complete |
+| Module authoring | Complete — all 10 written |
+| Working through them | In progress (Module 1) |
+
 ## Contents
 
 | Path | What it is |
 |---|---|
-| `index.html` | The training hub — open in any browser, no server needed. Sidebar navigation across the dashboard, modules, and reference pages. Every module is browsable; nothing is gated. |
-| `dashboard.md` | Progress tracker (status + confidence per topic). Updated at the end of each module. |
-| Key findings (in the hub) | The non-obvious, high-consequence findings collected from every module: a symptom-to-cause lookup, the failures that produce no error, decisions that can't be undone, claims to verify before asserting, and the numbers worth memorising. |
-| `modules/` | Long-form source notes per week. The hub renders the study version; these are the working notes. |
-| `docs/HANDOFF.md` | Project state and build spec, carried over from the design session. |
+| `index.html` | The training hub — a single self-contained page, no build step and no external requests. Sidebar navigation across the dashboard, all ten modules, and four reference pages. |
+| `dashboard.md` | Progress tracker: week status, confidence by topic, running glossary, and the open questions for VibeIQ colleagues. Carry this between tutoring sessions. |
+| `modules/` | Long-form source notes, one per week. The hub is the study surface; these are the working notes behind it. |
+| `docs/STATE.md` | Living project state — decisions made, what's open, and facts not worth re-deriving. Read this first if picking the project up cold. |
+| `docs/HANDOFF.md` | The original design-session handoff, kept for provenance. Superseded by `STATE.md` for current status. |
 
-## Status
+### Reference pages inside the hub
 
-- Phase 1 (curriculum design) — complete
-- Module 1 (Business domain & where VibeIQ sits) — live
-- Module 2 (Core data model) — written and live
-- Module 3 (End-user apps & the publish lifecycle) — written and live
-- Module 6 (Event Workflows) — written and live
-- Module 4 (Data in: the Loader framework) — written and live
-- Module 5 (Data out: integration patterns) — written and live
-- Module 7 (Apps, Extensions & the config boundary) — written and live
-- Module 8 (Platform, security & operations) — written and live
-- Module 9 (Troubleshooting & escalation) — written and live
-- Module 10 (capstone) — not yet written
-
-Workflows were promoted to their own module (Week 6) and Apps/Extensions merged into
-Week 7, because the TAM role includes supporting customer workflows. Modules from
-Week 4 onward are written at greater technical depth, and each carries an explicit
-"workflow angle".
+- **Key findings** — the non-obvious, high-consequence material pulled from every
+  module: a symptom→cause lookup, symptom *shape*→cause, the failures that produce
+  no error, decisions that can't be undone, claims to verify before asserting, the
+  numbers worth memorising, and nine reframes.
+- **Priority matrix** — what's critical, important, useful and nice to know.
+- **Colleague questions** — the standing unknowns to close in the first weeks on
+  the job. A work item with owners and dates, not a reading list.
+- **Doc links** — official sources, grouped by domain.
 
 ## Curriculum
 
-| Wk | Module | State |
+| Wk | Module | Notes |
 |---|---|---|
-| 1 | Business domain & where VibeIQ sits | live |
-| 2 | Core data model (keystone) | live |
-| 3 | End-user apps & the publish lifecycle | live |
-| 4 | Data in: the Loader framework | live |
-| 5 | Data out: integration patterns | live |
-| 6 | Event Workflows | live |
-| 7 | Apps, Extensions & the config/customization boundary | live |
-| 8 | Platform, security & operations | live |
-| 9 | Troubleshooting & escalation | live |
-| 10 | Applied TAM practice (capstone) | live |
+| 1 | Business domain & where VibeIQ sits | Where VibeIQ sits; the GTM calendar and merchant vocabulary |
+| 2 | Core data model | **Keystone.** Item / ProjectItem / AssortmentItem, property levels, `federatedId` |
+| 3 | End-user apps & the publish lifecycle | Board / Plan / Showcase; `AssortmentPublishChange` |
+| 4 | Data in: the Loader framework | The five phases, six preprocessing steps, per-step artefacts |
+| 5 | Data out: integration patterns | Push vs. poll, auth, resilient consumers, the polling seam |
+| 6 | Event Workflows | **Deepest module.** Triggers, paths, conditionals, concurrency, observability |
+| 7 | Apps, Extensions & the config/customization boundary | The five-rung spectrum and cost of ownership |
+| 8 | Platform, security & operations | Tenancy, permissions, credentials, monitoring, the honest gaps |
+| 9 | Troubleshooting & escalation | Six checkpoints, three ladders, symptom shape, escalating well |
+| 10 | Applied TAM practice | Capstone: discovery, architecture review, incident, QBR |
 
-Modules are written one at a time, grounded in the official Contrail documentation. Nothing is gated — every module in the hub is browsable, including the stubs for those not yet written.
+Weeks 4, 5 and 6 are the technical heart. Workflows were given their own module
+because the TAM role includes supporting customer workflows; every module from
+Week 4 onward also carries an explicit "workflow angle".
+
+## The account-inheritance kit
+
+Eight artefacts are built across the program, and they matter more than the modules
+that produced them — they're what actually gets used on the job:
+
+data-model health check (W2) · publish integration review (W3) · pre-load checklist
+(W4) · integration design review (W5) · workflow review (W6) · "can it do X?"
+routing guide (W7) · security questionnaire response kit (W8) · triage card (W9).
 
 ## Local use
 
@@ -58,6 +76,7 @@ python3 -m http.server
 # then visit http://localhost:8000
 ```
 
-## Deploy (GitHub Pages)
+## Deploy
 
-Settings → Pages → Source: `main` / root. The site serves `index.html`.
+GitHub Pages is enabled on `main` / root, serving `index.html` at the live URL
+above. Pushing to `main` redeploys automatically.
