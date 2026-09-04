@@ -27,7 +27,7 @@
 
 | Wk | Module | Status | Quiz | Exercise | Challenge |
 |----|--------|--------|------|----------|-----------|
-| 1 | Business domain & where VibeIQ sits | 🔄 In progress | — | — | — |
+| 1 | Business domain & where VibeIQ sits | 🟡 Quiz passed | ✅ 8/8 (open book) | ⬜ | ⬜ |
 | 2 | Core data model (keystone) | 📖 Ready to read | — | — | — |
 | 3 | End-user apps & the publish lifecycle | 📖 Ready to read | — | — | — |
 | 4 | Data in: the Loader framework | 📖 Ready to read | — | — | — |
@@ -44,7 +44,7 @@
 
 | Topic | Priority | Confidence |
 |---|---|---|
-| VibeIQ positioning (upstream of PLM, "sits alongside") | 🔴 | 🔴 |
+| VibeIQ positioning (upstream of PLM, "sits alongside") | 🔴 | 🟡 |
 | Core data model: Item / ProjectItem / AssortmentItem | 🔴 | 🔴 |
 | Property levels (Family / Option / Override) | 🔴 | 🔴 |
 | Project (season) / Assortment structure | 🔴 | 🔴 |
@@ -69,7 +69,12 @@
 
 ## 4. Key concepts learned
 _(populated as we go)_
--
+- **Module 1 (2026-09-04).** Quiz answered correctly, but immediately after reviewing the
+  module — this measures recognition, not recall. Self-assessed cold recall: "most, but not
+  100%, and incomplete." Domain knowledge is strong (PIM background); the gap is VibeIQ-specific
+  precision — exact framing, vocabulary, specific numbers.
+- Positioning marked 🟡 rather than 🟢 deliberately. It goes to 🟢 when the two elevator pitches
+  can be delivered cold, to a person, without notes.
 
 ## 5. Important terminology
 _(populated as we go — running glossary)_
@@ -105,7 +110,11 @@ _(populated as we go — running glossary)_
 - **The spectrum** — types → formulas/rule sets → workflows → extensions → external systems; cost of ownership rises at each rung.
 
 ## 6. Topics to revisit
--
+- **Module 1 exercise + scenario still outstanding** — the two 60-second pitches (VP of
+  Merchandising / integration engineer) and the Summit Athletic response. These are *performance*
+  tasks, not knowledge tasks: knowing the positioning and being able to deliver it under
+  question are different skills, and only the second one matters in front of a customer.
+- Re-test Module 1 cold in ~1 week (no review beforehand). That number is the real one.
 
 ## 7. Knowledge gaps
 -
