@@ -33,7 +33,7 @@
 | 5 | Data out: integration patterns | 📖 Ready to read | — | — | — |
 | 6 | Event Workflows | 📖 Ready to read | — | — | — |
 | 7 | Apps, Extensions & the config/customization boundary | 📖 Ready to read | — | — | — |
-| 8 | Platform, security & operations | ⬜ | — | — | — |
+| 8 | Platform, security & operations | 📖 Ready to read | — | — | — |
 | 9 | Troubleshooting & escalation methodology | ⬜ | — | — | — |
 | 10 | Applied TAM practice: discovery, reviews, QBRs | ⬜ | — | — | — |
 
@@ -96,6 +96,8 @@ _(populated as we go — running glossary)_
 - **Polling seam** — records lost or doubled at the window boundary; fixed by overlap + idempotency + data-derived timestamps.
 - **Configuration Copy** — `contrail types getAll`/`loadAll`; whole-org config export/import between environments.
 - **"Locked wins"** — if any matching rule set rule says `editable: false`, the property is locked.
+- **Type Policies / Type Property Policies** — the entity- and property-level permission model; thinly documented but real.
+- **Workflow Artifacts** — files attached to a workflow process; deleted with the process at 90 days.
 - **The spectrum** — types → formulas/rule sets → workflows → extensions → external systems; cost of ownership rises at each rung.
 
 ## 6. Topics to revisit
@@ -109,7 +111,7 @@ _(populated as we go — running glossary)_
 ## 8. Questions to ask VibeIQ colleagues
 _(from Phase 1 Open Questions — confirm answers as you learn them)_
 - [ ] Do customers get separate dev/staging/prod orgs? How is config promoted between them?
-- [ ] What is the end-user RBAC model (roles/permissions in Boards/Plan/Showcase)?
+- [ ] End-user RBAC: Type Policies & Type Property Policies exist (per Configuration Copy) — how do they map to named roles/groups in Boards/Plan/Showcase?
 - [ ] What are the actual numeric API rate limits and documented SLAs?
 - [ ] What monitoring/alerting do *customers* get for load/publish/workflow failures?
 - [ ] AI layer: what's GA vs beta vs roadmap? How are agents configured/governed/monitored?

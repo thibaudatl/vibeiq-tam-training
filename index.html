@@ -178,7 +178,7 @@
       <a href="#m5" data-view="m5"><span class="wk">W5</span> Data out: integrations <span class="st">★</span></a>
       <a href="#m6" data-view="m6"><span class="wk">W6</span> Event Workflows <span class="st">★</span></a>
       <a href="#m7" data-view="m7"><span class="wk">W7</span> Apps, Extensions &amp; config</a>
-      <a class="todo" href="#m8" data-view="m8"><span class="wk">W8</span> Platform, security, ops <span class="st">soon</span></a>
+      <a href="#m8" data-view="m8"><span class="wk">W8</span> Platform, security, ops</a>
       <a class="todo" href="#m9" data-view="m9"><span class="wk">W9</span> Troubleshoot &amp; escalate <span class="st">soon</span></a>
       <a class="todo" href="#m10" data-view="m10"><span class="wk">W10</span> Applied TAM practice <span class="st">soon</span></a>
     </nav>
@@ -224,7 +224,7 @@
             <tr><td>5</td><td>Data out: integration patterns</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>6</td><td>Event Workflows</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>7</td><td>Apps, Extensions &amp; the config boundary</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
-            <tr><td>8</td><td>Platform, security &amp; operations</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>8</td><td>Platform, security &amp; operations</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>9</td><td>Troubleshooting &amp; escalation</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
             <tr><td>10</td><td>Applied TAM practice</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
           </tbody>
@@ -2068,19 +2068,197 @@ visibility: public            # marketplace candidate</code></pre>
       <section class="view" id="view-m8">
         <p class="eyebrow">Module 8 · Week 8</p>
         <h2 class="title">Platform, security &amp; operations</h2>
-        <p class="lede">The conversation you will have with a customer's security and IT teams.</p>
-        <div class="card">
-          <h4 style="margin-top:6px">Not written yet</h4>
-          <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
+        <p class="lede">The conversation you'll have with a customer's IT and security teams — and the one where being honest about what you don't know matters more than sounding complete. This module is deliberately split between what the documentation establishes and what it doesn't, because that boundary <em>is</em> the operational picture.</p>
+
+        <div class="card keystone">
+          <h4>Learning objectives</h4>
+          <p style="margin-bottom:0">By the end of this week you can (1) describe the org as the tenancy boundary and how environments are actually maintained, (2) walk the layered permission model from org down to individual property, (3) trace where customer data physically travels and where credentials live, (4) say precisely what monitoring exists and over what horizon, and (5) answer a security questionnaire without bluffing — knowing which questions you must take away.</p>
+        </div>
+
+        <h3>Concept 1 — Tenancy: the org is the boundary</h3>
+        <p>Every authenticated request carries <code>X-Api-Org</code>. Every app is owned by an org. Configuration is exported and imported per org. Concurrency ceilings are per org. The <strong>org is the unit of isolation, ownership, configuration and capacity</strong> — hold that and most platform questions resolve.</p>
+        <p>Separate environments are real: the Node migration guide instructs you to "thoroughly test your app in a development org before installing it on production orgs," which confirms multiple orgs per customer as the intended pattern. But note what that implies — <strong>an environment is just another org</strong>. There is no environment abstraction layered above orgs; dev/staging/prod are a convention the customer maintains by discipline.</p>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">From Week 7: promotion is <em>two</em> mechanisms — <code>contrail types getAll</code>/<code>loadAll</code> for configuration, publish/install for apps. Combine that with "an environment is just an org" and you get the real risk: environments drift silently, and nothing in the platform tells you they have. Ask any established customer, "when did you last verify that staging matches production, and how?" The usual honest answer is never, and the usual consequence is a change that tested clean and broke on release.</p>
+        </div>
+
+        <h3>Concept 2 — The permission model, layer by layer</h3>
+        <p>Access control is layered, and each layer answers a different question:</p>
+        <table>
+          <thead><tr><th>Layer</th><th>Controls</th><th>Where it's set</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Org membership</strong></td><td>Whether you exist in this tenant at all</td><td>Admin Console</td></tr>
+            <tr><td><strong>App <code>accessGrants</code></strong></td><td>Which orgs may <em>install</em> an app. "Currently, the only available permission is <code>install</code>"</td><td><code>app.yml</code></td></tr>
+            <tr><td><strong>Workflow <code>accessGrants</code></strong></td><td>Which entity types an app's actions may touch, <code>read</code> or <code>write</code></td><td><code>app.yml</code></td></tr>
+            <tr><td><strong>Type Policies</strong></td><td>"Access control statements defining READ, CREATE, UPDATE, DELETE permissions" per type</td><td>Config; exported by Configuration Copy</td></tr>
+            <tr><td><strong>Type Property Policies</strong></td><td>"Property-level access restrictions" — finer than the type</td><td>Config; exported by Configuration Copy</td></tr>
+            <tr><td><strong>API keys</strong></td><td>Machine access, app-scoped (<code>app:…</code>)</td><td><code>contrail app getApiKey</code></td></tr>
+          </tbody>
+        </table>
+        <div class="card keystone">
+          <h4>A correction worth making early</h4>
+          <p style="margin-bottom:0">A common first impression — including the one in this program's own Week 1 open questions — is that VibeIQ documents only app-level grants and API-key auth, with no real end-user permission model. That is <strong>not right</strong>. Type Policies and Type Property Policies exist and are first-class enough to be among the eleven categories Configuration Copy exports. What's missing is <em>documentation</em>, not capability. So the accurate statement to a customer is: "there is a policy-based model with type- and property-level permissions; I'll get you the specifics" — not "permissions are thin."</p>
+        </div>
+        <div class="card warn">
+          <h4>Still genuinely unknown</h4>
+          <p style="margin-bottom:0">How policies map to <em>end users and roles</em> inside Boards, Plan and Showcase is not publicly documented. Whether there are named roles, group membership, or per-project principals — take that away and confirm. Do not improvise an answer to "can we restrict merchandisers to their own division?", because the shape of the answer determines their rollout design.</p>
+        </div>
+
+        <h3>Concept 3 — Credentials: where they live and how they leak</h3>
+        <p>Three credential surfaces, each with a different exposure:</p>
+        <ul>
+          <li><strong>API keys</strong> — format <code>app:uEL7GCBZ7Xhd4w2z</code>, app-scoped, long-lived. Docs are explicit: never commit them, use environment variables or secrets management, keep separate keys per environment, prefer app keys over user keys, and rotate regularly.</li>
+          <li><strong>CLI credentials</strong> — authentication caches to <code>~/.vibeiq/configs/</code>. That is a plaintext credential store on every developer and consultant laptop that has ever run the CLI.</li>
+          <li><strong>Webhook trigger URLs</strong> — the webhook ID sits in the URL and functions as a bearer credential (Week 5/6).</li>
+        </ul>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">The CLI cache is the one nobody raises and every security team cares about. When a consultant rolls off, or a laptop is lost, <code>~/.vibeiq/configs/</code> still holds working access. Offboarding must include credential revocation, not just removing someone from a channel. And it composes with Week 7's ownership problem: an integrator's engineer may hold both the app ownership <em>and</em> cached credentials to the customer's org. Raise revocation as part of any handover plan.</p>
+        </div>
+
+        <h3>Concept 4 — Where the data actually goes</h3>
+        <ol class="steps">
+          <li><strong>Uploads</strong> — creating a File entity returns an <code>uploadPost</code> with an S3 URL and form parameters; the binary goes directly to S3 (<code>us-east-1</code> in the documented examples).</li>
+          <li><strong>Publish payloads</strong> — baseline and delete data are JSON files on S3, reached by links that expire after 24 hours.</li>
+          <li><strong>Extensions</strong> — run in an iframe from <em>the customer's own</em> public HTTPS host, so document context crosses into infrastructure VibeIQ does not operate.</li>
+          <li><strong>Workflow actions</strong> — can POST anywhere the <code>config</code> endpoint points.</li>
+        </ol>
+        <div class="card warn">
+          <h4>Two things a security team will ask that the docs don't answer</h4>
           <ul style="margin-bottom:0">
-            <li>Environments and tenancy: dev / staging / prod, and how config and app versions are promoted</li>
-            <li>The auth model, API keys, app-level access grants, and the end-user permission picture</li>
-            <li>Data residency, the S3 upload path, link expiry as a data-exposure question, compliance posture</li>
-            <li>Concurrency as an operational budget: the per-org ceiling of 60 and who competes for it</li>
-            <li><strong>Workflow angle:</strong> what monitoring customers get for <code>FAILED</code> processes, and the 90-day log retention horizon</li>
+            <li><strong>Data residency.</strong> Examples show <code>us-east-1</code>. Whether EU or other regions are available is undocumented. For a European brand this can be a procurement blocker, so find out early rather than at contract stage.</li>
+            <li><strong>Compliance certifications.</strong> SOC 2 and similar attestations are not in the public docs. You will be asked for them in the first security review of every enterprise deal.</li>
           </ul>
         </div>
-        <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">The 24-hour link expiry is usually presented as an operational constraint (Week 3: store the change ID, not the URL). Reframe it for a security audience and it becomes a <em>control</em>: payload links are short-lived rather than permanent. That is a genuinely good answer to "how long is our product data sitting on a URL?" — and it's the kind of translation that makes you useful in a room full of security people.</p>
+        </div>
+
+        <h3>Concept 5 — Runtime and platform upgrades</h3>
+        <p>Apps declare their runtime in the manifest: <code>nodeRuntime: "nodejs22.x"</code>. Migration from Node 18 to 22 requires updating that field, auditing for deprecated APIs, testing locally on Node 22, and rebuilding native modules via <code>npm install</code> and <code>npm rebuild</code>.</p>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Runtime deprecations are a recurring, schedulable obligation that customers reliably forget, because the app "still works" right up until it doesn't. Every customer with a custom app has a maintenance commitment, and nobody told the person who signs off on budgets. Track which of your accounts have custom apps and what runtime they're on — that list is a quiet early-warning system, and surfacing it before a forced migration is exactly the sort of thing that earns a TAM trust.</p>
+        </div>
+
+        <h3>Concept 6 — What you can actually see</h3>
+        <table>
+          <thead><tr><th>Surface</th><th>Shows</th><th>Horizon</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Event Workflows Dashboard</strong></td><td>"Two charts that show the history of workflows triggered and workflows that have failed"</td><td>"going back up to 90 days"</td></tr>
+            <tr><td><strong>Process List</strong></td><td>Individual processes, tasks, statuses, <code>triggerEvent</code>, <code>taskOutputs</code>; substring search over event and output</td><td>90 days</td></tr>
+            <tr><td><strong>Workflow Artifacts</strong></td><td>Files a developer attached to a process, downloadable or shareable by link</td><td>Deleted with the process at 90 days</td></tr>
+            <tr><td><strong><code>LoaderProcess</code></strong></td><td>Load status, config used, per-step artefacts</td><td>—</td></tr>
+          </tbody>
+        </table>
+        <p>Artifacts are created by setting a process as a file's owner — via the <code>ownedByReference</code> property, or <code>createAndUploadFileFromBuffer</code>. Shared links still require the recipient to be "logged into VibeIQ and have the appropriate organization permissions," so a link is not a public URL.</p>
+        <div class="card keystone">
+          <h4>The failure chart is the one to institutionalise</h4>
+          <p style="margin-bottom:0">A trend line of failed workflows over 90 days is the closest thing to a platform health metric available to a customer, and almost nobody looks at it. Get it into a recurring rhythm — a glance before every check-in, a screenshot in every QBR. A rising failure count is visible weeks before anyone files a ticket, which converts you from reactive to predictive at essentially zero cost.</p>
+        </div>
+        <div class="card warn">
+          <h4>The honest gap: nothing here is alerting</h4>
+          <p style="margin-bottom:0">Everything above is something a human chooses to <em>look at</em>. Whether customers get proactive alerting on load, publish or workflow failures is not documented — and if the answer is no, then a failed nightly load is discovered by whoever notices missing data, which is usually a merchandiser in a review. Confirm this internally; it is one of the highest-value unknowns on your list, because the remedy (customers building their own monitoring on the process APIs) is something you'd want to recommend at implementation time, not after an incident.</p>
+        </div>
+
+        <h3>Concept 7 — Capacity as a shared, invisible resource</h3>
+        <p>Recall the numbers: <code>parallelWorkerCount</code> of 1–30 (default 5), 25 concurrent processes per workflow, and <strong>60 per organization</strong> — the last adjustable via the Customer Success Manager.</p>
+        <p>Framed operationally: the org's 60 is a <em>budget shared by every integration, workflow and bulk load the customer runs</em>. There is no per-team allocation and no documented way for a customer to see their own utilisation. So capacity contention is invisible until it manifests as unexplained slowness in something unrelated.</p>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Treat it as capacity planning, and do it before the customer needs it. Maintain a picture of what runs in their org, what it's triggered by, and when it's heaviest — then avoid scheduling bulk loads on top of the nightly integration window. "We moved the load to 03:30 and the sync stopped timing out" is a small win that looks like magic, and it is available to you purely from knowing the ceiling exists.</p>
+        </div>
+
+        <h3>Concept 8 — Answering what you don't know</h3>
+        <div class="card keystone">
+          <h4>The standing list</h4>
+          <p>Six things a security or IT team will ask that the public documentation does not settle. Take them away rather than improvising:</p>
+          <ol style="margin-bottom:0">
+            <li>End-user roles and permissions in Boards / Plan / Showcase, and how Type Policies map to them.</li>
+            <li>Numeric API rate limits and any SLA commitments.</li>
+            <li>Data residency options beyond <code>us-east-1</code>.</li>
+            <li>Compliance certifications — SOC 2 and equivalents.</li>
+            <li>Proactive alerting available to customers on load / publish / workflow failure.</li>
+            <li>Whether rule sets are enforced on API and Loader writes (Week 7) and what inbound webhook verification is actually enforced (Weeks 5–6).</li>
+          </ol>
+        </div>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">"I don't know, I'll find out by Thursday" is a strong answer when it's specific and it's kept. Bluffing a compliance answer is unrecoverable — security teams verify, and being wrong once means everything else you say gets checked too. The discipline that makes this work is closing the loop: write the question down, name a date, come back with a documented answer. Do that three times and you are the person they route questions to.</p>
+        </div>
+
+        <hr class="divider">
+
+        <h3>Recommended reading</h3>
+        <ul>
+          <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/authentication/" target="_blank" rel="noopener">Authentication &amp; API Access</a> — key hygiene and error codes.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/configuration/configurationCopy/" target="_blank" rel="noopener">Configuration Copy</a> — read the category list as a map of what is configurable and governable.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/release_notes/004_admin_console_2024_12_12/" target="_blank" rel="noopener">Event Workflows Dashboard &amp; Workflow Artifacts</a> — the monitoring surface.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/apps/migrate_from_node18_to_node22/" target="_blank" rel="noopener">Node 18 → 22 migration</a> — the shape of a runtime obligation.</li>
+        </ul>
+
+        <hr class="divider">
+
+        <h3>Practical exercise</h3>
+        <div class="card">
+          <p style="margin-bottom:0">Write the <strong>platform section of an implementation runbook</strong> for a new customer: environment/org topology and how promotion happens; who holds which credentials and how they're rotated and revoked at offboarding; where data travels; what monitoring exists and who looks at it, how often; the runtime obligations of any custom app; and the org's concurrency budget with what runs when. Keep it to two pages — it should be handed to a customer's IT lead, not read only by you.</p>
+        </div>
+
+        <h3>Realistic customer scenario</h3>
+        <div class="card">
+          <p><strong>Summit Athletic's</strong> InfoSec lead sends a pre-contract questionnaire and copies the VP of Product, who wants it back in 48 hours:</p>
+          <ol style="color:var(--ink-2);border-left:3px solid var(--line-strong);padding-left:22px;margin-left:0">
+            <li>"Where is our product data stored geographically, and can it be kept in the EU?"</li>
+            <li>"Provide your SOC 2 Type II report."</li>
+            <li>"Describe the role-based access model. Can we restrict a merchandiser to their own division?"</li>
+            <li>"How are API credentials issued, rotated and revoked?"</li>
+            <li>"What is your API rate limit and uptime SLA?"</li>
+            <li>"Are webhook payloads signed?"</li>
+            <li>"What happens to our data on a third-party extension?"</li>
+          </ol>
+          <p style="margin-bottom:0">For each: answer it, or say exactly what you'd take away and who you'd ask. Then — <strong>sort them</strong>: which can you answer confidently today, which are partially answerable (say what you'd commit to and what you'd qualify), and which must you not answer at all? Finally, write the <strong>covering note to the VP</strong> in three sentences, given you cannot fully answer inside 48 hours and they are trying to close a deal.</p>
+        </div>
+
+        <h3>Quiz</h3>
+        <div class="q">
+          <ol class="quiz">
+            <li>What does the org boundary govern? Name four distinct things it scopes.</li>
+            <li>What is an "environment" in VibeIQ terms, and why do environments drift silently?</li>
+            <li>List the permission layers from org membership down to a single property.</li>
+            <li>Why is "VibeIQ has no real end-user permission model" a wrong statement, and what is the accurate version?</li>
+            <li>Name the three credential surfaces. Which one is most often missed at offboarding, and why does it matter?</li>
+            <li>Trace where a customer's data physically travels. Which two residency/compliance questions can you not answer from the docs?</li>
+            <li>Reframe the 24-hour link expiry as a security control rather than a constraint.</li>
+            <li>What does the Event Workflows Dashboard show, over what horizon, and why should it be in a QBR?</li>
+            <li>What is the crucial difference between everything in the monitoring table and actual alerting?</li>
+            <li>Explain the 60-process org ceiling as a capacity-planning problem. What would you do with that knowledge before a customer notices anything?</li>
+          </ol>
+        </div>
+
+        <h3>Hands-on challenge</h3>
+        <div class="card">
+          <p style="margin-bottom:0">Build your <strong>security questionnaire response kit</strong>: the standard enterprise security questions, split into <em>answer confidently</em>, <em>answer with qualification</em>, and <em>must escalate</em> — with your actual wording for each in the first two groups, and the named internal owner for the third. Keep the escalate list short and current; every item you move out of it is a deal cycle shortened. This joins the account-inheritance kit from Weeks 2–7.</p>
+        </div>
+
+        <div class="outcome">
+          <h4>I know this when I can…</h4>
+          <ul>
+            <li>Explain org-as-boundary and why environment drift is the customer's problem to manage.</li>
+            <li>Walk the permission layers, and correct the "no RBAC" misconception accurately.</li>
+            <li>Name every place a credential rests, including the one on laptops.</li>
+            <li>Trace the data path and state the residency and compliance unknowns without flinching.</li>
+            <li>Describe the monitoring surface and its 90-day horizon — and its lack of alerting.</li>
+            <li>Handle a security questionnaire without bluffing a single answer.</li>
+          </ul>
+        </div>
+
+        <details>
+          <summary>How to submit</summary>
+          <p>Answer the quiz and the questionnaire scenario in our chat. The sorting step matters most — knowing which questions you must <em>not</em> answer is the skill this module is really teaching.</p>
+        </details>
+        <p class="foot">Module 8 · grounded in official Contrail documentation: Authentication, Configuration Copy, Apps (getting started, lifecycle, Node migration), Release Notes (Admin Console). Gaps are marked explicitly rather than filled.</p>
       </section>
 
       <section class="view" id="view-m9">
@@ -2147,6 +2325,9 @@ visibility: public            # marketplace candidate</code></pre>
             <tr><td>"This value was right last season"</td><td>A formula derived from reference data — reference updates do not re-run formulas</td><td>7</td></tr>
             <tr><td>"The UI wouldn't let us enter that, so how is it here?"</td><td>An integration write. Rule sets evaluate client-side <em>(see §4)</em></td><td>7</td></tr>
             <tr><td>"VibeIQ is down" (but only one panel)</td><td>A customer-hosted extension iframe, not VibeIQ</td><td>7</td></tr>
+            <tr><td>"It tested fine in staging and broke in production"</td><td>Environment drift — an environment is just another org, and config and apps promote separately</td><td>7 · 8</td></tr>
+            <tr><td>"Nobody noticed the nightly load failed for a week"</td><td>There is no documented proactive alerting; every monitoring surface must be looked at</td><td>8</td></tr>
+            <tr><td>"The app stopped working after we did nothing"</td><td>A runtime deprecation — check <code>nodeRuntime</code> in the manifest</td><td>8</td></tr>
           </tbody>
         </table>
 
@@ -2180,6 +2361,16 @@ visibility: public            # marketplace candidate</code></pre>
           </ul>
         </div>
 
+        <div class="card warn">
+          <h4>Platform &amp; operations</h4>
+          <ul style="margin-bottom:0">
+            <li><strong>Environments drift with nothing to tell you.</strong> An environment is just another org, and configuration (<code>types loadAll</code>) and apps (publish/install) promote by different mechanisms. Nothing reconciles them. <span class="pill p-nice">Wk 7 · 8</span></li>
+            <li><strong>Monitoring is not alerting.</strong> Every surface — the workflow dashboard, the process list, LoaderProcess — is something a human must choose to look at. A failed nightly load is discovered by whoever notices missing data. <span class="pill p-nice">Wk 8</span></li>
+            <li><strong>Concurrency contention is invisible.</strong> The 60-process org budget is shared across every workflow, integration and load, with no documented way for a customer to see their own utilisation. <span class="pill p-nice">Wk 6 · 8</span></li>
+            <li><strong>Workflow artifacts vanish with the log.</strong> "The artifact will be automatically deleted when the process expires from the log (90 days)." Evidence and attachments die together. <span class="pill p-nice">Wk 8</span></li>
+          </ul>
+        </div>
+
         <h3>3 · Decisions you cannot undo</h3>
         <p>Raise these <em>before</em> they are made. Nobody thanks you at the time; everyone would have thanked you later.</p>
         <table>
@@ -2190,6 +2381,7 @@ visibility: public            # marketplace candidate</code></pre>
             <tr><td><strong>Property level</strong></td><td>Changing Family↔Override↔All rewrites how existing values propagate.</td><td>"Which properties are Family, which Override, which All?" — on day one of any account.</td></tr>
             <tr><td><strong>federatedId source</strong></td><td>Change it and you get duplicates and orphans, silently.</td><td>"What generates this value, and what could ever cause it to change?"</td></tr>
             <tr><td><strong>Workflow <code>identifier</code></strong></td><td>The stable key enabling cross-org migration. Treat as immutable.</td><td>Set it deliberately at authoring time.</td></tr>
+            <tr><td><strong>Who holds cached credentials</strong></td><td>CLI auth caches to <code>~/.vibeiq/configs/</code> on every laptop that ran it. Access outlives the engagement unless revoked.</td><td>"Who has run the CLI against this org, and what is our revocation step at offboarding?"</td></tr>
           </tbody>
         </table>
 
@@ -2201,8 +2393,15 @@ visibility: public            # marketplace candidate</code></pre>
             <li><strong>Rule set enforcement.</strong> Rule sets "evaluate client-side, affecting editor experience for all users." That implies the API and Loader are not bound by them — the working assumption, since assuming enforcement is the more dangerous error. But confirm the exact boundary internally; it decides how validation must be designed for every integrated field. <span class="pill p-nice">Wk 7</span></li>
             <li><strong>Inbound webhook verification.</strong> <code>X-Verify-Signature</code> is documented as <em>optional</em> and shown as a shared secret in a header, not an HMAC over the body, while the webhook ID in the URL acts as a bearer credential. Outbound <em>does</em> support HMAC. Keep the directions apart and confirm what is enforced server-side. <span class="pill p-nice">Wk 5 · 6</span></li>
             <li><strong>AI capabilities.</strong> Heavily marketed, thinly documented. Named native agents are a public claim, not a verified capability set. Confirm GA vs. beta vs. roadmap before repeating any of it. <span class="pill p-nice">Wk 1 · 3</span></li>
+            <li><strong>Customer-facing alerting.</strong> Whether customers get proactive alerts on load, publish or workflow failure is undocumented. If the answer is no, recommend they build monitoring on the process APIs at implementation time, not after an incident. <span class="pill p-nice">Wk 8</span></li>
+            <li><strong>End-user roles.</strong> Type Policies and Type Property Policies exist, but how they map to named roles or groups inside Boards / Plan / Showcase is not public. Never improvise an answer to "can we restrict merchandisers to their own division?" — the shape of that answer determines their rollout design. <span class="pill p-nice">Wk 8</span></li>
           </ul>
         </div>
+        <div class="card keystone">
+          <h4>A correction to make, not repeat</h4>
+          <p style="margin-bottom:0">"VibeIQ has no real end-user permission model" is a common first impression — this program's own Week 1 open questions made it — and it is <strong>wrong</strong>. <strong>Type Policies</strong> ("access control statements defining READ, CREATE, UPDATE, DELETE permissions") and <strong>Type Property Policies</strong> ("property-level access restrictions") exist, and are first-class enough to be among the eleven categories Configuration Copy exports. What is missing is documentation, not capability. Say "there is a policy-based model with type- and property-level permissions; I'll get you the specifics." <span class="pill p-nice">Wk 8</span></p>
+        </div>
+
         <div class="card warn">
           <h4>And one figure never to cite</h4>
           <p style="margin-bottom:0">The "15 requests/hour" rate limit circulating online belongs to <strong>vibe.co — a different company</strong>. VibeIQ's real limits are undisclosed: "rate-limited to ensure system stability," with higher limits available by contacting support. You cannot promise a throughput number, so insist consumers implement exponential backoff instead. <span class="pill p-nice">Wk 1 · 5</span></p>
@@ -2216,13 +2415,14 @@ visibility: public            # marketplace candidate</code></pre>
             <tr><td><strong>90 days</strong></td><td>Workflow log retention — "permanently deleted"</td><td>A hard evidence horizon. Check it before promising root cause on an old problem.</td></tr>
             <tr><td><strong>1–30 (default 5)</strong></td><td><code>parallelWorkerCount</code></td><td>Raising it without message grouping converts slowness into corruption.</td></tr>
             <tr><td><strong>25</strong></td><td>Concurrent processes per event workflow</td><td>Adjustable via the CSM.</td></tr>
-            <tr><td><strong>60</strong></td><td>Concurrent processes per <em>organization</em></td><td><strong>Shared.</strong> One chatty workflow starves every other integration in the org.</td></tr>
+            <tr><td><strong>60</strong></td><td>Concurrent processes per <em>organization</em></td><td><strong>Shared.</strong> One chatty workflow starves every other integration in the org. No documented utilisation view.</td></tr>
+            <tr><td><strong>90 days</strong></td><td>Event Workflows Dashboard history, and workflow artifact lifetime</td><td>The failure-trend chart is the closest thing to a health metric. Put it in every QBR.</td></tr>
           </tbody>
         </table>
 
         <h3>6 · The reframes that change how you think</h3>
         <div class="card keystone">
-          <h4>Six sentences worth carrying</h4>
+          <h4>Seven sentences worth carrying</h4>
           <ol style="margin-bottom:0">
             <li><strong>VibeIQ displaces Miro, Excel and PowerPoint — not PLM.</strong> The strongest answer to "isn't this overlap?", because it names what the customer is actually doing today. <span class="pill p-nice">Wk 1</span></li>
             <li><strong>Publish is not "send to PLM."</strong> It is first an internal commit from Plan to Assortment. A publish can succeed while the downstream sync fails — two investigations, two owners. <span class="pill p-nice">Wk 3</span></li>
@@ -2230,10 +2430,11 @@ visibility: public            # marketplace candidate</code></pre>
             <li><strong>The integration <em>is</em> a workflow.</strong> Publish events are delivered by an Event Workflow, so integration debugging and workflow debugging are one skill. <span class="pill p-nice">Wk 5 · 6</span></li>
             <li><strong>The data model is in the payload.</strong> The baseline exposes <code>.item</code>, <code>.item.itemFamily</code> and <code>.projectItem</code> — so downstream mapping is a data-model decision, not plumbing. <span class="pill p-nice">Wk 2 · 5</span></li>
             <li><strong>The valuable answer isn't yes or no — it's "that's possible, and here's what it costs to own."</strong> A rule set is a Tuesday afternoon. An extension is a hosted service with an on-call rota. <span class="pill p-nice">Wk 7</span></li>
+            <li><strong>"I don't know, I'll find out by Thursday" is a strong answer</strong> — when it is specific and it is kept. Bluffing a compliance answer is unrecoverable: security teams verify, and being wrong once means everything else you say gets checked. <span class="pill p-nice">Wk 8</span></li>
           </ol>
         </div>
 
-        <p class="foot">Collected across Modules 1–7. Updated as later modules are written. Every claim here is sourced from official Contrail documentation or explicitly marked as unverified in §4.</p>
+        <p class="foot">Collected across Modules 1–8. Updated as later modules are written. Every claim here is sourced from official Contrail documentation or explicitly marked as unverified in §4.</p>
       </section>
 
       <!-- ================= PRIORITY MATRIX ================= -->

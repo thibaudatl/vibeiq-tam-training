@@ -40,7 +40,7 @@ a markdown tracker (`dashboard.md`) and per-week source notes (`modules/`).
 | 5 | Data out: integration patterns | written (deep) |
 | 6 | Event Workflows | written (deep) |
 | 7 | Apps, Extensions & the config/customization boundary | written (deep) |
-| 8 | Platform, security & operations | to write |
+| 8 | Platform, security & operations | written (deep) |
 | 9 | Troubleshooting & escalation | to write |
 | 10 | Applied TAM practice (capstone) | to write |
 
@@ -89,3 +89,10 @@ irreversible decisions and new unverified claims all belong there.
   SI creates the app in their org, the customer can never own it.
 - Rule sets evaluate client-side. Whether the API/Loader enforce them is UNCONFIRMED
   and is now a colleague question; do not assert either way.
+- CORRECTION to the original Phase 1 assessment: VibeIQ DOES have an end-user
+  permission model. Type Policies (READ/CREATE/UPDATE/DELETE) and Type Property
+  Policies are among Configuration Copy's 11 exported categories. What is missing is
+  documentation, not capability. How they map to named roles is still unknown.
+- CLI auth caches to ~/.vibeiq/configs/ on every laptop that ran it — an offboarding
+  and handover risk nobody raises.
+- An "environment" is just another org; there is no environment abstraction.
