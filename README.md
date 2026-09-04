@@ -45,7 +45,7 @@ Week 4 onward are written at greater technical depth, and each carries an explic
 | 7 | Apps, Extensions & the config/customization boundary | live |
 | 8 | Platform, security & operations | live |
 | 9 | Troubleshooting & escalation | live |
-| 10 | Applied TAM practice (capstone) | to write |
+| 10 | Applied TAM practice (capstone) | live |
 
 Modules are written one at a time, grounded in the official Contrail documentation. Nothing is gated — every module in the hub is browsable, including the stubs for those not yet written.
 

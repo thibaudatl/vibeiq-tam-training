@@ -13,12 +13,13 @@
 
 ## 1. Overall progress
 
-`[▓░░░░░░░░░]` **Module 1 of 10 in progress**
+`[▓░░░░░░░░░]` **All 10 modules written · your progress: Module 1 of 10 in progress**
 
 | Phase | Status |
 |---|---|
 | Phase 1 — Curriculum design | ✅ Complete & approved |
-| Phase 2 — Module build | 🔄 Week 1 in progress |
+| Phase 2 — Module build | ✅ All 10 modules written |
+| Phase 3 — Working through them | 🔄 Week 1 in progress |
 
 ---
 
@@ -35,7 +36,7 @@
 | 7 | Apps, Extensions & the config/customization boundary | 📖 Ready to read | — | — | — |
 | 8 | Platform, security & operations | 📖 Ready to read | — | — | — |
 | 9 | Troubleshooting & escalation methodology | 📖 Ready to read | — | — | — |
-| 10 | Applied TAM practice: discovery, reviews, QBRs | ⬜ | — | — | — |
+| 10 | Applied TAM practice (capstone) | 📖 Ready to read | — | — | — |
 
 ---
 

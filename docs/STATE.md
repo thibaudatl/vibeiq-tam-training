@@ -4,7 +4,7 @@ Living status doc. Update at the end of each working session so a fresh
 conversation can pick up cold. (`HANDOFF.md` is the original design-session
 handoff, kept for provenance — this file supersedes it for current status.)
 
-**Last updated:** 2026-09-04
+**Last updated:** 2026-09-04 — all 10 modules written
 
 ## What this is
 A self-paced 10-week technical training program for Leo, starting as a
@@ -42,7 +42,7 @@ a markdown tracker (`dashboard.md`) and per-week source notes (`modules/`).
 | 7 | Apps, Extensions & the config/customization boundary | written (deep) |
 | 8 | Platform, security & operations | written (deep) |
 | 9 | Troubleshooting & escalation | written (synthesis) |
-| 10 | Applied TAM practice (capstone) | to write |
+| 10 | Applied TAM practice (capstone) | written (capstone) |
 
 Weeks 4, 5 and 9 are the technical heart — protect time for them.
 

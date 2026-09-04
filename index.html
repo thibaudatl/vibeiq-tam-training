@@ -180,7 +180,7 @@
       <a href="#m7" data-view="m7"><span class="wk">W7</span> Apps, Extensions &amp; config</a>
       <a href="#m8" data-view="m8"><span class="wk">W8</span> Platform, security, ops</a>
       <a href="#m9" data-view="m9"><span class="wk">W9</span> Troubleshoot &amp; escalate <span class="st">★</span></a>
-      <a class="todo" href="#m10" data-view="m10"><span class="wk">W10</span> Applied TAM practice <span class="st">soon</span></a>
+      <a href="#m10" data-view="m10"><span class="wk">W10</span> Applied TAM practice <span class="st">★</span></a>
     </nav>
 
     <div class="navlabel">REFERENCE</div>
@@ -205,12 +205,12 @@
       <section class="view" id="view-dashboard">
         <p class="eyebrow">Progress tracker</p>
         <h2 class="title">Training dashboard</h2>
-        <p class="lede">Your live view of the 10-week program. Confidence updates at the end of each module. This page mirrors the Markdown dashboard you can download and carry between sessions.</p>
+        <p class="lede">Your live view of the 10-week program. All ten modules are written and nothing is gated — read in any order. Confidence updates at the end of each module. This page mirrors the Markdown dashboard you carry between sessions.</p>
 
         <div class="card">
           <h4 style="margin-top:6px">Overall progress</h4>
           <div class="bar"><i style="width:8%"></i></div>
-          <p class="metric" style="margin-top:6px">Phase 1 (curriculum design) complete &amp; approved · Module 1 of 10 in progress</p>
+          <p class="metric" style="margin-top:6px">All 10 modules written and open to browse · your progress: Module 1 of 10 in progress</p>
         </div>
 
         <h3>Week status</h3>
@@ -226,7 +226,7 @@
             <tr><td>7</td><td>Apps, Extensions &amp; the config boundary</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>8</td><td>Platform, security &amp; operations</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>9</td><td>Troubleshooting &amp; escalation</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
-            <tr><td>10</td><td>Applied TAM practice</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>10</td><td>Applied TAM practice (capstone)</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
           </tbody>
         </table>
 
@@ -2544,21 +2544,218 @@ visibility: public            # marketplace candidate</code></pre>
       </section>
 
       <section class="view" id="view-m10">
-        <p class="eyebrow">Module 10 · Week 10</p>
+        <p class="eyebrow">Module 10 · Week 10 · Capstone</p>
         <h2 class="title">Applied TAM practice</h2>
-        <p class="lede">The capstone. Everything, applied to the situations that make up the job.</p>
+        <p class="lede">Everything, applied to the four situations that actually make up the job: discovery, architecture review, incident, and quarterly review. Nine weeks built the knowledge; this week turns it into behaviour under real conditions — incomplete information, competing priorities, and someone waiting on an answer.</p>
+
+        <div class="card keystone">
+          <h4>Learning objectives</h4>
+          <p style="margin-bottom:0">By the end of this week you can (1) run a technical discovery that predicts a customer's future problems rather than just cataloguing their systems, (2) review an architecture or a workflow design and disagree in a way that keeps the engineer collaborating, (3) tell a health story in a QBR using evidence the platform actually provides, (4) inherit an unfamiliar account and be useful within thirty days, and (5) do all of it while knowing which questions you must take away.</p>
+        </div>
+
+        <h3>Concept 1 — The four situations</h3>
+        <p>Nearly everything you do is one of these, and each has a different failure mode:</p>
+        <table>
+          <thead><tr><th>Situation</th><th>You're really doing</th><th>Fails when</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Discovery</strong></td><td>Predicting what will break, from how they work today</td><td>You catalogue systems instead of finding constraints</td></tr>
+            <tr><td><strong>Architecture review</strong></td><td>Finding the flaw before production does</td><td>You're right but the engineer stops listening</td></tr>
+            <tr><td><strong>Incident</strong></td><td>Localising, then communicating (Week 9)</td><td>You theorise early, or over-promise timing</td></tr>
+            <tr><td><strong>QBR</strong></td><td>Telling a health story with evidence</td><td>You report activity instead of risk</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Concept 2 — Discovery that predicts</h3>
+        <p>Week 1's landscape template listed a customer's systems. That's the starting point, not the instrument. A good discovery question has a property: <strong>the answer changes what you expect to go wrong.</strong> Sharpened, grouped by what each answer predicts:</p>
+        <table>
+          <thead><tr><th>Ask</th><th>Because the answer predicts</th><th>Wk</th></tr></thead>
+          <tbody>
+            <tr><td>"What generates your style number, and what could ever change it?"</td><td>Duplicate records and orphans</td><td>2 · 4</td></tr>
+            <tr><td>"Which attributes differ between colourways, and which are always the same across a style?"</td><td>Property-level modelling, and future copy-down clobber</td><td>2</td></tr>
+            <tr><td>"Will anyone create products by hand in the UI before the integration is live?"</td><td>The federatedId gap and the duplicate bug</td><td>2 · 4</td></tr>
+            <tr><td>"When a style is cut, what has to happen in PLM — and who notices if it doesn't?"</td><td>Whether missed deletes will be caught or discovered in a review</td><td>3</td></tr>
+            <tr><td>"What changes to products <em>never</em> go through a publish?"</td><td>Whether events alone will cover them, or polling is also needed</td><td>5</td></tr>
+            <tr><td>"Who owns cost, and who owns retail price?"</td><td>The attribute ownership map, and the future "PLM overwrote our margin" dispute</td><td>5</td></tr>
+            <tr><td>"What's your seasonal calendar, and when is the heaviest load?"</td><td>Concurrency contention and the worst possible incident timing</td><td>4 · 8</td></tr>
+            <tr><td>"Who will build and host any custom UI, and who is on call for it?"</td><td>Extension ownership and a future 'VibeIQ is down' report</td><td>7</td></tr>
+            <tr><td>"Whose org will custom apps be created in?"</td><td>Permanent, unfixable ownership</td><td>7</td></tr>
+            <tr><td>"What are your data residency and compliance requirements?"</td><td>Whether there's a procurement blocker you should surface now</td><td>8</td></tr>
+          </tbody>
+        </table>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Notice how many of these are best asked <em>before</em> a decision is made and are worthless afterwards. That is the real argument for TAM involvement in implementation: not oversight, but the handful of questions whose value expires. Frame it that way internally — "there are six questions that cost nothing now and can't be fixed later" is a more persuasive case for your time than "I should be involved."</p>
+        </div>
+
+        <h3>Concept 3 — Architecture and workflow review</h3>
+        <p>You did a full one in Week 5 and a workflow one in Week 6. The method, generalised:</p>
+        <ol class="steps">
+          <li><strong>Establish the requirement first.</strong> Half of bad designs are correct solutions to a misunderstood requirement. Ask what happens if this doesn't run, and who notices.</li>
+          <li><strong>Trace one record end to end</strong> through their design, out loud. Most flaws surface here without any need for cleverness.</li>
+          <li><strong>Test the unhappy paths</strong> — down for a day, duplicate delivery, partial failure, bulk load, the first day of a new season.</li>
+          <li><strong>Check the irreversible decisions</strong> — app ownership, identifiers, property levels, federatedId source.</li>
+          <li><strong>Name the operational cost</strong> — who runs it, who's alerted, what happens when the person who built it leaves.</li>
+          <li><strong>Rank the findings.</strong> Go-live blockers vs. follow-ups. A flat list of twelve problems gets ignored; three blockers get fixed.</li>
+        </ol>
+
         <div class="card">
-          <h4 style="margin-top:6px">Not written yet</h4>
-          <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
+          <h4 style="margin-top:6px">The workflow review checklist, specifically</h4>
+          <p>Because supporting customer workflows is a core part of this role, this one is worth knowing cold:</p>
           <ul style="margin-bottom:0">
-            <li>Technical discovery — the Week 1 landscape template sharpened into a real instrument</li>
-            <li>Architecture reviews: reading a customer's integration design and finding the flaw before production does</li>
-            <li>QBRs: telling a health story with adoption and operational evidence</li>
-            <li><strong>Workflow angle:</strong> running a workflow design review with a customer's engineers</li>
-            <li>A full simulated account: discovery, a live incident, and a quarterly review</li>
+            <li><strong>Unreachable paths</strong> — read top-down, find the first conditional that can always be true. Everything below it is dead.</li>
+            <li><strong>Create vs. update</strong> — what does every conditional do when <code>oldData</code> is absent?</li>
+            <li><strong>Trigger fitness</strong> — does the event they need actually exist? (<code>assortment</code> has only <code>publish</code>.)</li>
+            <li><strong>Access grants</strong> — does every action have write where it writes?</li>
+            <li><strong>Config values</strong> — is any endpoint pointing at the wrong environment?</li>
+            <li><strong>Message grouping</strong> — what can collide, and is it grouped? What does <code>parallelWorkerCount</code> do under a bulk load?</li>
+            <li><strong>Org budget</strong> — what else runs in this org, and when?</li>
+            <li><strong>Failure visibility</strong> — who sees a <code>FAILED</code> process, and how soon?</li>
+            <li><strong>Change process</strong> — do they understand this is a release, not a setting?</li>
           </ul>
         </div>
-        <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
+
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">On disagreeing well: lead with what's right in their design, be specific about consequence rather than about correctness, and give the symptom rather than the principle. "This will work until someone's consumer is down overnight, and then Centric keeps styles they've cut — which surfaces in a line review" lands where "you should handle idempotency" does not. You are not trying to win; you are trying to have the change made by someone who still calls you next time.</p>
+        </div>
+
+        <h3>Concept 4 — QBRs: reporting risk, not activity</h3>
+        <p>The failure mode is presenting usage statistics that nobody acts on. A QBR should answer three questions: <em>is this working, what's at risk, and what should we do next?</em></p>
+        <table>
+          <thead><tr><th>Signal</th><th>Where it comes from</th><th>What it tells you</th></tr></thead>
+          <tbody>
+            <tr><td>Workflow failure trend</td><td>Event Workflows Dashboard (90 days)</td><td>Operational health. A rising line is visible weeks before a ticket.</td></tr>
+            <tr><td>Load success and volume</td><td><code>LoaderProcess</code> records</td><td>Whether the data pipeline is healthy and growing</td></tr>
+            <tr><td>Publish cadence</td><td>Publish history per assortment</td><td>Whether decisions are actually being made in VibeIQ</td></tr>
+            <tr><td>Adoption by team</td><td>Who is in Boards vs. Plan vs. Showcase</td><td>Which team is the weak link (Week 1) — design lagging means creative context arrives late</td></tr>
+            <tr><td>Export behaviour</td><td>Conversation, not telemetry</td><td>Still exporting to PowerPoint or Excel? That's the incumbent winning.</td></tr>
+            <tr><td>Open unknowns</td><td>Your own list</td><td>Credibility — showing you track what you owe them</td></tr>
+          </tbody>
+        </table>
+        <div class="card keystone">
+          <h4>The one slide that matters</h4>
+          <p style="margin-bottom:0">Health is not "how much are they using it." It is <strong>"are decisions being made here, and is the context surviving downstream?"</strong> — the Week 1 value statement, measured. Publish cadence plus downstream sync health answers it directly. Usage minutes do not, and a room full of executives can tell the difference.</p>
+        </div>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Bring one risk you found before they did, every time. It costs you an hour of looking at the failure chart and it is the single most reliable way to be treated as an advisor rather than a vendor contact. It also inverts the meeting: instead of defending the last quarter, you're the person who spotted something.</p>
+        </div>
+
+        <h3>Concept 5 — Inheriting an account: the first thirty days</h3>
+        <p>You'll rarely start from a greenfield. Run the kit in this order — each step makes the next one cheaper:</p>
+        <ol class="steps">
+          <li><strong>Config export.</strong> <code>contrail types getAll</code>. Read the property levels, rule sets and policies. This is ground truth, not what anyone remembers.</li>
+          <li><strong>Data model health check</strong> (Week 2). Property-level map, federatedId source and stability, UI-created records, assortment structure.</li>
+          <li><strong>Workflow inventory</strong> (Week 6). What exists, what triggers it, what's grouped, what's failing. Look at the 90-day failure chart.</li>
+          <li><strong>Integration review</strong> (Weeks 3 &amp; 5). Pattern, delete handling, recovery, reconciliation cadence, key scoping.</li>
+          <li><strong>Platform &amp; ops</strong> (Week 8). Org topology, who holds credentials, custom apps and their runtimes, concurrency budget.</li>
+          <li><strong>The people map.</strong> Which team is lagging, who the sceptic is, who has been burned before.</li>
+          <li><strong>Write down what you found and what you'd change</strong>, ranked. Share it. That document <em>is</em> your credibility.</li>
+        </ol>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Step 7 is the one people skip because it feels like homework. Do it anyway. An inherited account has a history you weren't part of, and a written, ranked assessment establishes that you understand it better than the last person did — which is the entire basis on which a customer decides whether to trust a new TAM.</p>
+        </div>
+
+        <hr class="divider">
+
+        <h3>The capstone — Meridian Outdoor, four phases</h3>
+        <p class="lede" style="font-size:16px">A new account, run end to end. Each phase uses a different part of the program, and later phases are shaped by choices you make in earlier ones. Work them in order and don't read ahead.</p>
+
+        <div class="card">
+          <h4 style="margin-top:6px">The account</h4>
+          <p style="margin-bottom:0"><strong>Meridian Outdoor</strong> — mid-size outdoor apparel and footwear brand, ~1,200 styles per season, two seasons plus a holiday drop. Systems: <strong>PTC FlexPLM</strong>, <strong>SAP</strong>, <strong>Bynder</strong> for assets, <strong>Anaplan</strong> for financial planning. Line planning today runs in Excel with images pasted in, reviewed in PowerPoint. They have bought VibeIQ, implementation starts in six weeks, and a systems integrator will do the build. You are their TAM from today.</p>
+        </div>
+
+        <div class="card">
+          <h4 style="margin-top:6px">Phase 1 · Discovery <span class="pill p-crit">before any decision is made</span></h4>
+          <p>You have <strong>one 90-minute call</strong> with their VP of Merchandising, a merchandising systems manager, and an integration architect.</p>
+          <ol style="margin-bottom:0">
+            <li>Write the <strong>twelve questions</strong> you will actually ask, ordered, with the reason each is on the list — specifically, what each answer would change.</li>
+            <li>Mark the <strong>three whose value expires</strong> if not asked before implementation starts, and say what it costs to miss each.</li>
+            <li>They will ask "so what does VibeIQ replace?" Write your answer in under sixty seconds of speech.</li>
+            <li>The integration architect says: "We'll just point our nightly PLM export at it, same as we did for Anaplan." Write your reply — you disagree, but it's minute six of the relationship.</li>
+          </ol>
+        </div>
+
+        <div class="card">
+          <h4 style="margin-top:6px">Phase 2 · Architecture review <span class="pill p-imp">week 4 of implementation</span></h4>
+          <p>The integrator sends their design:</p>
+          <ul style="color:var(--ink-2);border-left:3px solid var(--line-strong);padding-left:22px">
+            <li>Nightly Loader feed from FlexPLM, keyed on FlexPLM's internal style ID, run from the CLI by their consultant.</li>
+            <li>All pricing attributes modelled at Family level "since price is a style-level concept."</li>
+            <li>A workflow on <code>item|update</code> that pushes approved styles back to FlexPLM, <code>parallelWorkerCount: 20</code>, no message grouping.</li>
+            <li>A Document Automation extension for margin approval, hosted on the integrator's Vercel account.</li>
+            <li>The app created in the integrator's org "for now."</li>
+            <li>Assortment publishes consumed by polling <code>/api/change-history</code> hourly, from the last successful run time.</li>
+            <li>One API key, stored in their pipeline config, used for dev and prod.</li>
+          </ul>
+          <ol style="margin-bottom:0">
+            <li>Find <strong>every problem</strong>. For each: the failure, the symptom Meridian would report, and the fix.</li>
+            <li>Identify the <strong>two that become unfixable</strong> after go-live.</li>
+            <li>Rank: what blocks go-live, what's a follow-up, what you'd let go.</li>
+            <li>One item requires you to <strong>say you don't know and find out</strong>. Which, and who do you ask?</li>
+            <li>Write the opening two paragraphs of your response.</li>
+          </ol>
+        </div>
+
+        <div class="card">
+          <h4 style="margin-top:6px">Phase 3 · Incident <span class="pill p-crit">week 3 after go-live</span></h4>
+          <p>Tuesday 08:15. The merchandising systems manager messages:</p>
+          <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"Something's wrong with FW27. A lot of styles have the wrong price — it looks like the style price, not the colour-specific ones we set last week. Also our FlexPLM team says they got about 900 update messages overnight for styles nobody touched. And three styles we dropped are still showing in the outlet assortment. Big review Thursday."</p>
+          <ol style="margin-bottom:0">
+            <li>Which <strong>checkpoint</strong> does each of the three symptoms sit at?</li>
+            <li>Which are <strong>one root cause</strong> and which are separate? Justify it.</li>
+            <li>Your <strong>first three actions</strong>, and the exact evidence you'd pull.</li>
+            <li>Trace it back to <strong>Phase 2</strong>: which design decisions you reviewed produced this? If you flagged them and were overruled, how does that change what you say now — and what you say to nobody?</li>
+            <li>What you tell them at <strong>09:00</strong>, and how you make Thursday survivable.</li>
+          </ol>
+        </div>
+
+        <div class="card">
+          <h4 style="margin-top:6px">Phase 4 · QBR <span class="pill p-use">end of first quarter</span></h4>
+          <p>Ninety days live. Merchandising is fully on Plan. Design still works mostly in their own tools and uploads images at the end. Publish volume is healthy. The workflow failure chart shows a slow rise over six weeks. Two of your original unknowns are still unanswered.</p>
+          <ol style="margin-bottom:0">
+            <li>Structure the <strong>QBR in five slides</strong> — title each and say what's on it.</li>
+            <li>State the <strong>health verdict</strong> in one sentence, using the Week 1 value definition rather than usage.</li>
+            <li>Name the <strong>risk you found before they did</strong>, and how you present it without alarming the room.</li>
+            <li>Design lagging: is that a technical problem, an adoption problem, or both? What do you propose?</li>
+            <li>How do you handle the <strong>two unanswered unknowns</strong> in front of their exec — having now owed them for a quarter?</li>
+          </ol>
+        </div>
+
+        <div class="outcome">
+          <h4>The program's final outcome — you're ready when you can…</h4>
+          <ul>
+            <li>Explain what VibeIQ is, and isn't, to a VP and to an engineer, in their own registers.</li>
+            <li>Name the entity layer and property level behind any data symptom before investigating.</li>
+            <li>Read a workflow definition and predict its behaviour on create, on update and under bulk load.</li>
+            <li>Design or review an integration that survives downtime, duplicates and missed deletes.</li>
+            <li>Route any request to the right rung of the spectrum and price its cost of ownership.</li>
+            <li>Localise a failure to a checkpoint, run the ladder, and escalate with what you ruled out.</li>
+            <li>Answer a security questionnaire without bluffing, and know what you must take away.</li>
+            <li>Tell a customer's exec whether this is working — in terms of decisions and context, not usage.</li>
+          </ul>
+        </div>
+
+        <hr class="divider">
+
+        <h3>After Week 10</h3>
+        <p>Two pieces of unfinished business the program deliberately leaves open, because neither can be closed from public documentation:</p>
+        <div class="card warn">
+          <h4>Close your standing unknowns</h4>
+          <p style="margin-bottom:0">The <a class="link" href="#questions" data-view="questions">colleague questions</a> page is not a reading list — it is a work item. In your first weeks, get documented answers to: end-user roles and how Type Policies map to them · numeric rate limits and SLAs · data residency beyond <code>us-east-1</code> · compliance certifications · customer-facing alerting · rule set enforcement on API/Loader writes · inbound webhook verification · the real escalation path and PS/customer boundary · what's GA vs. beta vs. roadmap in the AI layer. Every one you close makes you faster and shortens a deal cycle. Track them with owners and dates.</p>
+        </div>
+        <div class="card keystone">
+          <h4>Keep the kit alive</h4>
+          <p style="margin-bottom:0">The eight artefacts you built — health check, publish review, pre-load checklist, integration design review, workflow review, routing guide, security response kit, triage card — are worth more than the modules that produced them, because they're what you actually use. Update them as you learn what the docs don't say. The <a class="link" href="#findings" data-view="findings">Key findings</a> page is the same idea: when you discover a new silent failure or an irreversible decision, it belongs there.</p>
+        </div>
+
+        <details>
+          <summary>How to submit</summary>
+          <p>Work the capstone one phase at a time in our chat, and don't read ahead — Phase 3 is written to expose whether Phase 2 was done properly. I'll respond in role where it helps: as the integration architect who disagrees, or as the exec in the QBR.</p>
+        </details>
+        <p class="foot">Module 10 · capstone. Synthesises Weeks 1–9; introduces no new platform facts by design.</p>
       </section>
 
       <!-- ================= KEY FINDINGS ================= -->
@@ -2815,7 +3012,7 @@ visibility: public            # marketplace candidate</code></pre>
   const topTitle = document.getElementById('topTitle');
   const titles = {
     dashboard:'Dashboard', m1:'Module 1 · Domain', m2:'Module 2', m3:'Module 3', m4:'Module 4 · Loader',
-    m5:'Module 5 · Integrations', m6:'Module 6 · Workflows', m7:'Module 7', m8:'Module 8', m9:'Module 9', m10:'Module 10',
+    m5:'Module 5 · Integrations', m6:'Module 6 · Workflows', m7:'Module 7', m8:'Module 8', m9:'Module 9', m10:'Module 10 · Capstone',
     findings:'Key findings', priority:'Priority matrix', questions:'Colleague questions', links:'Doc links'
   };
   function show(id){
