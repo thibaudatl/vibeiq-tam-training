@@ -22,7 +22,7 @@ conversation with a tutor; the site holds the material and the progress tracker.
 
 | Path | What it is |
 |---|---|
-| `index.html` | The training hub — a single self-contained page, no build step and no external requests. Sidebar navigation across the dashboard, all ten modules, and four reference pages. Every quiz question carries a model answer behind a **Show answer** toggle, with a **Reveal all answers** button per quiz. |
+| `index.html` | The training hub — a single self-contained page, no build step and no external requests. Sidebar navigation across the dashboard, all ten modules, and four reference pages. Every module expands in the sidebar to its own sections, and opens with an **On this page** agenda. Every quiz question carries a model answer behind a **Show answer** toggle, with a **Reveal all answers** button per quiz. |
 | `dashboard.md` | Progress tracker: week status, confidence by topic, running glossary, and the open questions for VibeIQ colleagues. Carry this between tutoring sessions. |
 | `modules/` | Long-form source notes, one per week. The hub is the study surface; these are the working notes behind it. |
 | `docs/STATE.md` | Living project state — decisions made, what's open, and facts not worth re-deriving. Read this first if picking the project up cold. |

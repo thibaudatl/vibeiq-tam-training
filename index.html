@@ -58,6 +58,14 @@
   nav a .wk{font-variant-numeric:tabular-nums;font-size:12px;color:#8a938a;min-width:34px;font-weight:600}
   nav a.active .wk{color:#cdeadf}
   nav a.todo{color:#8d948c}
+  .sub{display:none;margin:1px 0 7px 13px;padding-left:11px;border-left:1px solid #2c353d}
+  .sub.open{display:block}
+  .sub a{font-size:12.5px;padding:5px 9px;color:#98a198;line-height:1.32;gap:0}
+  .sub a:hover{background:#1e262d;color:#fff}
+  .sub a.here{color:#7fd3b4;font-weight:600;background:transparent}
+  .toc a.here{color:var(--accent-ink);font-weight:600}
+  .caret{margin-left:auto;font-size:10px;color:#7c847c;transition:transform .15s;flex:0 0 auto}
+  nav a.expanded .caret{transform:rotate(90deg)}
   nav a.todo .st{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#6f776e}
   nav a .st{margin-left:auto;font-size:12px;flex:0 0 auto}
 
@@ -79,6 +87,20 @@
   a.link{color:var(--accent-ink);text-decoration:underline;text-underline-offset:2px}
 
   .divider{height:1px;background:var(--line);border:0;margin:34px 0}
+
+  /* On-this-page agenda */
+  .toc{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);
+    border-radius:0 var(--radius) var(--radius) 0;padding:15px 20px 16px;margin:0 0 30px}
+  .toc h4{margin:0 0 10px;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--accent-ink);font-weight:700}
+  .toc ol{list-style:none;counter-reset:toc;padding:0;margin:0;max-width:none;
+    columns:2;column-gap:30px}
+  .toc li{counter-increment:toc;margin:0 0 6px;break-inside:avoid;font-size:14px;line-height:1.4}
+  .toc li::before{content:counter(toc)".";color:var(--accent);font-weight:700;
+    font-variant-numeric:tabular-nums;margin-right:7px;font-size:12.5px}
+  .toc a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid transparent}
+  .toc a:hover{color:var(--accent-ink);border-bottom-color:var(--accent)}
+  @media (max-width:700px){ .toc ol{columns:1} }
 
   /* Callouts */
   .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin:18px 0}
@@ -179,27 +201,182 @@
 
     <div class="navlabel">TRACKER</div>
     <nav id="nav">
-      <a href="#dashboard" data-view="dashboard"><span class="wk">◆</span> Dashboard</a>
+      <a href="#dashboard" data-view="dashboard"><span class="wk">◆</span> Dashboard<span class="caret">›</span></a>
+      <div class="sub" data-for="dashboard">
+        <a class="subitem" href="#dashboard/dashboard-week-status" data-view="dashboard" data-anchor="dashboard-week-status">Week status</a>
+        <a class="subitem" href="#dashboard/dashboard-confidence-by-major-topic" data-view="dashboard" data-anchor="dashboard-confidence-by-major-topic">Confidence by major topic</a>
+      </div>
     </nav>
 
     <div class="navlabel">MODULES</div>
     <nav id="nav-modules">
-      <a href="#m1" data-view="m1"><span class="wk">W1</span> Domain &amp; where VibeIQ sits <span class="st">🟡</span></a>
-      <a href="#m2" data-view="m2"><span class="wk">W2</span> Core data model <span class="st">🔄</span></a>
-      <a href="#m3" data-view="m3"><span class="wk">W3</span> Apps &amp; publish lifecycle</a>
-      <a href="#m4" data-view="m4"><span class="wk">W4</span> Data in: the Loader <span class="st">★</span></a>
-      <a href="#m5" data-view="m5"><span class="wk">W5</span> Data out: integrations <span class="st">★</span></a>
-      <a href="#m6" data-view="m6"><span class="wk">W6</span> Event Workflows <span class="st">★</span></a>
-      <a href="#m7" data-view="m7"><span class="wk">W7</span> Apps, Extensions &amp; config</a>
-      <a href="#m8" data-view="m8"><span class="wk">W8</span> Platform, security, ops</a>
-      <a href="#m9" data-view="m9"><span class="wk">W9</span> Troubleshoot &amp; escalate <span class="st">★</span></a>
-      <a href="#m10" data-view="m10"><span class="wk">W10</span> Applied TAM practice <span class="st">★</span></a>
+      <a href="#m1" data-view="m1"><span class="wk">W1</span> Domain &amp; where VibeIQ sits <span class="st">🟡</span><span class="caret">›</span></a>
+      <div class="sub" data-for="m1">
+        <a class="subitem" href="#m1/m1-concept-1-the-domain-seasonal-product-creati" data-view="m1" data-anchor="m1-concept-1-the-domain-seasonal-product-creati">1. The domain: seasonal product creation</a>
+        <a class="subitem" href="#m1/m1-concept-2-the-problem-vibeiq-exists-to-solve" data-view="m1" data-anchor="m1-concept-2-the-problem-vibeiq-exists-to-solve">2. The problem VibeIQ exists to solve</a>
+        <a class="subitem" href="#m1/m1-concept-3-where-vibeiq-sits" data-view="m1" data-anchor="m1-concept-3-where-vibeiq-sits">3. Where VibeIQ sits</a>
+        <a class="subitem" href="#m1/m1-concept-4-who-the-users-are" data-view="m1" data-anchor="m1-concept-4-who-the-users-are">4. Who the users are</a>
+        <a class="subitem" href="#m1/m1-concept-5-contrail-vs-the-marketing-brand" data-view="m1" data-anchor="m1-concept-5-contrail-vs-the-marketing-brand">5. Contrail vs. the marketing brand</a>
+        <a class="subitem" href="#m1/m1-recommended-reading" data-view="m1" data-anchor="m1-recommended-reading">Recommended reading</a>
+        <a class="subitem" href="#m1/m1-practical-exercise" data-view="m1" data-anchor="m1-practical-exercise">Practical exercise</a>
+        <a class="subitem" href="#m1/m1-realistic-customer-scenario" data-view="m1" data-anchor="m1-realistic-customer-scenario">Realistic customer scenario</a>
+        <a class="subitem" href="#m1/m1-quiz" data-view="m1" data-anchor="m1-quiz">Quiz</a>
+        <a class="subitem" href="#m1/m1-hands-on-challenge" data-view="m1" data-anchor="m1-hands-on-challenge">Hands-on challenge</a>
+      </div>
+      <a href="#m2" data-view="m2"><span class="wk">W2</span> Core data model <span class="st">🔄</span><span class="caret">›</span></a>
+      <div class="sub" data-for="m2">
+        <a class="subitem" href="#m2/m2-concept-1-the-three-item-layers" data-view="m2" data-anchor="m2-concept-1-the-three-item-layers">1. The three item layers</a>
+        <a class="subitem" href="#m2/m2-concept-2-property-levels-family-option-all" data-view="m2" data-anchor="m2-concept-2-property-levels-family-option-all">2. Property levels: Family, Option, All, Override</a>
+        <a class="subitem" href="#m2/m2-concept-3-federatedid-and-the-duplicate-reco" data-view="m2" data-anchor="m2-concept-3-federatedid-and-the-duplicate-reco">3. federatedId, and the duplicate-records bug</a>
+        <a class="subitem" href="#m2/m2-concept-4-projects-assortments-and-their-own" data-view="m2" data-anchor="m2-concept-4-projects-assortments-and-their-own">4. Projects, Assortments and their owners</a>
+        <a class="subitem" href="#m2/m2-concept-5-where-this-is-heading-the-publish" data-view="m2" data-anchor="m2-concept-5-where-this-is-heading-the-publish">5. Where this is heading: the publish lifecycle</a>
+        <a class="subitem" href="#m2/m2-recommended-reading" data-view="m2" data-anchor="m2-recommended-reading">Recommended reading</a>
+        <a class="subitem" href="#m2/m2-practical-exercise" data-view="m2" data-anchor="m2-practical-exercise">Practical exercise</a>
+        <a class="subitem" href="#m2/m2-realistic-customer-scenario" data-view="m2" data-anchor="m2-realistic-customer-scenario">Realistic customer scenario</a>
+        <a class="subitem" href="#m2/m2-quiz" data-view="m2" data-anchor="m2-quiz">Quiz</a>
+        <a class="subitem" href="#m2/m2-hands-on-challenge" data-view="m2" data-anchor="m2-hands-on-challenge">Hands-on challenge</a>
+      </div>
+      <a href="#m3" data-view="m3"><span class="wk">W3</span> Apps &amp; publish lifecycle<span class="caret">›</span></a>
+      <div class="sub" data-for="m3">
+        <a class="subitem" href="#m3/m3-concept-1-the-three-apps" data-view="m3" data-anchor="m3-concept-1-the-three-apps">1. The three apps</a>
+        <a class="subitem" href="#m3/m3-concept-2-the-platform-underneath" data-view="m3" data-anchor="m3-concept-2-the-platform-underneath">2. The platform underneath</a>
+        <a class="subitem" href="#m3/m3-concept-3-the-publish-lifecycle-end-to-end" data-view="m3" data-anchor="m3-concept-3-the-publish-lifecycle-end-to-end">3. The publish lifecycle, end to end</a>
+        <a class="subitem" href="#m3/m3-concept-4-anatomy-of-an-assortmentpublishcha" data-view="m3" data-anchor="m3-concept-4-anatomy-of-an-assortmentpublishcha">4. Anatomy of an AssortmentPublishChange</a>
+        <a class="subitem" href="#m3/m3-concept-5-two-ways-to-consume-it" data-view="m3" data-anchor="m3-concept-5-two-ways-to-consume-it">5. Two ways to consume it</a>
+        <a class="subitem" href="#m3/m3-recommended-reading" data-view="m3" data-anchor="m3-recommended-reading">Recommended reading</a>
+        <a class="subitem" href="#m3/m3-practical-exercise" data-view="m3" data-anchor="m3-practical-exercise">Practical exercise</a>
+        <a class="subitem" href="#m3/m3-realistic-customer-scenario" data-view="m3" data-anchor="m3-realistic-customer-scenario">Realistic customer scenario</a>
+        <a class="subitem" href="#m3/m3-quiz" data-view="m3" data-anchor="m3-quiz">Quiz</a>
+        <a class="subitem" href="#m3/m3-hands-on-challenge" data-view="m3" data-anchor="m3-hands-on-challenge">Hands-on challenge</a>
+      </div>
+      <a href="#m4" data-view="m4"><span class="wk">W4</span> Data in: the Loader <span class="st">★</span><span class="caret">›</span></a>
+      <div class="sub" data-for="m4">
+        <a class="subitem" href="#m4/m4-concept-1-a-load-is-an-entity-not-a-command" data-view="m4" data-anchor="m4-concept-1-a-load-is-an-entity-not-a-command">1. A load is an entity, not a command</a>
+        <a class="subitem" href="#m4/m4-concept-2-the-five-phases" data-view="m4" data-anchor="m4-concept-2-the-five-phases">2. The five phases</a>
+        <a class="subitem" href="#m4/m4-concept-3-validation-fail-fast-and-no-partia" data-view="m4" data-anchor="m4-concept-3-validation-fail-fast-and-no-partia">3. Validation: fail-fast, and no partial loads</a>
+        <a class="subitem" href="#m4/m4-concept-4-the-six-preprocessing-steps" data-view="m4" data-anchor="m4-concept-4-the-six-preprocessing-steps">4. The six preprocessing steps</a>
+        <a class="subitem" href="#m4/m4-concept-5-the-configuration-for-real" data-view="m4" data-anchor="m4-concept-5-the-configuration-for-real">5. The configuration, for real</a>
+        <a class="subitem" href="#m4/m4-concept-6-how-family-and-option-are-expresse" data-view="m4" data-anchor="m4-concept-6-how-family-and-option-are-expresse">6. How Family and Option are expressed in a CSV</a>
+        <a class="subitem" href="#m4/m4-concept-7-the-four-flags-that-change-what-a" data-view="m4" data-anchor="m4-concept-7-the-four-flags-that-change-what-a">7. The four flags that change what a load is</a>
+        <a class="subitem" href="#m4/m4-concept-8-federatedid-with-the-mechanics" data-view="m4" data-anchor="m4-concept-8-federatedid-with-the-mechanics">8. federatedId, with the mechanics</a>
+        <a class="subitem" href="#m4/m4-concept-9-transformers-and-images" data-view="m4" data-anchor="m4-concept-9-transformers-and-images">9. Transformers and images</a>
+        <a class="subitem" href="#m4/m4-concept-10-getting-the-file-in-and-cli-vs-ap" data-view="m4" data-anchor="m4-concept-10-getting-the-file-in-and-cli-vs-ap">10. Getting the file in, and CLI vs. API</a>
+        <a class="subitem" href="#m4/m4-concept-11-what-a-load-does-to-your-workflow" data-view="m4" data-anchor="m4-concept-11-what-a-load-does-to-your-workflow">11. What a load does to your workflows</a>
+        <a class="subitem" href="#m4/m4-recommended-reading" data-view="m4" data-anchor="m4-recommended-reading">Recommended reading</a>
+        <a class="subitem" href="#m4/m4-practical-exercise" data-view="m4" data-anchor="m4-practical-exercise">Practical exercise</a>
+        <a class="subitem" href="#m4/m4-realistic-customer-scenario" data-view="m4" data-anchor="m4-realistic-customer-scenario">Realistic customer scenario</a>
+        <a class="subitem" href="#m4/m4-quiz" data-view="m4" data-anchor="m4-quiz">Quiz</a>
+        <a class="subitem" href="#m4/m4-hands-on-challenge" data-view="m4" data-anchor="m4-hands-on-challenge">Hands-on challenge</a>
+      </div>
+      <a href="#m5" data-view="m5"><span class="wk">W5</span> Data out: integrations <span class="st">★</span><span class="caret">›</span></a>
+      <div class="sub" data-for="m5">
+        <a class="subitem" href="#m5/m5-concept-1-choosing-the-pattern" data-view="m5" data-anchor="m5-concept-1-choosing-the-pattern">1. Choosing the pattern</a>
+        <a class="subitem" href="#m5/m5-concept-2-authentication-and-the-api-surface" data-view="m5" data-anchor="m5-concept-2-authentication-and-the-api-surface">2. Authentication and the API surface</a>
+        <a class="subitem" href="#m5/m5-concept-3-the-event-driven-path-end-to-end" data-view="m5" data-anchor="m5-concept-3-the-event-driven-path-end-to-end">3. The event-driven path, end to end</a>
+        <a class="subitem" href="#m5/m5-concept-4-the-polling-path-and-the-seam" data-view="m5" data-anchor="m5-concept-4-the-polling-path-and-the-seam">4. The polling path, and the seam</a>
+        <a class="subitem" href="#m5/m5-concept-5-designing-a-consumer-that-survives" data-view="m5" data-anchor="m5-concept-5-designing-a-consumer-that-survives">5. Designing a consumer that survives contact with reality</a>
+        <a class="subitem" href="#m5/m5-concept-6-webhook-security-in-both-direction" data-view="m5" data-anchor="m5-concept-6-webhook-security-in-both-direction">6. Webhook security, in both directions</a>
+        <a class="subitem" href="#m5/m5-concept-7-attribute-ownership-the-artefact-t" data-view="m5" data-anchor="m5-concept-7-attribute-ownership-the-artefact-t">7. Attribute ownership, the artefact that prevents the arguments</a>
+        <a class="subitem" href="#m5/m5-recommended-reading" data-view="m5" data-anchor="m5-recommended-reading">Recommended reading</a>
+        <a class="subitem" href="#m5/m5-practical-exercise" data-view="m5" data-anchor="m5-practical-exercise">Practical exercise</a>
+        <a class="subitem" href="#m5/m5-realistic-customer-scenario-an-architecture" data-view="m5" data-anchor="m5-realistic-customer-scenario-an-architecture">Realistic customer scenario — an architecture review</a>
+        <a class="subitem" href="#m5/m5-quiz" data-view="m5" data-anchor="m5-quiz">Quiz</a>
+        <a class="subitem" href="#m5/m5-hands-on-challenge" data-view="m5" data-anchor="m5-hands-on-challenge">Hands-on challenge</a>
+      </div>
+      <a href="#m6" data-view="m6"><span class="wk">W6</span> Event Workflows <span class="st">★</span><span class="caret">›</span></a>
+      <div class="sub" data-for="m6">
+        <a class="subitem" href="#m6/m6-concept-1-anatomy" data-view="m6" data-anchor="m6-concept-1-anatomy">1. Anatomy</a>
+        <a class="subitem" href="#m6/m6-concept-2-the-six-trigger-categories" data-view="m6" data-anchor="m6-concept-2-the-six-trigger-categories">2. The six trigger categories</a>
+        <a class="subitem" href="#m6/m6-concept-3-paths-and-the-rule-that-bites" data-view="m6" data-anchor="m6-concept-3-paths-and-the-rule-that-bites">3. Paths, and the rule that bites</a>
+        <a class="subitem" href="#m6/m6-concept-4-conditional-expressions" data-view="m6" data-anchor="m6-concept-4-conditional-expressions">4. Conditional expressions</a>
+        <a class="subitem" href="#m6/m6-concept-5-actions-and-per-workflow-config" data-view="m6" data-anchor="m6-concept-5-actions-and-per-workflow-config">5. Actions and per-workflow config</a>
+        <a class="subitem" href="#m6/m6-concept-6-concurrency-and-message-grouping" data-view="m6" data-anchor="m6-concept-6-concurrency-and-message-grouping">6. Concurrency and message grouping</a>
+        <a class="subitem" href="#m6/m6-concept-7-webhooks" data-view="m6" data-anchor="m6-concept-7-webhooks">7. Webhooks</a>
+        <a class="subitem" href="#m6/m6-concept-8-from-app-to-running-workflow" data-view="m6" data-anchor="m6-concept-8-from-app-to-running-workflow">8. From app to running workflow</a>
+        <a class="subitem" href="#m6/m6-concept-9-observability-and-the-why-didn-t-i" data-view="m6" data-anchor="m6-concept-9-observability-and-the-why-didn-t-i">9. Observability, and the "why didn't it fire?" ladder</a>
+        <a class="subitem" href="#m6/m6-recommended-reading" data-view="m6" data-anchor="m6-recommended-reading">Recommended reading</a>
+        <a class="subitem" href="#m6/m6-practical-exercise" data-view="m6" data-anchor="m6-practical-exercise">Practical exercise</a>
+        <a class="subitem" href="#m6/m6-realistic-customer-scenario" data-view="m6" data-anchor="m6-realistic-customer-scenario">Realistic customer scenario</a>
+        <a class="subitem" href="#m6/m6-quiz" data-view="m6" data-anchor="m6-quiz">Quiz</a>
+        <a class="subitem" href="#m6/m6-hands-on-challenge" data-view="m6" data-anchor="m6-hands-on-challenge">Hands-on challenge</a>
+      </div>
+      <a href="#m7" data-view="m7"><span class="wk">W7</span> Apps, Extensions &amp; config<span class="caret">›</span></a>
+      <div class="sub" data-for="m7">
+        <a class="subitem" href="#m7/m7-concept-1-the-spectrum" data-view="m7" data-anchor="m7-concept-1-the-spectrum">1. The spectrum</a>
+        <a class="subitem" href="#m7/m7-concept-2-formulas" data-view="m7" data-anchor="m7-concept-2-formulas">2. Formulas</a>
+        <a class="subitem" href="#m7/m7-concept-3-rule-sets" data-view="m7" data-anchor="m7-concept-3-rule-sets">3. Rule Sets</a>
+        <a class="subitem" href="#m7/m7-concept-4-the-rest-of-the-configuration-laye" data-view="m7" data-anchor="m7-concept-4-the-rest-of-the-configuration-laye">4. The rest of the configuration layer</a>
+        <a class="subitem" href="#m7/m7-concept-5-configuration-copy-and-how-environ" data-view="m7" data-anchor="m7-concept-5-configuration-copy-and-how-environ">5. Configuration Copy, and how environments actually work</a>
+        <a class="subitem" href="#m7/m7-concept-6-apps-identity-ownership-versions" data-view="m7" data-anchor="m7-concept-6-apps-identity-ownership-versions">6. Apps: identity, ownership, versions</a>
+        <a class="subitem" href="#m7/m7-concept-7-extensions" data-view="m7" data-anchor="m7-concept-7-extensions">7. Extensions</a>
+        <a class="subitem" href="#m7/m7-concept-8-holding-the-line" data-view="m7" data-anchor="m7-concept-8-holding-the-line">8. Holding the line</a>
+        <a class="subitem" href="#m7/m7-recommended-reading" data-view="m7" data-anchor="m7-recommended-reading">Recommended reading</a>
+        <a class="subitem" href="#m7/m7-practical-exercise" data-view="m7" data-anchor="m7-practical-exercise">Practical exercise</a>
+        <a class="subitem" href="#m7/m7-realistic-customer-scenario" data-view="m7" data-anchor="m7-realistic-customer-scenario">Realistic customer scenario</a>
+        <a class="subitem" href="#m7/m7-quiz" data-view="m7" data-anchor="m7-quiz">Quiz</a>
+        <a class="subitem" href="#m7/m7-hands-on-challenge" data-view="m7" data-anchor="m7-hands-on-challenge">Hands-on challenge</a>
+      </div>
+      <a href="#m8" data-view="m8"><span class="wk">W8</span> Platform, security, ops<span class="caret">›</span></a>
+      <div class="sub" data-for="m8">
+        <a class="subitem" href="#m8/m8-concept-1-tenancy-the-org-is-the-boundary" data-view="m8" data-anchor="m8-concept-1-tenancy-the-org-is-the-boundary">1. Tenancy: the org is the boundary</a>
+        <a class="subitem" href="#m8/m8-concept-2-the-permission-model-layer-by-laye" data-view="m8" data-anchor="m8-concept-2-the-permission-model-layer-by-laye">2. The permission model, layer by layer</a>
+        <a class="subitem" href="#m8/m8-concept-3-credentials-where-they-live-and-ho" data-view="m8" data-anchor="m8-concept-3-credentials-where-they-live-and-ho">3. Credentials: where they live and how they leak</a>
+        <a class="subitem" href="#m8/m8-concept-4-where-the-data-actually-goes" data-view="m8" data-anchor="m8-concept-4-where-the-data-actually-goes">4. Where the data actually goes</a>
+        <a class="subitem" href="#m8/m8-concept-5-runtime-and-platform-upgrades" data-view="m8" data-anchor="m8-concept-5-runtime-and-platform-upgrades">5. Runtime and platform upgrades</a>
+        <a class="subitem" href="#m8/m8-concept-6-what-you-can-actually-see" data-view="m8" data-anchor="m8-concept-6-what-you-can-actually-see">6. What you can actually see</a>
+        <a class="subitem" href="#m8/m8-concept-7-capacity-as-a-shared-invisible-res" data-view="m8" data-anchor="m8-concept-7-capacity-as-a-shared-invisible-res">7. Capacity as a shared, invisible resource</a>
+        <a class="subitem" href="#m8/m8-concept-8-answering-what-you-don-t-know" data-view="m8" data-anchor="m8-concept-8-answering-what-you-don-t-know">8. Answering what you don't know</a>
+        <a class="subitem" href="#m8/m8-recommended-reading" data-view="m8" data-anchor="m8-recommended-reading">Recommended reading</a>
+        <a class="subitem" href="#m8/m8-practical-exercise" data-view="m8" data-anchor="m8-practical-exercise">Practical exercise</a>
+        <a class="subitem" href="#m8/m8-realistic-customer-scenario" data-view="m8" data-anchor="m8-realistic-customer-scenario">Realistic customer scenario</a>
+        <a class="subitem" href="#m8/m8-quiz" data-view="m8" data-anchor="m8-quiz">Quiz</a>
+        <a class="subitem" href="#m8/m8-hands-on-challenge" data-view="m8" data-anchor="m8-hands-on-challenge">Hands-on challenge</a>
+      </div>
+      <a href="#m9" data-view="m9"><span class="wk">W9</span> Troubleshoot &amp; escalate <span class="st">★</span><span class="caret">›</span></a>
+      <div class="sub" data-for="m9">
+        <a class="subitem" href="#m9/m9-concept-1-localise-before-theorising" data-view="m9" data-anchor="m9-concept-1-localise-before-theorising">1. Localise before theorising</a>
+        <a class="subitem" href="#m9/m9-concept-2-the-universal-question-set" data-view="m9" data-anchor="m9-concept-2-the-universal-question-set">2. The universal question set</a>
+        <a class="subitem" href="#m9/m9-concept-3-the-three-ladders" data-view="m9" data-anchor="m9-concept-3-the-three-ladders">3. The three ladders</a>
+        <a class="subitem" href="#m9/m9-concept-4-symptom-shape-tells-you-the-class" data-view="m9" data-anchor="m9-concept-4-symptom-shape-tells-you-the-class">4. Symptom shape tells you the class of cause</a>
+        <a class="subitem" href="#m9/m9-concept-5-read-evidence-don-t-reason-from-de" data-view="m9" data-anchor="m9-concept-5-read-evidence-don-t-reason-from-de">5. Read evidence, don't reason from descriptions</a>
+        <a class="subitem" href="#m9/m9-concept-6-escalating-well" data-view="m9" data-anchor="m9-concept-6-escalating-well">6. Escalating well</a>
+        <a class="subitem" href="#m9/m9-concept-7-holding-the-customer-while-it-s-op" data-view="m9" data-anchor="m9-concept-7-holding-the-customer-while-it-s-op">7. Holding the customer while it's open</a>
+        <a class="subitem" href="#m9/m9-practical-exercise" data-view="m9" data-anchor="m9-practical-exercise">Practical exercise</a>
+        <a class="subitem" href="#m9/m9-realistic-customer-scenario-a-live-incident" data-view="m9" data-anchor="m9-realistic-customer-scenario-a-live-incident">Realistic customer scenario — a live incident</a>
+        <a class="subitem" href="#m9/m9-quiz" data-view="m9" data-anchor="m9-quiz">Quiz</a>
+        <a class="subitem" href="#m9/m9-hands-on-challenge" data-view="m9" data-anchor="m9-hands-on-challenge">Hands-on challenge</a>
+      </div>
+      <a href="#m10" data-view="m10"><span class="wk">W10</span> Applied TAM practice <span class="st">★</span><span class="caret">›</span></a>
+      <div class="sub" data-for="m10">
+        <a class="subitem" href="#m10/m10-concept-1-the-four-situations" data-view="m10" data-anchor="m10-concept-1-the-four-situations">1. The four situations</a>
+        <a class="subitem" href="#m10/m10-concept-2-discovery-that-predicts" data-view="m10" data-anchor="m10-concept-2-discovery-that-predicts">2. Discovery that predicts</a>
+        <a class="subitem" href="#m10/m10-concept-3-architecture-and-workflow-review" data-view="m10" data-anchor="m10-concept-3-architecture-and-workflow-review">3. Architecture and workflow review</a>
+        <a class="subitem" href="#m10/m10-concept-4-qbrs-reporting-risk-not-activity" data-view="m10" data-anchor="m10-concept-4-qbrs-reporting-risk-not-activity">4. QBRs: reporting risk, not activity</a>
+        <a class="subitem" href="#m10/m10-concept-5-inheriting-an-account-the-first-th" data-view="m10" data-anchor="m10-concept-5-inheriting-an-account-the-first-th">5. Inheriting an account: the first thirty days</a>
+        <a class="subitem" href="#m10/m10-the-capstone-meridian-outdoor-four-phases" data-view="m10" data-anchor="m10-the-capstone-meridian-outdoor-four-phases">The capstone — Meridian Outdoor, four phases</a>
+        <a class="subitem" href="#m10/m10-after-week-10" data-view="m10" data-anchor="m10-after-week-10">After Week 10</a>
+      </div>
     </nav>
 
     <div class="navlabel">REFERENCE</div>
     <nav>
-      <a href="#findings" data-view="findings"><span class="wk">★</span> Key findings</a>
-      <a href="#priority" data-view="priority"><span class="wk">§</span> Priority matrix</a>
+      <a href="#findings" data-view="findings"><span class="wk">★</span> Key findings<span class="caret">›</span></a>
+      <div class="sub" data-for="findings">
+        <a class="subitem" href="#findings/findings-1-symptom-likely-cause" data-view="findings" data-anchor="findings-1-symptom-likely-cause">1 · Symptom → likely cause</a>
+        <a class="subitem" href="#findings/findings-1b-symptom-shape-class-of-cause" data-view="findings" data-anchor="findings-1b-symptom-shape-class-of-cause">1b · Symptom shape → class of cause</a>
+        <a class="subitem" href="#findings/findings-2-failures-that-produce-no-error" data-view="findings" data-anchor="findings-2-failures-that-produce-no-error">2 · Failures that produce no error</a>
+        <a class="subitem" href="#findings/findings-3-decisions-you-cannot-undo" data-view="findings" data-anchor="findings-3-decisions-you-cannot-undo">3 · Decisions you cannot undo</a>
+        <a class="subitem" href="#findings/findings-4-claims-to-verify-before-asserting" data-view="findings" data-anchor="findings-4-claims-to-verify-before-asserting">4 · Claims to verify before asserting</a>
+        <a class="subitem" href="#findings/findings-5-numbers-worth-memorising" data-view="findings" data-anchor="findings-5-numbers-worth-memorising">5 · Numbers worth memorising</a>
+        <a class="subitem" href="#findings/findings-6-the-reframes-that-change-how-you-think" data-view="findings" data-anchor="findings-6-the-reframes-that-change-how-you-think">6 · The reframes that change how you think</a>
+      </div>
+      <a href="#priority" data-view="priority"><span class="wk">§</span> Priority matrix<span class="caret">›</span></a>
+      <div class="sub" data-for="priority">
+        <a class="subitem" href="#priority/priority-critical-must-know" data-view="priority" data-anchor="priority-critical-must-know">Critical must know</a>
+        <a class="subitem" href="#priority/priority-important" data-view="priority" data-anchor="priority-important">Important</a>
+        <a class="subitem" href="#priority/priority-useful" data-view="priority" data-anchor="priority-useful">Useful</a>
+        <a class="subitem" href="#priority/priority-nice-to-know" data-view="priority" data-anchor="priority-nice-to-know">Nice to know</a>
+      </div>
       <a href="#questions" data-view="questions"><span class="wk">§</span> Colleague questions</a>
       <a href="#links" data-view="links"><span class="wk">§</span> Doc links</a>
     </nav>
@@ -226,7 +403,7 @@
           <p class="metric" style="margin-top:6px">All 10 modules written and open to browse · your progress: Module 1 of 10 in progress</p>
         </div>
 
-        <h3>Week status</h3>
+        <h3 id="dashboard-week-status">Week status</h3>
         <table>
           <thead><tr><th>Wk</th><th>Module</th><th>Status</th><th>Quiz</th><th>Challenge</th></tr></thead>
           <tbody>
@@ -243,7 +420,7 @@
           </tbody>
         </table>
 
-        <h3>Confidence by major topic</h3>
+        <h3 id="dashboard-confidence-by-major-topic">Confidence by major topic</h3>
         <p class="metric">🟢 Confident &nbsp; 🟡 Familiar, needs practice &nbsp; 🔴 Need to learn</p>
         <table>
           <thead><tr><th>Topic</th><th>Priority</th><th>Confidence</th></tr></thead>
@@ -281,12 +458,29 @@
         <h2 class="title">Business domain &amp; where VibeIQ sits</h2>
         <p class="lede">The foundation week. Light on mechanics by design — you can't reason about integrations until you understand what the platform is for, whose calendar it runs on, and what problem it solves for whom.</p>
 
+        <nav class="toc">
+          <h4>On this page</h4>
+          <ol>
+            <li><a href="#m1/m1-concept-1-the-domain-seasonal-product-creati" class="subitem" data-view="m1" data-anchor="m1-concept-1-the-domain-seasonal-product-creati">1. The domain: seasonal product creation</a></li>
+            <li><a href="#m1/m1-concept-2-the-problem-vibeiq-exists-to-solve" class="subitem" data-view="m1" data-anchor="m1-concept-2-the-problem-vibeiq-exists-to-solve">2. The problem VibeIQ exists to solve</a></li>
+            <li><a href="#m1/m1-concept-3-where-vibeiq-sits" class="subitem" data-view="m1" data-anchor="m1-concept-3-where-vibeiq-sits">3. Where VibeIQ sits</a></li>
+            <li><a href="#m1/m1-concept-4-who-the-users-are" class="subitem" data-view="m1" data-anchor="m1-concept-4-who-the-users-are">4. Who the users are</a></li>
+            <li><a href="#m1/m1-concept-5-contrail-vs-the-marketing-brand" class="subitem" data-view="m1" data-anchor="m1-concept-5-contrail-vs-the-marketing-brand">5. Contrail vs. the marketing brand</a></li>
+            <li><a href="#m1/m1-recommended-reading" class="subitem" data-view="m1" data-anchor="m1-recommended-reading">Recommended reading</a></li>
+            <li><a href="#m1/m1-practical-exercise" class="subitem" data-view="m1" data-anchor="m1-practical-exercise">Practical exercise</a></li>
+            <li><a href="#m1/m1-realistic-customer-scenario" class="subitem" data-view="m1" data-anchor="m1-realistic-customer-scenario">Realistic customer scenario</a></li>
+            <li><a href="#m1/m1-quiz" class="subitem" data-view="m1" data-anchor="m1-quiz">Quiz</a></li>
+            <li><a href="#m1/m1-hands-on-challenge" class="subitem" data-view="m1" data-anchor="m1-hands-on-challenge">Hands-on challenge</a></li>
+          </ol>
+        </nav>
+
+
         <div class="card keystone">
           <h4>Learning objectives</h4>
           <p style="margin-bottom:0">By the end of this week you can (1) describe the seasonal go-to-market process at the level a merchandiser would recognize, using their vocabulary, (2) explain in one minute what VibeIQ does and why it is <em>not</em> a PLM, (3) draw a customer's system landscape and say which system owns which attribute, and (4) navigate the "Contrail vs. marketing brand" distinction.</p>
         </div>
 
-        <h3>Concept 1 — The domain: seasonal product creation</h3>
+        <h3 id="m1-concept-1-the-domain-seasonal-product-creati">Concept 1 — The domain: seasonal product creation</h3>
         <p>VibeIQ's customers are brands and retailers that create <strong>seasonal, visual, assortment-driven product</strong> — apparel, footwear, accessories, home, hardlines, toys, beauty. The defining trait is not "manufacturing" but <strong>seasonality plus visual merchandising</strong>: a new line, several times a year, decided largely by looking at pictures of products next to each other.</p>
 
         <h4>The seasonal calendar — the spine of everything</h4>
@@ -327,7 +521,7 @@
           <p style="margin-bottom:0">The style → colourway → SKU hierarchy is worth over-learning now. It is the mental model behind VibeIQ's property levels (Week 2), and property levels are the single concept most likely to be at the root of a "the data is wrong" escalation.</p>
         </div>
 
-        <h3>Concept 2 — The problem VibeIQ exists to solve</h3>
+        <h3 id="m1-concept-2-the-problem-vibeiq-exists-to-solve">Concept 2 — The problem VibeIQ exists to solve</h3>
         <p>A consumer brand decides months in advance what products it will make for a season. Deciding <em>which</em> products, in which colors, at which price points, hitting which margin targets, for which regions — that's <strong>line planning</strong>. It happens <em>before</em> the expensive work of development and sourcing.</p>
         <p>The problem: brands run separate systems for design, financial planning, product development, and selling, and many decisions about which products move forward still happen across disconnected documents and workflows. Teams lose the context behind key decisions once products enter development — nobody remembers <em>why</em> a product was chosen, dropped, or modified, and mistakes surface late when they're expensive to fix.</p>
         <p>VibeIQ gives merchandising, design, planning, and product-development teams <strong>one live view of the product line</strong> connecting creative intent with commercial context, so they decide what moves forward before unnecessary cost, complexity, and margin risk build downstream. The claimed payoff: fewer planned SKUs, decisions visible months earlier, and thousands of manual hours eliminated.</p>
@@ -344,7 +538,7 @@
           <p style="margin-bottom:0">The value you protect is <em>earlier, better-informed product decisions with the reasoning preserved</em>. When usage slips, the real questions are: "Are they deciding in VibeIQ, or drifting back to spreadsheets?" and "Is the context surviving the handoff downstream?"</p>
         </div>
 
-        <h3>Concept 3 — Where VibeIQ sits</h3>
+        <h3 id="m1-concept-3-where-vibeiq-sits">Concept 3 — Where VibeIQ sits</h3>
         <div class="card keystone">
           <h4>Keystone</h4>
           <p style="margin-bottom:0">VibeIQ sits <strong>upstream of PLM</strong>, in the creative-to-commercial gap where products are still being <em>decided</em> rather than developed. It sits <strong>alongside</strong> PLM / ERP / PIM / DAM rather than replacing them, and integrates bi-directionally with all of them.</p>
@@ -444,7 +638,7 @@
           <p style="margin-bottom:0">"Alongside" also <em>constrains scope</em>. If a customer asks VibeIQ to do BOM costing rollups or PO management, that's a "wrong system" conversation — not a feature request. Your hardest technical conversations are almost never about VibeIQ alone; they're about the <em>seam</em> between VibeIQ and the PLM/ERP: what data flows across it, which direction, when, and what breaks. That's why Weeks 4 &amp; 5 are the technical heart of the program.</p>
         </div>
 
-        <h3>Concept 4 — Who the users are</h3>
+        <h3 id="m1-concept-4-who-the-users-are">Concept 4 — Who the users are</h3>
         <table>
           <thead><tr><th>Team</th><th>Owns</th><th>Cares about</th></tr></thead>
           <tbody>
@@ -460,7 +654,7 @@
           <p style="margin-bottom:0">"Adoption" is never monolithic. Merchandisers can be all-in while design still works elsewhere — meaning creative context enters VibeIQ late or not at all. That's a real, diagnosable health problem. Know <em>which</em> team is the weak link.</p>
         </div>
 
-        <h3>Concept 5 — Contrail vs. the marketing brand</h3>
+        <h3 id="m1-concept-5-contrail-vs-the-marketing-brand">Concept 5 — Contrail vs. the marketing brand</h3>
         <p>The platform has two voices for the same thing:</p>
         <ul>
           <li><strong>Marketing / product voice</strong> (vibeiq.com): "AI-native product decision platform," role-based AI agents, concept generation, line-plan automation. Reflects a real 2026 repositioning; VibeIQ raised $22.5M (led by Volition Capital, Aug 2026) to push this direction.</li>
@@ -474,7 +668,7 @@
 
         <hr class="divider">
 
-        <h3>Recommended reading</h3>
+        <h3 id="m1-recommended-reading">Recommended reading</h3>
         <p><strong>Primary (official):</strong></p>
         <ul>
           <li><a class="link" href="https://vibeiq.com/platform/" target="_blank" rel="noopener">vibeiq.com/platform</a> — the "products, assortments, assets" core framing and the AI-as-operating-model narrative.</li>
@@ -485,7 +679,7 @@
 
         <hr class="divider">
 
-        <h3>Practical exercise</h3>
+        <h3 id="m1-practical-exercise">Practical exercise</h3>
         <div class="card">
           <p>Write two ~60-second (~130-word) elevator pitches:</p>
           <ol>
@@ -495,14 +689,14 @@
           <p style="margin-bottom:0"><strong>Constraint:</strong> neither may use "PLM" as a synonym for VibeIQ, and each must correctly convey the "upstream, sits alongside" positioning.</p>
         </div>
 
-        <h3>Realistic customer scenario</h3>
+        <h3 id="m1-realistic-customer-scenario">Realistic customer scenario</h3>
         <div class="card">
           <p>You're on an intro call with <strong>"Summit Athletic,"</strong> a mid-size footwear brand. Their VP of Product says:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"We already have Centric PLM and just finished rolling it out. I don't understand why we'd need another product system on top of it. Isn't this overlap?"</p>
           <p style="margin-bottom:0">Sketch your response: the core distinction you'd draw, plus one discovery question to test whether VibeIQ actually fits. Don't write a speech — just the shape of the response and the question.</p>
         </div>
 
-        <h3>Quiz</h3>
+        <h3 id="m1-quiz">Quiz</h3>
         <div class="q">
           <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
@@ -533,7 +727,7 @@
           </ol>
         </div>
 
-        <h3>Hands-on challenge</h3>
+        <h3 id="m1-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
           <p style="margin-bottom:0">Produce a one-page <strong>"customer landscape" discovery template</strong> — 8–12 questions to map where VibeIQ sits in any customer's ecosystem, grouped into: existing systems, data ownership, seasonal cadence, downstream handoff. We'll reuse and sharpen it in Week 10.</p>
         </div>
@@ -563,12 +757,29 @@
         <h2 class="title">Core data model</h2>
         <p class="lede">The keystone module. Almost every escalation you will ever handle resolves to something on this page: <em>which entity</em> is the value on, at <em>which property level</em>, and under <em>which federatedId</em>. Slow down here — Weeks 4, 5 and 9 assume it cold.</p>
 
+        <nav class="toc">
+          <h4>On this page</h4>
+          <ol>
+            <li><a href="#m2/m2-concept-1-the-three-item-layers" class="subitem" data-view="m2" data-anchor="m2-concept-1-the-three-item-layers">1. The three item layers</a></li>
+            <li><a href="#m2/m2-concept-2-property-levels-family-option-all" class="subitem" data-view="m2" data-anchor="m2-concept-2-property-levels-family-option-all">2. Property levels: Family, Option, All, Override</a></li>
+            <li><a href="#m2/m2-concept-3-federatedid-and-the-duplicate-reco" class="subitem" data-view="m2" data-anchor="m2-concept-3-federatedid-and-the-duplicate-reco">3. federatedId, and the duplicate-records bug</a></li>
+            <li><a href="#m2/m2-concept-4-projects-assortments-and-their-own" class="subitem" data-view="m2" data-anchor="m2-concept-4-projects-assortments-and-their-own">4. Projects, Assortments and their owners</a></li>
+            <li><a href="#m2/m2-concept-5-where-this-is-heading-the-publish" class="subitem" data-view="m2" data-anchor="m2-concept-5-where-this-is-heading-the-publish">5. Where this is heading: the publish lifecycle</a></li>
+            <li><a href="#m2/m2-recommended-reading" class="subitem" data-view="m2" data-anchor="m2-recommended-reading">Recommended reading</a></li>
+            <li><a href="#m2/m2-practical-exercise" class="subitem" data-view="m2" data-anchor="m2-practical-exercise">Practical exercise</a></li>
+            <li><a href="#m2/m2-realistic-customer-scenario" class="subitem" data-view="m2" data-anchor="m2-realistic-customer-scenario">Realistic customer scenario</a></li>
+            <li><a href="#m2/m2-quiz" class="subitem" data-view="m2" data-anchor="m2-quiz">Quiz</a></li>
+            <li><a href="#m2/m2-hands-on-challenge" class="subitem" data-view="m2" data-anchor="m2-hands-on-challenge">Hands-on challenge</a></li>
+          </ol>
+        </nav>
+
+
         <div class="card keystone">
           <h4>Learning objectives</h4>
           <p style="margin-bottom:0">By the end of this week you can (1) explain the Item / ProjectItem / AssortmentItem split and say what lives at each level, (2) choose the right property level for a given attribute and predict what happens on the next load, (3) explain what a <code>federatedId</code> is and diagnose the duplicate-records bug it causes, and (4) describe how Projects, Assortments and the Board/Plan/Showcase apps fit together.</p>
         </div>
 
-        <h3>Concept 1 — The three item layers</h3>
+        <h3 id="m2-concept-1-the-three-item-layers">Concept 1 — The three item layers</h3>
         <p>VibeIQ does not store "a product" once. There is one <strong>Item</strong> — and then two <em>relationship</em> entities that attach data to it in a particular context. That distinction is sharper than "three copies," and it is how the docs describe it:</p>
         <ul>
           <li>"A <code>ProjectItem</code> ties an <code>Item</code> to a <code>Project</code>. While <code>Item</code> data is global, <code>ProjectItem</code> data is specific to a project (e.g., a season)."</li>
@@ -643,7 +854,7 @@
           <p style="margin-bottom:0">"The data is wrong in Plan" is nearly always a <em>level</em> question, not a corruption question. Ask: which entity is the user looking at, and which entity did the integration write to? A value written to the Item won't show up where a user expects if the app is displaying an AssortmentItem override — and vice versa. Train yourself to ask "at which level?" before you ask anything else.</p>
         </div>
 
-        <h3>Concept 2 — Property levels: Family, Option, All, Override</h3>
+        <h3 id="m2-concept-2-property-levels-family-option-all">Concept 2 — Property levels: Family, Option, All, Override</h3>
         <p>Property levels apply to entity types with hierarchical structure — <strong>Item</strong> and <strong>ProjectItem</strong>. They control how a value propagates through the Family → Option relationship. And they map straight onto Week 1's vocabulary:</p>
         <div class="card keystone">
           <h4>The bridge from Week 1</h4>
@@ -713,7 +924,7 @@
           <p style="margin-bottom:0">Property level is a <em>configuration decision made early</em> that is expensive to reverse, because changing it rewrites how existing values propagate. When you inherit an account, find out which properties are Family, which are Override, and which are All. That map predicts their future tickets better than any other single thing you could ask for.</p>
         </div>
 
-        <h3>Concept 3 — federatedId, and the duplicate-records bug</h3>
+        <h3 id="m2-concept-3-federatedid-and-the-duplicate-reco">Concept 3 — federatedId, and the duplicate-records bug</h3>
         <div class="card keystone">
           <h4>Definition</h4>
           <p style="margin-bottom:0">A <code>federatedId</code> is "a value you provide which uniquely identifies the entity within an org." It drives <strong>upsert</strong>: "If an entity with that <code>federatedId</code> does not exist in VibeIQ, it will be created. If it does exist, it will be updated."</p>
@@ -729,7 +940,7 @@
           <p style="margin-bottom:0">Ask about federatedId strategy <em>before</em> the first production load. And ask a second question: <strong>what is the federatedId derived from?</strong> If it's a mutable business value — a style number merchants renumber mid-season — the upsert key changes underneath you and you get orphans. Stable meaningless keys beat meaningful ones.</p>
         </div>
 
-        <h3>Concept 4 — Projects, Assortments and their owners</h3>
+        <h3 id="m2-concept-4-projects-assortments-and-their-own">Concept 4 — Projects, Assortments and their owners</h3>
         <p><strong>Project</strong> — the season-scale container. The Project Configurator creates "Projects with nested folders, plans, assortments, showcases, and boards," with assortments possible at both project root and folder level.</p>
         <p><strong>Assortment</strong> — a curated selection of products for a purpose: a channel, region, customer, or store cluster. One line → many assortments, exactly as in Week 1.</p>
         <p>An assortment "can be created on its own or it can have an associated plan, board, or showcase":</p>
@@ -752,7 +963,7 @@
           <p style="margin-bottom:0">Board, Plan and Showcase are each <strong>backed by an assortment</strong>. They are three views onto the same kind of underlying object — which is exactly why a product can travel from mood board to line plan to line review without being re-created. The apps are the surface; the assortment is the substance.</p>
         </div>
 
-        <h3>Concept 5 — Where this is heading: the publish lifecycle</h3>
+        <h3 id="m2-concept-5-where-this-is-heading-the-publish">Concept 5 — Where this is heading: the publish lifecycle</h3>
         <p>A preview of Week 3, included here because it is what the data model is <em>for</em>. When a user publishes a Plan, VibeIQ persists the Plan rows down to the underlying Assortment and creates an <code>AssortmentPublishChange</code> — "a snapshot of those changes" for downstream systems. It carries:</p>
         <ul>
           <li><code>assortmentBaselineDownloadLink</code> — an S3 URL for "the Assortment's complete state at publish time"</li>
@@ -769,7 +980,7 @@
 
         <hr class="divider">
 
-        <h3>Recommended reading</h3>
+        <h3 id="m2-recommended-reading">Recommended reading</h3>
         <ul>
           <li><a class="link" href="https://docs.vibeiq.com/data_loading/getting_started/" target="_blank" rel="noopener">Data Loading — Getting Started</a> — entity types, load type pairing, federatedId. Read properly, not skimmed.</li>
           <li><a class="link" href="https://docs.vibeiq.com/data_loading/property_type_handling/" target="_blank" rel="noopener">Property Type Handling</a> — the four property levels. The most important page in the docs for your role.</li>
@@ -779,20 +990,20 @@
 
         <hr class="divider">
 
-        <h3>Practical exercise</h3>
+        <h3 id="m2-practical-exercise">Practical exercise</h3>
         <div class="card">
           <p>Take a single real-ish product — a hoodie in 4 colourways, 6 sizes, planned for SS26, appearing in both a Wholesale assortment and a DTC assortment at different price points.</p>
           <p style="margin-bottom:0">Write out, as a list: which values live on the <strong>Item</strong>, which on the <strong>ProjectItem</strong>, which on the <strong>AssortmentItem</strong>, and for each Item-level property, which <strong>property level</strong> (Family / Option / All / Override) you would configure it as — and one sentence on why. Ten to fifteen properties is plenty.</p>
         </div>
 
-        <h3>Realistic customer scenario</h3>
+        <h3 id="m2-realistic-customer-scenario">Realistic customer scenario</h3>
         <div class="card">
           <p>Back at <strong>Summit Athletic</strong>, six weeks post go-live. A merchandiser messages you:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"Something's broken. On Monday we set custom retail prices on about 30 individual colourways for the outlet channel. This morning they're all back to the standard style price. Nobody touched them. We're presenting to leadership Thursday."</p>
           <p style="margin-bottom:0">You have their nightly Loader feed, their property configuration, and the publish history available. Give your <strong>first hypothesis</strong>, the <strong>two things you'd check first</strong> to confirm or kill it, and the <strong>configuration change</strong> you'd expect to end up recommending. Then: one sentence on what you'd say to the merchandiser <em>today</em>, before you know the answer.</p>
         </div>
 
-        <h3>Quiz</h3>
+        <h3 id="m2-quiz">Quiz</h3>
         <div class="q">
           <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
@@ -823,7 +1034,7 @@
           </ol>
         </div>
 
-        <h3>Hands-on challenge</h3>
+        <h3 id="m2-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
           <p style="margin-bottom:0">Draft a <strong>"data model health check"</strong> — the 6–8 questions you'd ask on inheriting any existing account, aimed squarely at the failure modes in this module: property-level mapping, federatedId source and stability, UI-created records, assortment structure, and publish consumption. This becomes a real artefact you'll use in your first weeks on the job, and we'll fold it into the Week 10 capstone.</p>
         </div>
@@ -852,12 +1063,29 @@
         <h2 class="title">End-user apps &amp; the publish lifecycle</h2>
         <p class="lede">What your users actually touch, and what happens the moment one of them hits publish. This is the module that connects Week 2's data model to Weeks 4 and 5's integrations — the publish seam is where "it works in VibeIQ but not in PLM" lives.</p>
 
+        <nav class="toc">
+          <h4>On this page</h4>
+          <ol>
+            <li><a href="#m3/m3-concept-1-the-three-apps" class="subitem" data-view="m3" data-anchor="m3-concept-1-the-three-apps">1. The three apps</a></li>
+            <li><a href="#m3/m3-concept-2-the-platform-underneath" class="subitem" data-view="m3" data-anchor="m3-concept-2-the-platform-underneath">2. The platform underneath</a></li>
+            <li><a href="#m3/m3-concept-3-the-publish-lifecycle-end-to-end" class="subitem" data-view="m3" data-anchor="m3-concept-3-the-publish-lifecycle-end-to-end">3. The publish lifecycle, end to end</a></li>
+            <li><a href="#m3/m3-concept-4-anatomy-of-an-assortmentpublishcha" class="subitem" data-view="m3" data-anchor="m3-concept-4-anatomy-of-an-assortmentpublishcha">4. Anatomy of an AssortmentPublishChange</a></li>
+            <li><a href="#m3/m3-concept-5-two-ways-to-consume-it" class="subitem" data-view="m3" data-anchor="m3-concept-5-two-ways-to-consume-it">5. Two ways to consume it</a></li>
+            <li><a href="#m3/m3-recommended-reading" class="subitem" data-view="m3" data-anchor="m3-recommended-reading">Recommended reading</a></li>
+            <li><a href="#m3/m3-practical-exercise" class="subitem" data-view="m3" data-anchor="m3-practical-exercise">Practical exercise</a></li>
+            <li><a href="#m3/m3-realistic-customer-scenario" class="subitem" data-view="m3" data-anchor="m3-realistic-customer-scenario">Realistic customer scenario</a></li>
+            <li><a href="#m3/m3-quiz" class="subitem" data-view="m3" data-anchor="m3-quiz">Quiz</a></li>
+            <li><a href="#m3/m3-hands-on-challenge" class="subitem" data-view="m3" data-anchor="m3-hands-on-challenge">Hands-on challenge</a></li>
+          </ol>
+        </nav>
+
+
         <div class="card keystone">
           <h4>Learning objectives</h4>
           <p style="margin-bottom:0">By the end of this week you can (1) explain what each of Board, Plan and Showcase is for and what it replaced, (2) walk the publish lifecycle end to end and name what happens at each step, (3) describe an <code>AssortmentPublishChange</code> field by field and say what a consumer should do with each, and (4) localise a "published but didn't arrive" failure to one of four checkpoints before theorising about causes.</p>
         </div>
 
-        <h3>Concept 1 — The three apps</h3>
+        <h3 id="m3-concept-1-the-three-apps">Concept 1 — The three apps</h3>
         <p>Each app replaces a specific incumbent tool — this is VibeIQ's own framing, from Week 1 — and, from Week 2, each is <strong>backed by an Assortment</strong>.</p>
         <table>
           <thead><tr><th>App</th><th>VibeIQ's description</th><th>Replaces</th></tr></thead>
@@ -878,7 +1106,7 @@
           <p style="margin-bottom:0">When a customer mentions they "exported to PowerPoint for the line review," treat it as an adoption failure with a technical smell underneath — usually Showcase not being trusted, or the product data being too incomplete to present without cleanup. Chase the cause, not the behaviour. The same logic applies to any export-to-spreadsheet habit that survives go-live.</p>
         </div>
 
-        <h3>Concept 2 — The platform underneath</h3>
+        <h3 id="m3-concept-2-the-platform-underneath">Concept 2 — The platform underneath</h3>
         <ul>
           <li><strong>Product Data Platform</strong> — products, assortments, assets (Week 2's territory).</li>
           <li><strong>Agent layer</strong> — native agents for "assortment comparison, tech pack generation, trend research, carryover analysis," plus custom agents and a prompt-template library.</li>
@@ -889,7 +1117,7 @@
           <p style="margin-bottom:0">The agent layer is described in marketing detail and documented thinly. Named native agents are a public claim, not a verified capability set. Confirm GA vs. beta vs. roadmap internally before you repeat any of it to a customer.</p>
         </div>
 
-        <h3>Concept 3 — The publish lifecycle, end to end</h3>
+        <h3 id="m3-concept-3-the-publish-lifecycle-end-to-end">Concept 3 — The publish lifecycle, end to end</h3>
         <ol class="steps">
           <li>Users modify Items — products, materials — inside a <strong>Plan</strong>.</li>
           <li>Users adopt images, colours and attributes onto those Items.</li>
@@ -963,7 +1191,7 @@
           <p style="margin-bottom:0">Step 4. <strong>Publish is not "send to PLM."</strong> Publish is first an <em>internal</em> commit from the Plan down to the Assortment. The downstream integration is a consumer of the record that commit produces. So a publish can succeed while the downstream sync fails — and those are two different investigations, with different owners.</p>
         </div>
 
-        <h3>Concept 4 — Anatomy of an AssortmentPublishChange</h3>
+        <h3 id="m3-concept-4-anatomy-of-an-assortmentpublishcha">Concept 4 — Anatomy of an AssortmentPublishChange</h3>
         <table>
           <thead><tr><th>Field</th><th>Contents</th><th>What a consumer does with it</th></tr></thead>
           <tbody>
@@ -986,7 +1214,7 @@
           <p style="margin-bottom:0">Non-accumulating deletes make missed publishes <em>silently</em> unrecoverable. Nothing errors; the downstream system simply keeps products the brand has already cut. It surfaces weeks later as "PLM has styles we dropped" — usually in front of someone senior. On any account with a publish integration, ask early: what happens when your consumer is down for a day, and who notices?</p>
         </div>
 
-        <h3>Concept 5 — Two ways to consume it</h3>
+        <h3 id="m3-concept-5-two-ways-to-consume-it">Concept 5 — Two ways to consume it</h3>
         <p>Week 5 goes deep on this; here is the shape, so the lifecycle is complete.</p>
         <table>
           <thead><tr><th>Aspect</th><th>Change History Polling</th><th>Assortment Publish Events</th></tr></thead>
@@ -1002,7 +1230,7 @@
 
         <hr class="divider">
 
-        <h3>Recommended reading</h3>
+        <h3 id="m3-recommended-reading">Recommended reading</h3>
         <ul>
           <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/" target="_blank" rel="noopener">Integration Patterns — overview</a> — the comparison table above, in its original form.</li>
           <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/assortment_publish_integration/" target="_blank" rel="noopener">Assortment Publish Integrations</a> — read this one properly; it is the spine of the module.</li>
@@ -1012,19 +1240,19 @@
 
         <hr class="divider">
 
-        <h3>Practical exercise</h3>
+        <h3 id="m3-practical-exercise">Practical exercise</h3>
         <div class="card">
           <p style="margin-bottom:0">Write the <strong>pseudocode for a well-behaved publish consumer</strong> — twenty lines is plenty. It must: record what it has processed, survive being down for 48 hours, apply deletes correctly, and recover without human help after a missed publish. Then annotate the two lines that would be wrong in a naive implementation, and say what each would cost the customer.</p>
         </div>
 
-        <h3>Realistic customer scenario</h3>
+        <h3 id="m3-realistic-customer-scenario">Realistic customer scenario</h3>
         <div class="card">
           <p><strong>Summit Athletic</strong>, three months in. Their PLM lead emails:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"Centric has 40 styles that merchandising says were cut from the SS27 line weeks ago. They're showing as active and our sourcing team has started costing two of them. Merch swears they dropped them in VibeIQ. Who's wrong?"</p>
           <p style="margin-bottom:0">Give your <strong>four checkpoints in order</strong> and what you'd look for at each. Then: your <strong>leading hypothesis</strong>, the <strong>fix for the immediate problem</strong>, and the <strong>change that stops it recurring</strong>. Note that "who's wrong" is the wrong question — say what you'd reply instead.</p>
         </div>
 
-        <h3>Quiz</h3>
+        <h3 id="m3-quiz">Quiz</h3>
         <div class="q">
           <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
@@ -1055,7 +1283,7 @@
           </ol>
         </div>
 
-        <h3>Hands-on challenge</h3>
+        <h3 id="m3-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
           <p style="margin-bottom:0">Write a one-page <strong>publish integration review checklist</strong> — the things you'd verify on any account running a publish integration, covering: delete handling, missed-publish recovery, link expiry, baseline reconciliation cadence, and who is alerted when the consumer fails. Pair it with the Week 2 data-model health check; together they become your standard account-inheritance kit.</p>
         </div>
@@ -1083,12 +1311,35 @@
         <h2 class="title">Data in: the Loader framework</h2>
         <p class="lede">With Week 5, the technical heart of the program. The Loader is where customer data becomes VibeIQ entities — and where a large share of your escalations will originate. The goal this week is to read a failed load the way an engineer reads a stack trace: know the phase, know the artefact, know the field.</p>
 
+        <nav class="toc">
+          <h4>On this page</h4>
+          <ol>
+            <li><a href="#m4/m4-concept-1-a-load-is-an-entity-not-a-command" class="subitem" data-view="m4" data-anchor="m4-concept-1-a-load-is-an-entity-not-a-command">1. A load is an entity, not a command</a></li>
+            <li><a href="#m4/m4-concept-2-the-five-phases" class="subitem" data-view="m4" data-anchor="m4-concept-2-the-five-phases">2. The five phases</a></li>
+            <li><a href="#m4/m4-concept-3-validation-fail-fast-and-no-partia" class="subitem" data-view="m4" data-anchor="m4-concept-3-validation-fail-fast-and-no-partia">3. Validation: fail-fast, and no partial loads</a></li>
+            <li><a href="#m4/m4-concept-4-the-six-preprocessing-steps" class="subitem" data-view="m4" data-anchor="m4-concept-4-the-six-preprocessing-steps">4. The six preprocessing steps</a></li>
+            <li><a href="#m4/m4-concept-5-the-configuration-for-real" class="subitem" data-view="m4" data-anchor="m4-concept-5-the-configuration-for-real">5. The configuration, for real</a></li>
+            <li><a href="#m4/m4-concept-6-how-family-and-option-are-expresse" class="subitem" data-view="m4" data-anchor="m4-concept-6-how-family-and-option-are-expresse">6. How Family and Option are expressed in a CSV</a></li>
+            <li><a href="#m4/m4-concept-7-the-four-flags-that-change-what-a" class="subitem" data-view="m4" data-anchor="m4-concept-7-the-four-flags-that-change-what-a">7. The four flags that change what a load is</a></li>
+            <li><a href="#m4/m4-concept-8-federatedid-with-the-mechanics" class="subitem" data-view="m4" data-anchor="m4-concept-8-federatedid-with-the-mechanics">8. federatedId, with the mechanics</a></li>
+            <li><a href="#m4/m4-concept-9-transformers-and-images" class="subitem" data-view="m4" data-anchor="m4-concept-9-transformers-and-images">9. Transformers and images</a></li>
+            <li><a href="#m4/m4-concept-10-getting-the-file-in-and-cli-vs-ap" class="subitem" data-view="m4" data-anchor="m4-concept-10-getting-the-file-in-and-cli-vs-ap">10. Getting the file in, and CLI vs. API</a></li>
+            <li><a href="#m4/m4-concept-11-what-a-load-does-to-your-workflow" class="subitem" data-view="m4" data-anchor="m4-concept-11-what-a-load-does-to-your-workflow">11. What a load does to your workflows</a></li>
+            <li><a href="#m4/m4-recommended-reading" class="subitem" data-view="m4" data-anchor="m4-recommended-reading">Recommended reading</a></li>
+            <li><a href="#m4/m4-practical-exercise" class="subitem" data-view="m4" data-anchor="m4-practical-exercise">Practical exercise</a></li>
+            <li><a href="#m4/m4-realistic-customer-scenario" class="subitem" data-view="m4" data-anchor="m4-realistic-customer-scenario">Realistic customer scenario</a></li>
+            <li><a href="#m4/m4-quiz" class="subitem" data-view="m4" data-anchor="m4-quiz">Quiz</a></li>
+            <li><a href="#m4/m4-hands-on-challenge" class="subitem" data-view="m4" data-anchor="m4-hands-on-challenge">Hands-on challenge</a></li>
+          </ol>
+        </nav>
+
+
         <div class="card keystone">
           <h4>Learning objectives</h4>
           <p style="margin-bottom:0">By the end of this week you can (1) name the five phases and six preprocessing steps and say what each produces, (2) <em>read and write</em> a loader configuration and predict its effect on a given CSV, (3) interpret a failed load from <code>failureArea</code>, <code>issueType</code> and the per-step artefacts, (4) explain the four configuration flags that change what a load fundamentally does — including one that silently bypasses the publish lifecycle — and (5) predict which workflows a load will set off, and when it won't.</p>
         </div>
 
-        <h3>Concept 1 — A load is an entity, not a command</h3>
+        <h3 id="m4-concept-1-a-load-is-an-entity-not-a-command">Concept 1 — A load is an entity, not a command</h3>
         <p>A <strong><code>LoaderProcess</code></strong> is an asynchronous entity holding the metadata of an import: execution status, the configuration parameters used, downloadable process logs, and operational metadata. Creating one via API, SDK or CLI <em>enqueues</em> it.</p>
         <p>Two fields make it a diagnostic instrument rather than a receipt:</p>
         <ul>
@@ -1100,7 +1351,7 @@
           <p style="margin-bottom:0">Ask for the process ID the way you would ask for a request ID, then read <code>failureArea</code> before anything else. It localises the failure to one of four segments in a single field — the cheapest diagnostic move available anywhere in the platform. When a customer says a load behaved differently than last week, compare the <code>LoaderProcess</code> records rather than taking anyone's word for it; the configuration used is recorded on each one.</p>
         </div>
 
-        <h3>Concept 2 — The five phases</h3>
+        <h3 id="m4-concept-2-the-five-phases">Concept 2 — The five phases</h3>
         <ol class="steps">
           <li><strong>CSV parsing</strong> — "The CSV file is downloaded and parsed... Column headers from the first row are used as property keys." Failures here set <code>PARSING_CSV</code>.</li>
           <li><strong>Validation</strong> — data checked against entity-type rules, <em>before</em> transformations. Failures set <code>VALIDATING_DATA</code>.</li>
@@ -1150,7 +1401,7 @@
           <figcaption>Where a load can go wrong, and which artefact proves it</figcaption>
         </figure>
 
-        <h3>Concept 3 — Validation: fail-fast, and no partial loads</h3>
+        <h3 id="m4-concept-3-validation-fail-fast-and-no-partia">Concept 3 — Validation: fail-fast, and no partial loads</h3>
         <div class="card keystone">
           <h4>The rule that shapes everything downstream</h4>
           <p style="margin-bottom:0">"If validation produces any errors, the load stops immediately with a <code>VALIDATING_DATA</code> failure area." Errors halt the job; warnings let it continue. <strong>No partial loads occur</strong> — you never get half a file applied. Most people assume the opposite, and the assumption changes how they plan a recovery.</p>
@@ -1193,7 +1444,7 @@
           <p style="margin-bottom:0">Fail-fast is good news you should say out loud. "Nothing was partially applied — the file was rejected as a whole" is reassuring, and it means the fix is fix-and-rerun rather than a reconciliation exercise. The corollary matters too: a load that reports <em>completed</em> genuinely applied everything it accepted, so if data looks wrong afterwards, the problem is in transformation or configuration — not in a half-finished job.</p>
         </div>
 
-        <h3>Concept 4 — The six preprocessing steps</h3>
+        <h3 id="m4-concept-4-the-six-preprocessing-steps">Concept 4 — The six preprocessing steps</h3>
         <table>
           <thead><tr><th>#</th><th>Step</th><th>What it does</th></tr></thead>
           <tbody>
@@ -1214,7 +1465,7 @@
           <p style="margin-bottom:0">Each step produces <strong>rows</strong>, <strong>errors</strong> and <strong>warnings</strong>, saved as <code>loader-process-step-&lt;Step Name&gt;.json</code> and listed in the <code>preprocessingStepResults</code> array on the <code>LoaderProcess</code>. You can see the data after every single step — diff consecutive files and the step that broke a value is unambiguous. Reach them via the Admin Console (attached files on the LoaderProcess), or by iterating <code>preprocessingStepResults</code> from the API or SDK. Most people argue about loads; you can just look.</p>
         </div>
 
-        <h3>Concept 5 — The configuration, for real</h3>
+        <h3 id="m4-concept-5-the-configuration-for-real">Concept 5 — The configuration, for real</h3>
         <p>A load configuration is a JSON object. Here is a complete one that loads items with options into a project and splits them across two assortments — read it before the field table:</p>
         <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;line-height:1.55;margin:14px 0"><code style="background:none;color:inherit;padding:0">{
   "loadType": ["ITEM", "PROJECT_ITEM", "ASSORTMENT"],
@@ -1281,7 +1532,7 @@
           <p style="margin-bottom:0">That last pattern — deriving the family ID by splitting a string — is common and quietly load-bearing. It means the <code>federatedId</code> is <em>computed</em>, so its stability now depends on the format of a source field nobody thinks of as an identifier. If someone changes <code>familyNumber</code> from <code>ABC-123</code> to <code>ABC_123</code>, the upsert key changes for every row. Ask to see the <code>conditionalColumns</code> whenever you ask "what generates this ID?" — the answer is often in there rather than in the source system.</p>
         </div>
 
-        <h3>Concept 6 — How Family and Option are expressed in a CSV</h3>
+        <h3 id="m4-concept-6-how-family-and-option-are-expresse">Concept 6 — How Family and Option are expressed in a CSV</h3>
         <p>Week 2 gave you Family and Option abstractly. Here is the concrete form, and it's simpler than expected: <strong>each row typically represents one option.</strong></p>
         <ul>
           <li>Rows sharing an <code>itemFamilyFederatedId</code> become options of the same family — <strong>the loader creates the parent family automatically if needed</strong>.</li>
@@ -1306,7 +1557,7 @@ family (SH-9902) with one option.       { "default": "item:product:apparel", "to
           <p style="margin-bottom:0">Now Week 2's property levels become concrete. <code>styleName</code> is the same on all three Black/Navy/Gold rows — that is a <strong>Family</strong> property, and reloading it copies down. A colour code differs per row — <strong>Option</strong>. A price that is usually the style's but occasionally differs for one colourway — <strong>Override</strong>. You can read a customer's property-level model straight off their CSV by asking which columns repeat within a family and which vary. That is a five-minute exercise that predicts years of their tickets.</p>
         </div>
 
-        <h3>Concept 7 — The four flags that change what a load <em>is</em></h3>
+        <h3 id="m4-concept-7-the-four-flags-that-change-what-a">Concept 7 — The four flags that change what a load <em>is</em></h3>
         <p>Most configuration fields shape how data is mapped. These four change the nature of the operation, and three of them do damage quietly.</p>
 
         <div class="card warn">
@@ -1343,7 +1594,7 @@ V-Neck Tee,true,false,womens      → added, or updated if already present
           <p style="margin-bottom:0">Two things to know. First, vocabulary: <strong>a "project" in the UI is a <code>workspace</code> with <code>workspaceType: 'PROJECT'</code> in the API</strong> — worth recognising when reading API responses or error messages. Second, the trap: the identifier "is <strong>not editable in the Hub UI</strong>; it must be set via direct <code>PUT</code> request to the workspace entity." So if a project's identifier is wrong or missing, an admin cannot fix it by clicking — someone has to make an API call.</p>
         </div>
 
-        <h3>Concept 8 — federatedId, with the mechanics</h3>
+        <h3 id="m4-concept-8-federatedid-with-the-mechanics">Concept 8 — federatedId, with the mechanics</h3>
         <div class="card warn">
           <h4>There is no "which column is my ID?" setting</h4>
           <p style="margin-bottom:0">"There is no configuration to say 'this column is my Federated ID'." The <em>only</em> exception is <strong>Custom Entity</strong>, and if none is specified there, "the out of the box <code>name</code> property will be used." For everything else the value must arrive under the expected property name — which in practice means <code>federatedMappings</code> or a <code>conditionalColumn</code> puts it there.</p>
@@ -1355,7 +1606,7 @@ V-Neck Tee,true,false,womens      → added, or updated if already present
           <p style="margin-bottom:0">Three facts, one predictable story: the source system renumbers a style, the <code>federatedId</code> changes, the next load creates a second entity, and neither the load nor the app reports anything wrong. Note that validation <em>does</em> catch duplicates <em>within a single file</em> (<code>DUPLICATE_FEDERATED_ID</code>, and "conflicting federated IDs" for families) — but nothing catches a value that differs from last week's file. Your prevention question stays one sentence: <em>"What generates this value, and what could ever cause it to change?"</em> — and now you know to check <code>conditionalColumns</code> for the answer as well as the source system.</p>
         </div>
 
-        <h3>Concept 9 — Transformers and images</h3>
+        <h3 id="m4-concept-9-transformers-and-images">Concept 9 — Transformers and images</h3>
         <p>Beyond preprocessing, transformers do heavier reshaping. The documented set:</p>
         <table>
           <thead><tr><th>Transformer</th><th>For</th></tr></thead>
@@ -1375,7 +1626,7 @@ V-Neck Tee,true,false,womens      → added, or updated if already present
         </div>
         <p><strong>Images</strong> have three documented approaches, worth knowing exist because image loading is where volume and latency problems show up: <em>programmatic loading</em>, <em>federated load from file</em>, and the <em>zip extractor</em>. A customer sending thousands of images per season should not be discovering these options after go-live.</p>
 
-        <h3>Concept 10 — Getting the file in, and CLI vs. API</h3>
+        <h3 id="m4-concept-10-getting-the-file-in-and-cli-vs-ap">Concept 10 — Getting the file in, and CLI vs. API</h3>
         <p>Upload is two calls: create a <code>File</code> entity, which returns an <code>uploadPost</code> containing an S3 URL and form parameters; then POST the binary to that S3 URL. The SDK's <code>createAndUploadFileFromBuffer()</code> wraps both and returns a File entity with an <code>id</code> — which becomes <code>fileLocation</code>.</p>
         <table>
           <thead><tr><th></th><th>CLI</th><th>API / SDK</th></tr></thead>
@@ -1391,7 +1642,7 @@ V-Neck Tee,true,false,womens      → added, or updated if already present
           <p style="margin-bottom:0">Because the CLI cannot use a stored configuration, anyone loading from the CLI passes a <em>local copy</em> that drifts from the stored one. The symptom is common and maddening: "the same file loads differently depending on who runs it." When you hear it, compare the configuration recorded on each <code>LoaderProcess</code> before investigating anything else — and pay particular attention to whether the flags in Concept 7 differ.</p>
         </div>
 
-        <h3>Concept 11 — What a load does to your workflows</h3>
+        <h3 id="m4-concept-11-what-a-load-does-to-your-workflow">Concept 11 — What a load does to your workflows</h3>
         <div class="card keystone">
           <h4>A load is an event storm — usually</h4>
           <p style="margin-bottom:0">Phase 5 upserts entities, so a load <strong>emits ordinary system events</strong>: <code>item|create</code> for new rows, <code>item|update</code> for existing ones, and likewise for <code>project-item</code> and <code>assortment-item</code>. Every event workflow bound to those triggers fires, once per row. A 20,000-row load is 20,000 trigger evaluations.</p>
@@ -1413,7 +1664,7 @@ V-Neck Tee,true,false,womens      → added, or updated if already present
 
         <hr class="divider">
 
-        <h3>Recommended reading</h3>
+        <h3 id="m4-recommended-reading">Recommended reading</h3>
         <ul>
           <li><a class="link" href="https://docs.vibeiq.com/data_loading/getting_started/" target="_blank" rel="noopener">Getting Started</a> — LoaderProcess, upload, CLI vs API.</li>
           <li><a class="link" href="https://docs.vibeiq.com/data_loading/loader_configuration/" target="_blank" rel="noopener">Loader Configuration Reference</a> — every field, with examples. The densest page for this module.</li>
@@ -1425,7 +1676,7 @@ V-Neck Tee,true,false,womens      → added, or updated if already present
 
         <hr class="divider">
 
-        <h3>Practical exercise</h3>
+        <h3 id="m4-practical-exercise">Practical exercise</h3>
         <div class="card">
           <p>You're handed a CSV with headers: <code>style</code>, <code>Style Name</code>, <code>colorName</code>, <code>Active</code> (<code>"true"</code>/<code>"false"</code>), <code>legacy_code</code>, <code>Retail Price</code>, <code>gender</code>.</p>
           <p>Requirements: load items with options into the <code>fall:2025</code> project; drop <code>legacy_code</code>; copy <code>Retail Price</code> to <code>msrp</code>; set <code>typePath</code> to <code>item:product:apparel</code>; derive a <code>region</code> column as <code>"EMEA"</code> when gender is <code>womens</code> and <code>"Global"</code> otherwise; and split rows into a mens and a womens assortment.</p>
@@ -1437,14 +1688,14 @@ V-Neck Tee,true,false,womens      → added, or updated if already present
           </ol>
         </div>
 
-        <h3>Realistic customer scenario</h3>
+        <h3 id="m4-realistic-customer-scenario">Realistic customer scenario</h3>
         <div class="card">
           <p><strong>Summit Athletic</strong>, mid-season. Their integration engineer writes:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"Last night's load reported completed with no errors. But roughly 400 items now have a blank <code>merchCategory</code>, and about 90 look like duplicates of styles that already existed. Our FlexPLM team says they've had nothing from VibeIQ for three days even though we've loaded every night. And our Slack channel got 1,200 'item approved' messages at 2am, which has never happened before. Nothing changed in our export — we send the same file format we've sent for six months."</p>
           <p style="margin-bottom:0">Four symptoms, and they are <strong>not</strong> one root cause. For each: a hypothesis, and the <em>exact</em> artefact, field or record you'd pull to confirm it — name them precisely (<code>failureArea</code>, a step file, a config field, a Process List filter). Then: the <strong>one question</strong> to their engineer that could resolve two symptoms at once; which symptom you'd chase <strong>first</strong> and why; and what you'd say about "nothing changed in our export" being simultaneously true and beside the point.</p>
         </div>
 
-        <h3>Quiz</h3>
+        <h3 id="m4-quiz">Quiz</h3>
         <div class="q">
           <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
@@ -1487,7 +1738,7 @@ V-Neck Tee,true,false,womens      → added, or updated if already present
           </ol>
         </div>
 
-        <h3>Hands-on challenge</h3>
+        <h3 id="m4-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
           <p style="margin-bottom:0">Write a <strong>pre-load checklist</strong> for any customer's first production load or any unusually large one. Cover: <code>federatedId</code> source and stability (including anything computed in <code>conditionalColumns</code>), column-name matching, option-set label alignment, <strong>the four flags in Concept 7 and whether each is still deliberate</strong>, which workflows are bound to the affected entity types and what they do on create, org concurrency headroom, and how you'd verify success afterwards using <code>failureArea</code> and the per-step artefacts rather than trusting a "completed" status. This joins your Week 2 data-model health check, Week 3 publish checklist and Week 6 workflow review.</p>
         </div>
@@ -1517,12 +1768,31 @@ V-Neck Tee,true,false,womens      → added, or updated if already present
         <h2 class="title">Data out: integration patterns</h2>
         <p class="lede">The other half of the technical heart. Week 4 was data arriving; this is data leaving, and it is the seam customers actually break. By the end you should be able to sit in an architecture review, read someone's integration design, and name what will fail in production before it does.</p>
 
+        <nav class="toc">
+          <h4>On this page</h4>
+          <ol>
+            <li><a href="#m5/m5-concept-1-choosing-the-pattern" class="subitem" data-view="m5" data-anchor="m5-concept-1-choosing-the-pattern">1. Choosing the pattern</a></li>
+            <li><a href="#m5/m5-concept-2-authentication-and-the-api-surface" class="subitem" data-view="m5" data-anchor="m5-concept-2-authentication-and-the-api-surface">2. Authentication and the API surface</a></li>
+            <li><a href="#m5/m5-concept-3-the-event-driven-path-end-to-end" class="subitem" data-view="m5" data-anchor="m5-concept-3-the-event-driven-path-end-to-end">3. The event-driven path, end to end</a></li>
+            <li><a href="#m5/m5-concept-4-the-polling-path-and-the-seam" class="subitem" data-view="m5" data-anchor="m5-concept-4-the-polling-path-and-the-seam">4. The polling path, and the seam</a></li>
+            <li><a href="#m5/m5-concept-5-designing-a-consumer-that-survives" class="subitem" data-view="m5" data-anchor="m5-concept-5-designing-a-consumer-that-survives">5. Designing a consumer that survives contact with reality</a></li>
+            <li><a href="#m5/m5-concept-6-webhook-security-in-both-direction" class="subitem" data-view="m5" data-anchor="m5-concept-6-webhook-security-in-both-direction">6. Webhook security, in both directions</a></li>
+            <li><a href="#m5/m5-concept-7-attribute-ownership-the-artefact-t" class="subitem" data-view="m5" data-anchor="m5-concept-7-attribute-ownership-the-artefact-t">7. Attribute ownership, the artefact that prevents the arguments</a></li>
+            <li><a href="#m5/m5-recommended-reading" class="subitem" data-view="m5" data-anchor="m5-recommended-reading">Recommended reading</a></li>
+            <li><a href="#m5/m5-practical-exercise" class="subitem" data-view="m5" data-anchor="m5-practical-exercise">Practical exercise</a></li>
+            <li><a href="#m5/m5-realistic-customer-scenario-an-architecture" class="subitem" data-view="m5" data-anchor="m5-realistic-customer-scenario-an-architecture">Realistic customer scenario — an architecture review</a></li>
+            <li><a href="#m5/m5-quiz" class="subitem" data-view="m5" data-anchor="m5-quiz">Quiz</a></li>
+            <li><a href="#m5/m5-hands-on-challenge" class="subitem" data-view="m5" data-anchor="m5-hands-on-challenge">Hands-on challenge</a></li>
+          </ol>
+        </nav>
+
+
         <div class="card keystone">
           <h4>Learning objectives</h4>
           <p style="margin-bottom:0">By the end of this week you can (1) choose between event-driven and polling for a stated requirement and defend it, (2) trace the full event-driven path from <code>assortment|publish</code> to rows in the customer's system, naming every call, (3) explain why temporal polling drops or duplicates records at the seam and how to guard it, (4) review a consumer design and find the failure modes, and (5) hold a credible security conversation about API keys and webhooks in both directions.</p>
         </div>
 
-        <h3>Concept 1 — Choosing the pattern</h3>
+        <h3 id="m5-concept-1-choosing-the-pattern">Concept 1 — Choosing the pattern</h3>
         <table>
           <thead><tr><th>Aspect</th><th>Change History Polling</th><th>Assortment Publish Events</th></tr></thead>
           <tbody>
@@ -1539,7 +1809,7 @@ V-Neck Tee,true,false,womens      → added, or updated if already present
           <p style="margin-bottom:0">The scope row is the one that decides most real architectures, and it is easy to miss. Publish events cover <em>assortment publishes</em>. If the customer also needs item-level changes that never go through a publish — a colour corrected, a description fixed — events alone will not carry them. Many customers end up running <strong>both</strong>: events for publish latency, polling as the safety net and for everything else. When someone insists on one mechanism only, ask what happens to changes that never publish.</p>
         </div>
 
-        <h3>Concept 2 — Authentication and the API surface</h3>
+        <h3 id="m5-concept-2-authentication-and-the-api-surface">Concept 2 — Authentication and the API surface</h3>
         <p>Base URL: <code>https://api.vibeiq.com/prod/api</code>. Every REST request carries two headers:</p>
         <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">curl --location 'https://api.vibeiq.com/prod/api/items/item-id-123' \
   --header 'X-Api-Key: app:uEL7GCBZ7Xhd4w2z' \
@@ -1563,7 +1833,7 @@ V-Neck Tee,true,false,womens      → added, or updated if already present
           <p style="margin-bottom:0">Separate keys per environment is worth pushing hard on, because it composes with a Week 6 hazard: a workflow action's <code>config</code> can point at any endpoint. One shared key across environments plus a promoted workflow config is how staging writes to production. Two controls, one failure — and the customer will experience it as data corruption, not as a credentials problem.</p>
         </div>
 
-        <h3>Concept 3 — The event-driven path, end to end</h3>
+        <h3 id="m5-concept-3-the-event-driven-path-end-to-end">Concept 3 — The event-driven path, end to end</h3>
         <p>Publishing emits an <code>assortment|publish</code> event whose payload is deliberately thin:</p>
         <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">{
   "assortmentId": "25uDvGNpYhZHw2nt",
@@ -1603,7 +1873,7 @@ for (const assortmentItem of baselineData.assortmentItems) {
         </div>
         <p>The documented consumer sequence: receive the webhook → fetch the change object → download and parse the baseline → extract <code>assortmentItems</code> → transform to your schema → persist → <strong>store the <code>createdOn</code> timestamp for future change tracking</strong>.</p>
 
-        <h3>Concept 4 — The polling path, and the seam</h3>
+        <h3 id="m5-concept-4-the-polling-path-and-the-seam">Concept 4 — The polling path, and the seam</h3>
         <p>Polling hits <code>/api/change-history</code> "for changes to entities within a specified time range." The consumer stores a last-sync timestamp, builds a date-range criterion from it, polls, processes, and stores the new timestamp. Filtering is temporal — <code>createdOn</code> accepts a <code>BETWEEN 2024-01-01 and 2024-12-31</code> form — and "this approach gives you full control over when and how frequently you retrieve changes."</p>
         <div class="card warn">
           <h4>Temporal filtering is not a cursor, and the difference is the bug</h4>
@@ -1626,7 +1896,7 @@ for (const assortmentItem of baselineData.assortmentItems) {
           <p style="margin-bottom:0">The symptom this produces is the most frustrating you will meet: <em>occasional</em> missing records, no errors anywhere, and no reproducibility. Both systems look healthy. When a customer reports "we're missing maybe one in a few hundred, we can't work out which," stop looking at the data and go read how their polling window is computed. Almost every time, it is exclusive boundaries or a locally-computed <code>now</code>.</p>
         </div>
 
-        <h3>Concept 5 — Designing a consumer that survives contact with reality</h3>
+        <h3 id="m5-concept-5-designing-a-consumer-that-survives">Concept 5 — Designing a consumer that survives contact with reality</h3>
         <p>Pulling Weeks 3–5 together. A production consumer must handle all six of these:</p>
         <table>
           <thead><tr><th>Hazard</th><th>Why it bites</th><th>The design answer</th></tr></thead>
@@ -1645,7 +1915,7 @@ for (const assortmentItem of baselineData.assortmentItems) {
           <p style="margin-bottom:0">Every incremental integration drifts eventually — a missed event, a partial apply, a bug shipped on a Friday. The healthy pattern is a <strong>periodic baseline reconciliation</strong>: on a schedule, pull the latest baseline and compare it against downstream state, reporting differences rather than silently correcting them. Customers who do this find problems in days; customers who don't find them in line reviews. Recommending it is cheap advice that makes you look prescient about a year later.</p>
         </div>
 
-        <h3>Concept 6 — Webhook security, in both directions</h3>
+        <h3 id="m5-concept-6-webhook-security-in-both-direction">Concept 6 — Webhook security, in both directions</h3>
         <p>The two directions have genuinely different postures, and conflating them is how you give a security team a wrong answer.</p>
         <table>
           <thead><tr><th></th><th>Inbound: external → VibeIQ</th><th>Outbound: VibeIQ → external</th></tr></thead>
@@ -1661,7 +1931,7 @@ for (const assortmentItem of baselineData.assortmentItems) {
           <p style="margin-bottom:0">Outbound is defensible: HMAC signing is available, and you should recommend it over header keys or IP allowlists. Inbound is weaker — the trigger URL contains the webhook ID and functions as a bearer credential, and the documented verification is an optional shared-secret header rather than a signature over the request body. Treat trigger URLs as secrets, don't put them anywhere loggable, and confirm internally what is actually enforced server-side before you make a claim. Note also that outbound configuration goes through VibeIQ support — so it is a lead-time item in any implementation plan, not a self-serve toggle.</p>
         </div>
 
-        <h3>Concept 7 — Attribute ownership, the artefact that prevents the arguments</h3>
+        <h3 id="m5-concept-7-attribute-ownership-the-artefact-t">Concept 7 — Attribute ownership, the artefact that prevents the arguments</h3>
         <p>Two-way integration means every attribute needs an owner. Without an explicit map, both systems write the same field and the last writer wins — intermittently, and differently each time.</p>
         <p>The map you should insist exists, per attribute: <strong>which system is authoritative · which direction it flows · at which entity layer it lives (Item / ProjectItem / AssortmentItem) · at which property level (Family / Option / All / Override) · what happens on conflict.</strong></p>
         <div class="card tam">
@@ -1671,7 +1941,7 @@ for (const assortmentItem of baselineData.assortmentItems) {
 
         <hr class="divider">
 
-        <h3>Recommended reading</h3>
+        <h3 id="m5-recommended-reading">Recommended reading</h3>
         <ul>
           <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/" target="_blank" rel="noopener">Integration Patterns — overview</a></li>
           <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/authentication/" target="_blank" rel="noopener">Authentication &amp; API Access</a> — keys, headers, error codes, key hygiene.</li>
@@ -1681,19 +1951,19 @@ for (const assortmentItem of baselineData.assortmentItems) {
 
         <hr class="divider">
 
-        <h3>Practical exercise</h3>
+        <h3 id="m5-practical-exercise">Practical exercise</h3>
         <div class="card">
           <p style="margin-bottom:0">Write the <strong>attribute ownership map</strong> for a mid-size brand running VibeIQ, Centric PLM and SAP. Fifteen attributes is enough — include at least: style name, category, colourway, target retail price, actual landed cost, margin target, size range, lifecycle status, image, inventory position, supplier. For each: authoritative system, direction, VibeIQ entity layer, property level, and conflict rule. Then mark the <strong>three rows you'd expect to be argued about</strong> and say why.</p>
         </div>
 
-        <h3>Realistic customer scenario — an architecture review</h3>
+        <h3 id="m5-realistic-customer-scenario-an-architecture">Realistic customer scenario — an architecture review</h3>
         <div class="card">
           <p><strong>Summit Athletic's</strong> integration engineer sends you their design before build. This is the review you'll be doing for real:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"Nightly job at 02:00. We call <code>/api/change-history</code> with <code>createdOn BETWEEN &lt;last_run_time&gt; AND &lt;now&gt;</code>, where <code>last_run_time</code> is what our server recorded when the previous run started. We process each change and update Centric. We store the <code>assortmentBaselineDownloadLink</code> against each assortment so we can re-read it if someone asks questions later. One API key in our config file, same one for dev and prod so testing is realistic. If a call fails we log it and the next night's run picks things up. We're skipping the delete file for now since merch says they rarely drop styles mid-season."</p>
           <p style="margin-bottom:0">Find <strong>at least six distinct problems</strong>. For each: the failure it causes, the <em>symptom the customer would actually report</em>, and the fix. Then rank them — which one do you insist is fixed before go-live, and which would you accept as a follow-up? Finally, write the two-sentence opening of your reply, given this person is proud of the design and you need them to stay collaborative.</p>
         </div>
 
-        <h3>Quiz</h3>
+        <h3 id="m5-quiz">Quiz</h3>
         <div class="q">
           <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
@@ -1730,7 +2000,7 @@ for (const assortmentItem of baselineData.assortmentItems) {
           </ol>
         </div>
 
-        <h3>Hands-on challenge</h3>
+        <h3 id="m5-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
           <p style="margin-bottom:0">Write your <strong>integration design review template</strong> — the standard questions you'd put to any customer before they build against VibeIQ. Cover: pattern choice and what it misses, polling window construction, idempotency, change-ID vs. URL persistence, delete handling, downtime recovery and reconciliation cadence, key scoping per environment, backoff, webhook verification in both directions, and the attribute ownership map. This is the last piece of your account-inheritance kit — alongside the Week 2 data-model health check, Week 3 publish checklist, Week 4 pre-load checklist and Week 6 workflow review.</p>
         </div>
@@ -1759,12 +2029,33 @@ for (const assortmentItem of baselineData.assortmentItems) {
         <h2 class="title">Event Workflows</h2>
         <p class="lede">The deepest technical module in the program, and the one closest to your day job. Workflows are "the main engine for reacting to system events and running apps across the VibeIQ infrastructure" — when a customer says "the automation didn't run," this is the entire surface you have to reason about.</p>
 
+        <nav class="toc">
+          <h4>On this page</h4>
+          <ol>
+            <li><a href="#m6/m6-concept-1-anatomy" class="subitem" data-view="m6" data-anchor="m6-concept-1-anatomy">1. Anatomy</a></li>
+            <li><a href="#m6/m6-concept-2-the-six-trigger-categories" class="subitem" data-view="m6" data-anchor="m6-concept-2-the-six-trigger-categories">2. The six trigger categories</a></li>
+            <li><a href="#m6/m6-concept-3-paths-and-the-rule-that-bites" class="subitem" data-view="m6" data-anchor="m6-concept-3-paths-and-the-rule-that-bites">3. Paths, and the rule that bites</a></li>
+            <li><a href="#m6/m6-concept-4-conditional-expressions" class="subitem" data-view="m6" data-anchor="m6-concept-4-conditional-expressions">4. Conditional expressions</a></li>
+            <li><a href="#m6/m6-concept-5-actions-and-per-workflow-config" class="subitem" data-view="m6" data-anchor="m6-concept-5-actions-and-per-workflow-config">5. Actions and per-workflow config</a></li>
+            <li><a href="#m6/m6-concept-6-concurrency-and-message-grouping" class="subitem" data-view="m6" data-anchor="m6-concept-6-concurrency-and-message-grouping">6. Concurrency and message grouping</a></li>
+            <li><a href="#m6/m6-concept-7-webhooks" class="subitem" data-view="m6" data-anchor="m6-concept-7-webhooks">7. Webhooks</a></li>
+            <li><a href="#m6/m6-concept-8-from-app-to-running-workflow" class="subitem" data-view="m6" data-anchor="m6-concept-8-from-app-to-running-workflow">8. From app to running workflow</a></li>
+            <li><a href="#m6/m6-concept-9-observability-and-the-why-didn-t-i" class="subitem" data-view="m6" data-anchor="m6-concept-9-observability-and-the-why-didn-t-i">9. Observability, and the "why didn't it fire?" ladder</a></li>
+            <li><a href="#m6/m6-recommended-reading" class="subitem" data-view="m6" data-anchor="m6-recommended-reading">Recommended reading</a></li>
+            <li><a href="#m6/m6-practical-exercise" class="subitem" data-view="m6" data-anchor="m6-practical-exercise">Practical exercise</a></li>
+            <li><a href="#m6/m6-realistic-customer-scenario" class="subitem" data-view="m6" data-anchor="m6-realistic-customer-scenario">Realistic customer scenario</a></li>
+            <li><a href="#m6/m6-quiz" class="subitem" data-view="m6" data-anchor="m6-quiz">Quiz</a></li>
+            <li><a href="#m6/m6-hands-on-challenge" class="subitem" data-view="m6" data-anchor="m6-hands-on-challenge">Hands-on challenge</a></li>
+          </ol>
+        </nav>
+
+
         <div class="card keystone">
           <h4>Learning objectives</h4>
           <p style="margin-bottom:0">By the end of this week you can (1) read a workflow definition in <code>app.yml</code> and predict exactly what it will do, (2) name all six trigger categories and pick the right one for a requirement, (3) explain path evaluation and the first-match-wins rule that causes silent misbehaviour, (4) diagnose a concurrency race and prescribe the right message-grouping fix, and (5) work the "why didn't it fire?" ladder from the Admin Console down to <code>taskOutputs</code>.</p>
         </div>
 
-        <h3>Concept 1 — Anatomy</h3>
+        <h3 id="m6-concept-1-anatomy">Concept 1 — Anatomy</h3>
         <p>"Workflows are composed of <strong>triggers, conditionals, and actions</strong>." A trigger says <em>when</em>, conditionals say <em>which branch</em>, actions say <em>what happens</em>. Workflows are declared in an app's <code>app.yml</code> under a top-level <code>workflows:</code> key.</p>
 
         <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:16px 18px;overflow-x:auto;font-size:13px;line-height:1.55;margin:16px 0"><code style="background:none;color:inherit;padding:0">workflows:
@@ -1798,7 +2089,7 @@ for (const assortmentItem of baselineData.assortmentItems) {
           </tbody>
         </table>
 
-        <h3>Concept 2 — The six trigger categories</h3>
+        <h3 id="m6-concept-2-the-six-trigger-categories">Concept 2 — The six trigger categories</h3>
         <p><strong>1. System events</strong> — entity CRUD broadcast when data changes, in the form <code>{entityType}|{action}</code>:</p>
         <table>
           <thead><tr><th>Entity type</th><th>Trigger keys</th></tr></thead>
@@ -1844,7 +2135,7 @@ for (const assortmentItem of baselineData.assortmentItems) {
         <p><strong>5. Scheduled</strong> — <code>crons</code> declarations using standard CRON syntax.</p>
         <p><strong>6. Webhook</strong> — external HTTP callbacks, covered in Concept 7.</p>
 
-        <h3>Concept 3 — Paths, and the rule that bites</h3>
+        <h3 id="m6-concept-3-paths-and-the-rule-that-bites">Concept 3 — Paths, and the rule that bites</h3>
         <p><code>workflowDefinition.paths</code> is an ordered array. Each path pairs a <code>conditional</code> with a list of <code>actionDefinitionConfigs</code>.</p>
         <div class="card keystone">
           <h4>First match wins</h4>
@@ -1866,7 +2157,7 @@ for (const assortmentItem of baselineData.assortmentItems) {
           <p style="margin-bottom:0">Someone writes several paths intending "run all that apply," and puts a broad or <code>true</code> conditional near the top. Everything below it becomes dead code. Nothing errors, the process completes successfully, and the customer reports "only some of the automation runs." Whenever you review a workflow, <strong>read the paths top-down and find the first one that can always be true</strong> — everything after it is unreachable.</p>
         </div>
 
-        <h3>Concept 4 — Conditional expressions</h3>
+        <h3 id="m6-concept-4-conditional-expressions">Concept 4 — Conditional expressions</h3>
         <p>Conditionals are JavaScript expressions evaluated against the event payload, with interpolations wrapped in <code>{ ... }</code>. Available inputs:</p>
         <table>
           <thead><tr><th>Input</th><th>What it holds</th></tr></thead>
@@ -1892,7 +2183,7 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
           <p style="margin-bottom:0"><code>{oldData}</code> being absent on creates is a genuine trap. A conditional like <code>{newData.status} !== {oldData.status}</code> behaves differently on a create than an update — and a bulk load creates thousands of entities at once. "The workflow fired on every row of the initial load and spammed everyone" is a real incident, and this is usually why. When reviewing, always ask what the conditional does on a <em>create</em>.</p>
         </div>
 
-        <h3>Concept 5 — Actions and per-workflow config</h3>
+        <h3 id="m6-concept-5-actions-and-per-workflow-config">Concept 5 — Actions and per-workflow config</h3>
         <div class="card keystone">
           <h4>Task execution is strictly serial, and fails closed</h4>
           <p style="margin-bottom:0">"For each time a workflow is triggered, a process is created. Each process contains one or more tasks." And crucially: <strong>"Only one task runs at a time in a process, and tasks always run in order. If one task fails, none of the subsequent tasks are run."</strong> So a three-action path that fails on action one leaves actions two and three <em>unexecuted</em> — not failed, not retried, simply never run. Order your actions so the riskiest one is last, and never assume a later action ran because the process exists.</p>
@@ -1923,7 +2214,7 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
     accessLevel: read         # get, query</code></pre>
         <p>A workflow that fires, runs, and "does nothing" is often a missing or read-only access grant.</p>
 
-        <h3>Concept 6 — Concurrency and message grouping</h3>
+        <h3 id="m6-concept-6-concurrency-and-message-grouping">Concept 6 — Concurrency and message grouping</h3>
         <p>This is the part that produces the hardest bugs you will see, because they are <em>intermittent</em> and load-dependent.</p>
         <p>Two serialization strategies:</p>
         <p><strong>Static serialization</strong> — every event for this workflow runs strictly one at a time:</p>
@@ -1960,7 +2251,7 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
           <p style="margin-bottom:0">Two things to carry into customer conversations. First, the <strong>per-org ceiling of 60 is shared</strong> — one chatty workflow during a bulk load can starve every other workflow in the org, and the symptom is "unrelated automation got slow today." Second, raising <code>parallelWorkerCount</code> to fix slowness <em>without</em> a message group is how you convert a performance complaint into a data-corruption incident. Throughput and correctness are the same dial here; never turn it without asking what collides.</p>
         </div>
 
-        <h3>Concept 7 — Webhooks</h3>
+        <h3 id="m6-concept-7-webhooks">Concept 7 — Webhooks</h3>
         <p>Create one via CLI (<code>contrail webhooks create -j</code>) or by POSTing to <code>https://api.vibeiq.com/prod/api/webhooks</code>. The response carries an <code>id</code> you need later. Authentication uses two headers:</p>
         <ul>
           <li><code>X-Api-Key</code> — your API key</li>
@@ -1981,7 +2272,7 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
           <p style="margin-bottom:0">This is the <strong>inbound</strong> direction (external system → VibeIQ), and its posture is the weaker of the two. <code>X-Verify-Signature</code> is documented as <em>optional</em> and, in the example, is a shared secret compared as a header value — not an HMAC over the request body — while a webhook ID in a URL is effectively a bearer credential. The <em>outbound</em> direction (VibeIQ → the customer's endpoint, covered in Week 5) does support HMAC signing. Keep the two apart when a security team asks, treat trigger URLs as secrets, and confirm internally what inbound verification is actually enforced.</p>
         </div>
 
-        <h3>Concept 8 — From app to running workflow</h3>
+        <h3 id="m6-concept-8-from-app-to-running-workflow">Concept 8 — From app to running workflow</h3>
         <ol class="steps">
           <li>Workflows are declared in <code>app.yml</code>.</li>
           <li><code>contrail app publish</code> turns them into <strong>Workflow Template Definitions</strong> attached to that app version.</li>
@@ -1992,7 +2283,7 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
           <p style="margin-bottom:0">Workflows are <em>versioned artefacts of an app</em>, not settings someone edits in a console. So "can you just tweak that automation?" is a release question: change the app, publish a version, install it. That distinction is the config-vs-customization boundary (Week 7) showing up in practice, and it sets a customer's expectations about turnaround.</p>
         </div>
 
-        <h3>Concept 9 — Observability, and the "why didn't it fire?" ladder</h3>
+        <h3 id="m6-concept-9-observability-and-the-why-didn-t-i">Concept 9 — Observability, and the "why didn't it fire?" ladder</h3>
         <p>The Admin Console shows a <strong>Process List</strong> of "recently executed processes" in "reverse chronological order, with the most recent process at the top." Each process contains tasks, and "every task within a process has an <code>Output</code>. The <code>Output</code> is the result of the task."</p>
         <table>
           <thead><tr><th>UI status</th><th>API status</th></tr></thead>
@@ -2025,7 +2316,7 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
 
         <hr class="divider">
 
-        <h3>Recommended reading</h3>
+        <h3 id="m6-recommended-reading">Recommended reading</h3>
         <ul>
           <li><a class="link" href="https://docs.vibeiq.com/workflows/" target="_blank" rel="noopener">Workflows — introduction</a></li>
           <li><a class="link" href="https://docs.vibeiq.com/workflows/002_creating_workflows/" target="_blank" rel="noopener">Creating Workflows</a> — the densest page in the docs. Read it twice; most of this module comes from it.</li>
@@ -2035,14 +2326,14 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
 
         <hr class="divider">
 
-        <h3>Practical exercise</h3>
+        <h3 id="m6-practical-exercise">Practical exercise</h3>
         <div class="card">
           <p>Write the <code>app.yml</code> workflow block for this requirement, in full:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2)">"When a family-level item's <code>status</code> changes to <code>approved</code>, push it to the PLM endpoint and post to Slack. If a family-level item changes in any other way, just log it. Ignore option-level items entirely. Don't let two events for the same item family process at the same time, but keep throughput up across different families."</p>
           <p style="margin-bottom:0">Then answer three questions about your own definition: what does it do on a <strong>create</strong>? What happens if the paths are reordered? And what breaks if you drop <code>dynamicMessageGroupId</code> but keep <code>parallelWorkerCount: 30</code>?</p>
         </div>
 
-        <h3>Realistic customer scenario</h3>
+        <h3 id="m6-realistic-customer-scenario">Realistic customer scenario</h3>
         <div class="card">
           <p><strong>Summit Athletic.</strong> They have a workflow that copies approved family-level attributes down to linked item copies across regional projects. It has run fine for four months. Last Tuesday they ran a bulk update of 3,000 items ahead of a line review. A merchandiser reports:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"About 60 styles have the wrong regional pricing — it looks like values from a different style. And some are just missing. It was fine on Monday. We re-ran the update this morning and a different set of styles broke."</p>
@@ -2050,7 +2341,7 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
           <p style="margin-bottom:0">Give: your <strong>hypothesis</strong> and why the "different set broke on re-run" detail is the strongest clue; the <strong>two fields you'd check first</strong> in the Process List and what you'd expect to see; the <strong>fix</strong>, written as the actual YAML change; and the <strong>second-order risk</strong> your fix introduces at the org level. Then one sentence to the merchandiser today.</p>
         </div>
 
-        <h3>Quiz</h3>
+        <h3 id="m6-quiz">Quiz</h3>
         <div class="q">
           <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
@@ -2087,7 +2378,7 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
           </ol>
         </div>
 
-        <h3>Hands-on challenge</h3>
+        <h3 id="m6-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
           <p style="margin-bottom:0">Build your <strong>workflow review checklist</strong> — the things you'd inspect before signing off any customer workflow going to production. Cover at minimum: unreachable paths, create-vs-update behaviour, access grants, <code>config</code> values pointing at the right environment, message grouping vs. what can collide, org-level concurrency budget, and who is alerted on <code>FAILED</code>. This joins the Week 2 data-model health check and the Week 3 publish checklist to complete your account-inheritance kit.</p>
         </div>
@@ -2116,12 +2407,32 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
         <h2 class="title">Apps, Extensions &amp; the config/customization boundary</h2>
         <p class="lede">How far you can go without code, where the line actually is, and what crossing it costs in money, time and people. This is the judgement call you'll be asked to make on nearly every account — usually phrased as "can the platform just do X?"</p>
 
+        <nav class="toc">
+          <h4>On this page</h4>
+          <ol>
+            <li><a href="#m7/m7-concept-1-the-spectrum" class="subitem" data-view="m7" data-anchor="m7-concept-1-the-spectrum">1. The spectrum</a></li>
+            <li><a href="#m7/m7-concept-2-formulas" class="subitem" data-view="m7" data-anchor="m7-concept-2-formulas">2. Formulas</a></li>
+            <li><a href="#m7/m7-concept-3-rule-sets" class="subitem" data-view="m7" data-anchor="m7-concept-3-rule-sets">3. Rule Sets</a></li>
+            <li><a href="#m7/m7-concept-4-the-rest-of-the-configuration-laye" class="subitem" data-view="m7" data-anchor="m7-concept-4-the-rest-of-the-configuration-laye">4. The rest of the configuration layer</a></li>
+            <li><a href="#m7/m7-concept-5-configuration-copy-and-how-environ" class="subitem" data-view="m7" data-anchor="m7-concept-5-configuration-copy-and-how-environ">5. Configuration Copy, and how environments actually work</a></li>
+            <li><a href="#m7/m7-concept-6-apps-identity-ownership-versions" class="subitem" data-view="m7" data-anchor="m7-concept-6-apps-identity-ownership-versions">6. Apps: identity, ownership, versions</a></li>
+            <li><a href="#m7/m7-concept-7-extensions" class="subitem" data-view="m7" data-anchor="m7-concept-7-extensions">7. Extensions</a></li>
+            <li><a href="#m7/m7-concept-8-holding-the-line" class="subitem" data-view="m7" data-anchor="m7-concept-8-holding-the-line">8. Holding the line</a></li>
+            <li><a href="#m7/m7-recommended-reading" class="subitem" data-view="m7" data-anchor="m7-recommended-reading">Recommended reading</a></li>
+            <li><a href="#m7/m7-practical-exercise" class="subitem" data-view="m7" data-anchor="m7-practical-exercise">Practical exercise</a></li>
+            <li><a href="#m7/m7-realistic-customer-scenario" class="subitem" data-view="m7" data-anchor="m7-realistic-customer-scenario">Realistic customer scenario</a></li>
+            <li><a href="#m7/m7-quiz" class="subitem" data-view="m7" data-anchor="m7-quiz">Quiz</a></li>
+            <li><a href="#m7/m7-hands-on-challenge" class="subitem" data-view="m7" data-anchor="m7-hands-on-challenge">Hands-on challenge</a></li>
+          </ol>
+        </nav>
+
+
         <div class="card keystone">
           <h4>Learning objectives</h4>
           <p style="margin-bottom:0">By the end of this week you can (1) place any customer request on the configuration→customization spectrum and justify it, (2) write and debug formulas and rule sets, including their silent failure modes, (3) explain how configuration moves between orgs and what that means for environment strategy, (4) describe app identity, ownership and versioning — and the decisions at app creation that can never be undone, and (5) say what an extension is, what it costs to run, and when it's the wrong answer.</p>
         </div>
 
-        <h3>Concept 1 — The spectrum</h3>
+        <h3 id="m7-concept-1-the-spectrum">Concept 1 — The spectrum</h3>
         <p>"Configuration vs. customization" is a false binary. It's a ladder, and each rung costs more to build, more to change, and involves more people.</p>
 
         <figure>
@@ -2172,7 +2483,7 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
           <p style="margin-bottom:0">Your default question for any "can it do X?" is <em>"what is the lowest rung that solves this?"</em> Customers and implementation partners both drift upward — engineers reach for code because code is what they do. Every rung you avoid climbing is change latency the customer keeps and support surface you don't inherit. Equally, forcing a Level 1 answer onto a Level 2 problem produces a fragile pile of formulas nobody can maintain. The skill is naming the right rung, not the lowest one.</p>
         </div>
 
-        <h3>Concept 2 — Formulas</h3>
+        <h3 id="m7-concept-2-formulas">Concept 2 — Formulas</h3>
         <p>Formulas assign property values programmatically from entity state. Inputs vary by entity type:</p>
         <table>
           <thead><tr><th>Entity</th><th>Available inputs</th></tr></thead>
@@ -2203,7 +2514,7 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
           </ol>
         </div>
 
-        <h3>Concept 3 — Rule Sets</h3>
+        <h3 id="m7-concept-3-rule-sets">Concept 3 — Rule Sets</h3>
         <p>Rule Sets "control whether a property is <strong>editable</strong>, <strong>required</strong>, what <strong>option values</strong> are allowed in a dropdown, and what <strong>min/max range</strong> is permitted on a number — based on the current state of the entity."</p>
         <p>A rule set is JSON with a <code>name</code> (used by CLI and Configuration Copy), an <code>identifier</code> (immutable, unique per org), and a <code>ruleSet</code> array of conditional blocks. Each block has <code>criteria</code> (when it applies) and <code>rules</code> (what it constrains). A rule targets a property by <code>slug</code> and can set:</p>
         <table>
@@ -2231,7 +2542,7 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
           <p style="margin-bottom:0">The docs state rule sets "evaluate client-side, affecting editor experience for all users." That strongly implies the Loader and the API are not bound by them — a load can write a value a rule set forbids in the UI. Treat this as the working assumption, because the alternative (assuming enforcement) is the dangerous error, and it matches the pattern where "the UI wouldn't let us do that, so how is this value here?" turns out to be an integration write. <strong>Confirm the exact enforcement boundary internally before you assert it to a customer</strong> — it belongs on your colleague-questions list, and it changes how you design validation for any integrated field.</p>
         </div>
 
-        <h3>Concept 4 — The rest of the configuration layer</h3>
+        <h3 id="m7-concept-4-the-rest-of-the-configuration-laye">Concept 4 — The rest of the configuration layer</h3>
         <ul>
           <li><strong>Validation Functions</strong> — custom validation, referenceable from a rule via <code>validationFunction</code>.</li>
           <li><strong>Blueprints</strong> — templated structures for repeatable setup (the docs carry a placeholder-colour example).</li>
@@ -2255,7 +2566,7 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
           <p style="margin-bottom:0">Both failures present as user-facing bugs and are neither. "The dropdown is empty for some products" is an <em>off-hierarchy parent value</em>, which usually means data arrived through the Loader that the hierarchy was never told about — a Week 4 problem surfacing in Week 7's territory. Worth adding to your data-model health check: does every parent value in the data exist in the hierarchy?</p>
         </div>
 
-        <h3>Concept 5 — Configuration Copy, and how environments actually work</h3>
+        <h3 id="m7-concept-5-configuration-copy-and-how-environ">Concept 5 — Configuration Copy, and how environments actually work</h3>
         <p>This answers a question that has been open since Week 1: how does configuration move between orgs?</p>
         <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">contrail types getAll     # export this org's configuration to the working directory
 contrail types loadAll    # import into the destination org</code></pre>
@@ -2271,7 +2582,7 @@ contrail types loadAll    # import into the destination org</code></pre>
           </ul>
         </div>
 
-        <h3>Concept 6 — Apps: identity, ownership, versions</h3>
+        <h3 id="m7-concept-6-apps-identity-ownership-versions">Concept 6 — Apps: identity, ownership, versions</h3>
         <p>Above the configuration layer, everything ships inside an app. Three facts about app creation are permanent, and you should be in the room when they're decided.</p>
         <div class="card warn">
           <h4>Three irreversible decisions</h4>
@@ -2298,7 +2609,7 @@ visibility: public            # marketplace candidate</code></pre>
         <p>Public listing isn't self-serve: "you can submit a request to include your app on the public App Marketplace," which requires VibeIQ approval via the customer success manager. Another lead-time item for an implementation plan.</p>
         <p>Installation happens through the Marketplace or the CLI (<code>contrail app install</code>). And from Week 6: publishing turns declared workflows into <strong>Workflow Template Definitions</strong> on that app version, which an installing org instantiates with <code>contrail workflow-template-definitions install</code>.</p>
 
-        <h3>Concept 7 — Extensions</h3>
+        <h3 id="m7-concept-7-extensions">Concept 7 — Extensions</h3>
         <p>Extensions add UI. They ship inside apps and are declared in the manifest:</p>
         <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">extensions:
   - identifier: hello-world
@@ -2324,7 +2635,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">"The extension is shown to the user in an iframe" and requires <strong>public HTTPS hosting</strong> — self-hosted (Netlify, Vercel) or VibeIQ's managed option. So an extension is a service the customer runs: it has uptime, TLS certificates, a deployment process and an on-call owner. When it is down, users see a broken panel inside VibeIQ and will report it as a VibeIQ outage. Establish who owns that hosting <em>before</em> the extension ships, and make sure it is monitored by someone.</p>
         </div>
 
-        <h3>Concept 8 — Holding the line</h3>
+        <h3 id="m7-concept-8-holding-the-line">Concept 8 — Holding the line</h3>
         <p>A practical routing table for "can it do X?":</p>
         <table>
           <thead><tr><th>If the request is…</th><th>Reach for</th></tr></thead>
@@ -2345,7 +2656,7 @@ visibility: public            # marketplace candidate</code></pre>
 
         <hr class="divider">
 
-        <h3>Recommended reading</h3>
+        <h3 id="m7-recommended-reading">Recommended reading</h3>
         <ul>
           <li><a class="link" href="https://docs.vibeiq.com/configuration/" target="_blank" rel="noopener">Configuration — getting started</a>, then <a class="link" href="https://docs.vibeiq.com/configuration/formulas/" target="_blank" rel="noopener">Formulas</a> and <a class="link" href="https://docs.vibeiq.com/configuration/ruleSets/" target="_blank" rel="noopener">Rule Sets</a> properly.</li>
           <li><a class="link" href="https://docs.vibeiq.com/configuration/configurationCopy/" target="_blank" rel="noopener">Configuration Copy</a> — the environment-promotion mechanism.</li>
@@ -2355,7 +2666,7 @@ visibility: public            # marketplace candidate</code></pre>
 
         <hr class="divider">
 
-        <h3>Practical exercise</h3>
+        <h3 id="m7-practical-exercise">Practical exercise</h3>
         <div class="card">
           <p>Route these seven requests to a rung, and for each write one sentence on cost of ownership:</p>
           <ol style="margin-bottom:0">
@@ -2370,14 +2681,14 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-top:14px;margin-bottom:0">Number 6 is the interesting one. Explain precisely why the obvious answer fails, and what you'd propose instead.</p>
         </div>
 
-        <h3>Realistic customer scenario</h3>
+        <h3 id="m7-realistic-customer-scenario">Realistic customer scenario</h3>
         <div class="card">
           <p><strong>Summit Athletic</strong> is 8 weeks from go-live. Their systems integrator sends a design note:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"For the pricing rules we'll build a Document Automation extension — a modal where merchants enter the price and our service validates it against the margin floor before writing back. We've already run <code>contrail app create</code> under our integrator org so we can iterate fast; we'll transfer it to Summit at handover. We're hosting the extension on our own Vercel account for now. Also, we noticed rule sets can enforce the min value, but our load overwrites those prices anyway, so the extension is the safer place for the rule."</p>
           <p style="margin-bottom:0">There are <strong>at least four problems</strong> here, of very different kinds — one permanent, one operational, one architectural, and one that is actually a correct observation pointing at the wrong conclusion. Identify each; say which is <strong>unfixable after go-live</strong> and why; give the alternative design; and note which of their claims you would <em>verify internally</em> before responding rather than accepting or disputing on the spot.</p>
         </div>
 
-        <h3>Quiz</h3>
+        <h3 id="m7-quiz">Quiz</h3>
         <div class="q">
           <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
@@ -2414,7 +2725,7 @@ visibility: public            # marketplace candidate</code></pre>
           </ol>
         </div>
 
-        <h3>Hands-on challenge</h3>
+        <h3 id="m7-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
           <p style="margin-bottom:0">Write your <strong>"can the platform do X?" routing guide</strong> — a one-page decision aid you could hand a customer's product owner. For each rung: what it's for, who can change it, how long a change takes, what it costs to own, and one worked example. Include the two "wrong system" boundaries from Week 1. This is the last artefact in your account-inheritance kit, and the one most likely to be read by someone other than you.</p>
         </div>
@@ -2443,12 +2754,32 @@ visibility: public            # marketplace candidate</code></pre>
         <h2 class="title">Platform, security &amp; operations</h2>
         <p class="lede">The conversation you'll have with a customer's IT and security teams — and the one where being honest about what you don't know matters more than sounding complete. This module is deliberately split between what the documentation establishes and what it doesn't, because that boundary <em>is</em> the operational picture.</p>
 
+        <nav class="toc">
+          <h4>On this page</h4>
+          <ol>
+            <li><a href="#m8/m8-concept-1-tenancy-the-org-is-the-boundary" class="subitem" data-view="m8" data-anchor="m8-concept-1-tenancy-the-org-is-the-boundary">1. Tenancy: the org is the boundary</a></li>
+            <li><a href="#m8/m8-concept-2-the-permission-model-layer-by-laye" class="subitem" data-view="m8" data-anchor="m8-concept-2-the-permission-model-layer-by-laye">2. The permission model, layer by layer</a></li>
+            <li><a href="#m8/m8-concept-3-credentials-where-they-live-and-ho" class="subitem" data-view="m8" data-anchor="m8-concept-3-credentials-where-they-live-and-ho">3. Credentials: where they live and how they leak</a></li>
+            <li><a href="#m8/m8-concept-4-where-the-data-actually-goes" class="subitem" data-view="m8" data-anchor="m8-concept-4-where-the-data-actually-goes">4. Where the data actually goes</a></li>
+            <li><a href="#m8/m8-concept-5-runtime-and-platform-upgrades" class="subitem" data-view="m8" data-anchor="m8-concept-5-runtime-and-platform-upgrades">5. Runtime and platform upgrades</a></li>
+            <li><a href="#m8/m8-concept-6-what-you-can-actually-see" class="subitem" data-view="m8" data-anchor="m8-concept-6-what-you-can-actually-see">6. What you can actually see</a></li>
+            <li><a href="#m8/m8-concept-7-capacity-as-a-shared-invisible-res" class="subitem" data-view="m8" data-anchor="m8-concept-7-capacity-as-a-shared-invisible-res">7. Capacity as a shared, invisible resource</a></li>
+            <li><a href="#m8/m8-concept-8-answering-what-you-don-t-know" class="subitem" data-view="m8" data-anchor="m8-concept-8-answering-what-you-don-t-know">8. Answering what you don't know</a></li>
+            <li><a href="#m8/m8-recommended-reading" class="subitem" data-view="m8" data-anchor="m8-recommended-reading">Recommended reading</a></li>
+            <li><a href="#m8/m8-practical-exercise" class="subitem" data-view="m8" data-anchor="m8-practical-exercise">Practical exercise</a></li>
+            <li><a href="#m8/m8-realistic-customer-scenario" class="subitem" data-view="m8" data-anchor="m8-realistic-customer-scenario">Realistic customer scenario</a></li>
+            <li><a href="#m8/m8-quiz" class="subitem" data-view="m8" data-anchor="m8-quiz">Quiz</a></li>
+            <li><a href="#m8/m8-hands-on-challenge" class="subitem" data-view="m8" data-anchor="m8-hands-on-challenge">Hands-on challenge</a></li>
+          </ol>
+        </nav>
+
+
         <div class="card keystone">
           <h4>Learning objectives</h4>
           <p style="margin-bottom:0">By the end of this week you can (1) describe the org as the tenancy boundary and how environments are actually maintained, (2) walk the layered permission model from org down to individual property, (3) trace where customer data physically travels and where credentials live, (4) say precisely what monitoring exists and over what horizon, and (5) answer a security questionnaire without bluffing — knowing which questions you must take away.</p>
         </div>
 
-        <h3>Concept 1 — Tenancy: the org is the boundary</h3>
+        <h3 id="m8-concept-1-tenancy-the-org-is-the-boundary">Concept 1 — Tenancy: the org is the boundary</h3>
         <p>Every authenticated request carries <code>X-Api-Org</code>. Every app is owned by an org. Configuration is exported and imported per org. Concurrency ceilings are per org. The <strong>org is the unit of isolation, ownership, configuration and capacity</strong> — hold that and most platform questions resolve.</p>
         <p>Separate environments are real: the Node migration guide instructs you to "thoroughly test your app in a development org before installing it on production orgs," which confirms multiple orgs per customer as the intended pattern. But note what that implies — <strong>an environment is just another org</strong>. There is no environment abstraction layered above orgs; dev/staging/prod are a convention the customer maintains by discipline.</p>
         <div class="card tam">
@@ -2456,7 +2787,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">From Week 7: promotion is <em>two</em> mechanisms — <code>contrail types getAll</code>/<code>loadAll</code> for configuration, publish/install for apps. Combine that with "an environment is just an org" and you get the real risk: environments drift silently, and nothing in the platform tells you they have. Ask any established customer, "when did you last verify that staging matches production, and how?" The usual honest answer is never, and the usual consequence is a change that tested clean and broke on release.</p>
         </div>
 
-        <h3>Concept 2 — The permission model, layer by layer</h3>
+        <h3 id="m8-concept-2-the-permission-model-layer-by-laye">Concept 2 — The permission model, layer by layer</h3>
         <p>Access control is layered, and each layer answers a different question:</p>
         <table>
           <thead><tr><th>Layer</th><th>Controls</th><th>Where it's set</th></tr></thead>
@@ -2478,7 +2809,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">How policies map to <em>end users and roles</em> inside Boards, Plan and Showcase is not publicly documented. Whether there are named roles, group membership, or per-project principals — take that away and confirm. Do not improvise an answer to "can we restrict merchandisers to their own division?", because the shape of the answer determines their rollout design.</p>
         </div>
 
-        <h3>Concept 3 — Credentials: where they live and how they leak</h3>
+        <h3 id="m8-concept-3-credentials-where-they-live-and-ho">Concept 3 — Credentials: where they live and how they leak</h3>
         <p>Three credential surfaces, each with a different exposure:</p>
         <ul>
           <li><strong>API keys</strong> — format <code>app:uEL7GCBZ7Xhd4w2z</code>, app-scoped, long-lived. Docs are explicit: never commit them, use environment variables or secrets management, keep separate keys per environment, prefer app keys over user keys, and rotate regularly.</li>
@@ -2490,7 +2821,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">The CLI cache is the one nobody raises and every security team cares about. When a consultant rolls off, or a laptop is lost, <code>~/.vibeiq/configs/</code> still holds working access. Offboarding must include credential revocation, not just removing someone from a channel. And it composes with Week 7's ownership problem: an integrator's engineer may hold both the app ownership <em>and</em> cached credentials to the customer's org. Raise revocation as part of any handover plan.</p>
         </div>
 
-        <h3>Concept 4 — Where the data actually goes</h3>
+        <h3 id="m8-concept-4-where-the-data-actually-goes">Concept 4 — Where the data actually goes</h3>
         <ol class="steps">
           <li><strong>Uploads</strong> — creating a File entity returns an <code>uploadPost</code> with an S3 URL and form parameters; the binary goes directly to S3 (<code>us-east-1</code> in the documented examples).</li>
           <li><strong>Publish payloads</strong> — baseline and delete data are JSON files on S3, reached by links that expire after 24 hours.</li>
@@ -2509,14 +2840,14 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">The 24-hour link expiry is usually presented as an operational constraint (Week 3: store the change ID, not the URL). Reframe it for a security audience and it becomes a <em>control</em>: payload links are short-lived rather than permanent. That is a genuinely good answer to "how long is our product data sitting on a URL?" — and it's the kind of translation that makes you useful in a room full of security people.</p>
         </div>
 
-        <h3>Concept 5 — Runtime and platform upgrades</h3>
+        <h3 id="m8-concept-5-runtime-and-platform-upgrades">Concept 5 — Runtime and platform upgrades</h3>
         <p>Apps declare their runtime in the manifest: <code>nodeRuntime: "nodejs22.x"</code>. Migration from Node 18 to 22 requires updating that field, auditing for deprecated APIs, testing locally on Node 22, and rebuilding native modules via <code>npm install</code> and <code>npm rebuild</code>.</p>
         <div class="card tam">
           <h4></h4>
           <p style="margin-bottom:0">Runtime deprecations are a recurring, schedulable obligation that customers reliably forget, because the app "still works" right up until it doesn't. Every customer with a custom app has a maintenance commitment, and nobody told the person who signs off on budgets. Track which of your accounts have custom apps and what runtime they're on — that list is a quiet early-warning system, and surfacing it before a forced migration is exactly the sort of thing that earns a TAM trust.</p>
         </div>
 
-        <h3>Concept 6 — What you can actually see</h3>
+        <h3 id="m8-concept-6-what-you-can-actually-see">Concept 6 — What you can actually see</h3>
         <table>
           <thead><tr><th>Surface</th><th>Shows</th><th>Horizon</th></tr></thead>
           <tbody>
@@ -2536,7 +2867,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">Everything above is something a human chooses to <em>look at</em>. Whether customers get proactive alerting on load, publish or workflow failures is not documented — and if the answer is no, then a failed nightly load is discovered by whoever notices missing data, which is usually a merchandiser in a review. Confirm this internally; it is one of the highest-value unknowns on your list, because the remedy (customers building their own monitoring on the process APIs) is something you'd want to recommend at implementation time, not after an incident.</p>
         </div>
 
-        <h3>Concept 7 — Capacity as a shared, invisible resource</h3>
+        <h3 id="m8-concept-7-capacity-as-a-shared-invisible-res">Concept 7 — Capacity as a shared, invisible resource</h3>
         <p>Recall the numbers: <code>parallelWorkerCount</code> of 1–30 (default 5), 25 concurrent processes per workflow, and <strong>60 per organization</strong> — the last adjustable via the Customer Success Manager.</p>
         <p>Framed operationally: the org's 60 is a <em>budget shared by every integration, workflow and bulk load the customer runs</em>. There is no per-team allocation and no documented way for a customer to see their own utilisation. So capacity contention is invisible until it manifests as unexplained slowness in something unrelated.</p>
         <div class="card tam">
@@ -2544,7 +2875,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">Treat it as capacity planning, and do it before the customer needs it. Maintain a picture of what runs in their org, what it's triggered by, and when it's heaviest — then avoid scheduling bulk loads on top of the nightly integration window. "We moved the load to 03:30 and the sync stopped timing out" is a small win that looks like magic, and it is available to you purely from knowing the ceiling exists.</p>
         </div>
 
-        <h3>Concept 8 — Answering what you don't know</h3>
+        <h3 id="m8-concept-8-answering-what-you-don-t-know">Concept 8 — Answering what you don't know</h3>
         <div class="card keystone">
           <h4>The standing list</h4>
           <p>Six things a security or IT team will ask that the public documentation does not settle. Take them away rather than improvising:</p>
@@ -2564,7 +2895,7 @@ visibility: public            # marketplace candidate</code></pre>
 
         <hr class="divider">
 
-        <h3>Recommended reading</h3>
+        <h3 id="m8-recommended-reading">Recommended reading</h3>
         <ul>
           <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/authentication/" target="_blank" rel="noopener">Authentication &amp; API Access</a> — key hygiene and error codes.</li>
           <li><a class="link" href="https://docs.vibeiq.com/configuration/configurationCopy/" target="_blank" rel="noopener">Configuration Copy</a> — read the category list as a map of what is configurable and governable.</li>
@@ -2574,12 +2905,12 @@ visibility: public            # marketplace candidate</code></pre>
 
         <hr class="divider">
 
-        <h3>Practical exercise</h3>
+        <h3 id="m8-practical-exercise">Practical exercise</h3>
         <div class="card">
           <p style="margin-bottom:0">Write the <strong>platform section of an implementation runbook</strong> for a new customer: environment/org topology and how promotion happens; who holds which credentials and how they're rotated and revoked at offboarding; where data travels; what monitoring exists and who looks at it, how often; the runtime obligations of any custom app; and the org's concurrency budget with what runs when. Keep it to two pages — it should be handed to a customer's IT lead, not read only by you.</p>
         </div>
 
-        <h3>Realistic customer scenario</h3>
+        <h3 id="m8-realistic-customer-scenario">Realistic customer scenario</h3>
         <div class="card">
           <p><strong>Summit Athletic's</strong> InfoSec lead sends a pre-contract questionnaire and copies the VP of Product, who wants it back in 48 hours:</p>
           <ol style="color:var(--ink-2);border-left:3px solid var(--line-strong);padding-left:22px;margin-left:0">
@@ -2594,7 +2925,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">For each: answer it, or say exactly what you'd take away and who you'd ask. Then — <strong>sort them</strong>: which can you answer confidently today, which are partially answerable (say what you'd commit to and what you'd qualify), and which must you not answer at all? Finally, write the <strong>covering note to the VP</strong> in three sentences, given you cannot fully answer inside 48 hours and they are trying to close a deal.</p>
         </div>
 
-        <h3>Quiz</h3>
+        <h3 id="m8-quiz">Quiz</h3>
         <div class="q">
           <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
@@ -2631,7 +2962,7 @@ visibility: public            # marketplace candidate</code></pre>
           </ol>
         </div>
 
-        <h3>Hands-on challenge</h3>
+        <h3 id="m8-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
           <p style="margin-bottom:0">Build your <strong>security questionnaire response kit</strong>: the standard enterprise security questions, split into <em>answer confidently</em>, <em>answer with qualification</em>, and <em>must escalate</em> — with your actual wording for each in the first two groups, and the named internal owner for the third. Keep the escalate list short and current; every item you move out of it is a deal cycle shortened. This joins the account-inheritance kit from Weeks 2–7.</p>
         </div>
@@ -2660,12 +2991,30 @@ visibility: public            # marketplace candidate</code></pre>
         <h2 class="title">Troubleshooting &amp; escalation methodology</h2>
         <p class="lede">Everything from Weeks 2–8, turned into one repeatable method. This module introduces almost no new facts — its value is entirely in sequence and discipline. The goal is that an unfamiliar problem stops being a puzzle and becomes a route you walk.</p>
 
+        <nav class="toc">
+          <h4>On this page</h4>
+          <ol>
+            <li><a href="#m9/m9-concept-1-localise-before-theorising" class="subitem" data-view="m9" data-anchor="m9-concept-1-localise-before-theorising">1. Localise before theorising</a></li>
+            <li><a href="#m9/m9-concept-2-the-universal-question-set" class="subitem" data-view="m9" data-anchor="m9-concept-2-the-universal-question-set">2. The universal question set</a></li>
+            <li><a href="#m9/m9-concept-3-the-three-ladders" class="subitem" data-view="m9" data-anchor="m9-concept-3-the-three-ladders">3. The three ladders</a></li>
+            <li><a href="#m9/m9-concept-4-symptom-shape-tells-you-the-class" class="subitem" data-view="m9" data-anchor="m9-concept-4-symptom-shape-tells-you-the-class">4. Symptom shape tells you the class of cause</a></li>
+            <li><a href="#m9/m9-concept-5-read-evidence-don-t-reason-from-de" class="subitem" data-view="m9" data-anchor="m9-concept-5-read-evidence-don-t-reason-from-de">5. Read evidence, don't reason from descriptions</a></li>
+            <li><a href="#m9/m9-concept-6-escalating-well" class="subitem" data-view="m9" data-anchor="m9-concept-6-escalating-well">6. Escalating well</a></li>
+            <li><a href="#m9/m9-concept-7-holding-the-customer-while-it-s-op" class="subitem" data-view="m9" data-anchor="m9-concept-7-holding-the-customer-while-it-s-op">7. Holding the customer while it's open</a></li>
+            <li><a href="#m9/m9-practical-exercise" class="subitem" data-view="m9" data-anchor="m9-practical-exercise">Practical exercise</a></li>
+            <li><a href="#m9/m9-realistic-customer-scenario-a-live-incident" class="subitem" data-view="m9" data-anchor="m9-realistic-customer-scenario-a-live-incident">Realistic customer scenario — a live incident</a></li>
+            <li><a href="#m9/m9-quiz" class="subitem" data-view="m9" data-anchor="m9-quiz">Quiz</a></li>
+            <li><a href="#m9/m9-hands-on-challenge" class="subitem" data-view="m9" data-anchor="m9-hands-on-challenge">Hands-on challenge</a></li>
+          </ol>
+        </nav>
+
+
         <div class="card keystone">
           <h4>Learning objectives</h4>
           <p style="margin-bottom:0">By the end of this week you can (1) localise any failure to one segment of the pipeline before proposing a cause, (2) run the right ladder for that segment from memory, (3) read the platform's evidence rather than reasoning from a customer's description, (4) recognise a class of cause from the <em>shape</em> of a symptom, (5) write an escalation that gets acted on, and (6) hold a customer while it's open.</p>
         </div>
 
-        <h3>Concept 1 — Localise before theorising</h3>
+        <h3 id="m9-concept-1-localise-before-theorising">Concept 1 — Localise before theorising</h3>
         <p>The single most common failure in technical support is proposing a cause before establishing <em>where</em> the problem is. A theory arrives early, everyone starts testing it, and two days go to a hypothesis that was never constrained by evidence.</p>
         <div class="card keystone">
           <h4>The rule</h4>
@@ -2736,7 +3085,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">Bisect rather than walking left to right. <strong>Start at CP3</strong> — look at the entity itself. If the value is correct there, the problem is downstream (CP4–CP6). If it's wrong there, the problem is upstream (CP1–CP2). One look halves the search space, and CP3 is usually the fastest thing to check because it's just opening the record. Walking the pipeline in order is the instinct; bisecting is the discipline.</p>
         </div>
 
-        <h3>Concept 2 — The universal question set</h3>
+        <h3 id="m9-concept-2-the-universal-question-set">Concept 2 — The universal question set</h3>
         <p>Six questions that apply to almost any data-correctness report. Ask them before touching anything:</p>
         <table>
           <thead><tr><th>Question</th><th>Why it eliminates whole causes</th><th>Wk</th></tr></thead>
@@ -2754,7 +3103,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">Ask these in the customer's language, not the platform's. "Is this a style-level or colour-level field?" gets a better answer from a merchandiser than "is this Family or Option?" — and it's the same question. Translating your diagnostic model into their vocabulary is most of what makes a TAM feel easy to work with.</p>
         </div>
 
-        <h3>Concept 3 — The three ladders</h3>
+        <h3 id="m9-concept-3-the-three-ladders">Concept 3 — The three ladders</h3>
         <p>Once localised, run the ladder for that segment. These are consolidated from Weeks 4, 6 and 3/5 — learn them as three, not as scattered notes.</p>
 
         <div class="card">
@@ -2796,7 +3145,7 @@ visibility: public            # marketplace candidate</code></pre>
           </ol>
         </div>
 
-        <h3>Concept 4 — Symptom shape tells you the class of cause</h3>
+        <h3 id="m9-concept-4-symptom-shape-tells-you-the-class">Concept 4 — Symptom shape tells you the class of cause</h3>
         <p>Before content, look at <em>shape</em>. How a problem is distributed in time and across records narrows the cause faster than any detail about the records themselves.</p>
         <table>
           <thead><tr><th>Shape</th><th>Class of cause</th><th>Go straight to</th></tr></thead>
@@ -2816,7 +3165,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">Get the shape from the customer explicitly, because they will not volunteer it. Three questions do it: "Does it affect every record or some?" "Did it start at a particular time?" "If you retry, does the <em>same</em> record fail?" That last one is the highest-yield question in troubleshooting — same record failing means logic or config; a different record means timing or concurrency.</p>
         </div>
 
-        <h3>Concept 5 — Read evidence, don't reason from descriptions</h3>
+        <h3 id="m9-concept-5-read-evidence-don-t-reason-from-de">Concept 5 — Read evidence, don't reason from descriptions</h3>
         <p>The platform records more than most people use. Anchor every claim to one of these:</p>
         <table>
           <thead><tr><th>Evidence</th><th>Answers</th><th>Lifetime</th></tr></thead>
@@ -2834,7 +3183,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">Workflow logs and artifacts are "permanently deleted" after 90 days. If a customer reports something that began months ago, establish what evidence still exists <em>before</em> you commit to finding root cause — and if an investigation will be long, tell them to preserve exports now. Promising a root cause you can no longer reach is a self-inflicted wound.</p>
         </div>
 
-        <h3>Concept 6 — Escalating well</h3>
+        <h3 id="m9-concept-6-escalating-well">Concept 6 — Escalating well</h3>
         <p>Escalation is not "I couldn't solve it." It is a handover, and its quality determines whether the next person starts where you stopped or starts again.</p>
         <div class="card keystone">
           <h4>What a good escalation contains</h4>
@@ -2869,7 +3218,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">The table above is a sensible default built from what the platform documents, <strong>not</strong> from VibeIQ's actual internal process — which is not public. In your first weeks, establish: the real escalation path and tooling, the practical TAM/Support/PS/Engineering/Product boundary, who owns integration builds (PS or the customer), and what severity definitions and response expectations exist. Until you know, say "let me route this correctly" rather than guessing and creating a false expectation about timing.</p>
         </div>
 
-        <h3>Concept 7 — Holding the customer while it's open</h3>
+        <h3 id="m9-concept-7-holding-the-customer-while-it-s-op">Concept 7 — Holding the customer while it's open</h3>
         <p>The technical work is half the job. The other half is that a customer with an open incident is anxious, usually accountable to someone else, and judging you on communication rather than diagnosis.</p>
         <ul>
           <li><strong>Separate what you know from what you suspect</strong>, explicitly and every time. "Confirmed: the publish happened. Suspected: their consumer skipped the delete file. Unknown: why it skipped."</li>
@@ -2885,12 +3234,12 @@ visibility: public            # marketplace candidate</code></pre>
 
         <hr class="divider">
 
-        <h3>Practical exercise</h3>
+        <h3 id="m9-practical-exercise">Practical exercise</h3>
         <div class="card">
           <p style="margin-bottom:0">Write your <strong>one-page triage card</strong>, from memory first and then checked: the six checkpoints, the universal question set, the three ladders in outline, and the symptom-shape table. Then test it — take three scenarios from earlier modules (Week 2's copy-down clobber, Week 4's three-symptom load, Week 6's concurrency race) and confirm your card would have routed each correctly without you already knowing the answer. Fix whatever it misses.</p>
         </div>
 
-        <h3>Realistic customer scenario — a live incident</h3>
+        <h3 id="m9-realistic-customer-scenario-a-live-incident">Realistic customer scenario — a live incident</h3>
         <div class="card">
           <p><strong>Summit Athletic.</strong> Thursday 09:40. The VP of Product calls you directly — not the usual channel — and you have a line review at 14:00 that this affects.</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"The SS27 outlet assortment is a mess. Some styles show last season's pricing. A few styles the team definitely cut are back. And two of our merchandisers say they can't edit the margin field at all now, which they could on Monday. We did do a big data load Tuesday night, and I think IT installed something last week. I need this right for 2pm."</p>
@@ -2898,7 +3247,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">Produce: (1) your <strong>first three actions in the first ten minutes</strong>, and why those three; (2) which checkpoint each of the three symptoms most likely sits at, and the evidence you'd pull for each; (3) which symptoms are plausibly <strong>one</strong> root cause and which are certainly separate, with reasoning; (4) what you tell the VP at <strong>10:00</strong>, given you will not know the answer yet; (5) what you would do to make the 14:00 review survivable even if the root cause isn't fixed; and (6) the escalation you'd file if you're not converging by 11:30 — written out, with the fields from Concept 6.</p>
         </div>
 
-        <h3>Quiz</h3>
+        <h3 id="m9-quiz">Quiz</h3>
         <div class="q">
           <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
@@ -2935,7 +3284,7 @@ visibility: public            # marketplace candidate</code></pre>
           </ol>
         </div>
 
-        <h3>Hands-on challenge</h3>
+        <h3 id="m9-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
           <p style="margin-bottom:0">Assemble the <strong>full account-inheritance kit</strong> — the artefacts built across this program: the Week 2 data-model health check, Week 3 publish integration review, Week 4 pre-load checklist, Week 5 integration design review, Week 6 workflow review, Week 7 routing guide, Week 8 security response kit, and this module's triage card. Put them in one document with a one-paragraph note on when each is used. This is the thing you actually carry into the job, and the capstone assumes you have it.</p>
         </div>
@@ -2964,12 +3313,26 @@ visibility: public            # marketplace candidate</code></pre>
         <h2 class="title">Applied TAM practice</h2>
         <p class="lede">Everything, applied to the four situations that actually make up the job: discovery, architecture review, incident, and quarterly review. Nine weeks built the knowledge; this week turns it into behaviour under real conditions — incomplete information, competing priorities, and someone waiting on an answer.</p>
 
+        <nav class="toc">
+          <h4>On this page</h4>
+          <ol>
+            <li><a href="#m10/m10-concept-1-the-four-situations" class="subitem" data-view="m10" data-anchor="m10-concept-1-the-four-situations">1. The four situations</a></li>
+            <li><a href="#m10/m10-concept-2-discovery-that-predicts" class="subitem" data-view="m10" data-anchor="m10-concept-2-discovery-that-predicts">2. Discovery that predicts</a></li>
+            <li><a href="#m10/m10-concept-3-architecture-and-workflow-review" class="subitem" data-view="m10" data-anchor="m10-concept-3-architecture-and-workflow-review">3. Architecture and workflow review</a></li>
+            <li><a href="#m10/m10-concept-4-qbrs-reporting-risk-not-activity" class="subitem" data-view="m10" data-anchor="m10-concept-4-qbrs-reporting-risk-not-activity">4. QBRs: reporting risk, not activity</a></li>
+            <li><a href="#m10/m10-concept-5-inheriting-an-account-the-first-th" class="subitem" data-view="m10" data-anchor="m10-concept-5-inheriting-an-account-the-first-th">5. Inheriting an account: the first thirty days</a></li>
+            <li><a href="#m10/m10-the-capstone-meridian-outdoor-four-phases" class="subitem" data-view="m10" data-anchor="m10-the-capstone-meridian-outdoor-four-phases">The capstone — Meridian Outdoor, four phases</a></li>
+            <li><a href="#m10/m10-after-week-10" class="subitem" data-view="m10" data-anchor="m10-after-week-10">After Week 10</a></li>
+          </ol>
+        </nav>
+
+
         <div class="card keystone">
           <h4>Learning objectives</h4>
           <p style="margin-bottom:0">By the end of this week you can (1) run a technical discovery that predicts a customer's future problems rather than just cataloguing their systems, (2) review an architecture or a workflow design and disagree in a way that keeps the engineer collaborating, (3) tell a health story in a QBR using evidence the platform actually provides, (4) inherit an unfamiliar account and be useful within thirty days, and (5) do all of it while knowing which questions you must take away.</p>
         </div>
 
-        <h3>Concept 1 — The four situations</h3>
+        <h3 id="m10-concept-1-the-four-situations">Concept 1 — The four situations</h3>
         <p>Nearly everything you do is one of these, and each has a different failure mode:</p>
         <table>
           <thead><tr><th>Situation</th><th>You're really doing</th><th>Fails when</th></tr></thead>
@@ -2981,7 +3344,7 @@ visibility: public            # marketplace candidate</code></pre>
           </tbody>
         </table>
 
-        <h3>Concept 2 — Discovery that predicts</h3>
+        <h3 id="m10-concept-2-discovery-that-predicts">Concept 2 — Discovery that predicts</h3>
         <p>Week 1's landscape template listed a customer's systems. That's the starting point, not the instrument. A good discovery question has a property: <strong>the answer changes what you expect to go wrong.</strong> Sharpened, grouped by what each answer predicts:</p>
         <table>
           <thead><tr><th>Ask</th><th>Because the answer predicts</th><th>Wk</th></tr></thead>
@@ -3003,7 +3366,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">Notice how many of these are best asked <em>before</em> a decision is made and are worthless afterwards. That is the real argument for TAM involvement in implementation: not oversight, but the handful of questions whose value expires. Frame it that way internally — "there are six questions that cost nothing now and can't be fixed later" is a more persuasive case for your time than "I should be involved."</p>
         </div>
 
-        <h3>Concept 3 — Architecture and workflow review</h3>
+        <h3 id="m10-concept-3-architecture-and-workflow-review">Concept 3 — Architecture and workflow review</h3>
         <p>You did a full one in Week 5 and a workflow one in Week 6. The method, generalised:</p>
         <ol class="steps">
           <li><strong>Establish the requirement first.</strong> Half of bad designs are correct solutions to a misunderstood requirement. Ask what happens if this doesn't run, and who notices.</li>
@@ -3035,7 +3398,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">On disagreeing well: lead with what's right in their design, be specific about consequence rather than about correctness, and give the symptom rather than the principle. "This will work until someone's consumer is down overnight, and then Centric keeps styles they've cut — which surfaces in a line review" lands where "you should handle idempotency" does not. You are not trying to win; you are trying to have the change made by someone who still calls you next time.</p>
         </div>
 
-        <h3>Concept 4 — QBRs: reporting risk, not activity</h3>
+        <h3 id="m10-concept-4-qbrs-reporting-risk-not-activity">Concept 4 — QBRs: reporting risk, not activity</h3>
         <p>The failure mode is presenting usage statistics that nobody acts on. A QBR should answer three questions: <em>is this working, what's at risk, and what should we do next?</em></p>
         <table>
           <thead><tr><th>Signal</th><th>Where it comes from</th><th>What it tells you</th></tr></thead>
@@ -3057,7 +3420,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">Bring one risk you found before they did, every time. It costs you an hour of looking at the failure chart and it is the single most reliable way to be treated as an advisor rather than a vendor contact. It also inverts the meeting: instead of defending the last quarter, you're the person who spotted something.</p>
         </div>
 
-        <h3>Concept 5 — Inheriting an account: the first thirty days</h3>
+        <h3 id="m10-concept-5-inheriting-an-account-the-first-th">Concept 5 — Inheriting an account: the first thirty days</h3>
         <p>You'll rarely start from a greenfield. Run the kit in this order — each step makes the next one cheaper:</p>
         <ol class="steps">
           <li><strong>Config export.</strong> <code>contrail types getAll</code>. Read the property levels, rule sets and policies. This is ground truth, not what anyone remembers.</li>
@@ -3075,7 +3438,7 @@ visibility: public            # marketplace candidate</code></pre>
 
         <hr class="divider">
 
-        <h3>The capstone — Meridian Outdoor, four phases</h3>
+        <h3 id="m10-the-capstone-meridian-outdoor-four-phases">The capstone — Meridian Outdoor, four phases</h3>
         <p class="lede" style="font-size:16px">A new account, run end to end. Each phase uses a different part of the program, and later phases are shaped by choices you make in earlier ones. Work them in order and don't read ahead.</p>
 
         <div class="card">
@@ -3156,7 +3519,7 @@ visibility: public            # marketplace candidate</code></pre>
 
         <hr class="divider">
 
-        <h3>After Week 10</h3>
+        <h3 id="m10-after-week-10">After Week 10</h3>
         <p>Two pieces of unfinished business the program deliberately leaves open, because neither can be closed from public documentation:</p>
         <div class="card warn">
           <h4>Close your standing unknowns</h4>
@@ -3180,7 +3543,21 @@ visibility: public            # marketplace candidate</code></pre>
         <h2 class="title">Key findings</h2>
         <p class="lede">The non-obvious, high-consequence things pulled out of every module and collected in one place. These are the findings that change a diagnosis, cost money if missed, or fail without producing an error. Use this as revision before a customer conversation, and as a lookup during one.</p>
 
-        <h3>1 · Symptom → likely cause</h3>
+        <nav class="toc">
+          <h4>On this page</h4>
+          <ol>
+            <li><a href="#findings/findings-1-symptom-likely-cause" class="subitem" data-view="findings" data-anchor="findings-1-symptom-likely-cause">1 · Symptom → likely cause</a></li>
+            <li><a href="#findings/findings-1b-symptom-shape-class-of-cause" class="subitem" data-view="findings" data-anchor="findings-1b-symptom-shape-class-of-cause">1b · Symptom shape → class of cause</a></li>
+            <li><a href="#findings/findings-2-failures-that-produce-no-error" class="subitem" data-view="findings" data-anchor="findings-2-failures-that-produce-no-error">2 · Failures that produce no error</a></li>
+            <li><a href="#findings/findings-3-decisions-you-cannot-undo" class="subitem" data-view="findings" data-anchor="findings-3-decisions-you-cannot-undo">3 · Decisions you cannot undo</a></li>
+            <li><a href="#findings/findings-4-claims-to-verify-before-asserting" class="subitem" data-view="findings" data-anchor="findings-4-claims-to-verify-before-asserting">4 · Claims to verify before asserting</a></li>
+            <li><a href="#findings/findings-5-numbers-worth-memorising" class="subitem" data-view="findings" data-anchor="findings-5-numbers-worth-memorising">5 · Numbers worth memorising</a></li>
+            <li><a href="#findings/findings-6-the-reframes-that-change-how-you-think" class="subitem" data-view="findings" data-anchor="findings-6-the-reframes-that-change-how-you-think">6 · The reframes that change how you think</a></li>
+          </ol>
+        </nav>
+
+
+        <h3 id="findings-1-symptom-likely-cause">1 · Symptom → likely cause</h3>
         <p>What the customer actually says, and where to look first. This table is the fastest route from a vague report to a hypothesis.</p>
         <table>
           <thead><tr><th>They report</th><th>Look first at</th><th>Wk</th></tr></thead>
@@ -3215,7 +3592,7 @@ visibility: public            # marketplace candidate</code></pre>
           </tbody>
         </table>
 
-        <h3>1b · Symptom <em>shape</em> → class of cause</h3>
+        <h3 id="findings-1b-symptom-shape-class-of-cause">1b · Symptom <em>shape</em> → class of cause</h3>
         <p>Before looking at content, look at distribution. How a problem spreads across records and time narrows the cause faster than any detail about the records themselves. <span class="pill p-nice">Wk 9</span></p>
         <table>
           <thead><tr><th>Shape</th><th>Class of cause</th><th>Go straight to</th></tr></thead>
@@ -3235,7 +3612,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0"><strong>"If you retry, does the <em>same</em> record fail?"</strong> Same record → logic or configuration. Different record → timing or concurrency. Two words of answer eliminate half the possibility space, and customers never volunteer it. <span class="pill p-nice">Wk 9</span></p>
         </div>
 
-        <h3>2 · Failures that produce no error</h3>
+        <h3 id="findings-2-failures-that-produce-no-error">2 · Failures that produce no error</h3>
         <p>The dangerous class. Nothing is logged, every status says success, and the damage surfaces weeks later — usually in front of someone senior.</p>
         <div class="card warn">
           <h4>Data model &amp; loading</h4>
@@ -3283,7 +3660,7 @@ visibility: public            # marketplace candidate</code></pre>
           </ul>
         </div>
 
-        <h3>3 · Decisions you cannot undo</h3>
+        <h3 id="findings-3-decisions-you-cannot-undo">3 · Decisions you cannot undo</h3>
         <p>Raise these <em>before</em> they are made. Nobody thanks you at the time; everyone would have thanked you later.</p>
         <table>
           <thead><tr><th>Decision</th><th>Why it's permanent</th><th>Ask</th></tr></thead>
@@ -3298,7 +3675,7 @@ visibility: public            # marketplace candidate</code></pre>
           </tbody>
         </table>
 
-        <h3>4 · Claims to verify before asserting</h3>
+        <h3 id="findings-4-claims-to-verify-before-asserting">4 · Claims to verify before asserting</h3>
         <div class="card keystone">
           <h4>Say "let me confirm" — not yes, and not no</h4>
           <p>Three things where the documentation is suggestive but not conclusive. Getting these wrong in front of a customer costs credibility that is expensive to rebuild.</p>
@@ -3320,7 +3697,7 @@ visibility: public            # marketplace candidate</code></pre>
           <p style="margin-bottom:0">The "15 requests/hour" rate limit circulating online belongs to <strong>vibe.co — a different company</strong>. VibeIQ's real limits are undisclosed: "rate-limited to ensure system stability," with higher limits available by contacting support. You cannot promise a throughput number, so insist consumers implement exponential backoff instead. <span class="pill p-nice">Wk 1 · 5</span></p>
         </div>
 
-        <h3>5 · Numbers worth memorising</h3>
+        <h3 id="findings-5-numbers-worth-memorising">5 · Numbers worth memorising</h3>
         <table>
           <thead><tr><th>Value</th><th>What it governs</th><th>Consequence</th></tr></thead>
           <tbody>
@@ -3333,7 +3710,7 @@ visibility: public            # marketplace candidate</code></pre>
           </tbody>
         </table>
 
-        <h3>6 · The reframes that change how you think</h3>
+        <h3 id="findings-6-the-reframes-that-change-how-you-think">6 · The reframes that change how you think</h3>
         <div class="card keystone">
           <h4>Ten sentences worth carrying</h4>
           <ol style="margin-bottom:0">
@@ -3358,7 +3735,18 @@ visibility: public            # marketplace candidate</code></pre>
         <p class="eyebrow">Reference</p>
         <h2 class="title">Priority matrix</h2>
         <p class="lede">The 20% that delivers 80% is everything marked Critical. Master those and you'll be effective fast.</p>
-        <h3><span class="pill p-crit">Critical</span> must know</h3>
+
+        <nav class="toc">
+          <h4>On this page</h4>
+          <ol>
+            <li><a href="#priority/priority-critical-must-know" class="subitem" data-view="priority" data-anchor="priority-critical-must-know">Critical must know</a></li>
+            <li><a href="#priority/priority-important" class="subitem" data-view="priority" data-anchor="priority-important">Important</a></li>
+            <li><a href="#priority/priority-useful" class="subitem" data-view="priority" data-anchor="priority-useful">Useful</a></li>
+            <li><a href="#priority/priority-nice-to-know" class="subitem" data-view="priority" data-anchor="priority-nice-to-know">Nice to know</a></li>
+          </ol>
+        </nav>
+
+        <h3 id="priority-critical-must-know"><span class="pill p-crit">Critical</span> must know</h3>
         <ul>
           <li>Core data model: Item / ProjectItem / AssortmentItem and property levels</li>
           <li>Project (season) / Assortment structure</li>
@@ -3369,7 +3757,7 @@ visibility: public            # marketplace candidate</code></pre>
           <li>Escalation routing (TAM / Support / Engineering / Product / PS)</li>
           <li>Technical discovery methodology</li>
         </ul>
-        <h3><span class="pill p-imp">Important</span></h3>
+        <h3 id="priority-important"><span class="pill p-imp">Important</span></h3>
         <ul>
           <li>The Loader pipeline and its failure modes</li>
           <li>AssortmentPublishChange internals (baseline, deletes, detail, 24h S3 expiry)</li>
@@ -3380,14 +3768,14 @@ visibility: public            # marketplace candidate</code></pre>
           <li>Troubleshooting methodology anchored to the pipeline</li>
           <li>AI capabilities: shipped vs roadmap</li>
         </ul>
-        <h3><span class="pill p-use">Useful</span></h3>
+        <h3 id="priority-useful"><span class="pill p-use">Useful</span></h3>
         <ul>
           <li>SDK/CLI mechanics; app manifest, marketplace, lifecycle</li>
           <li>Extensions (Doc Automation / Contextual Action / Admin Utility)</li>
           <li>Custom entities, option set hierarchy, size range templates</li>
           <li>Configuration copy, uniqueness; transformers in depth</li>
         </ul>
-        <h3><span class="pill p-nice">Nice to know</span></h3>
+        <h3 id="priority-nice-to-know"><span class="pill p-nice">Nice to know</span></h3>
         <ul>
           <li>Deep SDK internals &amp; app-framework decorators</li>
           <li>messageGroupId / parallelWorkerCount concurrency tuning</li>
@@ -3441,27 +3829,43 @@ visibility: public            # marketplace candidate</code></pre>
 
 <script>
   const views = document.querySelectorAll('.view');
-  const links = document.querySelectorAll('nav a[data-view]');
+  const links = document.querySelectorAll('nav a[data-view]:not(.subitem)');
+  const subs  = document.querySelectorAll('a.subitem');
   const topTitle = document.getElementById('topTitle');
   const titles = {
     dashboard:'Dashboard', m1:'Module 1 · Domain', m2:'Module 2', m3:'Module 3', m4:'Module 4 · Loader',
     m5:'Module 5 · Integrations', m6:'Module 6 · Workflows', m7:'Module 7', m8:'Module 8', m9:'Module 9', m10:'Module 10 · Capstone',
     findings:'Key findings', priority:'Priority matrix', questions:'Colleague questions', links:'Doc links'
   };
-  function show(id){
+  function show(id, anchor){
     views.forEach(v=>v.classList.remove('show'));
     const el = document.getElementById('view-'+id);
     if(el) el.classList.add('show');
-    links.forEach(a=>a.classList.toggle('active', a.getAttribute('data-view')===id));
+    links.forEach(a=>{
+      const on = a.getAttribute('data-view')===id;
+      a.classList.toggle('active', on);
+      a.classList.toggle('expanded', on);
+    });
+    document.querySelectorAll('.sub').forEach(d=>d.classList.toggle('open', d.dataset.for===id));
+    subs.forEach(a=>a.classList.toggle('here', a.getAttribute('data-anchor')===anchor));
     topTitle.textContent = titles[id] || 'VibeIQ TAM';
     document.body.classList.remove('nav-open');
-    window.scrollTo({top:0});
-    if(history.replaceState) history.replaceState(null,'','#'+id);
+    let target = null;
+    if(anchor) target = document.getElementById(anchor);
+    if(target){ target.scrollIntoView({behavior:'smooth', block:'start'}); }
+    else { window.scrollTo({top:0}); }
+    if(history.replaceState) history.replaceState(null,'','#'+id+(anchor?'/'+anchor:''));
   }
   links.forEach(a=>{
     a.addEventListener('click',e=>{
       e.preventDefault();
       show(a.getAttribute('data-view'));
+    });
+  });
+  subs.forEach(a=>{
+    a.addEventListener('click',e=>{
+      e.preventDefault();
+      show(a.getAttribute('data-view'), a.getAttribute('data-anchor'));
     });
   });
   document.addEventListener('click',e=>{
@@ -3476,6 +3880,7 @@ visibility: public            # marketplace candidate</code></pre>
   });
   document.getElementById('menuBtn').addEventListener('click',()=>document.body.classList.toggle('nav-open'));
   document.getElementById('scrim').addEventListener('click',()=>document.body.classList.remove('nav-open'));
-  const start = (location.hash||'#dashboard').slice(1);
-  show(document.getElementById('view-'+start) ? start : 'dashboard');
+  const raw = (location.hash||'#dashboard').slice(1).split('/');
+  const startId = raw[0], startAnchor = raw[1];
+  show(document.getElementById('view-'+startId) ? startId : 'dashboard', startAnchor);
 </script>

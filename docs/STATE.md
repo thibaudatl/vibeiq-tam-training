@@ -62,6 +62,15 @@ every remaining stub carries an explicit "workflow angle" bullet.
 3. No `gh` CLI on this machine; repo actions that need the GitHub API must be
    done by Leo in the browser.
 
+## Navigation
+Every `<h3>` in a view carries a generated id (`<viewid>-<slug>`). The sidebar
+renders a collapsible sub-list per view (only the active view's list is open), and
+each view with 3+ headings opens with an "On this page" agenda. Both use
+`class="subitem"` with `data-view` + `data-anchor`, handled by one delegated
+handler. Hash routing is `#view` or `#view/anchor`.
+**If you add or rename an `<h3>`, regenerate both** — the ids, the sidebar sub-list
+and the agenda are generated from the same heading text and will otherwise drift.
+
 ## Quiz answers
 All 86 quiz questions across Modules 1-9 have model answers, injected as
 `<details>` blocks inside each `<li>`, plus a "Reveal all answers" button per quiz
