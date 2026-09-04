@@ -39,7 +39,7 @@ a markdown tracker (`dashboard.md`) and per-week source notes (`modules/`).
 | 4 | Data in: the Loader framework | written (deep) |
 | 5 | Data out: integration patterns | written (deep) |
 | 6 | Event Workflows | written (deep) |
-| 7 | Apps, Extensions & the config/customization boundary | to write |
+| 7 | Apps, Extensions & the config/customization boundary | written (deep) |
 | 8 | Platform, security & operations | to write |
 | 9 | Troubleshooting & escalation | to write |
 | 10 | Applied TAM practice (capstone) | to write |
@@ -76,3 +76,9 @@ every remaining stub carries an explicit "workflow angle" bullet.
   the cause of the classic duplicate-records bug.
 - Property levels: Family / Option / All / Override. `All` has no copy-down.
 - Publish deletes do NOT accumulate across publishes; S3 links expire in 24h.
+- Configuration promotes via `contrail types getAll`/`loadAll`; apps promote via
+  publish/install. A full environment promotion is TWO mechanisms.
+- App identifier is global+immutable and app ownership is non-transferable. If an
+  SI creates the app in their org, the customer can never own it.
+- Rule sets evaluate client-side. Whether the API/Loader enforce them is UNCONFIRMED
+  and is now a colleague question; do not assert either way.

@@ -177,7 +177,7 @@
       <a href="#m4" data-view="m4"><span class="wk">W4</span> Data in: the Loader <span class="st">★</span></a>
       <a href="#m5" data-view="m5"><span class="wk">W5</span> Data out: integrations <span class="st">★</span></a>
       <a href="#m6" data-view="m6"><span class="wk">W6</span> Event Workflows <span class="st">★</span></a>
-      <a class="todo" href="#m7" data-view="m7"><span class="wk">W7</span> Apps, Extensions &amp; config <span class="st">soon</span></a>
+      <a href="#m7" data-view="m7"><span class="wk">W7</span> Apps, Extensions &amp; config</a>
       <a class="todo" href="#m8" data-view="m8"><span class="wk">W8</span> Platform, security, ops <span class="st">soon</span></a>
       <a class="todo" href="#m9" data-view="m9"><span class="wk">W9</span> Troubleshoot &amp; escalate <span class="st">soon</span></a>
       <a class="todo" href="#m10" data-view="m10"><span class="wk">W10</span> Applied TAM practice <span class="st">soon</span></a>
@@ -222,7 +222,7 @@
             <tr><td>4</td><td>Data in: the Loader framework</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>5</td><td>Data out: integration patterns</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>6</td><td>Event Workflows</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
-            <tr><td>7</td><td>Apps, Extensions &amp; the config boundary</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>7</td><td>Apps, Extensions &amp; the config boundary</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>8</td><td>Platform, security &amp; operations</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
             <tr><td>9</td><td>Troubleshooting &amp; escalation</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
             <tr><td>10</td><td>Applied TAM practice</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
@@ -1777,19 +1777,291 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
       <section class="view" id="view-m7">
         <p class="eyebrow">Module 7 · Week 7</p>
         <h2 class="title">Apps, Extensions &amp; the config/customization boundary</h2>
-        <p class="lede">How far you can go without code, where the line is, and what crossing it costs.</p>
-        <div class="card">
-          <h4 style="margin-top:6px">Not written yet</h4>
-          <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
+        <p class="lede">How far you can go without code, where the line actually is, and what crossing it costs in money, time and people. This is the judgement call you'll be asked to make on nearly every account — usually phrased as "can the platform just do X?"</p>
+
+        <div class="card keystone">
+          <h4>Learning objectives</h4>
+          <p style="margin-bottom:0">By the end of this week you can (1) place any customer request on the configuration→customization spectrum and justify it, (2) write and debug formulas and rule sets, including their silent failure modes, (3) explain how configuration moves between orgs and what that means for environment strategy, (4) describe app identity, ownership and versioning — and the decisions at app creation that can never be undone, and (5) say what an extension is, what it costs to run, and when it's the wrong answer.</p>
+        </div>
+
+        <h3>Concept 1 — The spectrum</h3>
+        <p>"Configuration vs. customization" is a false binary. It's a ladder, and each rung costs more to build, more to change, and involves more people.</p>
+
+        <figure>
+          <svg viewBox="0 0 680 260" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The configuration to customization spectrum, from types and properties through formulas and rule sets, workflows, extensions, to external systems">
+            <rect x="14" y="42" width="124" height="86" rx="9" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1.4"/>
+            <text x="76" y="64" text-anchor="middle" font-size="10" fill="#3d6b5c" font-family="sans-serif" letter-spacing="1">LEVEL 0</text>
+            <text x="76" y="83" text-anchor="middle" font-size="11.5" font-weight="700" fill="#0f4536" font-family="sans-serif">Types &amp;</text>
+            <text x="76" y="98" text-anchor="middle" font-size="11.5" font-weight="700" fill="#0f4536" font-family="sans-serif">properties</text>
+            <text x="76" y="116" text-anchor="middle" font-size="9.5" fill="#3d6b5c" font-family="sans-serif">admin console</text>
+
+            <rect x="148" y="42" width="124" height="86" rx="9" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1.4"/>
+            <text x="210" y="64" text-anchor="middle" font-size="10" fill="#3d6b5c" font-family="sans-serif" letter-spacing="1">LEVEL 1</text>
+            <text x="210" y="83" text-anchor="middle" font-size="11.5" font-weight="700" fill="#0f4536" font-family="sans-serif">Formulas,</text>
+            <text x="210" y="98" text-anchor="middle" font-size="11.5" font-weight="700" fill="#0f4536" font-family="sans-serif">rule sets</text>
+            <text x="210" y="116" text-anchor="middle" font-size="9.5" fill="#3d6b5c" font-family="sans-serif">config, no deploy</text>
+
+            <rect x="282" y="42" width="124" height="86" rx="9" fill="#f6ecd8" stroke="#9a6410" stroke-width="1.4"/>
+            <text x="344" y="64" text-anchor="middle" font-size="10" fill="#7d5210" font-family="sans-serif" letter-spacing="1">LEVEL 2</text>
+            <text x="344" y="83" text-anchor="middle" font-size="11.5" font-weight="700" fill="#9a6410" font-family="sans-serif">Workflows</text>
+            <text x="344" y="98" text-anchor="middle" font-size="11.5" font-weight="700" fill="#9a6410" font-family="sans-serif">&amp; actions</text>
+            <text x="344" y="116" text-anchor="middle" font-size="9.5" fill="#7d5210" font-family="sans-serif">code, in an app</text>
+
+            <rect x="416" y="42" width="124" height="86" rx="9" fill="#f7e6df" stroke="#b0442a" stroke-width="1.4"/>
+            <text x="478" y="64" text-anchor="middle" font-size="10" fill="#8c3520" font-family="sans-serif" letter-spacing="1">LEVEL 3</text>
+            <text x="478" y="83" text-anchor="middle" font-size="11.5" font-weight="700" fill="#8c3520" font-family="sans-serif">Extensions</text>
+            <text x="478" y="105" text-anchor="middle" font-size="9.5" fill="#8c3520" font-family="sans-serif">code + hosted UI</text>
+
+            <rect x="550" y="42" width="116" height="86" rx="9" fill="#f7e6df" stroke="#b0442a" stroke-width="1.4"/>
+            <text x="608" y="64" text-anchor="middle" font-size="10" fill="#8c3520" font-family="sans-serif" letter-spacing="1">LEVEL 4</text>
+            <text x="608" y="83" text-anchor="middle" font-size="11.5" font-weight="700" fill="#8c3520" font-family="sans-serif">External</text>
+            <text x="608" y="98" text-anchor="middle" font-size="11.5" font-weight="700" fill="#8c3520" font-family="sans-serif">systems</text>
+            <text x="608" y="116" text-anchor="middle" font-size="9.5" fill="#8c3520" font-family="sans-serif">their estate</text>
+
+            <line x1="14" y1="158" x2="666" y2="158" stroke="#cfc8ba" stroke-width="1.4"/>
+            <text x="14" y="180" font-size="10.5" fill="#6b7883" font-family="sans-serif">minutes to change</text>
+            <text x="666" y="180" text-anchor="end" font-size="10.5" fill="#6b7883" font-family="sans-serif">a release cycle to change</text>
+            <text x="14" y="200" font-size="10.5" fill="#6b7883" font-family="sans-serif">an admin</text>
+            <text x="666" y="200" text-anchor="end" font-size="10.5" fill="#6b7883" font-family="sans-serif">engineers, hosting, on-call</text>
+            <text x="14" y="220" font-size="10.5" fill="#6b7883" font-family="sans-serif">no deploy</text>
+            <text x="666" y="220" text-anchor="end" font-size="10.5" fill="#6b7883" font-family="sans-serif">versioned, installed, owned</text>
+            <text x="340" y="245" text-anchor="middle" font-size="11" font-weight="700" fill="#141a1f" font-family="sans-serif">Always ask: what is the lowest level that actually solves this?</text>
+          </svg>
+          <figcaption>The ladder — cost, latency and headcount all rise together</figcaption>
+        </figure>
+
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Your default question for any "can it do X?" is <em>"what is the lowest rung that solves this?"</em> Customers and implementation partners both drift upward — engineers reach for code because code is what they do. Every rung you avoid climbing is change latency the customer keeps and support surface you don't inherit. Equally, forcing a Level 1 answer onto a Level 2 problem produces a fragile pile of formulas nobody can maintain. The skill is naming the right rung, not the lowest one.</p>
+        </div>
+
+        <h3>Concept 2 — Formulas</h3>
+        <p>Formulas assign property values programmatically from entity state. Inputs vary by entity type:</p>
+        <table>
+          <thead><tr><th>Entity</th><th>Available inputs</th></tr></thead>
+          <tbody>
+            <tr><td>All entities</td><td><code>obj</code> (the entity's properties), <code>context.previousObj</code> (pre-update state)</td></tr>
+            <tr><td>Items</td><td>plus <code>obj.roles</code> — the array distinguishing <code>family</code> from <code>option</code></td></tr>
+            <tr><td>Plan placeholders</td><td><code>obj.itemFamily</code>, <code>obj.itemOption</code>, <code>obj.itemType</code></td></tr>
+            <tr><td>Project items</td><td><code>obj.item</code>, <code>context.project</code></td></tr>
+            <tr><td>Assortment items</td><td><code>obj.item</code> (option-preferred, falling back to family)</td></tr>
+          </tbody>
+        </table>
+        <p>Return types must match the property: "If the Property Type is <code>\"number\"</code>, then the formula should return a numeric value," and dates must be ISO strings via <code>toISOstring()</code>.</p>
+
+        <h4>Evaluation timing</h4>
+        <ul>
+          <li>Run on create and update for all entities.</li>
+          <li>ProjectItem formulas re-run on Item updates.</li>
+          <li>Plan placeholder formulas run on load, on placeholder updates, and on any row cell modification.</li>
+          <li><strong>Plan publish triggers all Item, ProjectItem and AssortmentItem formulas.</strong></li>
+        </ul>
+
+        <div class="card warn">
+          <h4>Three silent failure modes — memorise these</h4>
+          <ol style="margin-bottom:0">
+            <li><strong>Misspelled slugs return <code>undefined</code>, silently.</strong> The docs are explicit: "Verify every slug against the live Type before saving a formula." No error, no warning — just an empty or wrong value. This is the single most common formula bug, and it looks exactly like a data problem.</li>
+            <li><strong>"Updates to Reference Data does not cause Formulas to re-run."</strong> So a formula that derives from reference data produces a value that is correct when written and quietly stale forever after. The customer changes a lookup, nothing recalculates, and they discover it a season later.</li>
+            <li><strong>"On the Frontend, only Formulas in Plans are run."</strong> Plus only one level of object hydration — you cannot reach nested references beyond immediate properties. A formula that works in one surface may not evaluate in another.</li>
+          </ol>
+        </div>
+
+        <h3>Concept 3 — Rule Sets</h3>
+        <p>Rule Sets "control whether a property is <strong>editable</strong>, <strong>required</strong>, what <strong>option values</strong> are allowed in a dropdown, and what <strong>min/max range</strong> is permitted on a number — based on the current state of the entity."</p>
+        <p>A rule set is JSON with a <code>name</code> (used by CLI and Configuration Copy), an <code>identifier</code> (immutable, unique per org), and a <code>ruleSet</code> array of conditional blocks. Each block has <code>criteria</code> (when it applies) and <code>rules</code> (what it constrains). A rule targets a property by <code>slug</code> and can set:</p>
+        <table>
+          <thead><tr><th>Field</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td><code>editable</code></td><td><code>false</code> locks the property; <code>true</code> is the default</td></tr>
+            <tr><td><code>required</code></td><td>Blocks save when empty</td></tr>
+            <tr><td><code>optionSetValues</code></td><td>Allow-list of permitted values</td></tr>
+            <tr><td><code>minValue</code> / <code>maxValue</code></td><td>Numeric boundaries</td></tr>
+            <tr><td><code>validationFunction</code></td><td>Overrides default validation</td></tr>
+          </tbody>
+        </table>
+        <p><code>"ALL"</code> applies a rule to every property; <code>excludedSlugs</code> carves out exceptions. Filter conditions include <code>equals</code>, <code>not_equal_to</code>, <code>starts_with</code>, <code>contains</code>, <code>less_than</code>, <code>greater_than</code>, <code>is_empty</code>, <code>is_not_empty</code>, <code>is_any_of</code> — validity depending on property type.</p>
+        <div class="card keystone">
+          <h4>Evaluation semantics — get these exactly right</h4>
           <ul style="margin-bottom:0">
-            <li>Formulas, validation functions, rule sets and blueprints; custom entities; configuration copy and uniqueness</li>
-            <li>Apps: the manifest, <code>accessGrants</code>, publish and install lifecycle, the marketplace</li>
-            <li>Extensions: Doc Automation, Contextual Action, Admin Utility — what each can and cannot reach</li>
-            <li>The SDK and CLI at the depth a TAM needs; <code>contrail app publish</code> and template installation</li>
-            <li><strong>Workflow angle:</strong> workflows ship inside apps, so every automation change is a release — pricing that reality for a customer</li>
+            <li>The <strong>outer array is OR</strong> — each block tests independently.</li>
+            <li><strong>Inner criteria are AND</strong> — all conditions in a block must match.</li>
+            <li><strong>"Editability is 'locked wins'"</strong> — if <em>any</em> matching rule says <code>editable: false</code>, the property is locked. You cannot re-open it with a later rule.</li>
+            <li>Validation constraints <strong>accumulate</strong> across all matching rules.</li>
           </ul>
         </div>
-        <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
+        <div class="card warn">
+          <h4>Rule Sets are a UX guardrail, not a data-integrity guarantee</h4>
+          <p style="margin-bottom:0">The docs state rule sets "evaluate client-side, affecting editor experience for all users." That strongly implies the Loader and the API are not bound by them — a load can write a value a rule set forbids in the UI. Treat this as the working assumption, because the alternative (assuming enforcement) is the dangerous error, and it matches the pattern where "the UI wouldn't let us do that, so how is this value here?" turns out to be an integration write. <strong>Confirm the exact enforcement boundary internally before you assert it to a customer</strong> — it belongs on your colleague-questions list, and it changes how you design validation for any integrated field.</p>
+        </div>
+
+        <h3>Concept 4 — The rest of the configuration layer</h3>
+        <ul>
+          <li><strong>Validation Functions</strong> — custom validation, referenceable from a rule via <code>validationFunction</code>.</li>
+          <li><strong>Blueprints</strong> — templated structures for repeatable setup (the docs carry a placeholder-colour example).</li>
+          <li><strong>Uniqueness</strong> — constraints preventing duplicate values. Worth pairing mentally with Week 4: uniqueness rules and <code>federatedId</code> upsert are different mechanisms answering related questions, and a customer may need both.</li>
+          <li><strong>Option Sets</strong> and the <strong>Option Set Hierarchy</strong> — the value lists behind Single/Multi Select, and the multi-level dependencies between them. Recall Week 4: display labels in a CSV are converted to internal option values during preprocessing, so option-set drift breaks loads.</li>
+        </ul>
+
+        <h3>Concept 5 — Configuration Copy, and how environments actually work</h3>
+        <p>This answers a question that has been open since Week 1: how does configuration move between orgs?</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">contrail types getAll     # export this org's configuration to the working directory
+contrail types loadAll    # import into the destination org</code></pre>
+        <p>Eleven categories are exported: option set hierarchies · option sets · rule sets · type policies · type property policies · types · rule set links · type option set hierarchy links · type policy links · type property policy links · usage info. Output is a folder tree of <code>.yml</code> files. Identifiers matter: types are keyed by <code>typePath</code> (e.g. <code>item:footwear</code>), while option set hierarchies and policies use <code>identifier</code>.</p>
+        <p>To promote between environments, you point the configuration at a different org and run <code>loadAll</code>.</p>
+        <div class="card tam">
+          <h4></h4>
+          <p>Three things follow, and all three are worth saying out loud to a customer early:</p>
+          <ul style="margin-bottom:0">
+            <li><strong>Configuration is exportable as text, so it can live in version control.</strong> Customers who commit their <code>types</code> export get review, history and rollback on their configuration. Recommend this on day one; it is the single cheapest maturity upgrade available to them.</li>
+            <li><strong>It is a whole-org export, not a cherry-pick.</strong> Promotion is a bulk operation, so environments drift apart unless promotion is disciplined and one-directional.</li>
+            <li><strong>Configuration Copy moves configuration; apps move separately.</strong> Types, rule sets and policies go via <code>types loadAll</code>; workflows and actions go via app publish and install. A "promotion" is therefore <em>two</em> mechanisms that must stay in step — and a mismatch between them is a real and confusing failure mode.</li>
+          </ul>
+        </div>
+
+        <h3>Concept 6 — Apps: identity, ownership, versions</h3>
+        <p>Above the configuration layer, everything ships inside an app. Three facts about app creation are permanent, and you should be in the room when they're decided.</p>
+        <div class="card warn">
+          <h4>Three irreversible decisions</h4>
+          <ol style="margin-bottom:0">
+            <li><strong>The identifier is global and immutable.</strong> "Creating a contrail app (<code>contrail app create</code>) reserves the app's identifier globally. Since no two apps can share the same identifier, and app identifier can not be altered after creation, it is important to be diligent about choosing the correct identifier." Format is <code>org@domain/app-name</code>.</li>
+            <li><strong>Ownership is permanent and non-transferable.</strong> "Each app is owned by an org. The org that first creates an app is the owner of the app. App ownership can not be modified." Only the owner can modify, publish or delete it.</li>
+            <li><strong>Publishing creates versions</strong>, and installs are what put a version into an org.</li>
+          </ol>
+        </div>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Point 2 is a commercial landmine, not a technical footnote. If a systems integrator or VibeIQ PS creates the customer's app in <em>their</em> org, the customer can never own it — not at renewal, not when they change partners, not ever. The remedy after the fact is rebuilding under a new identifier, which also can't reuse the name. Ask "whose org is this app being created in, and is that where it should live in three years?" before anyone types <code>contrail app create</code>. Nobody thanks you for raising it; everyone would have thanked you later.</p>
+        </div>
+        <p>Visibility is set in <code>app.yml</code>:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">visibility: private            # default
+
+visibility: private           # private, shared with named orgs
+accessGrants:
+  - orgSlug: recipient-org
+    permissions:
+      - install
+
+visibility: public            # marketplace candidate</code></pre>
+        <p>Public listing isn't self-serve: "you can submit a request to include your app on the public App Marketplace," which requires VibeIQ approval via the customer success manager. Another lead-time item for an implementation plan.</p>
+        <p>Installation happens through the Marketplace or the CLI (<code>contrail app install</code>). And from Week 6: publishing turns declared workflows into <strong>Workflow Template Definitions</strong> on that app version, which an installing org instantiates with <code>contrail workflow-template-definitions install</code>.</p>
+
+        <h3>Concept 7 — Extensions</h3>
+        <p>Extensions add UI. They ship inside apps and are declared in the manifest:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">extensions:
+  - identifier: hello-world
+    name: Hello World
+    userApps: [BOARDS, PLAN]
+    display:
+      type: modal
+      dimensions: {width: 660px, height: 300px}
+    iframeUrl: https://example.com
+    extensionType: DOCUMENT_AUTOMATION</code></pre>
+        <table>
+          <thead><tr><th><code>extensionType</code></th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td><code>DOCUMENT_AUTOMATION</code></td><td>Reads document context and performs actions on boards, plans and showcases</td></tr>
+            <tr><td><code>CONTEXTUAL_ACTION</code></td><td>Presented dynamically based on the user's current context</td></tr>
+            <tr><td><code>ADMIN_UTILITY</code></td><td>Extends the Admin Console</td></tr>
+          </tbody>
+        </table>
+        <p>Display is either a <strong>modal</strong> — "a centered dialog with a backdrop. Best for focused tasks" — or a <strong>side-menu</strong>, "a panel docked to the right edge with no backdrop," which lets the user keep working in the document. Side-menu suits inspector-style tools; modal suits a task you start and finish.</p>
+        <p>The runtime API: <code>AppExtension.registerAppExtension()</code> establishes the iframe connection, <code>getAppContext()</code> reads the current board/plan/showcase and the selected elements, and <code>BoardsApp</code> / <code>PlanApp</code> / <code>ShowcaseApp</code> perform document modifications.</p>
+        <div class="card warn">
+          <h4>The hosting consequence</h4>
+          <p style="margin-bottom:0">"The extension is shown to the user in an iframe" and requires <strong>public HTTPS hosting</strong> — self-hosted (Netlify, Vercel) or VibeIQ's managed option. So an extension is a service the customer runs: it has uptime, TLS certificates, a deployment process and an on-call owner. When it is down, users see a broken panel inside VibeIQ and will report it as a VibeIQ outage. Establish who owns that hosting <em>before</em> the extension ships, and make sure it is monitored by someone.</p>
+        </div>
+
+        <h3>Concept 8 — Holding the line</h3>
+        <p>A practical routing table for "can it do X?":</p>
+        <table>
+          <thead><tr><th>If the request is…</th><th>Reach for</th></tr></thead>
+          <tbody>
+            <tr><td>A derived value from data on the same entity</td><td>Formula</td></tr>
+            <tr><td>"This field should be locked / required / limited in these situations"</td><td>Rule Set</td></tr>
+            <tr><td>Custom validation logic on a field</td><td>Validation Function via a rule</td></tr>
+            <tr><td>"When X happens, do Y" — reacting to change</td><td>Workflow (Week 6)</td></tr>
+            <tr><td>"Send it to another system"</td><td>Workflow action or integration (Week 5)</td></tr>
+            <tr><td>"Users need a screen to do Z"</td><td>Extension — and a hosting conversation</td></tr>
+            <tr><td>BOM costing rollups, PO management</td><td>Wrong system (Week 1). Not a feature request.</td></tr>
+          </tbody>
+        </table>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">The most valuable sentence you can offer isn't yes or no — it's <em>"that's possible, and here's what it costs to own."</em> A rule set is a config change an admin makes on a Tuesday. An extension is a hosted service with an on-call rota. Both are legitimate; they are not the same commitment, and customers routinely agree to the second while believing they're buying the first. Making the ownership cost explicit at the decision point is the whole job here.</p>
+        </div>
+
+        <hr class="divider">
+
+        <h3>Recommended reading</h3>
+        <ul>
+          <li><a class="link" href="https://docs.vibeiq.com/configuration/" target="_blank" rel="noopener">Configuration — getting started</a>, then <a class="link" href="https://docs.vibeiq.com/configuration/formulas/" target="_blank" rel="noopener">Formulas</a> and <a class="link" href="https://docs.vibeiq.com/configuration/ruleSets/" target="_blank" rel="noopener">Rule Sets</a> properly.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/configuration/configurationCopy/" target="_blank" rel="noopener">Configuration Copy</a> — the environment-promotion mechanism.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/apps/002_app_lifecycle/" target="_blank" rel="noopener">App Lifecycle</a> — identity, ownership, versions, visibility.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/extensions/" target="_blank" rel="noopener">Extensions</a> — types, display modes, the context API.</li>
+        </ul>
+
+        <hr class="divider">
+
+        <h3>Practical exercise</h3>
+        <div class="card">
+          <p>Route these seven requests to a rung, and for each write one sentence on cost of ownership:</p>
+          <ol style="margin-bottom:0">
+            <li>"Margin % should calculate automatically from cost and retail price."</li>
+            <li>"Once a style is approved, nobody should be able to change its category."</li>
+            <li>"When a style is approved, create a record in our PLM."</li>
+            <li>"Merchandisers need a panel showing last season's sell-through next to each row while they plan."</li>
+            <li>"Only these six colours should be selectable for the outlet channel."</li>
+            <li>"We need the landed cost recalculated whenever the FX rate table changes."</li>
+            <li>"We want to manage supplier purchase orders in VibeIQ."</li>
+          </ol>
+          <p style="margin-top:14px;margin-bottom:0">Number 6 is the interesting one. Explain precisely why the obvious answer fails, and what you'd propose instead.</p>
+        </div>
+
+        <h3>Realistic customer scenario</h3>
+        <div class="card">
+          <p><strong>Summit Athletic</strong> is 8 weeks from go-live. Their systems integrator sends a design note:</p>
+          <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"For the pricing rules we'll build a Document Automation extension — a modal where merchants enter the price and our service validates it against the margin floor before writing back. We've already run <code>contrail app create</code> under our integrator org so we can iterate fast; we'll transfer it to Summit at handover. We're hosting the extension on our own Vercel account for now. Also, we noticed rule sets can enforce the min value, but our load overwrites those prices anyway, so the extension is the safer place for the rule."</p>
+          <p style="margin-bottom:0">There are <strong>at least four problems</strong> here, of very different kinds — one permanent, one operational, one architectural, and one that is actually a correct observation pointing at the wrong conclusion. Identify each; say which is <strong>unfixable after go-live</strong> and why; give the alternative design; and note which of their claims you would <em>verify internally</em> before responding rather than accepting or disputing on the spot.</p>
+        </div>
+
+        <h3>Quiz</h3>
+        <div class="q">
+          <ol class="quiz">
+            <li>Describe the five rungs of the spectrum, and give the question you ask before choosing one.</li>
+            <li>What inputs does a formula get on a ProjectItem, and when does a plan publish cause formulas to run?</li>
+            <li>Name the three silent formula failure modes. Which produces a value that is correct today and wrong next season?</li>
+            <li>What can a rule set control? Explain OR/AND evaluation and what "locked wins" means in practice.</li>
+            <li>Why should you not describe rule sets to a customer as a data-integrity guarantee — and what would you confirm before saying anything definite?</li>
+            <li>What do <code>contrail types getAll</code> / <code>loadAll</code> do, and what are the two mechanisms a full environment promotion actually requires?</li>
+            <li>Why is committing the configuration export to version control such a cheap win?</li>
+            <li>Which two decisions at <code>contrail app create</code> can never be undone, and what is the commercial risk in the second?</li>
+            <li>Name the three extension types and the two display modes. When is a side-menu the right choice?</li>
+            <li>A customer wants a small UI for a weekly task. What do you tell them it costs to own, beyond the build?</li>
+          </ol>
+        </div>
+
+        <h3>Hands-on challenge</h3>
+        <div class="card">
+          <p style="margin-bottom:0">Write your <strong>"can the platform do X?" routing guide</strong> — a one-page decision aid you could hand a customer's product owner. For each rung: what it's for, who can change it, how long a change takes, what it costs to own, and one worked example. Include the two "wrong system" boundaries from Week 1. This is the last artefact in your account-inheritance kit, and the one most likely to be read by someone other than you.</p>
+        </div>
+
+        <div class="outcome">
+          <h4>I know this when I can…</h4>
+          <ul>
+            <li>Route any request to a rung and defend the choice on cost of ownership, not capability.</li>
+            <li>Write a formula and predict when it will and won't re-evaluate.</li>
+            <li>Read a rule set and say exactly which properties end up locked.</li>
+            <li>Explain environment promotion as two mechanisms that must stay in step.</li>
+            <li>Raise app ownership before creation, and explain why it can't be fixed later.</li>
+            <li>Tell a customer what an extension costs to run, not just to build.</li>
+          </ul>
+        </div>
+
+        <details>
+          <summary>How to submit</summary>
+          <p>Answer the quiz, the routing exercise and the scenario in our chat. The scenario rewards noticing that one of the integrator's claims is <em>right</em> — spotting a correct observation being used to justify a wrong conclusion is a genuinely hard review skill.</p>
+        </details>
+        <p class="foot">Module 7 · grounded in official Contrail documentation: Configuration (formulas, rule sets, configuration copy), Apps (app lifecycle), Extensions.</p>
       </section>
 
       <section class="view" id="view-m8">
@@ -1898,6 +2170,7 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
         <div class="card"><h4>SLAs, rate limits &amp; scale</h4><p style="margin-bottom:0">What are the actual numeric API rate limits and documented SLAs? <em>Note: the "15 requests/hour" figure online belongs to vibe.co — a different company — not VibeIQ. Don't cite it.</em></p></div>
         <div class="card"><h4>Monitoring (customer-facing)</h4><p style="margin-bottom:0">What monitoring/alerting do customers get for load, publish, and workflow failures? What's the TAM's visibility into a customer's operational health?</p></div>
         <div class="card warn"><h4>The AI layer (biggest gap)</h4><p style="margin-bottom:0">What's actually GA vs beta vs roadmap? How are agents configured, governed, monitored? Nail this down before making AI claims.</p></div>
+        <div class="card warn"><h4>Rule set enforcement boundary (raised in Week 7)</h4><p style="margin-bottom:0">Rule sets are documented as evaluating client-side. Are they enforced on the API and Loader write paths, or are they purely an editor guardrail? This changes how validation must be designed for any integrated field — and whether "the UI wouldn't allow this" is ever evidence about how a value got there.</p></div>
         <div class="card warn"><h4>Webhook verification (raised in Week 6)</h4><p style="margin-bottom:0">Workflow webhooks document <code>X-Verify-Signature</code> as <em>optional</em>, and the example compares a shared secret rather than an HMAC over the request body — while the webhook ID in the trigger URL acts as a bearer credential. What verification is actually enforced server-side? Is request signing available? Needed before any customer security review.</p></div>
         <div class="card"><h4>Workflow concurrency ceilings</h4><p style="margin-bottom:0">Defaults are 25 concurrent processes per workflow and 60 per org, "adjustable via Customer Success Manager." What is the real process for raising them, what are the hard maximums, and can a customer see their own utilisation before they hit it?</p></div>
         <div class="card"><h4>Support model &amp; escalation</h4><p style="margin-bottom:0">Real internal escalation path &amp; tooling? Where's the TAM/Support/PS/Engineering/Product line in practice? Who owns integration builds — PS or customer?</p></div>

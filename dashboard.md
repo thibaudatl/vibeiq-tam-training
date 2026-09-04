@@ -32,7 +32,7 @@
 | 4 | Data in: the Loader framework | 📖 Ready to read | — | — | — |
 | 5 | Data out: integration patterns | 📖 Ready to read | — | — | — |
 | 6 | Event Workflows | 📖 Ready to read | — | — | — |
-| 7 | Apps, Extensions & the config/customization boundary | ⬜ | — | — | — |
+| 7 | Apps, Extensions & the config/customization boundary | 📖 Ready to read | — | — | — |
 | 8 | Platform, security & operations | ⬜ | — | — | — |
 | 9 | Troubleshooting & escalation methodology | ⬜ | — | — | — |
 | 10 | Applied TAM practice: discovery, reviews, QBRs | ⬜ | — | — | — |
@@ -94,6 +94,9 @@ _(populated as we go — running glossary)_
 - **Attribute ownership map** — per attribute: authoritative system, direction, entity layer, property level, conflict rule.
 - **Baseline reconciliation** — scheduled comparison of downstream state against a fresh baseline; reports drift.
 - **Polling seam** — records lost or doubled at the window boundary; fixed by overlap + idempotency + data-derived timestamps.
+- **Configuration Copy** — `contrail types getAll`/`loadAll`; whole-org config export/import between environments.
+- **"Locked wins"** — if any matching rule set rule says `editable: false`, the property is locked.
+- **The spectrum** — types → formulas/rule sets → workflows → extensions → external systems; cost of ownership rises at each rung.
 
 ## 6. Topics to revisit
 -
@@ -114,6 +117,7 @@ _(from Phase 1 Open Questions — confirm answers as you learn them)_
 - [ ] Data residency options & compliance certs (SOC 2, etc.)?
 - [ ] Webhooks: what signature verification is actually enforced? Is HMAC request signing available?
 - [ ] Workflow concurrency: real process for raising the 25/workflow and 60/org ceilings; can customers see utilisation?
+- [ ] Are rule sets enforced on API/Loader writes, or client-side only? (Changes validation design for integrated fields.)
 
 ## 9. Questions I still don't understand
 _(your own running list — add anything unclear)_
