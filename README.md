@@ -16,14 +16,15 @@ Manager. Grounded in official VibeIQ / Contrail documentation (docs.vibeiq.com).
 
 - Phase 1 (curriculum design) — complete
 - Module 1 (Business domain & where VibeIQ sits) — live
-- Modules 2–10 — authored iteratively; currently locked in the hub
+- Module 2 (Core data model) — written and in the hub, gated until the Module 1 quiz is reviewed
+- Modules 3–10 — authored iteratively; currently locked in the hub
 
 ## Curriculum
 
 | Wk | Module | State |
 |---|---|---|
 | 1 | Business domain & where VibeIQ sits | live |
-| 2 | Core data model (keystone) | locked |
+| 2 | Core data model (keystone) | authored, locked |
 | 3 | End-user apps & the publish lifecycle | locked |
 | 4 | Data in: the Loader framework | locked |
 | 5 | Data out: integration patterns | locked |

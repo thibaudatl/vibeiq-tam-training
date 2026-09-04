@@ -525,8 +525,264 @@
         <p class="foot">Module 1 · grounded in official VibeIQ / Contrail documentation. Diagrams reproduced from the training session.</p>
       </section>
 
+      <!-- ================= MODULE 2 ================= -->
+      <section class="view" id="view-m2">
+        <p class="eyebrow">Module 2 · Week 2</p>
+        <h2 class="title">Core data model</h2>
+        <p class="lede">The keystone module. Almost every escalation you will ever handle resolves to something on this page: <em>which entity</em> is the value on, at <em>which property level</em>, and under <em>which federatedId</em>. Slow down here — Weeks 4, 5 and 9 assume it cold.</p>
+
+        <div class="card keystone">
+          <h4>Learning objectives</h4>
+          <p style="margin-bottom:0">By the end of this week you can (1) explain the Item / ProjectItem / AssortmentItem split and say what lives at each level, (2) choose the right property level for a given attribute and predict what happens on the next load, (3) explain what a <code>federatedId</code> is and diagnose the duplicate-records bug it causes, and (4) describe how Projects, Assortments and the Board/Plan/Showcase apps fit together.</p>
+        </div>
+
+        <h3>Concept 1 — The three item layers</h3>
+        <p>VibeIQ does not store "a product" once. The same product exists at up to three levels, each with a different <strong>scope</strong>. This is the most important structural idea in the platform.</p>
+
+        <figure>
+          <svg viewBox="0 0 680 250" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The three item layers: Item is org-wide, ProjectItem is scoped to a season, AssortmentItem is scoped to one assortment">
+            <defs>
+              <marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+
+            <rect x="30" y="40" width="200" height="150" rx="12" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1.5"/>
+            <text x="130" y="66" text-anchor="middle" font-size="14" font-weight="700" fill="#0f4536" font-family="sans-serif">Item</text>
+            <text x="130" y="86" text-anchor="middle" font-size="11" fill="#0f4536" font-family="sans-serif">scope: the whole org</text>
+            <text x="130" y="114" text-anchor="middle" font-size="11.5" fill="#0f4536" font-family="sans-serif">"What is this product,</text>
+            <text x="130" y="130" text-anchor="middle" font-size="11.5" fill="#0f4536" font-family="sans-serif">ever?"</text>
+            <text x="130" y="156" text-anchor="middle" font-size="10.5" fill="#3d6b5c" font-family="sans-serif">style no., name, category,</text>
+            <text x="130" y="171" text-anchor="middle" font-size="10.5" fill="#3d6b5c" font-family="sans-serif">colour, size range</text>
+
+            <rect x="255" y="40" width="200" height="150" rx="12" fill="#e4eef7" stroke="#1a5a94" stroke-width="1.5"/>
+            <text x="355" y="66" text-anchor="middle" font-size="14" font-weight="700" fill="#12456f" font-family="sans-serif">ProjectItem</text>
+            <text x="355" y="86" text-anchor="middle" font-size="11" fill="#12456f" font-family="sans-serif">scope: one Project ≈ season</text>
+            <text x="355" y="114" text-anchor="middle" font-size="11.5" fill="#12456f" font-family="sans-serif">"What is this product</text>
+            <text x="355" y="130" text-anchor="middle" font-size="11.5" fill="#12456f" font-family="sans-serif">for SS26?"</text>
+            <text x="355" y="156" text-anchor="middle" font-size="10.5" fill="#3a6a94" font-family="sans-serif">season attributes, target</text>
+            <text x="355" y="171" text-anchor="middle" font-size="10.5" fill="#3a6a94" font-family="sans-serif">price, lifecycle state</text>
+
+            <rect x="480" y="40" width="170" height="150" rx="12" fill="#f7e6df" stroke="#b0442a" stroke-width="1.5"/>
+            <text x="565" y="66" text-anchor="middle" font-size="14" font-weight="700" fill="#8c3520" font-family="sans-serif">AssortmentItem</text>
+            <text x="565" y="86" text-anchor="middle" font-size="11" fill="#8c3520" font-family="sans-serif">scope: one Assortment</text>
+            <text x="565" y="114" text-anchor="middle" font-size="11.5" fill="#8c3520" font-family="sans-serif">"Is it in THIS</text>
+            <text x="565" y="130" text-anchor="middle" font-size="11.5" fill="#8c3520" font-family="sans-serif">assortment?"</text>
+            <text x="565" y="156" text-anchor="middle" font-size="10.5" fill="#8c3520" font-family="sans-serif">placement, ordering,</text>
+            <text x="565" y="171" text-anchor="middle" font-size="10.5" fill="#8c3520" font-family="sans-serif">channel terms</text>
+
+            <line x1="230" y1="115" x2="251" y2="115" stroke="#6b7883" stroke-width="1.5" marker-end="url(#ar2)"/>
+            <line x1="455" y1="115" x2="476" y2="115" stroke="#6b7883" stroke-width="1.5" marker-end="url(#ar2)"/>
+
+            <text x="340" y="222" text-anchor="middle" font-size="11.5" fill="#6b7883" font-family="sans-serif">broad and durable  →  narrow and situational   ·   each layer presupposes the one to its left</text>
+          </svg>
+          <figcaption>The same product, at three scopes</figcaption>
+        </figure>
+
+        <table>
+          <thead><tr><th>Entity</th><th>Scope</th><th>Answers</th><th>Typical data</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Item</strong></td><td>Org-wide, season-independent</td><td>"What is this product, ever?"</td><td>Style number, name, category, base attributes, colour, size range</td></tr>
+            <tr><td><strong>ProjectItem</strong></td><td>One Project (≈ one season)</td><td>"What is this product <em>for SS26</em>?"</td><td>Season-specific attributes, that season's target price, lifecycle state</td></tr>
+            <tr><td><strong>AssortmentItem</strong></td><td>One Assortment</td><td>"Is this product in <em>this</em> assortment, and on what terms?"</td><td>Placement, assortment-specific overrides, ordering, channel/region terms</td></tr>
+          </tbody>
+        </table>
+
+        <p>The nesting is strict and one-way, and the Loader enforces it — you cannot load the narrow thing without the broad thing:</p>
+        <ul>
+          <li><code>ITEM</code> alone loads Items only.</li>
+          <li><code>PROJECT_ITEM</code> <strong>must be paired with</strong> <code>ITEM</code> — loads Item and ProjectItem in the same load.</li>
+          <li><code>ASSORTMENT</code> <strong>must be paired with</strong> <code>ITEM</code>, and can also be paired with <code>PROJECT_ITEM</code> — loading all three instances together.</li>
+        </ul>
+        <p><strong>Why the design exists:</strong> a style lives across many seasons; its commercial framing differs each season; and the same season's product appears in many assortments on different terms. Flattening these into one record would either lose the history or duplicate the product.</p>
+
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">"The data is wrong in Plan" is nearly always a <em>level</em> question, not a corruption question. Ask: which entity is the user looking at, and which entity did the integration write to? A value written to the Item won't show up where a user expects if the app is displaying an AssortmentItem override — and vice versa. Train yourself to ask "at which level?" before you ask anything else.</p>
+        </div>
+
+        <h3>Concept 2 — Property levels: Family, Option, All, Override</h3>
+        <p>Property levels apply to entity types with hierarchical structure — <strong>Item</strong> and <strong>ProjectItem</strong>. They control how a value propagates through the Family → Option relationship. And they map straight onto Week 1's vocabulary:</p>
+        <div class="card keystone">
+          <h4>The bridge from Week 1</h4>
+          <p style="margin-bottom:0"><strong>Family ≈ style</strong> (the hoodie) · <strong>Option ≈ colourway</strong> (the hoodie in black). If you understood style → colourway → SKU last week, you already have the shape of this.</p>
+        </div>
+
+        <figure>
+          <svg viewBox="0 0 680 300" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Family values copy down to every option; an Override property can be changed on a single option">
+            <defs>
+              <marker id="ar3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+
+            <rect x="240" y="26" width="200" height="66" rx="10" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1.5"/>
+            <text x="340" y="48" text-anchor="middle" font-size="10.5" fill="#3d6b5c" font-family="sans-serif" letter-spacing="1">FAMILY  ·  style</text>
+            <text x="340" y="68" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0f4536" font-family="sans-serif">Tech Fleece Hoodie</text>
+            <text x="340" y="84" text-anchor="middle" font-size="11" fill="#0f4536" font-family="sans-serif">price = 89</text>
+
+            <line x1="300" y1="92" x2="140" y2="158" stroke="#1d6e56" stroke-width="1.5" marker-end="url(#ar3)"/>
+            <line x1="340" y1="92" x2="340" y2="158" stroke="#1d6e56" stroke-width="1.5" marker-end="url(#ar3)"/>
+            <line x1="380" y1="92" x2="540" y2="158" stroke="#1d6e56" stroke-width="1.5" marker-end="url(#ar3)"/>
+            <text x="196" y="132" text-anchor="middle" font-size="10.5" fill="#3d6b5c" font-family="sans-serif">copy down</text>
+            <text x="484" y="132" text-anchor="middle" font-size="10.5" fill="#3d6b5c" font-family="sans-serif">copy down</text>
+
+            <rect x="55" y="162" width="170" height="76" rx="10" fill="#ffffff" stroke="#cfc8ba" stroke-width="1.5"/>
+            <text x="140" y="182" text-anchor="middle" font-size="10.5" fill="#6b7883" font-family="sans-serif" letter-spacing="1">OPTION · colourway</text>
+            <text x="140" y="202" text-anchor="middle" font-size="12.5" font-weight="600" fill="#141a1f" font-family="sans-serif">Black</text>
+            <text x="140" y="222" text-anchor="middle" font-size="11" fill="#3d4954" font-family="sans-serif">price = 89</text>
+
+            <rect x="255" y="162" width="170" height="76" rx="10" fill="#ffffff" stroke="#cfc8ba" stroke-width="1.5"/>
+            <text x="340" y="182" text-anchor="middle" font-size="10.5" fill="#6b7883" font-family="sans-serif" letter-spacing="1">OPTION · colourway</text>
+            <text x="340" y="202" text-anchor="middle" font-size="12.5" font-weight="600" fill="#141a1f" font-family="sans-serif">Navy</text>
+            <text x="340" y="222" text-anchor="middle" font-size="11" fill="#3d4954" font-family="sans-serif">price = 89</text>
+
+            <rect x="455" y="162" width="170" height="76" rx="10" fill="#f7e6df" stroke="#b0442a" stroke-width="1.5"/>
+            <text x="540" y="182" text-anchor="middle" font-size="10.5" fill="#8c3520" font-family="sans-serif" letter-spacing="1">OPTION · colourway</text>
+            <text x="540" y="202" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8c3520" font-family="sans-serif">Limited Gold</text>
+            <text x="540" y="222" text-anchor="middle" font-size="11" font-weight="700" fill="#b0442a" font-family="sans-serif">price = 119  ← override</text>
+
+            <text x="340" y="272" text-anchor="middle" font-size="11.5" fill="#6b7883" font-family="sans-serif">A Family property copies down and wins. An Override property copies down but can be beaten at the Option level.</text>
+          </svg>
+          <figcaption>Copy-down, and the one level that lets an option disagree</figcaption>
+        </figure>
+
+        <table>
+          <thead><tr><th>Level</th><th>What the docs say it does</th><th>Use it for</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Family</strong></td><td>Updates the single Family-level entity, and "those values will be copied down and persisted onto each of that Family's Options."</td><td>True style-level facts: category, silhouette, description</td></tr>
+            <tr><td><strong>Option</strong></td><td>"Will update the single Option-level entity and those values will be persisted only onto that Option entity."</td><td>Genuinely per-colourway facts: colour code, option image</td></tr>
+            <tr><td><strong>All</strong></td><td>Values are "managed individually for every entity in a Family, regardless if it's a Family or Option level entity." Critically — "No copy down behavior exists for these properties."</td><td>Values set explicitly at every node, with no inheritance at all</td></tr>
+            <tr><td><strong>Override</strong></td><td>Like Family, the value "will copy down to all the Options' properties" — but "you can <em>override</em> the value on the Option level by specifying a different value."</td><td>Defaults that usually hold but sometimes don't: price, margin target</td></tr>
+          </tbody>
+        </table>
+        <p>In a CSV, column suffixes target the level: <code>somePropertyFamily</code>, <code>somePropertyOption</code>.</p>
+
+        <div class="card warn">
+          <h4>The three failure modes to recognise on sight</h4>
+          <ol style="margin-bottom:0">
+            <li><strong>Wrong level chosen at config time.</strong> Price modelled as <code>Family</code> instead of <code>Override</code>, so a single premium colourway can't carry its own price. Presents as <em>"the system won't let us do this."</em></li>
+            <li><strong>Copy-down clobber.</strong> A Family property is reloaded and overwrites option-level edits users made by hand. Presents as <em>"our data reverted overnight."</em> This is the classic one.</li>
+            <li><strong>All vs Override confusion.</strong> The team expects inheritance, gets none, and every option comes up blank. Presents as <em>"the load didn't work."</em></li>
+          </ol>
+        </div>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Property level is a <em>configuration decision made early</em> that is expensive to reverse, because changing it rewrites how existing values propagate. When you inherit an account, find out which properties are Family, which are Override, and which are All. That map predicts their future tickets better than any other single thing you could ask for.</p>
+        </div>
+
+        <h3>Concept 3 — federatedId, and the duplicate-records bug</h3>
+        <div class="card keystone">
+          <h4>Definition</h4>
+          <p style="margin-bottom:0">A <code>federatedId</code> is "a value you provide which uniquely identifies the entity within an org." It drives <strong>upsert</strong>: "If an entity with that <code>federatedId</code> does not exist in VibeIQ, it will be created. If it does exist, it will be updated."</p>
+        </div>
+        <p>For Custom Entities, "if no property is specified as the <code>federatedId</code>, the out of the box <code>name</code> property will be used."</p>
+        <div class="card warn">
+          <h4>The trap, stated plainly in the docs</h4>
+          <p style="margin-bottom:0">Entities created through the core applications — i.e. by users clicking around in the UI — <strong>do not have a federatedId by default</strong>. If you later want the Loader to update those records, someone has to assign one first.</p>
+        </div>
+        <div class="card tam">
+          <h4></h4>
+          <p>This is the root cause of the most common integration bug in the platform: <strong>duplicates</strong>. A customer pilots by hand-creating products in the UI, then wires up a Loader feed keyed on style number. Every record loads as <em>new</em>, because the hand-made ones had no federatedId to match against. Nothing errors. They now have two of everything, and they discover it in a line review.</p>
+          <p style="margin-bottom:0">Ask about federatedId strategy <em>before</em> the first production load. And ask a second question: <strong>what is the federatedId derived from?</strong> If it's a mutable business value — a style number merchants renumber mid-season — the upsert key changes underneath you and you get orphans. Stable meaningless keys beat meaningful ones.</p>
+        </div>
+
+        <h3>Concept 4 — Projects, Assortments and their owners</h3>
+        <p><strong>Project</strong> — the season-scale container. The Project Configurator creates "Projects with nested folders, plans, assortments, showcases, and boards," with assortments possible at both project root and folder level.</p>
+        <p><strong>Assortment</strong> — a curated selection of products for a purpose: a channel, region, customer, or store cluster. One line → many assortments, exactly as in Week 1.</p>
+        <p>An assortment "can be created on its own or it can have an associated plan, board, or showcase":</p>
+        <table>
+          <thead><tr><th>Load type</th><th>Creates</th></tr></thead>
+          <tbody>
+            <tr><td><code>ASSORTMENT</code></td><td>An assortment on its own</td></tr>
+            <tr><td><code>PLAN</code></td><td>A Plan <em>and</em> its assortment</td></tr>
+            <tr><td><code>BOARD</code></td><td>A Board <em>and</em> its assortment</td></tr>
+            <tr><td><code>SHOWCASE</code></td><td>A Showcase <em>and</em> its assortment</td></tr>
+          </tbody>
+        </table>
+        <div class="card keystone">
+          <h4>The link back to Week 1</h4>
+          <p style="margin-bottom:0">Board, Plan and Showcase are each <strong>backed by an assortment</strong>. They are three views onto the same kind of underlying object — which is exactly why a product can travel from mood board to line plan to line review without being re-created. The apps are the surface; the assortment is the substance.</p>
+        </div>
+
+        <h3>Concept 5 — Where this is heading: the publish lifecycle</h3>
+        <p>A preview of Week 3, included here because it is what the data model is <em>for</em>. When a user publishes a Plan, VibeIQ persists the Plan rows down to the underlying Assortment and creates an <code>AssortmentPublishChange</code> — "a snapshot of those changes" for downstream systems. It carries:</p>
+        <ul>
+          <li><code>assortmentBaselineDownloadLink</code> — an S3 URL for "the Assortment's complete state at publish time"</li>
+          <li><code>deleteDataDownloadLink</code> — an S3 URL with "only Items that were dropped or deleted in this specific publish"</li>
+          <li><code>detail</code> — arrays of <code>adds</code>, <code>updates</code>, <code>deletes</code>, <code>familyItemsRemoved</code></li>
+        </ul>
+        <div class="card warn">
+          <h4>Two facts to memorise now — both cause production incidents</h4>
+          <ul style="margin-bottom:0">
+            <li><strong>Deletes do not accumulate.</strong> "Delete data does NOT accumulate across publishes. Each AssortmentPublishChange only contains deletes from that individual publish." Miss one publish and those deletes are permanently missed — unless you re-baseline.</li>
+            <li><strong>S3 links expire after 24 hours.</strong> Re-fetching the change object refreshes them. A consumer that stores the <em>URL</em> breaks; one that stores the <em>change ID</em> can always recover.</li>
+          </ul>
+        </div>
+
+        <hr class="divider">
+
+        <h3>Recommended reading</h3>
+        <ul>
+          <li><a class="link" href="https://docs.vibeiq.com/data_loading/getting_started/" target="_blank" rel="noopener">Data Loading — Getting Started</a> — entity types, load type pairing, federatedId. Read properly, not skimmed.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/data_loading/property_type_handling/" target="_blank" rel="noopener">Property Type Handling</a> — the four property levels. The most important page in the docs for your role.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/data_loading/loading_projects/" target="_blank" rel="noopener">Loading Projects</a> — project structure, folders, assortment owners.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/assortment_publish_integration/" target="_blank" rel="noopener">Assortment Publish Integrations</a> — skim now for the shape; we return to it in Weeks 3 and 5.</li>
+        </ul>
+
+        <hr class="divider">
+
+        <h3>Practical exercise</h3>
+        <div class="card">
+          <p>Take a single real-ish product — a hoodie in 4 colourways, 6 sizes, planned for SS26, appearing in both a Wholesale assortment and a DTC assortment at different price points.</p>
+          <p style="margin-bottom:0">Write out, as a list: which values live on the <strong>Item</strong>, which on the <strong>ProjectItem</strong>, which on the <strong>AssortmentItem</strong>, and for each Item-level property, which <strong>property level</strong> (Family / Option / All / Override) you would configure it as — and one sentence on why. Ten to fifteen properties is plenty.</p>
+        </div>
+
+        <h3>Realistic customer scenario</h3>
+        <div class="card">
+          <p>Back at <strong>Summit Athletic</strong>, six weeks post go-live. A merchandiser messages you:</p>
+          <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"Something's broken. On Monday we set custom retail prices on about 30 individual colourways for the outlet channel. This morning they're all back to the standard style price. Nobody touched them. We're presenting to leadership Thursday."</p>
+          <p style="margin-bottom:0">You have their nightly Loader feed, their property configuration, and the publish history available. Give your <strong>first hypothesis</strong>, the <strong>two things you'd check first</strong> to confirm or kill it, and the <strong>configuration change</strong> you'd expect to end up recommending. Then: one sentence on what you'd say to the merchandiser <em>today</em>, before you know the answer.</p>
+        </div>
+
+        <h3>Quiz</h3>
+        <div class="q">
+          <ol class="quiz">
+            <li>Name the three item layers and give one value that belongs at each. Why can't the same value live at all three?</li>
+            <li>Why must a <code>PROJECT_ITEM</code> load be paired with <code>ITEM</code>? What does that tell you about the relationship?</li>
+            <li>Explain Family vs. Override in one sentence each. Give an attribute you'd model as each, and say why.</li>
+            <li>What is distinctive about the <strong>All</strong> level, and when would you actually want it?</li>
+            <li>What is a <code>federatedId</code>, and what exactly happens on load when one already exists?</li>
+            <li>A customer hand-created 200 products in the UI during their pilot, then turned on a nightly Loader feed. Predict what happens on the first run, and explain why.</li>
+            <li>What is the relationship between an Assortment and the Board / Plan / Showcase apps?</li>
+            <li>An integration consumed publish #14 but its worker was down for publish #15. Publish #16 succeeds. What is now wrong downstream, and what's the fix?</li>
+          </ol>
+        </div>
+
+        <h3>Hands-on challenge</h3>
+        <div class="card">
+          <p style="margin-bottom:0">Draft a <strong>"data model health check"</strong> — the 6–8 questions you'd ask on inheriting any existing account, aimed squarely at the failure modes in this module: property-level mapping, federatedId source and stability, UI-created records, assortment structure, and publish consumption. This becomes a real artefact you'll use in your first weeks on the job, and we'll fold it into the Week 10 capstone.</p>
+        </div>
+
+        <div class="outcome">
+          <h4>I know this when I can…</h4>
+          <ul>
+            <li>Given a symptom, name the layer it's likely on before doing any investigation.</li>
+            <li>Choose a property level for a new attribute and correctly predict the next load's behaviour.</li>
+            <li>Explain the duplicate-records bug end to end, and the two questions that prevent it.</li>
+            <li>Draw Project → Assortment → Board/Plan/Showcase from memory.</li>
+            <li>Say why a missed publish is not self-healing, and what re-baselining is for.</li>
+          </ul>
+        </div>
+
+        <details>
+          <summary>How to submit</summary>
+          <p>Answer the quiz and the scenario in our chat. The scenario matters more than the quiz here — it's the first time you're diagnosing rather than reciting, and diagnosis is the actual job.</p>
+        </details>
+        <p class="foot">Module 2 · grounded in official Contrail documentation: Data Loading (Getting Started, Property Type Handling, Loading Projects) and Integration Patterns (Assortment Publish).</p>
+      </section>
+
       <!-- ============ LOCKED MODULE PLACEHOLDERS ============ -->
-      <section class="view" id="view-m2"><p class="eyebrow">Module 2 · Week 2</p><h2 class="title">Core data model 🔒</h2><p class="lede">Unlocks once you complete the Module 1 quiz. This is the keystone module — Item / ProjectItem / AssortmentItem, property levels, Project &amp; Assortment structure, federatedId.</p></section>
       <section class="view" id="view-m3"><p class="eyebrow">Module 3 · Week 3</p><h2 class="title">Apps &amp; the publish lifecycle 🔒</h2><p class="lede">Unlocks after Module 2.</p></section>
       <section class="view" id="view-m4"><p class="eyebrow">Module 4 · Week 4</p><h2 class="title">Data in: the Loader framework 🔒</h2><p class="lede">Unlocks after Module 3.</p></section>
       <section class="view" id="view-m5"><p class="eyebrow">Module 5 · Week 5</p><h2 class="title">Data out: integration patterns 🔒</h2><p class="lede">Unlocks after Module 4.</p></section>
