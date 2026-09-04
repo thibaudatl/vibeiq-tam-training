@@ -1,0 +1,558 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VibeIQ TAM Training Hub</title>
+<style>
+  :root{
+    --ink:#141a1f;
+    --ink-2:#3d4954;
+    --ink-3:#6b7883;
+    --paper:#f6f4ef;
+    --panel:#ffffff;
+    --line:#e2ddd3;
+    --line-strong:#cfc8ba;
+    --accent:#1d6e56;        /* VibeIQ-ish teal-green */
+    --accent-soft:#e1f0ea;
+    --accent-ink:#0f4536;
+    --amber:#9a6410;
+    --amber-soft:#f6ecd8;
+    --coral:#b0442a;
+    --coral-soft:#f7e6df;
+    --blue:#1a5a94;
+    --blue-soft:#e4eef7;
+    --crit:#a32d2d;
+    --crit-soft:#f8e7e7;
+    --sidebar-w:288px;
+    --maxw:820px;
+    --radius:10px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;color:var(--ink);background:var(--paper);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased;
+  }
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;
+    background:#eee9df;padding:.08em .38em;border-radius:4px;color:#3a2f1e}
+
+  /* Layout */
+  .wrap{display:flex;min-height:100vh}
+  .sidebar{
+    width:var(--sidebar-w);flex:0 0 var(--sidebar-w);
+    background:var(--ink);color:#d8d2c6;
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:26px 20px 40px;
+  }
+  .brand{display:flex;flex-direction:column;gap:2px;margin-bottom:8px}
+  .brand .dot{width:26px;height:26px;border-radius:7px;background:var(--accent);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;margin-bottom:10px}
+  .brand h1{font-size:16px;margin:0;color:#fff;font-weight:600;letter-spacing:.2px}
+  .brand p{margin:0;font-size:12.5px;color:#8f978f}
+  .navlabel{font-size:11px;letter-spacing:.14em;color:#7c847c;margin:26px 0 8px;font-weight:600}
+  nav a{
+    display:flex;align-items:baseline;gap:9px;text-decoration:none;color:#cfc9bd;
+    padding:7px 10px;border-radius:7px;font-size:14px;line-height:1.35;margin:1px 0;
+    border:1px solid transparent;transition:background .12s,color .12s;
+  }
+  nav a:hover{background:#1e262d;color:#fff}
+  nav a.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  nav a .wk{font-variant-numeric:tabular-nums;font-size:12px;color:#8a938a;min-width:34px;font-weight:600}
+  nav a.active .wk{color:#cdeadf}
+  nav a.locked{color:#767d75;cursor:default}
+  nav a.locked:hover{background:transparent;color:#767d75}
+  nav a .st{margin-left:auto;font-size:12px;flex:0 0 auto}
+
+  /* Content */
+  .main{flex:1;min-width:0;display:flex;justify-content:center;padding:0 28px 120px}
+  .col{width:100%;max-width:var(--maxw);padding-top:40px}
+  section.view{display:none}
+  section.view.show{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .eyebrow{color:var(--accent);font-weight:600;font-size:13px;margin:0 0 6px}
+  h2.title{font-size:30px;line-height:1.15;margin:0 0 6px;font-weight:650;letter-spacing:-.01em}
+  .lede{font-size:17px;color:var(--ink-2);margin:0 0 26px;max-width:66ch}
+  h3{font-size:20px;margin:38px 0 8px;font-weight:620;letter-spacing:-.01em}
+  h4{font-size:16px;margin:22px 0 6px;font-weight:620;color:var(--ink)}
+  p{margin:0 0 14px;max-width:70ch}
+  ul,ol{max-width:70ch;margin:0 0 14px;padding-left:22px}
+  li{margin:5px 0}
+  a.link{color:var(--accent-ink);text-decoration:underline;text-underline-offset:2px}
+
+  .divider{height:1px;background:var(--line);border:0;margin:34px 0}
+
+  /* Callouts */
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin:18px 0}
+  .keystone{border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;background:var(--accent-soft)}
+  .keystone h4{color:var(--accent-ink);margin-top:0}
+  .warn{border-left:4px solid var(--amber);border-radius:0 var(--radius) var(--radius) 0;background:var(--amber-soft)}
+  .warn h4{color:var(--amber);margin-top:0}
+  .tam{border-left:4px solid var(--coral);border-radius:0 var(--radius) var(--radius) 0;background:var(--coral-soft)}
+  .tam h4{color:var(--coral);margin-top:0}
+  .tam h4::before{content:"TAM implication";}
+
+  /* Tables */
+  table{border-collapse:collapse;width:100%;margin:16px 0;font-size:14.5px}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#efeadf;font-weight:600;font-size:13px;color:var(--ink-2)}
+  tbody tr:last-child td{border-bottom:0}
+
+  /* Pills */
+  .pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 9px;border-radius:20px;white-space:nowrap}
+  .p-crit{background:var(--crit-soft);color:var(--crit)}
+  .p-imp{background:var(--amber-soft);color:var(--amber)}
+  .p-use{background:var(--blue-soft);color:var(--blue)}
+  .p-nice{background:#eceae4;color:var(--ink-3)}
+  .p-green{background:var(--accent-soft);color:var(--accent-ink)}
+
+  /* Progress */
+  .bar{height:9px;background:#e6e1d6;border-radius:20px;overflow:hidden;margin:6px 0 2px}
+  .bar > i{display:block;height:100%;background:var(--accent);border-radius:20px}
+  .metric{font-size:13px;color:var(--ink-3)}
+
+  /* SVG figure */
+  figure{margin:22px 0;padding:0}
+  figure svg{width:100%;height:auto;display:block;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:10px}
+  figcaption{font-size:13px;color:var(--ink-3);margin-top:8px;text-align:center}
+
+  .steps{counter-reset:s;list-style:none;padding-left:0}
+  .steps li{counter-increment:s;position:relative;padding-left:38px;margin:12px 0}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:0;width:26px;height:26px;
+    background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:700}
+
+  details{border:1px solid var(--line);border-radius:var(--radius);padding:0 16px;margin:10px 0;background:var(--panel)}
+  details[open]{padding-bottom:8px}
+  summary{cursor:pointer;padding:13px 0;font-weight:600;font-size:15px;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"+ ";color:var(--accent);font-weight:700}
+  details[open] summary::before{content:"– "}
+
+  .q{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:4px 18px;margin:14px 0}
+  ol.quiz{counter-reset:q;list-style:none;padding-left:0;margin:14px 0}
+  ol.quiz li{counter-increment:q;position:relative;padding:12px 0 12px 40px;border-bottom:1px solid var(--line)}
+  ol.quiz li:last-child{border-bottom:0}
+  ol.quiz li::before{content:"Q"counter(q);position:absolute;left:0;top:12px;font-weight:700;color:var(--accent);font-size:13px}
+
+  .outcome{background:var(--ink);color:#e8e3d8;border-radius:var(--radius);padding:20px 22px;margin:24px 0}
+  .outcome h4{color:#fff;margin-top:0}
+  .outcome ul{max-width:none}
+  .outcome li{color:#cfc9bd}
+
+  .topbar{display:none}
+  .foot{color:var(--ink-3);font-size:13px;margin-top:50px;border-top:1px solid var(--line);padding-top:16px}
+
+  @media (max-width:860px){
+    .sidebar{position:fixed;left:0;top:0;transform:translateX(-100%);transition:transform .22s;z-index:40;box-shadow:0 0 40px rgba(0,0,0,.3)}
+    body.nav-open .sidebar{transform:none}
+    .main{padding:0 16px 100px}
+    .col{padding-top:16px}
+    .topbar{display:flex;position:sticky;top:0;z-index:30;background:var(--paper);border-bottom:1px solid var(--line);
+      padding:10px 14px;align-items:center;gap:12px;margin:0 -16px 8px}
+    .topbar button{background:var(--ink);color:#fff;border:0;border-radius:8px;padding:8px 12px;font-size:14px;font-weight:600}
+    .topbar span{font-weight:600;font-size:14px}
+    h2.title{font-size:25px}
+    .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:35}
+    body.nav-open .scrim{display:block}
+  }
+</style>
+
+<div class="wrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="dot">V</div>
+      <h1>VibeIQ TAM Training</h1>
+      <p>Technical Account Manager readiness · Leo</p>
+    </div>
+
+    <div class="navlabel">TRACKER</div>
+    <nav id="nav">
+      <a href="#dashboard" data-view="dashboard"><span class="wk">◆</span> Dashboard</a>
+    </nav>
+
+    <div class="navlabel">MODULES</div>
+    <nav id="nav-modules">
+      <a href="#m1" data-view="m1"><span class="wk">W1</span> Domain &amp; where VibeIQ sits <span class="st">🔄</span></a>
+      <a class="locked" data-view="m2"><span class="wk">W2</span> Core data model <span class="st">🔒</span></a>
+      <a class="locked" data-view="m3"><span class="wk">W3</span> Apps &amp; publish lifecycle <span class="st">🔒</span></a>
+      <a class="locked" data-view="m4"><span class="wk">W4</span> Data in: the Loader <span class="st">🔒</span></a>
+      <a class="locked" data-view="m5"><span class="wk">W5</span> Data out: integrations <span class="st">🔒</span></a>
+      <a class="locked" data-view="m6"><span class="wk">W6</span> Apps, Workflows, Extensions <span class="st">🔒</span></a>
+      <a class="locked" data-view="m7"><span class="wk">W7</span> Configuration <span class="st">🔒</span></a>
+      <a class="locked" data-view="m8"><span class="wk">W8</span> Platform, security, ops <span class="st">🔒</span></a>
+      <a class="locked" data-view="m9"><span class="wk">W9</span> Troubleshoot &amp; escalate <span class="st">🔒</span></a>
+      <a class="locked" data-view="m10"><span class="wk">W10</span> Applied TAM practice <span class="st">🔒</span></a>
+    </nav>
+
+    <div class="navlabel">REFERENCE</div>
+    <nav>
+      <a href="#priority" data-view="priority"><span class="wk">§</span> Priority matrix</a>
+      <a href="#questions" data-view="questions"><span class="wk">§</span> Colleague questions</a>
+      <a href="#links" data-view="links"><span class="wk">§</span> Doc links</a>
+    </nav>
+  </aside>
+
+  <div class="scrim" id="scrim"></div>
+
+  <main class="main">
+    <div class="col">
+      <div class="topbar">
+        <button id="menuBtn">☰ Menu</button>
+        <span id="topTitle">Dashboard</span>
+      </div>
+
+      <!-- ================= DASHBOARD ================= -->
+      <section class="view" id="view-dashboard">
+        <p class="eyebrow">Progress tracker</p>
+        <h2 class="title">Training dashboard</h2>
+        <p class="lede">Your live view of the 10-week program. Confidence updates at the end of each module. This page mirrors the Markdown dashboard you can download and carry between sessions.</p>
+
+        <div class="card">
+          <h4 style="margin-top:6px">Overall progress</h4>
+          <div class="bar"><i style="width:8%"></i></div>
+          <p class="metric" style="margin-top:6px">Phase 1 (curriculum design) complete &amp; approved · Module 1 of 10 in progress</p>
+        </div>
+
+        <h3>Week status</h3>
+        <table>
+          <thead><tr><th>Wk</th><th>Module</th><th>Status</th><th>Quiz</th><th>Challenge</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Business domain &amp; where VibeIQ sits</td><td>🔄 In progress</td><td>—</td><td>—</td></tr>
+            <tr><td>2</td><td>Core data model (keystone)</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>3</td><td>End-user apps &amp; publish lifecycle</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>4</td><td>Data in: the Loader framework</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>5</td><td>Data out: integration patterns</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>6</td><td>Automation: Apps, Workflows, Extensions</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>7</td><td>Configuration &amp; the config/custom boundary</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>8</td><td>Platform, security &amp; operations</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>9</td><td>Troubleshooting &amp; escalation</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>10</td><td>Applied TAM practice</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Confidence by major topic</h3>
+        <p class="metric">🟢 Confident &nbsp; 🟡 Familiar, needs practice &nbsp; 🔴 Need to learn</p>
+        <table>
+          <thead><tr><th>Topic</th><th>Priority</th><th>Confidence</th></tr></thead>
+          <tbody>
+            <tr><td>VibeIQ positioning (upstream, "sits alongside")</td><td><span class="pill p-crit">Critical</span></td><td>🔴</td></tr>
+            <tr><td>Core data model: Item / ProjectItem / AssortmentItem</td><td><span class="pill p-crit">Critical</span></td><td>🔴</td></tr>
+            <tr><td>Property levels (Family / Option / Override)</td><td><span class="pill p-crit">Critical</span></td><td>🔴</td></tr>
+            <tr><td>Project (season) / Assortment structure</td><td><span class="pill p-crit">Critical</span></td><td>🔴</td></tr>
+            <tr><td>Plan → publish → AssortmentPublishChange lifecycle</td><td><span class="pill p-crit">Critical</span></td><td>🔴</td></tr>
+            <tr><td>Integration patterns: event-driven vs polling</td><td><span class="pill p-crit">Critical</span></td><td>🔴</td></tr>
+            <tr><td>Config vs customization boundary</td><td><span class="pill p-crit">Critical</span></td><td>🔴</td></tr>
+            <tr><td>Escalation routing</td><td><span class="pill p-crit">Critical</span></td><td>🔴</td></tr>
+            <tr><td>Technical discovery methodology</td><td><span class="pill p-crit">Critical</span></td><td>🔴</td></tr>
+            <tr><td>Loader pipeline &amp; failure modes</td><td><span class="pill p-imp">Important</span></td><td>🔴</td></tr>
+            <tr><td>AssortmentPublishChange internals</td><td><span class="pill p-imp">Important</span></td><td>🔴</td></tr>
+            <tr><td>Event Workflows</td><td><span class="pill p-imp">Important</span></td><td>🔴</td></tr>
+            <tr><td>Auth, rate limits, webhook security</td><td><span class="pill p-imp">Important</span></td><td>🔴</td></tr>
+            <tr><td>Formulas / validation / rule sets / blueprints</td><td><span class="pill p-imp">Important</span></td><td>🔴</td></tr>
+            <tr><td>End-user apps (Boards/Plan/Showcase/Admin)</td><td><span class="pill p-imp">Important</span></td><td>🔴</td></tr>
+            <tr><td>AI capabilities (GA vs roadmap)</td><td><span class="pill p-imp">Important</span></td><td>🔴</td></tr>
+          </tbody>
+        </table>
+
+        <div class="outcome">
+          <h4>Next action</h4>
+          <p style="color:#cfc9bd">Work through Module 1, then submit the quiz and scenario answers. We won't advance to Module 2 until the concepts have landed.</p>
+        </div>
+        <p class="foot">Last updated 2026-09-03 · grounded in official VibeIQ / Contrail documentation.</p>
+      </section>
+
+      <!-- ================= MODULE 1 ================= -->
+      <section class="view" id="view-m1">
+        <p class="eyebrow">Module 1 · Week 1</p>
+        <h2 class="title">Business domain &amp; where VibeIQ sits</h2>
+        <p class="lede">The foundation week. Light on mechanics by design — you can't reason about integrations until you understand what the platform is for, and what problem it solves for whom.</p>
+
+        <div class="card keystone">
+          <h4>Learning objectives</h4>
+          <p style="margin-bottom:0">By the end of this week you can (1) explain in one minute what VibeIQ does and why it is <em>not</em> a PLM, (2) describe the apparel/footwear/CPG go-to-market process at the level a merchandiser would recognize, (3) place VibeIQ correctly in a customer's system landscape, and (4) navigate the "Contrail vs. marketing brand" distinction.</p>
+        </div>
+
+        <h3>Concept 1 — The problem VibeIQ exists to solve</h3>
+        <p>A consumer brand decides months in advance what products it will make for a season. Deciding <em>which</em> products, in which colors, at which price points, hitting which margin targets, for which regions — that's <strong>line planning</strong> (or assortment planning). It happens <em>before</em> the expensive work of development and sourcing.</p>
+        <p>The problem: brands run separate systems for design, financial planning, product development, and selling, and many decisions about which products move forward still happen across disconnected documents and workflows. Teams lose the context behind key decisions once products enter development — nobody remembers <em>why</em> a product was chosen, dropped, or modified, and mistakes surface late when they're expensive to fix.</p>
+        <p>VibeIQ gives merchandising, design, planning, and product-development teams <strong>one live view of the product line</strong> connecting creative intent with commercial context, so they decide what moves forward before unnecessary cost, complexity, and margin risk build downstream. The claimed payoff: fewer planned SKUs, decisions visible months earlier, and thousands of manual hours eliminated.</p>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">The value you protect is <em>earlier, better-informed product decisions with the reasoning preserved</em>. When usage slips, the real questions are: "Are they deciding in VibeIQ, or drifting back to spreadsheets?" and "Is the context surviving the handoff downstream?"</p>
+        </div>
+
+        <h3>Concept 2 — The one sentence to remember</h3>
+        <div class="card keystone">
+          <h4>Keystone</h4>
+          <p style="margin-bottom:0">VibeIQ sits <strong>upstream of, and alongside,</strong> the customer's existing systems — it does <strong>not</strong> replace them. It carries approved product decisions into downstream workflows while preserving the reasoning behind them.</p>
+        </div>
+        <p>The PLM distinction, concrete:</p>
+        <ul>
+          <li><strong>PLM</strong> (e.g. Centric, PTC FlexPLM, Bamboo Rose) manages a product through <em>development and production</em>: tech packs, BOMs, sourcing, supplier collaboration, costing. The system of record for "how do we make and produce this."</li>
+          <li><strong>VibeIQ</strong> manages the <em>decision</em> phase before all that: what should the line even be? The system of record for "what are we preparing to sell, and why."</li>
+        </ul>
+        <p>Typical flow: decisions made in VibeIQ → approved products published to the PLM → PLM drives development/sourcing → ERP handles finance and production execution.</p>
+
+        <figure>
+          <svg viewBox="0 0 680 340" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Where VibeIQ sits: upstream product decisions, handing off to PLM then ERP">
+            <defs>
+              <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+            <text x="130" y="32" text-anchor="middle" font-size="12" fill="#6b7883" font-family="sans-serif">Decide what to sell</text>
+            <text x="370" y="32" text-anchor="middle" font-size="12" fill="#6b7883" font-family="sans-serif">Develop &amp; source it</text>
+            <text x="590" y="32" text-anchor="middle" font-size="12" fill="#6b7883" font-family="sans-serif">Produce &amp; sell it</text>
+
+            <rect x="40" y="46" width="180" height="150" rx="12" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1"/>
+            <text x="130" y="72" text-anchor="middle" font-size="15" font-weight="700" fill="#0f4536" font-family="sans-serif">VibeIQ</text>
+            <text x="130" y="92" text-anchor="middle" font-size="11.5" fill="#0f4536" font-family="sans-serif">product decision platform</text>
+            <text x="130" y="120" text-anchor="middle" font-size="11.5" fill="#0f4536" font-family="sans-serif">line planning</text>
+            <text x="130" y="138" text-anchor="middle" font-size="11.5" fill="#0f4536" font-family="sans-serif">concept &amp; assortment</text>
+            <text x="130" y="156" text-anchor="middle" font-size="11.5" fill="#0f4536" font-family="sans-serif">creative + commercial</text>
+            <text x="130" y="174" text-anchor="middle" font-size="11.5" fill="#0f4536" font-family="sans-serif">context preserved</text>
+
+            <rect x="280" y="46" width="180" height="150" rx="12" fill="#efeadf" stroke="#cfc8ba" stroke-width="1"/>
+            <text x="370" y="72" text-anchor="middle" font-size="15" font-weight="700" fill="#3d4954" font-family="sans-serif">PLM</text>
+            <text x="370" y="94" text-anchor="middle" font-size="11.5" fill="#3d4954" font-family="sans-serif">development system</text>
+            <text x="370" y="120" text-anchor="middle" font-size="11.5" fill="#3d4954" font-family="sans-serif">tech packs, BOMs</text>
+            <text x="370" y="138" text-anchor="middle" font-size="11.5" fill="#3d4954" font-family="sans-serif">sourcing, costing</text>
+            <text x="370" y="164" text-anchor="middle" font-size="11.5" fill="#3d4954" font-family="sans-serif">e.g. Centric, FlexPLM</text>
+
+            <rect x="500" y="46" width="140" height="150" rx="12" fill="#efeadf" stroke="#cfc8ba" stroke-width="1"/>
+            <text x="570" y="72" text-anchor="middle" font-size="15" font-weight="700" fill="#3d4954" font-family="sans-serif">ERP</text>
+            <text x="570" y="96" text-anchor="middle" font-size="11.5" fill="#3d4954" font-family="sans-serif">execution</text>
+            <text x="570" y="120" text-anchor="middle" font-size="11.5" fill="#3d4954" font-family="sans-serif">finance, production</text>
+            <text x="570" y="146" text-anchor="middle" font-size="11.5" fill="#3d4954" font-family="sans-serif">orders, inventory</text>
+
+            <text x="250" y="112" text-anchor="middle" font-size="11.5" fill="#6b7883" font-family="sans-serif">publish</text>
+            <line x1="220" y1="121" x2="276" y2="121" stroke="#6b7883" stroke-width="1.5" marker-end="url(#ar)"/>
+            <line x1="460" y1="121" x2="496" y2="121" stroke="#6b7883" stroke-width="1.5" marker-end="url(#ar)"/>
+
+            <rect x="40" y="250" width="600" height="62" rx="10" fill="#e4eef7" stroke="#1a5a94" stroke-width="1"/>
+            <text x="60" y="274" font-size="13.5" font-weight="700" fill="#12456f" font-family="sans-serif">The one sentence to remember</text>
+            <text x="60" y="294" font-size="11.5" fill="#12456f" font-family="sans-serif">VibeIQ works alongside PLM / planning / enterprise systems — it does not replace them. It carries</text>
+            <text x="60" y="308" font-size="11.5" fill="#12456f" font-family="sans-serif">approved decisions downstream while preserving the reasoning behind them.</text>
+          </svg>
+          <figcaption>Where VibeIQ sits in the customer landscape</figcaption>
+        </figure>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Your hardest technical conversations are almost never about VibeIQ alone — they're about the <em>seam</em> between VibeIQ and the PLM/ERP: what data flows across it, which direction, when, and what breaks. That's why Weeks 4 &amp; 5 are the technical heart of the program.</p>
+        </div>
+
+        <h3>Concept 3 — Who the users are</h3>
+        <table>
+          <thead><tr><th>Team</th><th>Owns</th><th>Cares about</th></tr></thead>
+          <tbody>
+            <tr><td>Merchandisers / line planners</td><td>The assortment — mix, price points, margin targets</td><td>Shape of the line, hitting commercial goals. Primary daily users.</td></tr>
+            <tr><td>Designers</td><td>Creative intent — look, colorways, materials</td><td>Creative context not being lost as products move forward.</td></tr>
+            <tr><td>Planners (financial/merch)</td><td>The numbers — volumes, margins, budgets</td><td>Commercial targets connected to actual products.</td></tr>
+            <tr><td>Product development</td><td>The bridge to PLM</td><td>Handoff being complete and accurate.</td></tr>
+            <tr><td>Regional teams</td><td>Regional adoption</td><td>Which products work for which markets.</td></tr>
+          </tbody>
+        </table>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">"Adoption" is never monolithic. Merchandisers can be all-in while design still works elsewhere — meaning creative context enters VibeIQ late or not at all. That's a real, diagnosable health problem. Know <em>which</em> team is the weak link.</p>
+        </div>
+
+        <h3>Concept 4 — Contrail vs. the marketing brand</h3>
+        <p>The platform has two voices for the same thing:</p>
+        <ul>
+          <li><strong>Marketing / product voice</strong> (vibeiq.com): "AI-native product decision platform," role-based AI agents, concept generation, line-plan automation. Reflects a real 2026 repositioning; VibeIQ raised $22.5M (led by Volition Capital, Aug 2026) to push this direction.</li>
+          <li><strong>Technical / engineering voice</strong> (docs.vibeiq.com): the platform is documented as <strong>Contrail</strong> — a configurable, extensible product workspace tool. SDK, CLI, and npm packages are all <code>@contrail/*</code>.</li>
+        </ul>
+        <p>You'll code-switch constantly: AI-decision-platform language with a VP of Merchandising, Contrail/entity/workflow language with an integration engineer. When "Contrail" shows up in Slack, it just means "the platform internals."</p>
+        <div class="card warn">
+          <h4>Caution — don't overpromise AI</h4>
+          <p style="margin-bottom:0">AI capabilities are heavily marketed but thinly documented publicly. Until you confirm internally what's GA vs. beta vs. roadmap, don't promise AI functionality you can't substantiate. Overpromising on AI is the fastest way for a new TAM to create a trust problem.</p>
+        </div>
+
+        <hr class="divider">
+
+        <h3>Recommended reading</h3>
+        <p><strong>Primary (official):</strong></p>
+        <ul>
+          <li><a class="link" href="https://vibeiq.com/platform/" target="_blank" rel="noopener">vibeiq.com/platform</a> — the "products, assortments, assets" core framing and the AI-as-operating-model narrative.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/" target="_blank" rel="noopener">docs.vibeiq.com</a> — just orient to the structure (Data Loading, Apps, Extensions, Workflows, Configuration, Integration Patterns). Don't study yet; see the map.</li>
+        </ul>
+        <p><strong>Context (external, not official docs):</strong> any August 2026 funding announcement for current positioning and named customers (New Balance, L.L. Bean, Vera Bradley, Converse, Kizik, Malbon).</p>
+        <p><strong>Background:</strong> if line planning is new, a general primer on "merchandise assortment planning" — industry context, not VibeIQ-specific.</p>
+
+        <hr class="divider">
+
+        <h3>Practical exercise</h3>
+        <div class="card">
+          <p>Write two ~60-second (~130-word) elevator pitches:</p>
+          <ol>
+            <li>For a <strong>VP of Merchandising</strong> (non-technical, business outcomes).</li>
+            <li>For an <strong>integration engineer</strong> (technical, how it fits their stack).</li>
+          </ol>
+          <p style="margin-bottom:0"><strong>Constraint:</strong> neither may use "PLM" as a synonym for VibeIQ, and each must correctly convey the "upstream, sits alongside" positioning.</p>
+        </div>
+
+        <h3>Realistic customer scenario</h3>
+        <div class="card">
+          <p>You're on an intro call with <strong>"Summit Athletic,"</strong> a mid-size footwear brand. Their VP of Product says:</p>
+          <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"We already have Centric PLM and just finished rolling it out. I don't understand why we'd need another product system on top of it. Isn't this overlap?"</p>
+          <p style="margin-bottom:0">Sketch your response: the core distinction you'd draw, plus one discovery question to test whether VibeIQ actually fits. Don't write a speech — just the shape of the response and the question.</p>
+        </div>
+
+        <h3>Quiz</h3>
+        <div class="q">
+          <ol class="quiz">
+            <li>In one sentence, what business problem does VibeIQ primarily solve, and <em>when</em> in the product timeline does it operate?</li>
+            <li>A customer says "VibeIQ is basically our PLM, right?" — what's wrong with that, and what's the correct relationship?</li>
+            <li>Name three user teams VibeIQ is built for, and one thing each cares about.</li>
+            <li>What does "Contrail" refer to, and why might you hear it internally instead of "VibeIQ"?</li>
+            <li>Why should a new TAM be cautious when a customer asks about VibeIQ's AI agent capabilities?</li>
+          </ol>
+        </div>
+
+        <h3>Hands-on challenge</h3>
+        <div class="card">
+          <p style="margin-bottom:0">Produce a one-page <strong>"customer landscape" discovery template</strong> — 8–12 questions to map where VibeIQ sits in any customer's ecosystem, grouped into: existing systems, data ownership, seasonal cadence, downstream handoff. We'll reuse and sharpen it in Week 10.</p>
+        </div>
+
+        <div class="outcome">
+          <h4>I know this when I can…</h4>
+          <ul>
+            <li>Give the 60-second pitch in both registers without conflating VibeIQ with a PLM.</li>
+            <li>Explain the upstream/alongside positioning to a skeptical VP.</li>
+            <li>Name the user teams and what each values.</li>
+            <li>Decode "Contrail" and hold a grounded (not overpromised) AI conversation.</li>
+          </ul>
+        </div>
+
+        <details>
+          <summary>How to submit</summary>
+          <p>Answer the quiz and the scenario in our chat — paste your responses and I'll review before we unlock Module 2. The exercise and challenge are optional to share, but I'll give feedback if you post them.</p>
+        </details>
+        <p class="foot">Module 1 · grounded in official VibeIQ / Contrail documentation. Diagrams reproduced from the training session.</p>
+      </section>
+
+      <!-- ============ LOCKED MODULE PLACEHOLDERS ============ -->
+      <section class="view" id="view-m2"><p class="eyebrow">Module 2 · Week 2</p><h2 class="title">Core data model 🔒</h2><p class="lede">Unlocks once you complete the Module 1 quiz. This is the keystone module — Item / ProjectItem / AssortmentItem, property levels, Project &amp; Assortment structure, federatedId.</p></section>
+      <section class="view" id="view-m3"><p class="eyebrow">Module 3 · Week 3</p><h2 class="title">Apps &amp; the publish lifecycle 🔒</h2><p class="lede">Unlocks after Module 2.</p></section>
+      <section class="view" id="view-m4"><p class="eyebrow">Module 4 · Week 4</p><h2 class="title">Data in: the Loader framework 🔒</h2><p class="lede">Unlocks after Module 3.</p></section>
+      <section class="view" id="view-m5"><p class="eyebrow">Module 5 · Week 5</p><h2 class="title">Data out: integration patterns 🔒</h2><p class="lede">Unlocks after Module 4.</p></section>
+      <section class="view" id="view-m6"><p class="eyebrow">Module 6 · Week 6</p><h2 class="title">Apps, Workflows &amp; Extensions 🔒</h2><p class="lede">Unlocks after Module 5.</p></section>
+      <section class="view" id="view-m7"><p class="eyebrow">Module 7 · Week 7</p><h2 class="title">Configuration 🔒</h2><p class="lede">Unlocks after Module 6.</p></section>
+      <section class="view" id="view-m8"><p class="eyebrow">Module 8 · Week 8</p><h2 class="title">Platform, security &amp; operations 🔒</h2><p class="lede">Unlocks after Module 7.</p></section>
+      <section class="view" id="view-m9"><p class="eyebrow">Module 9 · Week 9</p><h2 class="title">Troubleshooting &amp; escalation 🔒</h2><p class="lede">Unlocks after Module 8.</p></section>
+      <section class="view" id="view-m10"><p class="eyebrow">Module 10 · Week 10</p><h2 class="title">Applied TAM practice 🔒</h2><p class="lede">The capstone. Unlocks after Module 9.</p></section>
+
+      <!-- ================= PRIORITY MATRIX ================= -->
+      <section class="view" id="view-priority">
+        <p class="eyebrow">Reference</p>
+        <h2 class="title">Priority matrix</h2>
+        <p class="lede">The 20% that delivers 80% is everything marked Critical. Master those and you'll be effective fast.</p>
+        <h3><span class="pill p-crit">Critical</span> must know</h3>
+        <ul>
+          <li>Core data model: Item / ProjectItem / AssortmentItem and property levels</li>
+          <li>Project (season) / Assortment structure</li>
+          <li>Plan → publish → AssortmentPublishChange → downstream lifecycle</li>
+          <li>"Sits alongside, doesn't replace PLM/ERP" positioning</li>
+          <li>Integration patterns: event-driven vs polling, and when to use each</li>
+          <li>Config-vs-customization boundary</li>
+          <li>Escalation routing (TAM / Support / Engineering / Product / PS)</li>
+          <li>Technical discovery methodology</li>
+        </ul>
+        <h3><span class="pill p-imp">Important</span></h3>
+        <ul>
+          <li>The Loader pipeline and its failure modes</li>
+          <li>AssortmentPublishChange internals (baseline, deletes, detail, 24h S3 expiry)</li>
+          <li>Event Workflows (triggers/conditionals/actions), internal vs external events</li>
+          <li>Auth, rate limits, error codes, webhook security</li>
+          <li>Formulas, validation functions, rule sets, blueprints</li>
+          <li>End-user apps (Boards, Plan, Showcase, Admin Console)</li>
+          <li>Troubleshooting methodology anchored to the pipeline</li>
+          <li>AI capabilities: shipped vs roadmap</li>
+        </ul>
+        <h3><span class="pill p-use">Useful</span></h3>
+        <ul>
+          <li>SDK/CLI mechanics; app manifest, marketplace, lifecycle</li>
+          <li>Extensions (Doc Automation / Contextual Action / Admin Utility)</li>
+          <li>Custom entities, option set hierarchy, size range templates</li>
+          <li>Configuration copy, uniqueness; transformers in depth</li>
+        </ul>
+        <h3><span class="pill p-nice">Nice to know</span></h3>
+        <ul>
+          <li>Deep SDK internals &amp; app-framework decorators</li>
+          <li>messageGroupId / parallelWorkerCount concurrency tuning</li>
+          <li>Node runtime management; Java SDK specifics; CLI CI/CD automation</li>
+        </ul>
+      </section>
+
+      <!-- ================= QUESTIONS ================= -->
+      <section class="view" id="view-questions">
+        <p class="eyebrow">Reference</p>
+        <h2 class="title">Questions for VibeIQ colleagues</h2>
+        <p class="lede">The public docs are strong on the developer layer but thin on operations. Treat this as your onboarding interview guide — confirm answers as you learn them.</p>
+        <div class="card"><h4>Environments &amp; tenancy</h4><p style="margin-bottom:0">Do customers get separate dev/staging/prod orgs? How is config promoted between them?</p></div>
+        <div class="card"><h4>Permissions &amp; RBAC</h4><p style="margin-bottom:0">What is the end-user role/permission model inside Boards/Plan/Showcase? (Docs cover app-level access grants + API-key auth only.)</p></div>
+        <div class="card"><h4>SLAs, rate limits &amp; scale</h4><p style="margin-bottom:0">What are the actual numeric API rate limits and documented SLAs? <em>Note: the "15 requests/hour" figure online belongs to vibe.co — a different company — not VibeIQ. Don't cite it.</em></p></div>
+        <div class="card"><h4>Monitoring (customer-facing)</h4><p style="margin-bottom:0">What monitoring/alerting do customers get for load, publish, and workflow failures? What's the TAM's visibility into a customer's operational health?</p></div>
+        <div class="card warn"><h4>The AI layer (biggest gap)</h4><p style="margin-bottom:0">What's actually GA vs beta vs roadmap? How are agents configured, governed, monitored? Nail this down before making AI claims.</p></div>
+        <div class="card"><h4>Support model &amp; escalation</h4><p style="margin-bottom:0">Real internal escalation path &amp; tooling? Where's the TAM/Support/PS/Engineering/Product line in practice? Who owns integration builds — PS or customer?</p></div>
+        <div class="card"><h4>Data residency &amp; compliance</h4><p style="margin-bottom:0">File uploads route through AWS S3 (us-east-1 in examples). Residency options? Compliance certs (SOC 2, etc.) you can represent to a security team?</p></div>
+      </section>
+
+      <!-- ================= LINKS ================= -->
+      <section class="view" id="view-links">
+        <p class="eyebrow">Reference</p>
+        <h2 class="title">Documentation links</h2>
+        <p class="lede">Official sources, grouped by domain. These anchor every module.</p>
+        <table>
+          <tbody>
+            <tr><td>Docs home (Contrail)</td><td><a class="link" href="https://docs.vibeiq.com/" target="_blank" rel="noopener">docs.vibeiq.com</a></td></tr>
+            <tr><td>Data Loading — Getting Started</td><td><a class="link" href="https://docs.vibeiq.com/data_loading/getting_started/" target="_blank" rel="noopener">/data_loading/getting_started</a></td></tr>
+            <tr><td>Integration Patterns</td><td><a class="link" href="https://docs.vibeiq.com/integration_patterns/" target="_blank" rel="noopener">/integration_patterns</a></td></tr>
+            <tr><td>Authentication &amp; API Access</td><td><a class="link" href="https://docs.vibeiq.com/integration_patterns/authentication/" target="_blank" rel="noopener">/integration_patterns/authentication</a></td></tr>
+            <tr><td>Assortment Publish Integrations</td><td><a class="link" href="https://docs.vibeiq.com/integration_patterns/assortment_publish_integration/" target="_blank" rel="noopener">/assortment_publish_integration</a></td></tr>
+            <tr><td>Change History Polling</td><td><a class="link" href="https://docs.vibeiq.com/integration_patterns/change_history_polling/" target="_blank" rel="noopener">/change_history_polling</a></td></tr>
+            <tr><td>Workflows</td><td><a class="link" href="https://docs.vibeiq.com/workflows/" target="_blank" rel="noopener">/workflows</a></td></tr>
+            <tr><td>Apps — Getting Started</td><td><a class="link" href="https://docs.vibeiq.com/apps/getting_started/" target="_blank" rel="noopener">/apps/getting_started</a></td></tr>
+            <tr><td>Extensions</td><td><a class="link" href="https://docs.vibeiq.com/extensions/" target="_blank" rel="noopener">/extensions</a></td></tr>
+            <tr><td>Configuration</td><td><a class="link" href="https://docs.vibeiq.com/configuration/" target="_blank" rel="noopener">/configuration</a></td></tr>
+            <tr><td>SDK reference</td><td><a class="link" href="https://sdk.docs.vibeiq.com/" target="_blank" rel="noopener">sdk.docs.vibeiq.com</a></td></tr>
+            <tr><td>Platform / company</td><td><a class="link" href="https://vibeiq.com/platform/" target="_blank" rel="noopener">vibeiq.com/platform</a></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  const views = document.querySelectorAll('.view');
+  const links = document.querySelectorAll('nav a[data-view]');
+  const topTitle = document.getElementById('topTitle');
+  const titles = {
+    dashboard:'Dashboard', m1:'Module 1 · Domain', m2:'Module 2', m3:'Module 3', m4:'Module 4',
+    m5:'Module 5', m6:'Module 6', m7:'Module 7', m8:'Module 8', m9:'Module 9', m10:'Module 10',
+    priority:'Priority matrix', questions:'Colleague questions', links:'Doc links'
+  };
+  function show(id){
+    views.forEach(v=>v.classList.remove('show'));
+    const el = document.getElementById('view-'+id);
+    if(el) el.classList.add('show');
+    links.forEach(a=>a.classList.toggle('active', a.getAttribute('data-view')===id));
+    topTitle.textContent = titles[id] || 'VibeIQ TAM';
+    document.body.classList.remove('nav-open');
+    window.scrollTo({top:0});
+    if(history.replaceState) history.replaceState(null,'','#'+id);
+  }
+  links.forEach(a=>{
+    a.addEventListener('click',e=>{
+      if(a.classList.contains('locked')){e.preventDefault();return;}
+      e.preventDefault();
+      show(a.getAttribute('data-view'));
+    });
+  });
+  document.getElementById('menuBtn').addEventListener('click',()=>document.body.classList.toggle('nav-open'));
+  document.getElementById('scrim').addEventListener('click',()=>document.body.classList.remove('nav-open'));
+  const start = (location.hash||'#dashboard').slice(1);
+  show(document.getElementById('view-'+start) ? start : 'dashboard');
+</script>
