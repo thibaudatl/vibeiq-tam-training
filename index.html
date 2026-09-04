@@ -128,6 +128,19 @@
   details[open] summary::before{content:"– "}
 
   .q{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:4px 18px;margin:14px 0}
+  .q > .revealall{margin:14px 0 2px}
+  .revealall{background:var(--accent);color:#fff;border:0;border-radius:7px;padding:7px 13px;
+    font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+  .revealall:hover{background:var(--accent-ink)}
+  ol.quiz details{border:0;border-left:3px solid var(--accent);border-radius:0 7px 7px 0;
+    background:var(--accent-soft);padding:0 14px;margin:11px 0 3px}
+  ol.quiz details[open]{padding-bottom:11px}
+  ol.quiz summary{padding:9px 0;font-size:12.5px;font-weight:700;color:var(--accent-ink);
+    letter-spacing:.02em}
+  ol.quiz summary::before{content:"▸ Show answer";color:var(--accent-ink)}
+  ol.quiz details[open] summary::before{content:"▾ Answer"}
+  ol.quiz details p{font-size:14.5px;margin:0 0 9px;max-width:none;color:var(--ink)}
+  ol.quiz details p:last-child{margin-bottom:0}
   ol.quiz{counter-reset:q;list-style:none;padding-left:0;margin:14px 0}
   ol.quiz li{counter-increment:q;position:relative;padding:12px 0 12px 40px;border-bottom:1px solid var(--line)}
   ol.quiz li:last-child{border-bottom:0}
@@ -491,15 +504,32 @@
 
         <h3>Quiz</h3>
         <div class="q">
+          <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
-            <li>In one sentence, what business problem does VibeIQ primarily solve, and <em>when</em> in the product timeline does it operate?</li>
-            <li>Walk the seasonal GTM calendar from trend to production. Where does VibeIQ stop and PLM begin, and why is the boundary there?</li>
-            <li>Define <em>style</em>, <em>colourway</em> and <em>SKU</em>, and explain what "one line → many assortments" means.</li>
-            <li>A customer says "VibeIQ is basically our PLM, right?" — what's wrong with that, and what's the correct relationship?</li>
-            <li>Which tools does VibeIQ actually displace, and why is that a stronger answer to the overlap objection than arguing about PLM?</li>
-            <li>Name three user teams VibeIQ is built for, and one thing each cares about.</li>
-            <li>What does "Contrail" refer to, and why might you hear it internally instead of "VibeIQ"?</li>
-            <li>Why should a new TAM be cautious when a customer asks about VibeIQ's AI agent capabilities?</li>
+            <li>In one sentence, what business problem does VibeIQ primarily solve, and <em>when</em> in the product timeline does it operate?
+              <details><summary></summary><p>Brands decide months ahead which products to make for a season, and those decisions happen across disconnected spreadsheets, decks and mood boards — so the reasoning behind them is lost by the time products reach development. VibeIQ gives merchandising, design and planning <strong>one live view of the product line</strong> so the line is decided before cost and complexity build downstream. <strong>When:</strong> the decision phase — concept through line review and sell-in — <em>before</em> development and sourcing.</p></details>
+            </li>
+            <li>Walk the seasonal GTM calendar from trend to production. Where does VibeIQ stop and PLM begin, and why is the boundary there?
+              <details><summary></summary><p>Trend/concept → line planning → design → line review → development &amp; sourcing → sell-in → production &amp; launch. <strong>VibeIQ owns the top half</strong> (concept through line review, and again at sell-in); <strong>PLM begins at development &amp; sourcing</strong>; ERP handles production. The boundary sits there because that is where the question changes from <em>"what should we sell?"</em> to <em>"how do we make it?"</em> — tech packs, BOMs, costing and vendors are a different system of record, and the expensive work starts there. Everything upstream is reversible; everything downstream costs money to change.</p></details>
+            </li>
+            <li>Define <em>style</em>, <em>colourway</em> and <em>SKU</em>, and explain what "one line → many assortments" means.
+              <details><summary></summary><p><strong>Style</strong> = the design (a hoodie). <strong>Colourway</strong> = that style in a colour. <strong>SKU</strong> = that colourway in a size. Volume explodes at each level, and this maps onto VibeIQ's Family → Option model (Week 2). <strong>"One line → many assortments"</strong>: the <em>line</em> is everything the brand offers for a season; an <em>assortment</em> is a curated selection of it for a purpose — a channel, region, customer or store cluster. The same style appears in several assortments, potentially on different terms.</p></details>
+            </li>
+            <li>A customer says "VibeIQ is basically our PLM, right?" — what's wrong with that, and what's the correct relationship?
+              <details><summary></summary><p>It's wrong because PLM is the system of record for <em>how a product is made</em> — tech packs, BOMs, sourcing, costing — and was never designed for a merchant and a designer to cut 400 styles to 250 while looking at images. <strong>The correct relationship:</strong> VibeIQ sits <em>upstream of, and alongside</em>, PLM. It does not replace it; it carries approved decisions downstream while preserving the reasoning. Decisions in VibeIQ → publish to PLM → PLM drives development → ERP handles production. Integration is typically two-way, with PLM/ERP authoritative for cost and materials flowing back.</p></details>
+            </li>
+            <li>Which tools does VibeIQ actually displace, and why is that a stronger answer to the overlap objection than arguing about PLM?
+              <details><summary></summary><p>It displaces <strong>Miro, Excel and PowerPoint</strong> — Board replaces Miro, Plan replaces Excel, Showcase replaces PowerPoint. It's the stronger answer because it names <em>what the customer is actually doing today</em>: a spreadsheet with images pasted in, emailed around. Arguing PLM categories is abstract and invites debate about definitions; naming the incumbent is concrete and the customer recognises it immediately. It also reframes the purchase as replacing a painful process rather than adding a system on top of one they just rolled out.</p></details>
+            </li>
+            <li>Name three user teams VibeIQ is built for, and one thing each cares about.
+              <details><summary></summary><p>Any three of — <strong>Merchandisers / line planners</strong>: the shape of the line, price points and margin targets (primary daily users). <strong>Designers</strong>: that creative context isn't lost as products move forward. <strong>Planners</strong>: volumes, margins and budgets connected to actual products. <strong>Product development</strong>: a complete, accurate handoff to PLM. <strong>Regional teams</strong>: which products work in their markets. <em>TAM angle:</em> adoption is never monolithic — knowing which team lags tells you where health is actually failing.</p></details>
+            </li>
+            <li>What does "Contrail" refer to, and why might you hear it internally instead of "VibeIQ"?
+              <details><summary></summary><p><strong>Contrail</strong> is the engineering/technical sub-brand for the platform — the name on the developer docs (docs.vibeiq.com), with SDK, CLI and npm packages all under <code>@contrail/*</code>. VibeIQ is the commercial brand. You'll hear it internally and from engineers because it refers to the platform internals; you code-switch by audience — AI-decision-platform language with a VP of Merchandising, Contrail/entity/workflow language with an integration engineer.</p></details>
+            </li>
+            <li>Why should a new TAM be cautious when a customer asks about VibeIQ's AI agent capabilities?
+              <details><summary></summary><p>Because AI is <strong>heavily marketed but thinly documented</strong>. Named native agents are a public claim, not a verified capability set, and nothing public tells you what is GA versus beta versus roadmap. Promising AI functionality you can't substantiate is the fastest way for a new TAM to create a trust problem — and it's unrecoverable, because once a customer catches one overstatement they verify everything else you say. Confirm internally first, then speak precisely.</p></details>
+            </li>
           </ol>
         </div>
 
@@ -764,15 +794,32 @@
 
         <h3>Quiz</h3>
         <div class="q">
+          <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
-            <li>Name the three item layers and give one value that belongs at each. Why can't the same value live at all three?</li>
-            <li>Why must a <code>PROJECT_ITEM</code> load be paired with <code>ITEM</code>? What does that tell you about the relationship?</li>
-            <li>Explain Family vs. Override in one sentence each. Give an attribute you'd model as each, and say why.</li>
-            <li>What is distinctive about the <strong>All</strong> level, and when would you actually want it?</li>
-            <li>What is a <code>federatedId</code>, and what exactly happens on load when one already exists?</li>
-            <li>A customer hand-created 200 products in the UI during their pilot, then turned on a nightly Loader feed. Predict what happens on the first run, and explain why.</li>
-            <li>What is the relationship between an Assortment and the Board / Plan / Showcase apps?</li>
-            <li>An integration consumed publish #14 but its worker was down for publish #15. Publish #16 succeeds. What is now wrong downstream, and what's the fix?</li>
+            <li>Name the three item layers and give one value that belongs at each. Why can't the same value live at all three?
+              <details><summary></summary><p><strong>Item</strong> (org-wide, season-independent) — e.g. style number or category. <strong>ProjectItem</strong> (one project ≈ one season) — e.g. that season's target price or seasonal status. <strong>AssortmentItem</strong> (one assortment) — e.g. placement or channel-specific terms. They aren't three copies: an Item is the product, while ProjectItem and AssortmentItem are <em>relationship</em> entities that carry data about the product in a context. The same value can't sensibly live at all three because each answers a different question — a style number doesn't vary by season, and a channel-specific price is meaningless org-wide.</p></details>
+            </li>
+            <li>Why must a <code>PROJECT_ITEM</code> load be paired with <code>ITEM</code>? What does that tell you about the relationship?
+              <details><summary></summary><p>Because an AssortmentItem or ProjectItem is a <em>relationship to an Item</em> — it cannot exist without one. The Loader enforces the dependency: <code>PROJECT_ITEM</code> must be paired with <code>ITEM</code>, and <code>ASSORTMENT</code> must be paired with <code>ITEM</code> too. The pairing rule is evidence of the nesting: you cannot load the narrow, contextual thing without the broad, durable thing it attaches to.</p></details>
+            </li>
+            <li>Explain Family vs. Override in one sentence each. Give an attribute you'd model as each, and say why.
+              <details><summary></summary><p><strong>Family:</strong> updates the family-level entity and copies that value down onto every option — use it for true style-level facts like category or silhouette, which cannot vary by colourway. <strong>Override:</strong> also copies down, but an option can be given a different value that wins — use it for price or margin target, which usually follow the style but occasionally differ for one colourway (a limited edition priced higher). The test is simple: if an exception is ever legitimate, it's Override, not Family.</p></details>
+            </li>
+            <li>What is distinctive about the <strong>All</strong> level, and when would you actually want it?
+              <details><summary></summary><p><strong>All</strong> means values are "managed individually for every entity in a Family, regardless if it's a Family or Option level entity," and critically <strong>"no copy down behavior exists"</strong>. So there is no inheritance at all — every node must be set explicitly. Want it when each entity genuinely carries its own independent value and inheritance would be actively wrong or misleading. The risk is that a team expecting inheritance gets none and every option comes up blank, which presents to the customer as "the load didn't work".</p></details>
+            </li>
+            <li>What is a <code>federatedId</code>, and what exactly happens on load when one already exists?
+              <details><summary></summary><p>A <code>federatedId</code> is "a value you provide which uniquely identifies the entity within an org." It drives <strong>upsert</strong>: if no entity with that ID exists it is created; if one does, it is <strong>updated</strong>. So the ID is the matching key — which is why stability matters more than readability. Note there is no setting to nominate an ID column (Custom Entity excepted); the value must arrive under the expected property, usually via <code>federatedMappings</code>.</p></details>
+            </li>
+            <li>A customer hand-created 200 products in the UI during their pilot, then turned on a nightly Loader feed. Predict what happens on the first run, and explain why.
+              <details><summary></summary><p><strong>All 200 load as new, producing duplicates.</strong> Entities created through the core apps have no <code>federatedId</code> by default, so there is nothing for the incoming rows to match against — every row upserts as a create. The load reports success and nothing errors. The customer discovers it later, usually in a line review, with two of everything. Prevention: assign federatedIds to the UI-created records via the API <em>before</em> the first production load.</p></details>
+            </li>
+            <li>What is the relationship between an Assortment and the Board / Plan / Showcase apps?
+              <details><summary></summary><p>Board, Plan and Showcase are each <strong>backed by an Assortment</strong>. An assortment can exist on its own, or with an associated plan, board or showcase — the load types are <code>ASSORTMENT</code>, <code>PLAN</code>, <code>BOARD</code>, <code>SHOWCASE</code>. They are three views onto the same kind of underlying object, which is exactly why a product can travel from mood board to line plan to line review without being re-created. The apps are the surface; the assortment is the substance.</p></details>
+            </li>
+            <li>An integration consumed publish #14 but its worker was down for publish #15. Publish #16 succeeds. What is now wrong downstream, and what's the fix?
+              <details><summary></summary><p>Publish #15's <strong>deletes are permanently lost</strong> — "delete data does NOT accumulate across publishes," so #16 carries only its own deletes and will never replay #15's. The downstream system now holds products the brand has already cut, silently: nothing errors, and processing #16 successfully makes it look recovered. <strong>The fix is to re-baseline</strong> — pull the current <code>assortmentBaselineDownloadLink</code>, which is the assortment's complete state at publish time, and reconcile downstream against it rather than resuming from incremental detail.</p></details>
+            </li>
           </ol>
         </div>
 
@@ -979,15 +1026,32 @@
 
         <h3>Quiz</h3>
         <div class="q">
+          <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
-            <li>Name the three apps, what each replaced, and what each is backed by in the data model.</li>
-            <li>Why is "each row in Plan represents an actual product record" a technically important statement, not marketing?</li>
-            <li>Walk the six steps of the publish lifecycle. Which step do people skip, and why does skipping it cause bad diagnosis?</li>
-            <li>What are the three parts of an <code>AssortmentPublishChange</code>, and what would a consumer use each for?</li>
-            <li>Why do most real consumers need both the baseline and the detail?</li>
-            <li>A consumer's worker is down for 36 hours and misses two publishes. What is now wrong, what will <em>not</em> fix itself, and what is the recovery?</li>
-            <li>Why should a consumer store the change ID rather than the S3 URL?</li>
-            <li>Polling uses time ranges rather than cursors. Name one failure that design invites, and how you'd guard against it.</li>
+            <li>Name the three apps, what each replaced, and what each is backed by in the data model.
+              <details><summary></summary><p><strong>Board</strong> — "the visual workspace for trend research, mood boards, and creative direction," replaced Miro. <strong>Plan</strong> — "the structured workspace for line planning and product definition," replaced Excel. <strong>Showcase</strong> — "the presentation workspace for line reviews and stakeholder alignment," replaced PowerPoint. All three are <strong>backed by an Assortment</strong> in the data model.</p></details>
+            </li>
+            <li>Why is "each row in Plan represents an actual product record" a technically important statement, not marketing?
+              <details><summary></summary><p>Because it means the Plan grid is a <strong>view onto entities, not a document</strong>. Editing a row edits a ProjectItem or AssortmentItem directly — there is no export, no separate copy, no reconciliation step. That's the entire difference from a spreadsheet: a spreadsheet is a snapshot that immediately starts diverging from reality, whereas Plan <em>is</em> the reality. It also explains why publishing can work at all, and why a Plan edit can trigger workflows.</p></details>
+            </li>
+            <li>Walk the six steps of the publish lifecycle. Which step do people skip, and why does skipping it cause bad diagnosis?
+              <details><summary></summary><p>(1) Users modify Items in a Plan. (2) They adopt images, colours and attributes. (3) A user triggers publish. (4) <strong>The system persists the Plan rows down to the underlying Assortment.</strong> (5) An <code>AssortmentPublishChange</code> is created. (6) External systems retrieve and process it. <strong>Step 4 is the skipped one.</strong> Publish is not "send to PLM" — it is first an <em>internal</em> commit from Plan to Assortment. Skipping it causes bad diagnosis because a publish can succeed while the downstream sync fails; those are two different investigations with different owners, and conflating them sends you looking in the wrong system.</p></details>
+            </li>
+            <li>What are the three parts of an <code>AssortmentPublishChange</code>, and what would a consumer use each for?
+              <details><summary></summary><p><strong><code>assortmentBaselineDownloadLink</code></strong> — S3 URL for "the Assortment's complete state at publish time"; used for recovery and reconciliation ("what is true now?"). <strong><code>deleteDataDownloadLink</code></strong> — S3 URL with only items dropped or deleted in <em>this</em> publish; used to apply removals, and the field most often ignored, causing ghost products downstream. <strong><code>detail</code></strong> — arrays of <code>adds</code>, <code>updates</code>, <code>deletes</code>, <code>familyItemsRemoved</code>; used for efficient incremental sync ("what changed this time?").</p></details>
+            </li>
+            <li>Why do most real consumers need both the baseline and the detail?
+              <details><summary></summary><p>Because they answer different questions and each fails where the other works. <strong>Detail</strong> is efficient for day-to-day sync but is per-publish only — miss one and that information never returns. <strong>Baseline</strong> is complete but expensive to process every time. So the working pattern is detail for normal operation and baseline for recovery: when a gap in processed changes is detected, or on a scheduled reconciliation, fall back to the baseline. A consumer with only detail cannot recover; one with only baseline is wasteful and slow.</p></details>
+            </li>
+            <li>A consumer's worker is down for 36 hours and misses two publishes. What is now wrong, what will <em>not</em> fix itself, and what is the recovery?
+              <details><summary></summary><p>Both publishes' <strong>deletes are permanently lost</strong> and will never be replayed. Updates and adds are recoverable from a later baseline, but the deletes are not self-healing — the downstream system keeps products that were cut, with nothing reporting a problem. <strong>Recovery:</strong> fetch the current baseline (re-fetching the change object refreshes the expired S3 links), reconcile downstream state against it, and remove anything present downstream but absent from the baseline. Then fix the consumer so a gap in processed change IDs triggers this automatically.</p></details>
+            </li>
+            <li>Why should a consumer store the change ID rather than the S3 URL?
+              <details><summary></summary><p>Because the <strong>S3 links expire after 24 hours</strong>, while the change object itself is durable and re-fetching it <em>refreshes</em> the links. A consumer that persists the URL has a dead reference tomorrow and no way to recover the payload; one that persists the change ID can always re-fetch and get working links. It's a one-line design decision that determines whether the consumer can recover from any outage longer than a day.</p></details>
+            </li>
+            <li>Polling uses time ranges rather than cursors. Name one failure that design invites, and how you'd guard against it.
+              <details><summary></summary><p>Temporal filtering is not a cursor — it's a <em>guess</em> at a position. <strong>One failure:</strong> boundary exclusivity. Polling <code>(lastSync, now]</code> loses any record written in the same instant as the cutoff; polling <code>[lastSync, now]</code> processes records twice. (Also valid: in-flight writes committing after the query but timestamped before the cutoff, or clock skew between consumer and server.) <strong>Guard:</strong> overlap the window deliberately — poll from <code>lastSync − safetyMargin</code> — and make processing idempotent so re-fetching is harmless. Also advance the timestamp from the maximum <code>createdOn</code> actually returned, not the local clock, and never advance on partial failure.</p></details>
+            </li>
           </ol>
         </div>
 
@@ -1382,19 +1446,44 @@ V-Neck Tee,true,false,womens      → added, or updated if already present
 
         <h3>Quiz</h3>
         <div class="q">
+          <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
-            <li>What is a <code>LoaderProcess</code>, and which field do you read before any other when a load fails?</li>
-            <li>Name the five phases. What are the four <code>failureArea</code> values and which phases map to each?</li>
-            <li>Does a failed load apply partially? Quote the rule, and say why the answer changes how you plan a recovery.</li>
-            <li>Distinguish errors from warnings. Give two examples of each.</li>
-            <li>List the six preprocessing steps. Why do type transformations run twice, and what can hide in the gap?</li>
-            <li>How do you get to the per-step artefacts from the API, and what would you do with two of them?</li>
-            <li>In a CSV of items with options: which columns make a row an option rather than a family, and what happens to the family?</li>
-            <li>Explain <code>shouldSkipAssortmentPublish</code>. Why is it the most dangerous flag in the reference?</li>
-            <li>A customer sends a file containing only the 40 styles that changed. What does the default <code>partialAssortmentUpdate</code> do?</li>
-            <li>What is <code>workspaceIdentifier</code>, when is it required, and why might an admin be unable to fix a wrong one?</li>
-            <li>A <code>conditionalColumn</code> derives <code>itemFamilyFederatedId</code> by splitting another field. What risk has that introduced?</li>
-            <li>A 20,000-row load runs. Which triggers fire and how many times? Name the flag that makes part of that answer wrong.</li>
+            <li>What is a <code>LoaderProcess</code>, and which field do you read before any other when a load fails?
+              <details><summary></summary><p>A <code>LoaderProcess</code> is an <strong>asynchronous entity</strong> holding a load's status, the configuration parameters used, downloadable logs and operational metadata — creating one enqueues the work. Because it's an entity, a load is inspectable and comparable rather than a fire-and-forget command. <strong>Read <code>failureArea</code> first</strong>: it localises the failure to one of four segments in a single field, which is the cheapest diagnostic move available anywhere in the platform.</p></details>
+            </li>
+            <li>Name the five phases. What are the four <code>failureArea</code> values and which phases map to each?
+              <details><summary></summary><p><strong>Phases:</strong> (1) CSV parsing, (2) validation, (3) preprocessing, (4) entity construction, (5) API upsert by federatedId. <strong><code>failureArea</code> values:</strong> <code>NONE</code> (success), <code>PARSING_CSV</code> (phase 1 — malformed or empty CSV), <code>VALIDATING_DATA</code> (phase 2 — config or data validation), <code>TRANSFORMING_DATA</code> (phases 3–5 — preprocessing or entity construction).</p></details>
+            </li>
+            <li>Does a failed load apply partially? Quote the rule, and say why the answer changes how you plan a recovery.
+              <details><summary></summary><p><strong>No.</strong> "If validation produces any errors, the load stops immediately with a <code>VALIDATING_DATA</code> failure area," and <strong>"no partial loads occur"</strong> — errors halt, warnings accumulate and let the load continue. This changes recovery planning completely: a rejected file needs <em>fixing and rerunning</em>, not a reconciliation exercise to work out which rows landed. The corollary is equally useful — a load that reports completed genuinely applied everything it accepted, so if data looks wrong afterwards the cause is transformation or configuration, not a half-finished job.</p></details>
+            </li>
+            <li>Distinguish errors from warnings. Give two examples of each.
+              <details><summary></summary><p><strong>Errors stop the entire job; warnings let it continue.</strong> Error examples: <code>"itemFamilyFederatedId cannot be empty"</code> (row-level), and <code>"The following families have conflicting federated IDs"</code> (job-level) — also missing <code>federatedId</code>/<code>name</code>, or an invalid <code>typePath</code>. Warning examples: unrecognised or archived columns flagged in steps 4 and 6, option-set values not matching defined options, missing size-range templates, and object references whose federated IDs match no entity. Warnings accumulate in the step result files — they are the ones you must go and look for.</p></details>
+            </li>
+            <li>List the six preprocessing steps. Why do type transformations run twice, and what can hide in the gap?
+              <details><summary></summary><p>(1) Boolean conversion, (2) federated mappings, (3) remove unwanted properties, (4) type transformations <em>without</em> warnings, (5) conditional columns, (6) type transformations <em>with</em> warnings. <strong>They run twice</strong> so that step 4 normalises values silently — letting conditional columns in step 5 operate on already-clean data — and step 6 then re-runs and reports. <strong>What hides in the gap:</strong> a value silently altered in step 4 and then overwritten by step 5 never generates a warning at all. So when a value doesn't match the CSV and there is no warning anywhere, suspect the 4/5/6 interaction.</p></details>
+            </li>
+            <li>How do you get to the per-step artefacts from the API, and what would you do with two of them?
+              <details><summary></summary><p>Each step writes <code>loader-process-step-&lt;Step Name&gt;.json</code> containing <strong>rows, errors and warnings</strong>, and the file IDs are listed in the <strong><code>preprocessingStepResults</code></strong> array on the LoaderProcess — fetch it and iterate, or view the attached files on the LoaderProcess in the Admin Console. <strong>With two of them:</strong> diff consecutive steps. The step at which a value changed is then unambiguous, which converts an argument about what the loader did into an observation.</p></details>
+            </li>
+            <li>In a CSV of items with options: which columns make a row an option rather than a family, and what happens to the family?
+              <details><summary></summary><p>A row becomes an <strong>option</strong> when it carries <code>itemOptionFederatedId</code> (usually with <code>optionName</code> and <code>optionGroup</code>); without it, the row represents a <strong>family only</strong>. Rows sharing the same <code>itemFamilyFederatedId</code> become options of the same family — and <strong>the loader creates the parent family automatically</strong> if it doesn't exist. <code>name</code> is the family-level name shared across options; <code>typePath</code> is required on every row, usually supplied by a conditional column.</p></details>
+            </li>
+            <li>Explain <code>shouldSkipAssortmentPublish</code>. Why is it the most dangerous flag in the reference?
+              <details><summary></summary><p>When <code>true</code>, assortment item updates are written directly to the database, <strong>bypassing the publish workflow</strong> — skipping change history, summary recalculation, composite assortment updates and <strong>the <code>assortment|publish</code> event</strong>. It's the most dangerous flag because the failure is completely silent and asymmetric: the load succeeds, VibeIQ's data is correct, and every downstream consumer — event-driven or polling change history — never learns anything moved. PLM goes stale indefinitely with nothing reporting a problem. It has a legitimate use (high-volume backfills where history isn't required); the danger is that it gets set "just for the migration" and stays in a reusable config forever.</p></details>
+            </li>
+            <li>A customer sends a file containing only the 40 styles that changed. What does the default <code>partialAssortmentUpdate</code> do?
+              <details><summary></summary><p>It <strong>replaces the assortment with those 40 styles</strong>. <code>partialAssortmentUpdate</code> defaults to <code>false</code>, and a full load's semantics are: CSV items not in the assortment are added, items in both are updated, unchanged matches stay unchanged, and <strong>"assortment items not in CSV → deleted."</strong> So membership is defined by the file. The load reports success. Setting <code>partialAssortmentUpdate: true</code> with boolean <code>addField</code>/<code>dropField</code> columns is what makes it a merge instead.</p></details>
+            </li>
+            <li>What is <code>workspaceIdentifier</code>, when is it required, and why might an admin be unable to fix a wrong one?
+              <details><summary></summary><p><code>workspaceIdentifier</code> is the <code>identifier</code> of the target project, and it's <strong>required whenever <code>loadType</code> includes <code>PROJECT_ITEM</code></strong> — "even when also loading assortments." The loader resolves it by finding a <code>workspace</code> with <code>workspaceType: 'PROJECT'</code> whose identifier matches exactly (a "project" in the UI is a workspace in the API). <strong>An admin may be unable to fix a wrong one</strong> because the property "is not editable in the Hub UI; it must be set via direct <code>PUT</code> request to the workspace entity" — so it takes an API call, not a click.</p></details>
+            </li>
+            <li>A <code>conditionalColumn</code> derives <code>itemFamilyFederatedId</code> by splitting another field. What risk has that introduced?
+              <details><summary></summary><p>It has made the upsert key <strong>depend on the formatting of a field nobody treats as an identifier</strong>. With something like <code>"{familyNumber}.split('-')[0]"</code>, the federatedId is <em>computed</em> — so if the source system changes <code>ABC-123</code> to <code>ABC_123</code>, the derived key changes for every row and the next load creates duplicates of everything. It also means "what generates this ID?" can't be answered by looking at the source system alone; you have to read the <code>conditionalColumns</code> too.</p></details>
+            </li>
+            <li>A 20,000-row load runs. Which triggers fire and how many times? Name the flag that makes part of that answer wrong.
+              <details><summary></summary><p>Phase 5 upserts entities, so the load emits ordinary system events — <code>item|create</code> for new rows and <code>item|update</code> for existing ones, plus the equivalents for <code>project-item</code> and <code>assortment-item</code>. <strong>Every workflow bound to those triggers fires once per row</strong>: 20,000 rows is 20,000 trigger evaluations. <strong>The flag is <code>shouldSkipAssortmentPublish</code></strong> — when set, <code>assortment|publish</code> is <em>not</em> emitted, so entity-level workflows still fire while anything hanging off publish (including the outbound integration) stays completely silent.</p></details>
+            </li>
           </ol>
         </div>
 
@@ -1606,17 +1695,38 @@ for (const assortmentItem of baselineData.assortmentItems) {
 
         <h3>Quiz</h3>
         <div class="q">
+          <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
-            <li>Give the decision rule for events vs. polling. What does the <em>scope</em> difference mean for a customer who needs all item changes, not just publishes?</li>
-            <li>What are the two required headers, and what does the <code>app:</code> prefix on a key signify?</li>
-            <li>Why is a <code>404</code> from this API not proof that a record doesn't exist?</li>
-            <li>What can you honestly tell a customer about rate limits, and what must a consumer implement regardless?</li>
-            <li>Trace the event-driven path from publish to persisted rows, naming each call. What is in the event payload, and why so little?</li>
-            <li>Why is "the event never arrived" a workflow investigation, and what would you look at first?</li>
-            <li>The baseline exposes <code>.item</code>, <code>.item.itemFamily</code> and <code>.projectItem</code> per assortment item. Why does that make mapping a data-model decision rather than a plumbing one?</li>
-            <li>Explain why temporal polling loses records. Name the three causes and the four guards.</li>
-            <li>A consumer is down 36 hours across two publishes. Walk the recovery, and say why resuming from the next event is not enough.</li>
-            <li>Contrast inbound and outbound webhook security. What would you recommend, and what would you refuse to assert?</li>
+            <li>Give the decision rule for events vs. polling. What does the <em>scope</em> difference mean for a customer who needs all item changes, not just publishes?
+              <details><summary></summary><p><strong>Events</strong> for real-time needs, assortment-specific workflows, webhook-capable systems and minimising API calls. <strong>Polling</strong> for scheduled batch sync, tracking multiple entity types, historical retrieval and systems with no webhook support. <strong>The scope difference:</strong> publish events cover <em>assortment publishes only</em>. A customer needing all item changes — a colour corrected, a description fixed, anything that never goes through a publish — will not get them from events. That customer needs polling as well, and many real architectures run both: events for latency, polling as the safety net and for everything else.</p></details>
+            </li>
+            <li>What are the two required headers, and what does the <code>app:</code> prefix on a key signify?
+              <details><summary></summary><p><code>X-Api-Key</code> and <code>X-Api-Org</code> (the organisation slug). The <strong><code>app:</code> prefix</strong> — as in <code>app:uEL7GCBZ7Xhd4w2z</code> — marks the key as <strong>application-scoped rather than a user credential</strong>. That matters because app keys are the recommended form: they aren't tied to a person who might leave, and the docs advise preferring them over user keys, keeping separate keys per environment, and rotating regularly.</p></details>
+            </li>
+            <li>Why is a <code>404</code> from this API not proof that a record doesn't exist?
+              <details><summary></summary><p>Because a <code>404</code> from this API can mean the entity doesn't exist, <strong>or access was denied, or you used the wrong entity type</strong>. All three collapse into the same status code. So "we got a 404, the record isn't there" is an unsafe conclusion — before believing it, check that the API key's permissions cover that entity and that the entity type in the path is right. Treat it as "not found <em>for you, as asked</em>" rather than "not found".</p></details>
+            </li>
+            <li>What can you honestly tell a customer about rate limits, and what must a consumer implement regardless?
+              <details><summary></summary><p>Honestly: that the APIs are <strong>"rate-limited to ensure system stability"</strong>, that the specific thresholds are not published, and that customers hitting limits should contact VibeIQ support to discuss higher limits. You <strong>cannot promise a throughput number</strong>. (And never cite the "15 requests/hour" figure circulating online — that belongs to vibe.co, a different company.) <strong>Regardless of the limit</strong>, a consumer must implement exponential backoff on <code>429</code>, plus batching and caching to reduce call volume — that's required design, not optimisation.</p></details>
+            </li>
+            <li>Trace the event-driven path from publish to persisted rows, naming each call. What is in the event payload, and why so little?
+              <details><summary></summary><p>(1) Publishing emits an <code>assortment|publish</code> event carrying only <code>{assortmentId, assortmentPublishChangeId}</code>. (2) An <strong>Event Workflow</strong> forwards it to the customer's endpoint. (3) The consumer calls <code>GET /assortments/{assortmentId}/history/{changeId}</code> with the auth headers to fetch the full <code>AssortmentPublishChange</code>. (4) It downloads the baseline from <code>assortmentBaselineDownloadLink</code> (same auth headers). (5) It iterates <code>baselineData.assortmentItems</code>, transforms, persists, and stores <code>createdOn</code>. <strong>The payload is thin</strong> because the real data is large and time-sensitive: sending IDs lets the consumer fetch on its own schedule, and re-fetching refreshes the 24-hour S3 links.</p></details>
+            </li>
+            <li>Why is "the event never arrived" a workflow investigation, and what would you look at first?
+              <details><summary></summary><p>Because the delivery mechanism <em>is</em> a workflow — "configure an Event Workflow in VibeIQ to forward events to your endpoint." So the outbound integration is a Week 6 artefact with a <code>triggerKey</code> of <code>assortment|publish</code> and an action that POSTs. <strong>Look first at the Process List:</strong> is there a process at all? If none, the trigger never matched. If there is, read <code>triggerEvent</code> and which path ran, then <code>taskOutputs</code> — a <code>COMPLETE</code> process with a no-op action usually means a missing access grant or a <code>config</code> pointing at the wrong endpoint.</p></details>
+            </li>
+            <li>The baseline exposes <code>.item</code>, <code>.item.itemFamily</code> and <code>.projectItem</code> per assortment item. Why does that make mapping a data-model decision rather than a plumbing one?
+              <details><summary></summary><p>Because those three fields are the <strong>entity layers from Week 2</strong> — AssortmentItem, Item, its Family and the ProjectItem — sitting in one object. Every mapping decision the customer's engineer makes is therefore a decision about <em>which layer is authoritative for which attribute</em>, not a field-renaming exercise. A team that never learned the layer model maps from whichever field happens to be populated and builds a downstream system that is subtly wrong in ways nobody can later explain. It's the highest-leverage moment for a TAM to be in the room.</p></details>
+            </li>
+            <li>Explain why temporal polling loses records. Name the three causes and the four guards.
+              <details><summary></summary><p>Because a timestamp is a <em>guess</em> at a position, whereas a cursor is a position. <strong>Three causes:</strong> (1) boundary exclusivity — inclusive double-processes, exclusive drops same-instant writes; (2) in-flight writes that commit after your query ran but are timestamped before your cutoff, so they're missed by this poll and precede the next one; (3) clock skew between the consumer's <code>now</code> and the server's. <strong>Four guards:</strong> overlap the window (<code>lastSync − safetyMargin</code>); make processing idempotent so re-fetching is harmless; advance the timestamp from the maximum <code>createdOn</code> actually returned rather than the local clock; and never advance it on partial failure.</p></details>
+            </li>
+            <li>A consumer is down 36 hours across two publishes. Walk the recovery, and say why resuming from the next event is not enough.
+              <details><summary></summary><p><strong>Recovery:</strong> identify the gap in processed change IDs, fetch the current change object to get fresh S3 links (they expire in 24h), download the <strong>baseline</strong> — the assortment's complete state at publish time — and reconcile downstream against it, removing anything present downstream but absent from the baseline. <strong>Resuming from the next event isn't enough</strong> because deletes do not accumulate: each <code>AssortmentPublishChange</code> carries only its own publish's deletes, so the two missed publishes' removals will never be replayed by any later event. Adds and updates would eventually correct themselves; the deletes never would.</p></details>
+            </li>
+            <li>Contrast inbound and outbound webhook security. What would you recommend, and what would you refuse to assert?
+              <details><summary></summary><p><strong>Outbound</strong> (VibeIQ → the customer's endpoint) offers three options: API keys in custom headers, <strong>HMAC signatures using shared secrets</strong>, or IP allowlisting — configured via VibeIQ support. <strong>Inbound</strong> (external → VibeIQ, <code>POST /api/trigger-webhooks/{ID}</code>) documents only an <em>optional</em> <code>X-Verify-Signature</code> shared-secret header, not an HMAC over the request body, while the webhook ID in the URL acts as a bearer credential. <strong>Recommend HMAC for outbound.</strong> <strong>Refuse to assert</strong> anything definite about what inbound verification is actually enforced server-side — take that away and confirm internally. Also flag that outbound setup goes through support, so it's a lead-time item.</p></details>
+            </li>
           </ol>
         </div>
 
@@ -1942,17 +2052,38 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
 
         <h3>Quiz</h3>
         <div class="q">
+          <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
-            <li>Name the three components of a workflow and where workflows are declared.</li>
-            <li>List the six trigger categories. Which would you use for a nightly archival job, and which for reacting to another app finishing its work?</li>
-            <li>What is the <code>{entityType}|{action}</code> pattern, and what is notable about the triggers available for <code>assortment</code>?</li>
-            <li>Explain the first-match-wins rule. Describe the authoring bug it causes and how you'd spot it in review.</li>
-            <li>What are <code>newData</code>, <code>oldData</code>, <code>propertyDiffs</code> and <code>changeObjects</code>? Which is missing on a create, and why does that matter during a bulk load?</li>
-            <li>How can one action be reused across two workflows with different targets? What does that imply for environment promotion?</li>
-            <li>Contrast static <code>messageGroupId</code> with <code>dynamicMessageGroupId</code>. Why is dynamic grouping usually the better answer at volume?</li>
-            <li>What are the default concurrency limits per workflow and per org, and why does the org limit matter to a customer running an unrelated integration?</li>
-            <li>Trace a workflow from <code>app.yml</code> to running in a customer org. Why does that make "just tweak the automation" a release conversation?</li>
-            <li>A customer reports automation that silently stopped "a few months ago." What do you check first, and what constraint might already have destroyed your evidence?</li>
+            <li>Name the three components of a workflow and where workflows are declared.
+              <details><summary></summary><p><strong>Triggers, conditionals and actions</strong> — a trigger says <em>when</em>, conditionals say <em>which branch</em>, actions say <em>what happens</em>. They are declared in an app's <code>app.yml</code> under a top-level <code>workflows:</code> key. That location matters: workflows ship inside apps, so they are versioned artefacts rather than console settings.</p></details>
+            </li>
+            <li>List the six trigger categories. Which would you use for a nightly archival job, and which for reacting to another app finishing its work?
+              <details><summary></summary><p>(1) System events, (2) manual, (3) custom app events, (4) declared custom trigger keys, (5) scheduled (cron), (6) webhook. <strong>Nightly archival job → scheduled</strong>, via a <code>crons</code> declaration with standard CRON syntax (<code>manual</code> is also defensible if something external drives it). <strong>Reacting to another app finishing → custom app events</strong>, using <code>triggerKey: '@{publisherOrgSlug}/{appName}:{EventName}'</code> — e.g. <code>'@vibeiq/image-loader:ImageAssignmentComplete'</code>.</p></details>
+            </li>
+            <li>What is the <code>{entityType}|{action}</code> pattern, and what is notable about the triggers available for <code>assortment</code>?
+              <details><summary></summary><p>System events are broadcast as <code>{entityType}|{action}</code> — <code>item|create</code>, <code>item|update</code>, <code>item|delete</code>, and equivalents for <code>project-item</code>, <code>assortment-item</code>, <code>plan-placeholder</code>, <code>custom-entity</code>, <code>comment</code> and <code>content</code>. <strong>What's notable about <code>assortment</code>: it has only <code>assortment|publish</code></strong> — there is no <code>assortment|update</code>. So a requirement like "automate on any change to the assortment" cannot be met directly; it must hang off <code>assortment-item</code> events or off publish, which have very different timing. That's a requirements conversation, not a config task.</p></details>
+            </li>
+            <li>Explain the first-match-wins rule. Describe the authoring bug it causes and how you'd spot it in review.
+              <details><summary></summary><p>"Only the first path whose conditional evaluates to <code>true</code> is executed; the remaining paths are skipped" — paths are an <strong>if / else-if chain</strong>, not independent rules. <strong>The bug:</strong> someone writes several paths intending "run all that apply" and puts a broad or <code>true</code> conditional near the top, making everything below it dead code. Nothing errors and the process reports success, so it presents as "only some of the automation runs." <strong>Spotting it:</strong> read the paths top-down and find the first conditional that can always be true — everything after it is unreachable.</p></details>
+            </li>
+            <li>What are <code>newData</code>, <code>oldData</code>, <code>propertyDiffs</code> and <code>changeObjects</code>? Which is missing on a create, and why does that matter during a bulk load?
+              <details><summary></summary><p><strong><code>newData</code></strong> — entity state after the change. <strong><code>oldData</code></strong> — state before. <strong><code>propertyDiffs</code></strong> — a map of changed-property metadata (<code>propertyName</code>, <code>oldValue</code>, <code>newValue</code>). <strong><code>changeObjects</code></strong> — an array of <code>{id, changes}</code> for bulk-change workflows. <strong><code>oldData</code> is absent on creates.</strong> That matters during a bulk load because a load creates many entities at once: a conditional like <code>{newData.status} !== {oldData.status}</code> evaluates differently for new rows than for existing ones <em>in the same file</em>, so the workflow fires for part of the batch and not the rest — which looks like a bug and isn't.</p></details>
+            </li>
+            <li>How can one action be reused across two workflows with different targets? What does that imply for environment promotion?
+              <details><summary></summary><p>By declaring <code>actionConfiguration</code> properties on the action, then supplying per-workflow <code>config</code> values — so one <code>syncItem</code> action can point at a production endpoint in one workflow and staging in another. Config values are "merged with runtime context and passed to the action's <code>execute</code> function via the <code>config</code> argument." <strong>For environment promotion:</strong> those values travel with the workflow definition, so a promoted workflow can carry a staging endpoint into production. Always check <code>config</code> values during any promotion review — and note it compounds with using one API key across environments.</p></details>
+            </li>
+            <li>Contrast static <code>messageGroupId</code> with <code>dynamicMessageGroupId</code>. Why is dynamic grouping usually the better answer at volume?
+              <details><summary></summary><p><strong>Static <code>messageGroupId</code></strong> puts every event for the workflow in one queue — with <code>parallelWorkerCount: 1</code> that's strict one-at-a-time processing. <strong>Dynamic</strong> (<code>messageGroup</code> + <code>dynamicMessageGroupId: 'prefix-{newData.itemFamilyId}'</code>) serialises only events sharing the computed key, letting different keys run in parallel up to <code>parallelWorkerCount</code>. <strong>Dynamic is usually better at volume</strong> because it gives correctness exactly where entities can collide and throughput everywhere else — static grouping is the safe, slow hammer that turns a concurrency problem into a queue backlog.</p></details>
+            </li>
+            <li>What are the default concurrency limits per workflow and per org, and why does the org limit matter to a customer running an unrelated integration?
+              <details><summary></summary><p><strong>25 concurrent processes per event workflow, 60 per organization</strong> (both adjustable via the Customer Success Manager); <code>parallelWorkerCount</code> is 1–30 with a default of 5. <strong>The org limit matters</strong> because it's a <em>shared</em> budget across every workflow, integration and bulk load in the org, with no documented way for a customer to see their own utilisation. So one chatty workflow — or a bulk load firing thousands of events — can starve an unrelated integration, and the symptom is "our other integration got slow on Tuesday" with nothing wrong in that integration at all.</p></details>
+            </li>
+            <li>Trace a workflow from <code>app.yml</code> to running in a customer org. Why does that make "just tweak the automation" a release conversation?
+              <details><summary></summary><p>Workflows are declared in <code>app.yml</code> → <code>contrail app publish</code> turns them into <strong>Workflow Template Definitions</strong> attached to that app version → an installing org runs <code>contrail workflow-template-definitions install</code> to instantiate them as live workflows, preserving <code>config</code> values end to end. <strong>So "just tweak the automation" is a release conversation:</strong> change the app, publish a version, install it. Workflows are versioned artefacts of an app, not settings someone edits in a console — which sets the customer's expectations about turnaround, and is the config/customization boundary (Week 7) showing up in practice.</p></details>
+            </li>
+            <li>A customer reports automation that silently stopped "a few months ago." What do you check first, and what constraint might already have destroyed your evidence?
+              <details><summary></summary><p><strong>Check first:</strong> the Process List — is there any process for that workflow at all? Then <code>isActive</code>, whether it's still installed in this org and from which app version, and whether the app was republished or promoted around that date. <strong>The constraint that may have destroyed the evidence:</strong> "after 90 days, workflow logs (including the list of processes and tasks) are permanently deleted." So a problem that began "a few months ago" may have no surviving process records. Establish what evidence still exists <em>before</em> promising root cause — and note that <em>deleting</em> a workflow destroys its logs immediately, not after 90 days.</p></details>
+            </li>
           </ol>
         </div>
 
@@ -2248,17 +2379,38 @@ visibility: public            # marketplace candidate</code></pre>
 
         <h3>Quiz</h3>
         <div class="q">
+          <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
-            <li>Describe the five rungs of the spectrum, and give the question you ask before choosing one.</li>
-            <li>What inputs does a formula get on a ProjectItem, and when does a plan publish cause formulas to run?</li>
-            <li>Name the three silent formula failure modes. Which produces a value that is correct today and wrong next season?</li>
-            <li>What can a rule set control? Explain OR/AND evaluation and what "locked wins" means in practice.</li>
-            <li>Why should you not describe rule sets to a customer as a data-integrity guarantee — and what would you confirm before saying anything definite?</li>
-            <li>What do <code>contrail types getAll</code> / <code>loadAll</code> do, and what are the two mechanisms a full environment promotion actually requires?</li>
-            <li>Why is committing the configuration export to version control such a cheap win?</li>
-            <li>Which two decisions at <code>contrail app create</code> can never be undone, and what is the commercial risk in the second?</li>
-            <li>Name the three extension types and the two display modes. When is a side-menu the right choice?</li>
-            <li>A customer wants a small UI for a weekly task. What do you tell them it costs to own, beyond the build?</li>
+            <li>Describe the five rungs of the spectrum, and give the question you ask before choosing one.
+              <details><summary></summary><p><strong>L0</strong> types &amp; properties (admin console) · <strong>L1</strong> formulas, rule sets, validation functions, blueprints (config, no deploy) · <strong>L2</strong> workflows &amp; actions (code, inside an app) · <strong>L3</strong> extensions (code plus hosted UI) · <strong>L4</strong> external systems. Cost, change latency and headcount all rise together — minutes and one admin at L0, a release cycle and engineers plus hosting and on-call at L3. <strong>The question:</strong> "what is the <em>lowest rung that actually solves this</em>?" — not the lowest rung outright, since a Level 1 answer to a Level 2 problem is a fragile pile of formulas nobody can maintain.</p></details>
+            </li>
+            <li>What inputs does a formula get on a ProjectItem, and when does a plan publish cause formulas to run?
+              <details><summary></summary><p>On a ProjectItem a formula gets <code>obj</code> (the entity's properties), <code>context.previousObj</code> (pre-update state), plus <strong><code>obj.item</code></strong> and <strong><code>context.project</code></strong>. Formulas run on create and update for all entities, and ProjectItem formulas additionally re-run on Item updates. <strong>A plan publish triggers all Item, ProjectItem and AssortmentItem formulas</strong> — worth remembering, because publish is already a heavy moment and this adds recalculation to it.</p></details>
+            </li>
+            <li>Name the three silent formula failure modes. Which produces a value that is correct today and wrong next season?
+              <details><summary></summary><p>(1) <strong>Misspelled slugs return <code>undefined</code> silently</strong> — "verify every slug against the live Type before saving a formula." (2) <strong>Reference data updates don't re-run formulas</strong>. (3) <strong>Only Plan formulas run on the frontend</strong>, with one level of object hydration, so a formula may not evaluate on every surface. <strong>Correct today, wrong next season: number 2</strong> — a value derived from reference data is right when written and then quietly stale forever, so changing an FX table or a lookup recalculates nothing.</p></details>
+            </li>
+            <li>What can a rule set control? Explain OR/AND evaluation and what "locked wins" means in practice.
+              <details><summary></summary><p>A rule set controls whether a property is <strong>editable</strong>, <strong>required</strong>, which <strong>option values</strong> are allowed, and <strong>min/max</strong> on a number — based on the entity's current state, with an optional <code>validationFunction</code> override. <strong>Evaluation:</strong> the outer array is <strong>OR</strong> (each block tests independently) and inner criteria are <strong>AND</strong> (all must match). <strong>"Locked wins"</strong> means that if <em>any</em> matching rule declares <code>editable: false</code>, the property is locked — you cannot re-open it with a later rule, and validation constraints accumulate across all matching rules rather than the last one winning.</p></details>
+            </li>
+            <li>Why should you not describe rule sets to a customer as a data-integrity guarantee — and what would you confirm before saying anything definite?
+              <details><summary></summary><p>Because they "evaluate <strong>client-side</strong>, affecting editor experience for all users" — which strongly implies the API and Loader are not bound by them, so a load can write a value the UI would forbid. Treat that as the working assumption, since assuming enforcement is the more dangerous error and it matches the pattern where "the UI wouldn't let us do that, so how is this value here?" turns out to be an integration write. <strong>Confirm internally</strong> exactly where enforcement sits before saying anything definite — it decides how validation must be designed for every integrated field.</p></details>
+            </li>
+            <li>What do <code>contrail types getAll</code> / <code>loadAll</code> do, and what are the two mechanisms a full environment promotion actually requires?
+              <details><summary></summary><p><code>contrail types getAll</code> <strong>exports</strong> an org's configuration to the working directory as a YAML folder tree — eleven categories including types, option sets, option set hierarchies, rule sets, type policies and their links. <code>contrail types loadAll</code> <strong>imports</strong> it into a destination org. <strong>A full environment promotion needs two mechanisms:</strong> configuration via <code>types getAll</code>/<code>loadAll</code>, <em>and</em> apps (workflows, actions, extensions) via <code>contrail app publish</code> and install. They must stay in step; a mismatch between them is a real and confusing failure mode.</p></details>
+            </li>
+            <li>Why is committing the configuration export to version control such a cheap win?
+              <details><summary></summary><p>Because the configuration exports as <strong>plain YAML text</strong>, so committing it gives the customer review, history, diffing and rollback on their configuration for essentially no effort. It also turns "what changed?" from a guess into a diff — which matters because environments have no reconciliation mechanism and drift silently. It's the single cheapest maturity upgrade available to a customer, and worth recommending on day one rather than after the first unexplained config change.</p></details>
+            </li>
+            <li>Which two decisions at <code>contrail app create</code> can never be undone, and what is the commercial risk in the second?
+              <details><summary></summary><p>(1) The <strong>app identifier</strong> — "reserves the app's identifier globally… cannot be altered after creation." (2) <strong>App ownership</strong> — "the org that first creates an app is the owner… App ownership can not be modified." <strong>The commercial risk in the second:</strong> if a systems integrator or PS team runs <code>contrail app create</code> in <em>their</em> org, the customer can never own that app — not at renewal, not when they change partners. Only the owner can modify, publish or delete it. The only remedy afterwards is rebuilding under a new identifier, which can't reuse the name. Ask "whose org is this being created in?" before anyone runs the command.</p></details>
+            </li>
+            <li>Name the three extension types and the two display modes. When is a side-menu the right choice?
+              <details><summary></summary><p><strong>Types:</strong> <code>DOCUMENT_AUTOMATION</code> (reads document context and acts on boards, plans, showcases), <code>CONTEXTUAL_ACTION</code> (presented dynamically by user context), <code>ADMIN_UTILITY</code> (extends the Admin Console). <strong>Display modes:</strong> <em>modal</em> — "a centered dialog with a backdrop. Best for focused tasks" — and <em>side-menu</em> — "a panel docked to the right edge with no backdrop." <strong>Side-menu is right</strong> when the user needs to keep working in the document while the extension is open: inspector-style tools, reference panels, anything consulted rather than completed.</p></details>
+            </li>
+            <li>A customer wants a small UI for a weekly task. What do you tell them it costs to own, beyond the build?
+              <details><summary></summary><p>That it's a <strong>service they will run</strong>, not a feature they will receive. An extension is shown in an iframe from <strong>public HTTPS hosting</strong> — self-hosted or VibeIQ-managed — so it carries uptime, TLS certificates, a deployment process, dependency and runtime upkeep, and someone on call. And when it breaks, users see a broken panel <em>inside VibeIQ</em> and report it as a VibeIQ outage. Settle who owns and monitors the hosting before it ships. The useful sentence is not yes or no but "that's possible, and here's what it costs to own".</p></details>
+            </li>
           </ol>
         </div>
 
@@ -2444,17 +2596,38 @@ visibility: public            # marketplace candidate</code></pre>
 
         <h3>Quiz</h3>
         <div class="q">
+          <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
-            <li>What does the org boundary govern? Name four distinct things it scopes.</li>
-            <li>What is an "environment" in VibeIQ terms, and why do environments drift silently?</li>
-            <li>List the permission layers from org membership down to a single property.</li>
-            <li>Why is "VibeIQ has no real end-user permission model" a wrong statement, and what is the accurate version?</li>
-            <li>Name the three credential surfaces. Which one is most often missed at offboarding, and why does it matter?</li>
-            <li>Trace where a customer's data physically travels. Which two residency/compliance questions can you not answer from the docs?</li>
-            <li>Reframe the 24-hour link expiry as a security control rather than a constraint.</li>
-            <li>What does the Event Workflows Dashboard show, over what horizon, and why should it be in a QBR?</li>
-            <li>What is the crucial difference between everything in the monitoring table and actual alerting?</li>
-            <li>Explain the 60-process org ceiling as a capacity-planning problem. What would you do with that knowledge before a customer notices anything?</li>
+            <li>What does the org boundary govern? Name four distinct things it scopes.
+              <details><summary></summary><p>The org scopes <strong>isolation</strong> (every request carries <code>X-Api-Org</code>), <strong>ownership</strong> (every app is owned by an org, permanently), <strong>configuration</strong> (Configuration Copy exports and imports per org), and <strong>capacity</strong> (the 60-concurrent-process ceiling is per org). Also defensible: identity/membership, and API key scope. Holding "the org is the unit of isolation, ownership, configuration and capacity" resolves most platform questions.</p></details>
+            </li>
+            <li>What is an "environment" in VibeIQ terms, and why do environments drift silently?
+              <details><summary></summary><p>An environment <strong>is just another org</strong> — there is no environment abstraction layered above orgs. The Node migration guide confirms the intended pattern ("test your app in a development org before installing it on production orgs"), but dev/staging/prod is a <em>convention the customer maintains by discipline</em>. <strong>They drift silently</strong> because configuration and apps promote by two different mechanisms (<code>types loadAll</code> vs publish/install), promotion is a whole-org bulk operation rather than a cherry-pick, and <strong>nothing in the platform reconciles them or reports divergence</strong>. So "it tested fine in staging" is a structural risk, not bad luck.</p></details>
+            </li>
+            <li>List the permission layers from org membership down to a single property.
+              <details><summary></summary><p><strong>Org membership</strong> (do you exist in this tenant) → <strong>app <code>accessGrants</code></strong> (which orgs may install an app; "the only available permission is <code>install</code>") → <strong>workflow <code>accessGrants</code></strong> (which entity types an app's actions may <code>read</code> or <code>write</code>) → <strong>Type Policies</strong> (READ/CREATE/UPDATE/DELETE per type) → <strong>Type Property Policies</strong> (property-level restrictions). <strong>API keys</strong> sit alongside as the machine-access surface, app-scoped.</p></details>
+            </li>
+            <li>Why is "VibeIQ has no real end-user permission model" a wrong statement, and what is the accurate version?
+              <details><summary></summary><p>Because <strong>Type Policies and Type Property Policies exist</strong> — "access control statements defining READ, CREATE, UPDATE, DELETE permissions" and "property-level access restrictions" — and they're first-class enough to be among the eleven categories Configuration Copy exports. What's missing is <em>documentation</em>, not capability. <strong>The accurate version:</strong> "there is a policy-based model with type- and property-level permissions; I'll get you the specifics on how it maps to roles." What genuinely remains unknown is how those policies map to named roles or groups inside Boards, Plan and Showcase.</p></details>
+            </li>
+            <li>Name the three credential surfaces. Which one is most often missed at offboarding, and why does it matter?
+              <details><summary></summary><p><strong>API keys</strong> (long-lived, app-scoped), <strong>CLI cached credentials</strong> at <code>~/.vibeiq/configs/</code>, and <strong>webhook trigger URLs</strong> (the ID in the URL acts as a bearer credential). <strong>Most often missed: the CLI cache.</strong> It sits on every developer and consultant laptop that ever ran the CLI, so when someone rolls off an engagement or loses a laptop, working access to the customer's org persists unless it's explicitly revoked. Offboarding has to include credential revocation, not just removing someone from a channel — and it compounds with an integrator who may also hold app ownership.</p></details>
+            </li>
+            <li>Trace where a customer's data physically travels. Which two residency/compliance questions can you not answer from the docs?
+              <details><summary></summary><p>Uploads: creating a File entity returns an <code>uploadPost</code> and the binary goes <strong>directly to S3</strong> (<code>us-east-1</code> in the documented examples). Publish payloads: baseline and delete JSON files on S3, reached by links expiring in 24 hours. Extensions: run in an iframe from <strong>the customer's own</strong> public HTTPS host. Workflow actions: can POST wherever <code>config</code> points. <strong>The two you cannot answer from the docs: data residency</strong> (whether EU or other regions are available — a potential procurement blocker for a European brand) <strong>and compliance certifications</strong> (SOC 2 and equivalents).</p></details>
+            </li>
+            <li>Reframe the 24-hour link expiry as a security control rather than a constraint.
+              <details><summary></summary><p>Instead of "the link dies in a day, so store the change ID," say: <strong>payload links are short-lived by design rather than permanent.</strong> Product data is not sitting on a durable, guessable URL indefinitely — access windows are bounded and re-issuing requires an authenticated fetch of the change object. That's a genuinely good answer to "how long is our data exposed on a URL?", and it's the kind of translation that makes you useful in a room full of security people rather than just accurate.</p></details>
+            </li>
+            <li>What does the Event Workflows Dashboard show, over what horizon, and why should it be in a QBR?
+              <details><summary></summary><p>It shows <strong>"two charts… the history of workflows triggered and workflows that have failed," going back up to 90 days</strong>. It belongs in a QBR because a rising failure trend is <em>operational health made visible</em> — it appears weeks before anyone files a ticket, so bringing it converts you from reactive to predictive at essentially zero cost. It also gives you the thing that most changes a QBR's dynamic: one risk you found before the customer did.</p></details>
+            </li>
+            <li>What is the crucial difference between everything in the monitoring table and actual alerting?
+              <details><summary></summary><p><strong>None of it is alerting.</strong> The dashboard, the Process List, Workflow Artifacts and LoaderProcess records are all things a human must <em>choose to look at</em>. Whether customers get proactive notification of load, publish or workflow failure is not documented — and if the answer is no, a failed nightly load is discovered by whoever notices missing data, typically a merchandiser in a review. Confirm it internally; if absent, recommend the customer build monitoring on the process APIs at implementation time rather than after an incident.</p></details>
+            </li>
+            <li>Explain the 60-process org ceiling as a capacity-planning problem. What would you do with that knowledge before a customer notices anything?
+              <details><summary></summary><p>The 60 concurrent processes are a <strong>shared budget</strong> across every workflow, integration and bulk load in the org, with no documented way for the customer to see their own utilisation — so contention is invisible until it surfaces as unexplained slowness somewhere unrelated. <strong>Treat it as capacity planning:</strong> maintain a picture of what runs in the org, what triggers it and when it's heaviest, then avoid stacking bulk loads on top of the nightly integration window. "We moved the load to 03:30 and the sync stopped timing out" is a small win that looks like magic and is available purely from knowing the ceiling exists.</p></details>
+            </li>
           </ol>
         </div>
 
@@ -2727,17 +2900,38 @@ visibility: public            # marketplace candidate</code></pre>
 
         <h3>Quiz</h3>
         <div class="q">
+          <button class="revealall" type="button">Reveal all answers</button>
           <ol class="quiz">
-            <li>State the localisation rule. Why is proposing a cause early expensive?</li>
-            <li>Name the six checkpoints. Which do you check first, and why does that beat walking the pipeline in order?</li>
-            <li>Give the six universal questions. Translate two of them into a merchandiser's language.</li>
-            <li>Run Ladder B from memory. At which step do you jump if a process already exists?</li>
-            <li>What does it mean when a workflow process is <code>COMPLETE</code> but nothing happened?</li>
-            <li>Why is "if you retry, does the same record fail?" such a high-yield question?</li>
-            <li>A problem started on a specific date and "nothing changed." Name three things that change without anyone changing them.</li>
-            <li>What evidence exists, and what is its lifetime? What must you establish before promising root cause on an old problem?</li>
-            <li>Name the six elements of a good escalation. Which is most often omitted, and what does omitting it cost?</li>
-            <li>Why should you never answer "who's wrong?", and what do you answer instead?</li>
+            <li>State the localisation rule. Why is proposing a cause early expensive?
+              <details><summary></summary><p><strong>Localise before theorising:</strong> the first question is not "why is this happening?" but <strong>"which segment of the pipeline is this in?"</strong> Only once the segment is fixed do you ask why. <strong>An early cause is expensive</strong> because a theory arriving before evidence anchors everyone — the team starts testing it, and two days go to a hypothesis that was never constrained by anything. Localisation is cheap (the platform records almost everything) and eliminates whole categories of cause in a single check.</p></details>
+            </li>
+            <li>Name the six checkpoints. Which do you check first, and why does that beat walking the pipeline in order?
+              <details><summary></summary><p><strong>CP1</strong> source file · <strong>CP2</strong> loader · <strong>CP3</strong> entities · <strong>CP4</strong> workflows/formulas · <strong>CP5</strong> publish · <strong>CP6</strong> consumer. <strong>Check CP3 first</strong> — look at the entity itself. If the value is correct there, the problem is downstream (CP4–CP6); if wrong, it's upstream (CP1–CP2). <strong>That beats walking in order</strong> because it <em>bisects</em>: one look halves the search space, and CP3 is usually the cheapest check available since it's just opening the record. Walking left to right is the instinct; bisecting is the discipline.</p></details>
+            </li>
+            <li>Give the six universal questions. Translate two of them into a merchandiser's language.
+              <details><summary></summary><p>Which entity layer? · Which property level? · Which <code>federatedId</code>, and what generates it? · Create or update? · Which process ID? · When did it last work? <strong>Translated:</strong> "is this a style-level or a colour-level field?" (property level) and "were these products already in the system, or did they arrive with this file?" (create vs update). Asking in the customer's vocabulary gets better answers from a merchandiser than platform terms do — and it's the same question.</p></details>
+            </li>
+            <li>Run Ladder B from memory. At which step do you jump if a process already exists?
+              <details><summary></summary><p>(1) Is there a process at all? (2) <code>isActive</code>, installed in this org, expected app version? (3) Right <code>triggerKey</code>? (4) Did the change emit that event? (5) Which path ran — read <code>triggerEvent</code>, evaluate conditionals top-down, remembering first-match-wins and absent <code>oldData</code> on creates. (6) Did actions succeed — read <code>taskOutputs</code>. (7) Intermittent and load-correlated → concurrency, not logic. <strong>If a process already exists, jump to step 5</strong> — the trigger clearly matched, so the question becomes which path ran and what the actions did.</p></details>
+            </li>
+            <li>What does it mean when a workflow process is <code>COMPLETE</code> but nothing happened?
+              <details><summary></summary><p>It means the workflow <strong>fired and ran to completion without doing anything useful</strong>. The usual causes are a <strong>missing or read-only <code>accessGrant</code></strong> — the action attempted a write it wasn't permitted — or a <code>config</code> value pointing somewhere harmless, such as a staging endpoint promoted into production. Read <code>taskOutputs</code> per task to see what each actually produced. Also remember tasks are strictly serial: if an early task failed, later ones were never run at all rather than failing.</p></details>
+            </li>
+            <li>Why is "if you retry, does the same record fail?" such a high-yield question?
+              <details><summary></summary><p>Because the answer splits the possibility space in half in two words. <strong>Same record fails → logic or configuration</strong> — something deterministic about that record or the config is wrong. <strong>Different record each time → timing or concurrency</strong> — a race, a message-grouping gap, or an integration seam. Customers never volunteer this, and it's more informative than any amount of detail about the records themselves. Ask it alongside "does it affect every record or some?" and "did it start at a particular time?".</p></details>
+            </li>
+            <li>A problem started on a specific date and "nothing changed." Name three things that change without anyone changing them.
+              <details><summary></summary><p><strong>A deploy</strong> — an app version published or installed, changing workflows or actions. <strong>A configuration promotion</strong> — someone ran <code>types loadAll</code>, or a rule set or property level changed. <strong>An expiry</strong> — a runtime deprecation (<code>nodeRuntime</code>), a credential rotation, or a certificate. Also valid: seasonal boundaries (a new project/season starting changes which entities are in play) and volume crossing a concurrency threshold that was always there.</p></details>
+            </li>
+            <li>What evidence exists, and what is its lifetime? What must you establish before promising root cause on an old problem?
+              <details><summary></summary><p><strong><code>LoaderProcess</code> + per-step artefacts</strong> (no documented expiry) · <strong>Process List</strong> — <code>status</code>, <code>triggerEvent</code>, <code>taskOutputs</code>, timings — <strong>90 days</strong> · <strong>Event Workflows Dashboard</strong> — 90 days · <strong>Workflow Artifacts</strong> — deleted with the process at 90 days · <strong><code>AssortmentPublishChange</code> + baseline</strong> — links expire in 24h but refetching refreshes them · <strong>config export</strong> (current state, on demand). <strong>Before promising root cause on an old problem, establish what evidence still exists</strong> — and tell the customer to preserve exports now if the investigation will be long. Note deleting a workflow destroys its logs immediately, not at 90 days.</p></details>
+            </li>
+            <li>Name the six elements of a good escalation. Which is most often omitted, and what does omitting it cost?
+              <details><summary></summary><p>(1) The segment it's localised to. (2) Identifiers — process IDs, federatedIds, change IDs, org slug, app version. (3) <strong>What you ruled out, and how.</strong> (4) The shape — intermittent or consistent, all records or some, since when. (5) Business impact and the clock. (6) Your hypothesis, <em>marked</em> as a hypothesis. <strong>Most often omitted: number 3</strong> — and omitting it means the next person repeats every check you already did, which is usually the largest single cost in an escalation. It's also what separates a TAM from a ticket relay.</p></details>
+            </li>
+            <li>Why should you never answer "who's wrong?", and what do you answer instead?
+              <details><summary></summary><p>Because adjudicating blame between a customer's own teams <strong>costs you the neutrality that makes you useful to both</strong> — and it is never the question they actually need answered. The merchandiser and the PLM team both have to keep working together after you leave the call. <strong>Answer instead:</strong> "here's what happened, and here's what we change." Describe the mechanism, name the fix for the immediate problem and the change that stops it recurring, and let the account of what happened speak for itself.</p></details>
+            </li>
           </ol>
         </div>
 
@@ -3269,6 +3463,16 @@ visibility: public            # marketplace candidate</code></pre>
       e.preventDefault();
       show(a.getAttribute('data-view'));
     });
+  });
+  document.addEventListener('click',e=>{
+    const btn = e.target.closest('.revealall');
+    if(!btn) return;
+    const box = btn.closest('.q');
+    if(!box) return;
+    const all = box.querySelectorAll('details');
+    const open = [...all].every(d=>d.open);
+    all.forEach(d=>{ d.open = !open; });
+    btn.textContent = open ? 'Reveal all answers' : 'Hide all answers';
   });
   document.getElementById('menuBtn').addEventListener('click',()=>document.body.classList.toggle('nav-open'));
   document.getElementById('scrim').addEventListener('click',()=>document.body.classList.remove('nav-open'));

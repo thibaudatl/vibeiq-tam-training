@@ -62,6 +62,14 @@ every remaining stub carries an explicit "workflow angle" bullet.
 3. No `gh` CLI on this machine; repo actions that need the GitHub API must be
    done by Leo in the browser.
 
+## Quiz answers
+All 86 quiz questions across Modules 1-9 have model answers, injected as
+`<details>` blocks inside each `<li>`, plus a "Reveal all answers" button per quiz
+(event-delegated JS, toggles every `<details>` in that `.q` container). Module 10
+is the capstone and has no quiz. **When a quiz question is added or reworded, add
+or update its answer in the same edit** — the injector matched question text
+exactly, so a mismatch is silent.
+
 ## Key findings page
 `index.html` carries a **Key findings** reference view collecting the highest-value
 findings across modules: symptom→cause lookup, silent failure modes, irreversible
