@@ -30,7 +30,7 @@
 | 2 | Core data model (keystone) | 📖 Ready to read | — | — | — |
 | 3 | End-user apps & the publish lifecycle | 📖 Ready to read | — | — | — |
 | 4 | Data in: the Loader framework | 📖 Ready to read | — | — | — |
-| 5 | Data out: integration patterns | ⬜ | — | — | — |
+| 5 | Data out: integration patterns | 📖 Ready to read | — | — | — |
 | 6 | Event Workflows | 📖 Ready to read | — | — | — |
 | 7 | Apps, Extensions & the config/customization boundary | ⬜ | — | — | — |
 | 8 | Platform, security & operations | ⬜ | — | — | — |
@@ -91,6 +91,9 @@ _(populated as we go — running glossary)_
 - **LoaderProcess** — the async entity recording a load's status, config and logs. Ask for its ID.
 - **Preprocessing artefacts** — `loader-process-step-<Step Name>.json`, the rows/errors/warnings after each step.
 - **Morph transformer** — the general-purpose reshaper; powerful, and a maintainability risk when overused.
+- **Attribute ownership map** — per attribute: authoritative system, direction, entity layer, property level, conflict rule.
+- **Baseline reconciliation** — scheduled comparison of downstream state against a fresh baseline; reports drift.
+- **Polling seam** — records lost or doubled at the window boundary; fixed by overlap + idempotency + data-derived timestamps.
 
 ## 6. Topics to revisit
 -

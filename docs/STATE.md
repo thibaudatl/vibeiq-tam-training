@@ -37,7 +37,7 @@ a markdown tracker (`dashboard.md`) and per-week source notes (`modules/`).
 | 2 | Core data model (keystone) | written |
 | 3 | End-user apps & the publish lifecycle | written |
 | 4 | Data in: the Loader framework | written (deep) |
-| 5 | Data out: integration patterns | to write |
+| 5 | Data out: integration patterns | written (deep) |
 | 6 | Event Workflows | written (deep) |
 | 7 | Apps, Extensions & the config/customization boundary | to write |
 | 8 | Platform, security & operations | to write |
@@ -66,7 +66,11 @@ every remaining stub carries an explicit "workflow angle" bullet.
   numeric rate limits, tenancy, monitoring, AI GA-vs-roadmap). Those gaps are
   the "questions for colleagues" reference page.
 - The "15 requests/hour" rate limit figure online belongs to vibe.co, a
-  different company. Do not cite it.
+  different company. Do not cite it. Real limits are undisclosed in the docs.
+- Outbound webhooks (VibeIQ -> customer) support HMAC; inbound trigger-webhooks
+  only document an optional shared-secret header. Keep the directions apart.
+- The publish event delivery mechanism IS an Event Workflow, so integration
+  debugging and workflow debugging are the same skill.
 - Board / Plan / Showcase are each backed by an Assortment.
 - `federatedId` drives upsert; UI-created entities have none by default —
   the cause of the classic duplicate-records bug.

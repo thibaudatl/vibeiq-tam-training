@@ -175,7 +175,7 @@
       <a href="#m2" data-view="m2"><span class="wk">W2</span> Core data model <span class="st">★</span></a>
       <a href="#m3" data-view="m3"><span class="wk">W3</span> Apps &amp; publish lifecycle</a>
       <a href="#m4" data-view="m4"><span class="wk">W4</span> Data in: the Loader <span class="st">★</span></a>
-      <a class="todo" href="#m5" data-view="m5"><span class="wk">W5</span> Data out: integrations <span class="st">soon</span></a>
+      <a href="#m5" data-view="m5"><span class="wk">W5</span> Data out: integrations <span class="st">★</span></a>
       <a href="#m6" data-view="m6"><span class="wk">W6</span> Event Workflows <span class="st">★</span></a>
       <a class="todo" href="#m7" data-view="m7"><span class="wk">W7</span> Apps, Extensions &amp; config <span class="st">soon</span></a>
       <a class="todo" href="#m8" data-view="m8"><span class="wk">W8</span> Platform, security, ops <span class="st">soon</span></a>
@@ -220,7 +220,7 @@
             <tr><td>2</td><td>Core data model (keystone)</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>3</td><td>End-user apps &amp; publish lifecycle</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>4</td><td>Data in: the Loader framework</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
-            <tr><td>5</td><td>Data out: integration patterns</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>5</td><td>Data out: integration patterns</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>6</td><td>Event Workflows</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>7</td><td>Apps, Extensions &amp; the config boundary</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
             <tr><td>8</td><td>Platform, security &amp; operations</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
@@ -1230,19 +1230,221 @@
       <section class="view" id="view-m5">
         <p class="eyebrow">Module 5 · Week 5</p>
         <h2 class="title">Data out: integration patterns</h2>
-        <p class="lede">The technical heart, with Week 4. This is the seam customers actually break.</p>
-        <div class="card">
-          <h4 style="margin-top:6px">Not written yet</h4>
-          <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
+        <p class="lede">The other half of the technical heart. Week 4 was data arriving; this is data leaving, and it is the seam customers actually break. By the end you should be able to sit in an architecture review, read someone's integration design, and name what will fail in production before it does.</p>
+
+        <div class="card keystone">
+          <h4>Learning objectives</h4>
+          <p style="margin-bottom:0">By the end of this week you can (1) choose between event-driven and polling for a stated requirement and defend it, (2) trace the full event-driven path from <code>assortment|publish</code> to rows in the customer's system, naming every call, (3) explain why temporal polling drops or duplicates records at the seam and how to guard it, (4) review a consumer design and find the failure modes, and (5) hold a credible security conversation about API keys and webhooks in both directions.</p>
+        </div>
+
+        <h3>Concept 1 — Choosing the pattern</h3>
+        <table>
+          <thead><tr><th>Aspect</th><th>Change History Polling</th><th>Assortment Publish Events</th></tr></thead>
+          <tbody>
+            <tr><td>Trigger</td><td>"Time-based (scheduled)"</td><td>"Event-based (on publish)"</td></tr>
+            <tr><td>Latency</td><td>"Minutes to hours"</td><td>"Near real-time"</td></tr>
+            <tr><td>Complexity</td><td>"Simple to implement"</td><td>"Requires webhook endpoint"</td></tr>
+            <tr><td>State lives</td><td>In the consumer (a timestamp)</td><td>In the delivery (an event)</td></tr>
+            <tr><td>Scope</td><td>Any entity type</td><td>Assortment publishes only</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Polling is right for</strong> batch sync on a schedule, tracking multiple entity types, historical retrieval, and systems with no webhook support. <strong>Events are right for</strong> real-time needs, assortment-specific workflows, webhook-capable systems, and minimising API calls.</p>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">The scope row is the one that decides most real architectures, and it is easy to miss. Publish events cover <em>assortment publishes</em>. If the customer also needs item-level changes that never go through a publish — a colour corrected, a description fixed — events alone will not carry them. Many customers end up running <strong>both</strong>: events for publish latency, polling as the safety net and for everything else. When someone insists on one mechanism only, ask what happens to changes that never publish.</p>
+        </div>
+
+        <h3>Concept 2 — Authentication and the API surface</h3>
+        <p>Base URL: <code>https://api.vibeiq.com/prod/api</code>. Every REST request carries two headers:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">curl --location 'https://api.vibeiq.com/prod/api/items/item-id-123' \
+  --header 'X-Api-Key: app:uEL7GCBZ7Xhd4w2z' \
+  --header 'X-Api-Org: your-org-slug'</code></pre>
+        <p>Keys come from <code>contrail app getApiKey</code> and look like <code>app:uEL7GCBZ7Xhd4w2z</code> — the <code>app:</code> prefix marks them as <em>application-scoped</em> rather than user credentials. "VibeIQ can provide an access token directly if using the CLI is not preferred."</p>
+        <table>
+          <thead><tr><th>Code</th><th>Meaning</th><th>What to actually check</th></tr></thead>
+          <tbody>
+            <tr><td><code>401</code></td><td>Unauthorized</td><td>Key validity, expiry, and — the one people miss — whether <code>X-Api-Org</code> matches the org the key belongs to</td></tr>
+            <tr><td><code>404</code></td><td>Not found</td><td>Genuinely absent, <em>or</em> access denied, <em>or</em> wrong entity type. A 404 here is not proof the record doesn't exist</td></tr>
+            <tr><td><code>429</code></td><td>Rate limited</td><td>Back off exponentially, reduce frequency, batch</td></tr>
+          </tbody>
+        </table>
+        <div class="card warn">
+          <h4>Rate limits are real but undisclosed</h4>
+          <p style="margin-bottom:0">"VibeIQ APIs are rate-limited to ensure system stability," with no published numbers; customers exceeding them should "contact VibeIQ support to discuss higher limits." So you cannot promise a throughput figure, and you must insist consumers implement exponential backoff rather than assuming headroom. And from Week 1 — the "15 requests/hour" figure circulating online belongs to <strong>vibe.co, a different company</strong>. Never cite it.</p>
+        </div>
+        <p>Key hygiene, per the docs: never commit keys to source control; use environment variables or secrets management; keep <strong>separate keys per environment</strong>; prefer app keys over user keys; and rotate regularly, generating new keys and revoking old ones.</p>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Separate keys per environment is worth pushing hard on, because it composes with a Week 6 hazard: a workflow action's <code>config</code> can point at any endpoint. One shared key across environments plus a promoted workflow config is how staging writes to production. Two controls, one failure — and the customer will experience it as data corruption, not as a credentials problem.</p>
+        </div>
+
+        <h3>Concept 3 — The event-driven path, end to end</h3>
+        <p>Publishing emits an <code>assortment|publish</code> event whose payload is deliberately thin:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">{
+  "assortmentId": "25uDvGNpYhZHw2nt",
+  "assortmentPublishChangeId": "lTuARQLrhgWHNr3k"
+}</code></pre>
+        <div class="card keystone">
+          <h4>The mechanism is a workflow</h4>
+          <p style="margin-bottom:0">"Configure an Event Workflow in VibeIQ to forward events to your endpoint." The outbound integration <em>is</em> a Week 6 workflow — <code>triggerKey: assortment|publish</code>, with an action that POSTs to the customer's URL. Everything you learned about paths, conditionals, access grants, retries and the Process List applies directly to debugging an integration. "The event never arrived" is a workflow investigation, and you already know how to run it.</p>
+        </div>
+        <p>You receive the two IDs, then fetch the full change object:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">curl --location \
+  'https://api.vibeiq.com/prod/api/assortments/25uDvGNpYhZHw2nt/history/lTuARQLrhgWHNr3k' \
+  --header 'X-Api-Key: your-api-key' \
+  --header 'X-Api-Org: your-org-slug'</code></pre>
+        <p>Or via the SDK:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">const changeHistory = await new Entities().get({
+  entityName: 'assortment',
+  id: '25uDvGNpYhZHw2nt',
+  suffix: 'history/lTuARQLrhgWHNr3k'
+});</code></pre>
+        <p>Then download the baseline — note it takes the same auth headers:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">const baselineUrl = changeHistory.assortmentBaselineDownloadLink;
+const baselineResponse = await fetch(baselineUrl, {
+  headers: { 'X-Api-Key': '…', 'X-Api-Org': '…' }
+});
+const baselineData = await baselineResponse.json();
+
+for (const assortmentItem of baselineData.assortmentItems) {
+  const item        = assortmentItem.item;
+  const itemFamily  = assortmentItem.item.itemFamily;
+  const projectItem = assortmentItem.projectItem;
+  // map to your system's data model
+}</code></pre>
+        <div class="card keystone">
+          <h4>Week 2 is sitting right there in the payload</h4>
+          <p style="margin-bottom:0">Look at the loop. Each <code>assortmentItem</code> exposes <code>.item</code>, <code>.item.itemFamily</code> and <code>.projectItem</code> — the AssortmentItem / Item / Family / ProjectItem layers, in one object. Every mapping decision the customer makes here is a decision about <em>which layer is authoritative for which attribute</em>. A team that never learned the layer model will map from whichever field is populated, and produce a downstream system that is subtly wrong in ways nobody can explain. This is the single highest-leverage moment for you to be in the room.</p>
+        </div>
+        <p>The documented consumer sequence: receive the webhook → fetch the change object → download and parse the baseline → extract <code>assortmentItems</code> → transform to your schema → persist → <strong>store the <code>createdOn</code> timestamp for future change tracking</strong>.</p>
+
+        <h3>Concept 4 — The polling path, and the seam</h3>
+        <p>Polling hits <code>/api/change-history</code> "for changes to entities within a specified time range." The consumer stores a last-sync timestamp, builds a date-range criterion from it, polls, processes, and stores the new timestamp. Filtering is temporal — <code>createdOn</code> accepts a <code>BETWEEN 2024-01-01 and 2024-12-31</code> form — and "this approach gives you full control over when and how frequently you retrieve changes."</p>
+        <div class="card warn">
+          <h4>Temporal filtering is not a cursor, and the difference is the bug</h4>
+          <p>A cursor is a position in an ordered sequence: resume from it and you cannot miss or repeat. A timestamp is a <em>guess</em> about a position, and three things break it:</p>
           <ul style="margin-bottom:0">
-            <li>Event-driven push vs. <code>/api/change-history</code> polling; the <code>BETWEEN</code> time-range filter and why temporal paging drops records at the seam</li>
-            <li>Authentication (<code>X-Api-Key</code>, <code>X-Api-Org</code>), rate limits, error codes</li>
-            <li>Designing a consumer that survives 48h downtime, non-accumulating deletes and 24h link expiry</li>
-            <li>Attribute-level ownership mapping across VibeIQ, PLM and ERP</li>
-            <li><strong>Workflow angle:</strong> webhook security posture, <code>X-Verify-Signature</code> vs. HMAC, and using workflows as the outbound integration mechanism</li>
+            <li><strong>Boundary exclusivity.</strong> Poll <code>[lastSync, now]</code> and records at exactly <code>lastSync</code> are processed twice; poll <code>(lastSync, now]</code> and any record written in the same instant as your cutoff is lost forever.</li>
+            <li><strong>In-flight writes.</strong> A record whose <code>createdOn</code> falls just before <code>now</code> but which commits just after your query runs is never returned by this poll, and is before the cutoff on the next one. It vanishes silently.</li>
+            <li><strong>Clock skew.</strong> The consumer's clock and the server's clock are not the same clock. A consumer that computes <code>now</code> locally can skip a window.</li>
           </ul>
         </div>
-        <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
+        <p>The guards, in order of importance:</p>
+        <ol>
+          <li><strong>Overlap the window.</strong> Poll from <code>lastSync − safetyMargin</code> (a minute or two), not from <code>lastSync</code>. Deliberately re-fetch a little.</li>
+          <li><strong>Make processing idempotent.</strong> Overlap only helps if reprocessing the same record is harmless. Key on entity ID plus a change identifier and no-op on repeats.</li>
+          <li><strong>Advance the timestamp from the data, not the clock.</strong> Use the maximum <code>createdOn</code> actually returned, not the local time at which you polled.</li>
+          <li><strong>Never advance on partial failure.</strong> If processing threw halfway, the timestamp must not move.</li>
+        </ol>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">The symptom this produces is the most frustrating you will meet: <em>occasional</em> missing records, no errors anywhere, and no reproducibility. Both systems look healthy. When a customer reports "we're missing maybe one in a few hundred, we can't work out which," stop looking at the data and go read how their polling window is computed. Almost every time, it is exclusive boundaries or a locally-computed <code>now</code>.</p>
+        </div>
+
+        <h3>Concept 5 — Designing a consumer that survives contact with reality</h3>
+        <p>Pulling Weeks 3–5 together. A production consumer must handle all six of these:</p>
+        <table>
+          <thead><tr><th>Hazard</th><th>Why it bites</th><th>The design answer</th></tr></thead>
+          <tbody>
+            <tr><td>S3 links expire in 24h</td><td>A stored URL is dead tomorrow</td><td>Persist the <strong>change ID</strong>; re-fetch the change object to get fresh links</td></tr>
+            <tr><td>Deletes don't accumulate</td><td>Miss one publish and those deletes never reappear</td><td>Track processed change IDs; on a gap, re-baseline rather than resume</td></tr>
+            <tr><td>Downtime</td><td>Events delivered while you're down are gone</td><td>Reconcile against the baseline on restart; don't trust "we caught up"</td></tr>
+            <tr><td>Rate limits (429)</td><td>Undisclosed and variable</td><td>Exponential backoff with jitter; batch; cache</td></tr>
+            <tr><td>Duplicate delivery</td><td>Retries and overlap windows both cause it</td><td>Idempotent writes keyed on entity + change</td></tr>
+            <tr><td>Partial failure</td><td>Half a publish applied is worse than none</td><td>Transactional apply, or a resumable per-item ledger</td></tr>
+          </tbody>
+        </table>
+        <div class="card keystone">
+          <h4>The reconciliation habit</h4>
+          <p style="margin-bottom:0">Every incremental integration drifts eventually — a missed event, a partial apply, a bug shipped on a Friday. The healthy pattern is a <strong>periodic baseline reconciliation</strong>: on a schedule, pull the latest baseline and compare it against downstream state, reporting differences rather than silently correcting them. Customers who do this find problems in days; customers who don't find them in line reviews. Recommending it is cheap advice that makes you look prescient about a year later.</p>
+        </div>
+
+        <h3>Concept 6 — Webhook security, in both directions</h3>
+        <p>The two directions have genuinely different postures, and conflating them is how you give a security team a wrong answer.</p>
+        <table>
+          <thead><tr><th></th><th>Inbound: external → VibeIQ</th><th>Outbound: VibeIQ → external</th></tr></thead>
+          <tbody>
+            <tr><td>Purpose</td><td>Trigger a workflow from outside</td><td>Notify the customer's endpoint of an event</td></tr>
+            <tr><td>Endpoint</td><td><code>POST /api/trigger-webhooks/{ID}</code></td><td>The customer's own URL</td></tr>
+            <tr><td>Verification</td><td><code>X-Verify-Signature</code>, documented as <em>optional</em> and shown as a shared secret in a header</td><td>Three options: API keys in custom headers, <strong>HMAC signatures using shared secrets</strong>, or IP allowlisting</td></tr>
+            <tr><td>Setup</td><td>CLI or API; the webhook ID is in the URL</td><td>"Configuration requires contacting VibeIQ support"</td></tr>
+          </tbody>
+        </table>
+        <div class="card warn">
+          <h4>What to actually say to a security team</h4>
+          <p style="margin-bottom:0">Outbound is defensible: HMAC signing is available, and you should recommend it over header keys or IP allowlists. Inbound is weaker — the trigger URL contains the webhook ID and functions as a bearer credential, and the documented verification is an optional shared-secret header rather than a signature over the request body. Treat trigger URLs as secrets, don't put them anywhere loggable, and confirm internally what is actually enforced server-side before you make a claim. Note also that outbound configuration goes through VibeIQ support — so it is a lead-time item in any implementation plan, not a self-serve toggle.</p>
+        </div>
+
+        <h3>Concept 7 — Attribute ownership, the artefact that prevents the arguments</h3>
+        <p>Two-way integration means every attribute needs an owner. Without an explicit map, both systems write the same field and the last writer wins — intermittently, and differently each time.</p>
+        <p>The map you should insist exists, per attribute: <strong>which system is authoritative · which direction it flows · at which entity layer it lives (Item / ProjectItem / AssortmentItem) · at which property level (Family / Option / All / Override) · what happens on conflict.</strong></p>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">This single artefact resolves more disputes than any diagnostic skill. "PLM overwrote our margin target" is not a bug report — it is the absence of this map. Build it during implementation, keep it current, and bring it to every architecture review. Weeks 2, 4 and 5 exist so that you can fill it in credibly, which is why the columns name the layer <em>and</em> the property level rather than just the field.</p>
+        </div>
+
+        <hr class="divider">
+
+        <h3>Recommended reading</h3>
+        <ul>
+          <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/" target="_blank" rel="noopener">Integration Patterns — overview</a></li>
+          <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/authentication/" target="_blank" rel="noopener">Authentication &amp; API Access</a> — keys, headers, error codes, key hygiene.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/assortment_publish_integration/" target="_blank" rel="noopener">Assortment Publish Integrations</a> — the code path in Concept 3. Read every line.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/change_history_polling/" target="_blank" rel="noopener">Change History Polling</a></li>
+        </ul>
+
+        <hr class="divider">
+
+        <h3>Practical exercise</h3>
+        <div class="card">
+          <p style="margin-bottom:0">Write the <strong>attribute ownership map</strong> for a mid-size brand running VibeIQ, Centric PLM and SAP. Fifteen attributes is enough — include at least: style name, category, colourway, target retail price, actual landed cost, margin target, size range, lifecycle status, image, inventory position, supplier. For each: authoritative system, direction, VibeIQ entity layer, property level, and conflict rule. Then mark the <strong>three rows you'd expect to be argued about</strong> and say why.</p>
+        </div>
+
+        <h3>Realistic customer scenario — an architecture review</h3>
+        <div class="card">
+          <p><strong>Summit Athletic's</strong> integration engineer sends you their design before build. This is the review you'll be doing for real:</p>
+          <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"Nightly job at 02:00. We call <code>/api/change-history</code> with <code>createdOn BETWEEN &lt;last_run_time&gt; AND &lt;now&gt;</code>, where <code>last_run_time</code> is what our server recorded when the previous run started. We process each change and update Centric. We store the <code>assortmentBaselineDownloadLink</code> against each assortment so we can re-read it if someone asks questions later. One API key in our config file, same one for dev and prod so testing is realistic. If a call fails we log it and the next night's run picks things up. We're skipping the delete file for now since merch says they rarely drop styles mid-season."</p>
+          <p style="margin-bottom:0">Find <strong>at least six distinct problems</strong>. For each: the failure it causes, the <em>symptom the customer would actually report</em>, and the fix. Then rank them — which one do you insist is fixed before go-live, and which would you accept as a follow-up? Finally, write the two-sentence opening of your reply, given this person is proud of the design and you need them to stay collaborative.</p>
+        </div>
+
+        <h3>Quiz</h3>
+        <div class="q">
+          <ol class="quiz">
+            <li>Give the decision rule for events vs. polling. What does the <em>scope</em> difference mean for a customer who needs all item changes, not just publishes?</li>
+            <li>What are the two required headers, and what does the <code>app:</code> prefix on a key signify?</li>
+            <li>Why is a <code>404</code> from this API not proof that a record doesn't exist?</li>
+            <li>What can you honestly tell a customer about rate limits, and what must a consumer implement regardless?</li>
+            <li>Trace the event-driven path from publish to persisted rows, naming each call. What is in the event payload, and why so little?</li>
+            <li>Why is "the event never arrived" a workflow investigation, and what would you look at first?</li>
+            <li>The baseline exposes <code>.item</code>, <code>.item.itemFamily</code> and <code>.projectItem</code> per assortment item. Why does that make mapping a data-model decision rather than a plumbing one?</li>
+            <li>Explain why temporal polling loses records. Name the three causes and the four guards.</li>
+            <li>A consumer is down 36 hours across two publishes. Walk the recovery, and say why resuming from the next event is not enough.</li>
+            <li>Contrast inbound and outbound webhook security. What would you recommend, and what would you refuse to assert?</li>
+          </ol>
+        </div>
+
+        <h3>Hands-on challenge</h3>
+        <div class="card">
+          <p style="margin-bottom:0">Write your <strong>integration design review template</strong> — the standard questions you'd put to any customer before they build against VibeIQ. Cover: pattern choice and what it misses, polling window construction, idempotency, change-ID vs. URL persistence, delete handling, downtime recovery and reconciliation cadence, key scoping per environment, backoff, webhook verification in both directions, and the attribute ownership map. This is the last piece of your account-inheritance kit — alongside the Week 2 data-model health check, Week 3 publish checklist, Week 4 pre-load checklist and Week 6 workflow review.</p>
+        </div>
+
+        <div class="outcome">
+          <h4>I know this when I can…</h4>
+          <ul>
+            <li>Pick a pattern from a requirement and name what that choice will not cover.</li>
+            <li>Trace both paths end to end without notes, naming every call and header.</li>
+            <li>Explain the polling seam precisely enough that an engineer changes their code.</li>
+            <li>Read an integration design and find six real problems in it.</li>
+            <li>Answer a security team on webhooks in both directions, and know which claim to refuse.</li>
+            <li>Build and defend an attribute ownership map across VibeIQ, PLM and ERP.</li>
+          </ul>
+        </div>
+
+        <details>
+          <summary>How to submit</summary>
+          <p>Answer the quiz and the architecture review in our chat. The review is the closest thing in this program to the actual job — finding the flaws is half of it, and the two-sentence opening is the other half.</p>
+        </details>
+        <p class="foot">Module 5 · grounded in official Contrail documentation: Integration Patterns (overview, authentication, assortment publish, change history polling).</p>
       </section>
 
       <section class="view" id="view-m6">
@@ -1460,7 +1662,7 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
         <p>The trigger endpoint returns an array of the workflow processes it created, with statuses, IDs and initial event data — useful for confirming a webhook actually started something.</p>
         <div class="card warn">
           <h4>Security posture — flag this one</h4>
-          <p style="margin-bottom:0"><code>X-Verify-Signature</code> is documented as <em>optional</em> and, in the example, is a shared secret compared as a header value — not an HMAC over the request body. That is meaningfully weaker than the signed-payload schemes most enterprise security teams expect, and a webhook ID in a URL is a bearer credential. Before a security review, confirm internally what verification is actually enforced, and treat trigger URLs as secrets. This belongs on your colleague-questions list.</p>
+          <p style="margin-bottom:0">This is the <strong>inbound</strong> direction (external system → VibeIQ), and its posture is the weaker of the two. <code>X-Verify-Signature</code> is documented as <em>optional</em> and, in the example, is a shared secret compared as a header value — not an HMAC over the request body — while a webhook ID in a URL is effectively a bearer credential. The <em>outbound</em> direction (VibeIQ → the customer's endpoint, covered in Week 5) does support HMAC signing. Keep the two apart when a security team asks, treat trigger URLs as secrets, and confirm internally what inbound verification is actually enforced.</p>
         </div>
 
         <h3>Concept 8 — From app to running workflow</h3>
@@ -1735,7 +1937,7 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
   const topTitle = document.getElementById('topTitle');
   const titles = {
     dashboard:'Dashboard', m1:'Module 1 · Domain', m2:'Module 2', m3:'Module 3', m4:'Module 4 · Loader',
-    m5:'Module 5', m6:'Module 6 · Workflows', m7:'Module 7', m8:'Module 8', m9:'Module 9', m10:'Module 10',
+    m5:'Module 5 · Integrations', m6:'Module 6 · Workflows', m7:'Module 7', m8:'Module 8', m9:'Module 9', m10:'Module 10',
     priority:'Priority matrix', questions:'Colleague questions', links:'Doc links'
   };
   function show(id){
