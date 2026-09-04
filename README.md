@@ -7,7 +7,7 @@ Manager. Grounded in official VibeIQ / Contrail documentation (docs.vibeiq.com).
 
 | Path | What it is |
 |---|---|
-| `index.html` | The training hub — open in any browser, no server needed. Sidebar navigation across the dashboard, modules, and reference pages. |
+| `index.html` | The training hub — open in any browser, no server needed. Sidebar navigation across the dashboard, modules, and reference pages. Every module is browsable; nothing is gated. |
 | `dashboard.md` | Progress tracker (status + confidence per topic). Updated at the end of each module. |
 | `modules/` | Long-form source notes per week. The hub renders the study version; these are the working notes. |
 | `docs/HANDOFF.md` | Project state and build spec, carried over from the design session. |
@@ -16,25 +16,25 @@ Manager. Grounded in official VibeIQ / Contrail documentation (docs.vibeiq.com).
 
 - Phase 1 (curriculum design) — complete
 - Module 1 (Business domain & where VibeIQ sits) — live
-- Module 2 (Core data model) — written and in the hub, gated until the Module 1 quiz is reviewed
-- Modules 3–10 — authored iteratively; currently locked in the hub
+- Module 2 (Core data model) — written and live
+- Modules 3–10 — not yet written; each stub lists what it will cover
 
 ## Curriculum
 
 | Wk | Module | State |
 |---|---|---|
 | 1 | Business domain & where VibeIQ sits | live |
-| 2 | Core data model (keystone) | authored, locked |
-| 3 | End-user apps & the publish lifecycle | locked |
-| 4 | Data in: the Loader framework | locked |
-| 5 | Data out: integration patterns | locked |
-| 6 | Automation: Apps, Workflows & Extensions | locked |
-| 7 | Configuration & the config/customization boundary | locked |
-| 8 | Platform, security & operations | locked |
-| 9 | Troubleshooting & escalation | locked |
-| 10 | Applied TAM practice (capstone) | locked |
+| 2 | Core data model (keystone) | live |
+| 3 | End-user apps & the publish lifecycle | to write |
+| 4 | Data in: the Loader framework | to write |
+| 5 | Data out: integration patterns | to write |
+| 6 | Automation: Apps, Workflows & Extensions | to write |
+| 7 | Configuration & the config/customization boundary | to write |
+| 8 | Platform, security & operations | to write |
+| 9 | Troubleshooting & escalation | to write |
+| 10 | Applied TAM practice (capstone) | to write |
 
-Modules unlock one at a time, as each preceding module's quiz is completed and reviewed.
+Modules are written one at a time, grounded in the official Contrail documentation. Nothing is gated — every module in the hub is browsable, including the stubs for those not yet written.
 
 ## Local use
 

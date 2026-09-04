@@ -57,8 +57,8 @@
   nav a.active{background:var(--accent);color:#fff;border-color:var(--accent)}
   nav a .wk{font-variant-numeric:tabular-nums;font-size:12px;color:#8a938a;min-width:34px;font-weight:600}
   nav a.active .wk{color:#cdeadf}
-  nav a.locked{color:#767d75;cursor:default}
-  nav a.locked:hover{background:transparent;color:#767d75}
+  nav a.todo{color:#8d948c}
+  nav a.todo .st{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#6f776e}
   nav a .st{margin-left:auto;font-size:12px;flex:0 0 auto}
 
   /* Content */
@@ -172,15 +172,15 @@
     <div class="navlabel">MODULES</div>
     <nav id="nav-modules">
       <a href="#m1" data-view="m1"><span class="wk">W1</span> Domain &amp; where VibeIQ sits <span class="st">🔄</span></a>
-      <a class="locked" data-view="m2"><span class="wk">W2</span> Core data model <span class="st">🔒</span></a>
-      <a class="locked" data-view="m3"><span class="wk">W3</span> Apps &amp; publish lifecycle <span class="st">🔒</span></a>
-      <a class="locked" data-view="m4"><span class="wk">W4</span> Data in: the Loader <span class="st">🔒</span></a>
-      <a class="locked" data-view="m5"><span class="wk">W5</span> Data out: integrations <span class="st">🔒</span></a>
-      <a class="locked" data-view="m6"><span class="wk">W6</span> Apps, Workflows, Extensions <span class="st">🔒</span></a>
-      <a class="locked" data-view="m7"><span class="wk">W7</span> Configuration <span class="st">🔒</span></a>
-      <a class="locked" data-view="m8"><span class="wk">W8</span> Platform, security, ops <span class="st">🔒</span></a>
-      <a class="locked" data-view="m9"><span class="wk">W9</span> Troubleshoot &amp; escalate <span class="st">🔒</span></a>
-      <a class="locked" data-view="m10"><span class="wk">W10</span> Applied TAM practice <span class="st">🔒</span></a>
+      <a href="#m2" data-view="m2"><span class="wk">W2</span> Core data model <span class="st">★</span></a>
+      <a class="todo" href="#m3" data-view="m3"><span class="wk">W3</span> Apps &amp; publish lifecycle <span class="st">soon</span></a>
+      <a class="todo" href="#m4" data-view="m4"><span class="wk">W4</span> Data in: the Loader <span class="st">soon</span></a>
+      <a class="todo" href="#m5" data-view="m5"><span class="wk">W5</span> Data out: integrations <span class="st">soon</span></a>
+      <a class="todo" href="#m6" data-view="m6"><span class="wk">W6</span> Apps, Workflows, Extensions <span class="st">soon</span></a>
+      <a class="todo" href="#m7" data-view="m7"><span class="wk">W7</span> Configuration <span class="st">soon</span></a>
+      <a class="todo" href="#m8" data-view="m8"><span class="wk">W8</span> Platform, security, ops <span class="st">soon</span></a>
+      <a class="todo" href="#m9" data-view="m9"><span class="wk">W9</span> Troubleshoot &amp; escalate <span class="st">soon</span></a>
+      <a class="todo" href="#m10" data-view="m10"><span class="wk">W10</span> Applied TAM practice <span class="st">soon</span></a>
     </nav>
 
     <div class="navlabel">REFERENCE</div>
@@ -217,7 +217,7 @@
           <thead><tr><th>Wk</th><th>Module</th><th>Status</th><th>Quiz</th><th>Challenge</th></tr></thead>
           <tbody>
             <tr><td>1</td><td>Business domain &amp; where VibeIQ sits</td><td>🔄 In progress</td><td>—</td><td>—</td></tr>
-            <tr><td>2</td><td>Core data model (keystone)</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>2</td><td>Core data model (keystone)</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>3</td><td>End-user apps &amp; publish lifecycle</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
             <tr><td>4</td><td>Data in: the Loader framework</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
             <tr><td>5</td><td>Data out: integration patterns</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
@@ -255,7 +255,7 @@
 
         <div class="outcome">
           <h4>Next action</h4>
-          <p style="color:#cfc9bd">Work through Module 1, then submit the quiz and scenario answers. We won't advance to Module 2 until the concepts have landed.</p>
+          <p style="color:#cfc9bd">Work through Module 1, then submit the quiz and scenario answers for review. Every module is open to browse — read ahead freely — but the concepts land faster if you answer before moving on.</p>
         </div>
         <p class="foot">Last updated 2026-09-03 · grounded in official VibeIQ / Contrail documentation.</p>
       </section>
@@ -520,7 +520,7 @@
 
         <details>
           <summary>How to submit</summary>
-          <p>Answer the quiz and the scenario in our chat — paste your responses and I'll review before we unlock Module 2. The exercise and challenge are optional to share, but I'll give feedback if you post them.</p>
+          <p>Answer the quiz and the scenario in our chat and I'll review them. Nothing is gated on it — Module 2 is right there whenever you want it — but the review is where the feedback happens, and the scenario is worth more than the quiz. The exercise and challenge are optional to share.</p>
         </details>
         <p class="foot">Module 1 · grounded in official VibeIQ / Contrail documentation. Diagrams reproduced from the training session.</p>
       </section>
@@ -782,15 +782,142 @@
         <p class="foot">Module 2 · grounded in official Contrail documentation: Data Loading (Getting Started, Property Type Handling, Loading Projects) and Integration Patterns (Assortment Publish).</p>
       </section>
 
-      <!-- ============ LOCKED MODULE PLACEHOLDERS ============ -->
-      <section class="view" id="view-m3"><p class="eyebrow">Module 3 · Week 3</p><h2 class="title">Apps &amp; the publish lifecycle 🔒</h2><p class="lede">Unlocks after Module 2.</p></section>
-      <section class="view" id="view-m4"><p class="eyebrow">Module 4 · Week 4</p><h2 class="title">Data in: the Loader framework 🔒</h2><p class="lede">Unlocks after Module 3.</p></section>
-      <section class="view" id="view-m5"><p class="eyebrow">Module 5 · Week 5</p><h2 class="title">Data out: integration patterns 🔒</h2><p class="lede">Unlocks after Module 4.</p></section>
-      <section class="view" id="view-m6"><p class="eyebrow">Module 6 · Week 6</p><h2 class="title">Apps, Workflows &amp; Extensions 🔒</h2><p class="lede">Unlocks after Module 5.</p></section>
-      <section class="view" id="view-m7"><p class="eyebrow">Module 7 · Week 7</p><h2 class="title">Configuration 🔒</h2><p class="lede">Unlocks after Module 6.</p></section>
-      <section class="view" id="view-m8"><p class="eyebrow">Module 8 · Week 8</p><h2 class="title">Platform, security &amp; operations 🔒</h2><p class="lede">Unlocks after Module 7.</p></section>
-      <section class="view" id="view-m9"><p class="eyebrow">Module 9 · Week 9</p><h2 class="title">Troubleshooting &amp; escalation 🔒</h2><p class="lede">Unlocks after Module 8.</p></section>
-      <section class="view" id="view-m10"><p class="eyebrow">Module 10 · Week 10</p><h2 class="title">Applied TAM practice 🔒</h2><p class="lede">The capstone. Unlocks after Module 9.</p></section>
+      <!-- ============ MODULES NOT YET WRITTEN ============ -->
+      <section class="view" id="view-m3">
+        <p class="eyebrow">Module 3 · Week 3</p>
+        <h2 class="title">End-user apps &amp; the publish lifecycle</h2>
+        <p class="lede">How the three apps actually behave, and what happens the moment someone hits publish.</p>
+        <div class="card">
+          <h4 style="margin-top:6px">Not written yet</h4>
+          <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
+          <ul style="margin-bottom:0">
+            <li>Boards, Plan, Showcase and the Admin Console — what each is for and who lives in it</li>
+            <li>Plan &rarr; publish &rarr; <code>AssortmentPublishChange</code> &rarr; downstream, end to end</li>
+            <li>Baseline vs. detail vs. delete data, and why a missed publish is not self-healing</li>
+            <li>Re-baselining: when it is the right answer and when it hides a real bug</li>
+          </ul>
+        </div>
+        <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
+      </section>
+
+      <section class="view" id="view-m4">
+        <p class="eyebrow">Module 4 · Week 4</p>
+        <h2 class="title">Data in: the Loader framework</h2>
+        <p class="lede">The pipeline that most of your escalations will trace back to.</p>
+        <div class="card">
+          <h4 style="margin-top:6px">Not written yet</h4>
+          <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
+          <ul style="margin-bottom:0">
+            <li>Loader configuration, the preprocessing pipeline, and property type handling</li>
+            <li>Validation rules and error handling — reading a failed load like a stack trace</li>
+            <li>Transformers, option sets and the option set hierarchy, size range templates</li>
+            <li>The realistic failure modes: partial loads, silent upserts, malformed hierarchies</li>
+          </ul>
+        </div>
+        <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
+      </section>
+
+      <section class="view" id="view-m5">
+        <p class="eyebrow">Module 5 · Week 5</p>
+        <h2 class="title">Data out: integration patterns</h2>
+        <p class="lede">The technical heart of the program, alongside Week 4. This is the seam customers break.</p>
+        <div class="card">
+          <h4 style="margin-top:6px">Not written yet</h4>
+          <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
+          <ul style="margin-bottom:0">
+            <li>Event-driven (push) vs. change-history polling (pull), and when each is correct</li>
+            <li>Authentication and API access; rate limits, error codes, webhook security</li>
+            <li>Designing a consumer that survives missed events, retries and 24-hour link expiry</li>
+            <li>Attribute-level ownership mapping across VibeIQ, PLM and ERP</li>
+          </ul>
+        </div>
+        <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
+      </section>
+
+      <section class="view" id="view-m6">
+        <p class="eyebrow">Module 6 · Week 6</p>
+        <h2 class="title">Automation: Apps, Workflows &amp; Extensions</h2>
+        <p class="lede">Where the platform stops being configured and starts being programmed.</p>
+        <div class="card">
+          <h4 style="margin-top:6px">Not written yet</h4>
+          <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
+          <ul style="margin-bottom:0">
+            <li>Event Workflows: triggers, conditionals, actions; internal vs. external events</li>
+            <li>Apps — manifest, lifecycle, marketplace, deployment</li>
+            <li>Extensions: Doc Automation, Contextual Action, Admin Utility</li>
+            <li>The SDK and CLI, at the depth a TAM actually needs</li>
+          </ul>
+        </div>
+        <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
+      </section>
+
+      <section class="view" id="view-m7">
+        <p class="eyebrow">Module 7 · Week 7</p>
+        <h2 class="title">Configuration &amp; the config/customization boundary</h2>
+        <p class="lede">The judgement call you will be asked to make on nearly every account.</p>
+        <div class="card">
+          <h4 style="margin-top:6px">Not written yet</h4>
+          <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
+          <ul style="margin-bottom:0">
+            <li>Formulas, validation functions, rule sets and blueprints</li>
+            <li>Custom entities; configuration copy and uniqueness constraints</li>
+            <li>Where configuration ends and customization begins — and why the line matters commercially</li>
+            <li>How to say no to a customization request without saying no to the customer</li>
+          </ul>
+        </div>
+        <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
+      </section>
+
+      <section class="view" id="view-m8">
+        <p class="eyebrow">Module 8 · Week 8</p>
+        <h2 class="title">Platform, security &amp; operations</h2>
+        <p class="lede">The conversation you will have with a customer's security and IT teams.</p>
+        <div class="card">
+          <h4 style="margin-top:6px">Not written yet</h4>
+          <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
+          <ul style="margin-bottom:0">
+            <li>Environments and tenancy: dev / staging / prod, and how config is promoted</li>
+            <li>The auth model, API keys, and the end-user permission picture</li>
+            <li>Data residency, the S3 upload path, and compliance posture</li>
+            <li>Monitoring and alerting — what customers see, and what you can see</li>
+          </ul>
+        </div>
+        <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
+      </section>
+
+      <section class="view" id="view-m9">
+        <p class="eyebrow">Module 9 · Week 9</p>
+        <h2 class="title">Troubleshooting &amp; escalation methodology</h2>
+        <p class="lede">Turning everything above into a repeatable diagnostic method.</p>
+        <div class="card">
+          <h4 style="margin-top:6px">Not written yet</h4>
+          <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
+          <ul style="margin-bottom:0">
+            <li>A pipeline-anchored method: localise the failure before theorising about it</li>
+            <li>The standard question set — which layer, which property level, which federatedId</li>
+            <li>Escalation routing: TAM / Support / Engineering / Product / Professional Services</li>
+            <li>Writing an escalation that gets acted on, and holding a customer while it is open</li>
+          </ul>
+        </div>
+        <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
+      </section>
+
+      <section class="view" id="view-m10">
+        <p class="eyebrow">Module 10 · Week 10</p>
+        <h2 class="title">Applied TAM practice</h2>
+        <p class="lede">The capstone. Everything, applied to the situations that make up the job.</p>
+        <div class="card">
+          <h4 style="margin-top:6px">Not written yet</h4>
+          <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
+          <ul style="margin-bottom:0">
+            <li>Technical discovery — sharpening the Week 1 landscape template into a real instrument</li>
+            <li>Architecture reviews: reading a customer's integration design and finding the flaw</li>
+            <li>QBRs: telling a health story with adoption and operational evidence</li>
+            <li>A full simulated account: discovery, a live incident, and a quarterly review</li>
+          </ul>
+        </div>
+        <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
+      </section>
 
       <!-- ================= PRIORITY MATRIX ================= -->
       <section class="view" id="view-priority">
@@ -896,7 +1023,6 @@
   }
   links.forEach(a=>{
     a.addEventListener('click',e=>{
-      if(a.classList.contains('locked')){e.preventDefault();return;}
       e.preventDefault();
       show(a.getAttribute('data-view'));
     });

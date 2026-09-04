@@ -3,7 +3,7 @@
 **Owner:** Leo
 **Program:** 10-week VibeIQ Technical Account Manager readiness
 **Started:** _[fill in]_
-**Last updated:** 2026-09-03
+**Last updated:** 2026-09-04
 
 **How to use this file:** Bring it into each new training conversation. At the end of every module, ask Claude to update it, then save the new version. Status key below.
 
@@ -27,7 +27,7 @@
 | Wk | Module | Status | Quiz | Exercise | Challenge |
 |----|--------|--------|------|----------|-----------|
 | 1 | Business domain & where VibeIQ sits | 🔄 In progress | — | — | — |
-| 2 | Core data model (keystone) | ⬜ | — | — | — |
+| 2 | Core data model (keystone) | 📖 Ready to read | — | — | — |
 | 3 | End-user apps & the publish lifecycle | ⬜ | — | — | — |
 | 4 | Data in: the Loader framework | ⬜ | — | — | — |
 | 5 | Data out: integration patterns | ⬜ | — | — | — |
@@ -73,6 +73,14 @@ _(populated as we go)_
 ## 5. Important terminology
 _(populated as we go — running glossary)_
 - **Contrail** — the engineering sub-brand / technical name for the VibeIQ platform.
+- **Line** — the full set of products a brand offers for a season.
+- **Assortment** — a curated selection of products for a channel, region, customer or cluster. One line → many assortments.
+- **Style / colourway / SKU** — the design / the design in a colour / that colour in a size. Maps onto Family → Option in the data model.
+- **OTB (open-to-buy)** — budget available to buy inventory; constrains the assortment.
+- **IMU** — initial mark-up; the margin target that drives keep/cut decisions.
+- **Sell-in vs. sell-through** — selling to the buyer vs. the consumer buying it.
+- **federatedId** — a value you provide that uniquely identifies an entity within an org; drives upsert on load.
+- **Property levels** — Family, Option, All, Override: how a value propagates from style to colourway.
 
 ## 6. Topics to revisit
 -
