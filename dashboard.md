@@ -28,7 +28,7 @@
 |----|--------|--------|------|----------|-----------|
 | 1 | Business domain & where VibeIQ sits | 🔄 In progress | — | — | — |
 | 2 | Core data model (keystone) | 📖 Ready to read | — | — | — |
-| 3 | End-user apps & the publish lifecycle | ⬜ | — | — | — |
+| 3 | End-user apps & the publish lifecycle | 📖 Ready to read | — | — | — |
 | 4 | Data in: the Loader framework | ⬜ | — | — | — |
 | 5 | Data out: integration patterns | ⬜ | — | — | — |
 | 6 | Automation: Apps, Workflows & Extensions | ⬜ | — | — | — |
@@ -81,6 +81,9 @@ _(populated as we go — running glossary)_
 - **Sell-in vs. sell-through** — selling to the buyer vs. the consumer buying it.
 - **federatedId** — a value you provide that uniquely identifies an entity within an org; drives upsert on load.
 - **Property levels** — Family, Option, All, Override: how a value propagates from style to colourway.
+- **AssortmentPublishChange** — the snapshot created on publish: baseline link, delete link, and detail arrays.
+- **Baseline vs. detail** — "what is true now" vs. "what changed this time". Consumers usually need both.
+- **Re-baselining** — recovering downstream state from a full baseline after missed publishes.
 
 ## 6. Topics to revisit
 -

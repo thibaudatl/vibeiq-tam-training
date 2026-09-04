@@ -173,7 +173,7 @@
     <nav id="nav-modules">
       <a href="#m1" data-view="m1"><span class="wk">W1</span> Domain &amp; where VibeIQ sits <span class="st">🔄</span></a>
       <a href="#m2" data-view="m2"><span class="wk">W2</span> Core data model <span class="st">★</span></a>
-      <a class="todo" href="#m3" data-view="m3"><span class="wk">W3</span> Apps &amp; publish lifecycle <span class="st">soon</span></a>
+      <a href="#m3" data-view="m3"><span class="wk">W3</span> Apps &amp; publish lifecycle</a>
       <a class="todo" href="#m4" data-view="m4"><span class="wk">W4</span> Data in: the Loader <span class="st">soon</span></a>
       <a class="todo" href="#m5" data-view="m5"><span class="wk">W5</span> Data out: integrations <span class="st">soon</span></a>
       <a class="todo" href="#m6" data-view="m6"><span class="wk">W6</span> Apps, Workflows, Extensions <span class="st">soon</span></a>
@@ -218,7 +218,7 @@
           <tbody>
             <tr><td>1</td><td>Business domain &amp; where VibeIQ sits</td><td>🔄 In progress</td><td>—</td><td>—</td></tr>
             <tr><td>2</td><td>Core data model (keystone)</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
-            <tr><td>3</td><td>End-user apps &amp; publish lifecycle</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>3</td><td>End-user apps &amp; publish lifecycle</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>4</td><td>Data in: the Loader framework</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
             <tr><td>5</td><td>Data out: integration patterns</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
             <tr><td>6</td><td>Automation: Apps, Workflows, Extensions</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
@@ -786,18 +786,210 @@
       <section class="view" id="view-m3">
         <p class="eyebrow">Module 3 · Week 3</p>
         <h2 class="title">End-user apps &amp; the publish lifecycle</h2>
-        <p class="lede">How the three apps actually behave, and what happens the moment someone hits publish.</p>
-        <div class="card">
-          <h4 style="margin-top:6px">Not written yet</h4>
-          <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
+        <p class="lede">What your users actually touch, and what happens the moment one of them hits publish. This is the module that connects Week 2's data model to Weeks 4 and 5's integrations — the publish seam is where "it works in VibeIQ but not in PLM" lives.</p>
+
+        <div class="card keystone">
+          <h4>Learning objectives</h4>
+          <p style="margin-bottom:0">By the end of this week you can (1) explain what each of Board, Plan and Showcase is for and what it replaced, (2) walk the publish lifecycle end to end and name what happens at each step, (3) describe an <code>AssortmentPublishChange</code> field by field and say what a consumer should do with each, and (4) localise a "published but didn't arrive" failure to one of four checkpoints before theorising about causes.</p>
+        </div>
+
+        <h3>Concept 1 — The three apps</h3>
+        <p>Each app replaces a specific incumbent tool — this is VibeIQ's own framing, from Week 1 — and, from Week 2, each is <strong>backed by an Assortment</strong>.</p>
+        <table>
+          <thead><tr><th>App</th><th>VibeIQ's description</th><th>Replaces</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Board</strong></td><td>"The visual workspace for trend research, mood boards, and creative direction"</td><td>Miro</td></tr>
+            <tr><td><strong>Plan</strong></td><td>"The structured workspace for line planning and product definition"</td><td>Excel</td></tr>
+            <tr><td><strong>Showcase</strong></td><td>"The presentation workspace for line reviews and stakeholder alignment"</td><td>PowerPoint</td></tr>
+          </tbody>
+        </table>
+        <p>The technically important detail in each:</p>
+        <ul>
+          <li><strong>Board</strong> connects unstructured creative work directly to product data, so agents can interpret and act on creative intent rather than on a picture of it.</li>
+          <li><strong>Plan</strong> — "each row represents an actual product record." This is the whole difference from a spreadsheet: the grid is a <em>view onto entities</em>, not a document. Editing a row edits a ProjectItem or AssortmentItem.</li>
+          <li><strong>Showcase</strong> "remains live and current, with feedback flowing back into the product record." A deck that is a <em>rendering</em> of live data, not an export of it.</li>
+        </ul>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">When a customer mentions they "exported to PowerPoint for the line review," treat it as an adoption failure with a technical smell underneath — usually Showcase not being trusted, or the product data being too incomplete to present without cleanup. Chase the cause, not the behaviour. The same logic applies to any export-to-spreadsheet habit that survives go-live.</p>
+        </div>
+
+        <h3>Concept 2 — The platform underneath</h3>
+        <ul>
+          <li><strong>Product Data Platform</strong> — products, assortments, assets (Week 2's territory).</li>
+          <li><strong>Agent layer</strong> — native agents for "assortment comparison, tech pack generation, trend research, carryover analysis," plus custom agents and a prompt-template library.</li>
+          <li><strong>Integration &amp; App Platform</strong> — an App Store of prebuilt connectors to PLM, ERP, DAM and supply-chain systems; an <strong>MCP server</strong> exposing product data to external orchestration layers; and APIs, SDKs and a CLI.</li>
+        </ul>
+        <div class="card warn">
+          <h4>Still the Week 1 caution</h4>
+          <p style="margin-bottom:0">The agent layer is described in marketing detail and documented thinly. Named native agents are a public claim, not a verified capability set. Confirm GA vs. beta vs. roadmap internally before you repeat any of it to a customer.</p>
+        </div>
+
+        <h3>Concept 3 — The publish lifecycle, end to end</h3>
+        <ol class="steps">
+          <li>Users modify Items — products, materials — inside a <strong>Plan</strong>.</li>
+          <li>Users adopt images, colours and attributes onto those Items.</li>
+          <li>A user triggers <strong>publish</strong>.</li>
+          <li>The system <strong>persists the Plan rows down to the underlying Assortment</strong>.</li>
+          <li>An <strong><code>AssortmentPublishChange</code></strong> is created — "a snapshot of those changes."</li>
+          <li>External systems retrieve and process it.</li>
+        </ol>
+
+        <figure>
+          <svg viewBox="0 0 680 330" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Publish lifecycle: a Plan commits rows to its Assortment, which creates an AssortmentPublishChange that downstream systems consume by push or pull">
+            <defs>
+              <marker id="ar4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+
+            <rect x="18" y="46" width="132" height="86" rx="10" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1.5"/>
+            <text x="84" y="72" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0f4536" font-family="sans-serif">Plan</text>
+            <text x="84" y="92" text-anchor="middle" font-size="10.5" fill="#0f4536" font-family="sans-serif">users edit rows</text>
+            <text x="84" y="110" text-anchor="middle" font-size="10.5" fill="#3d6b5c" font-family="sans-serif">each row = a</text>
+            <text x="84" y="124" text-anchor="middle" font-size="10.5" fill="#3d6b5c" font-family="sans-serif">product record</text>
+
+            <text x="186" y="80" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1d6e56" font-family="sans-serif">publish</text>
+            <line x1="152" y1="89" x2="218" y2="89" stroke="#1d6e56" stroke-width="1.5" marker-end="url(#ar4)"/>
+
+            <rect x="222" y="46" width="132" height="86" rx="10" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1.5"/>
+            <text x="288" y="72" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0f4536" font-family="sans-serif">Assortment</text>
+            <text x="288" y="92" text-anchor="middle" font-size="10.5" fill="#0f4536" font-family="sans-serif">rows persisted here</text>
+            <text x="288" y="112" text-anchor="middle" font-size="10.5" fill="#3d6b5c" font-family="sans-serif">internal commit —</text>
+            <text x="288" y="126" text-anchor="middle" font-size="10.5" fill="#3d6b5c" font-family="sans-serif">still inside VibeIQ</text>
+
+            <text x="390" y="80" text-anchor="middle" font-size="10.5" fill="#6b7883" font-family="sans-serif">creates</text>
+            <line x1="356" y1="89" x2="422" y2="89" stroke="#6b7883" stroke-width="1.5" marker-end="url(#ar4)"/>
+
+            <rect x="426" y="30" width="236" height="118" rx="10" fill="#e4eef7" stroke="#1a5a94" stroke-width="1.5"/>
+            <text x="544" y="52" text-anchor="middle" font-size="12.5" font-weight="700" fill="#12456f" font-family="sans-serif">AssortmentPublishChange</text>
+            <text x="440" y="76" font-size="10.5" fill="#12456f" font-family="sans-serif">baseline link → full state now</text>
+            <text x="440" y="96" font-size="10.5" fill="#12456f" font-family="sans-serif">delete link → this publish only</text>
+            <text x="440" y="116" font-size="10.5" fill="#12456f" font-family="sans-serif">detail → adds / updates /</text>
+            <text x="440" y="132" font-size="10.5" fill="#12456f" font-family="sans-serif">deletes / familyItemsRemoved</text>
+
+            <line x1="500" y1="150" x2="430" y2="204" stroke="#6b7883" stroke-width="1.5" marker-end="url(#ar4)"/>
+            <line x1="590" y1="150" x2="590" y2="204" stroke="#6b7883" stroke-width="1.5" marker-end="url(#ar4)"/>
+
+            <rect x="330" y="208" width="170" height="70" rx="10" fill="#ffffff" stroke="#cfc8ba" stroke-width="1.5"/>
+            <text x="415" y="230" text-anchor="middle" font-size="12" font-weight="700" fill="#141a1f" font-family="sans-serif">Event-driven (push)</text>
+            <text x="415" y="249" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">near real-time</text>
+            <text x="415" y="265" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">needs a webhook endpoint</text>
+
+            <rect x="512" y="208" width="150" height="70" rx="10" fill="#ffffff" stroke="#cfc8ba" stroke-width="1.5"/>
+            <text x="587" y="230" text-anchor="middle" font-size="12" font-weight="700" fill="#141a1f" font-family="sans-serif">Polling (pull)</text>
+            <text x="587" y="249" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">minutes to hours</text>
+            <text x="587" y="265" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">simple to implement</text>
+
+            <rect x="18" y="208" width="286" height="70" rx="10" fill="#f6ecd8" stroke="#9a6410" stroke-width="1.5"/>
+            <text x="32" y="230" font-size="11.5" font-weight="700" fill="#9a6410" font-family="sans-serif">Publish ≠ "send to PLM"</text>
+            <text x="32" y="250" font-size="10.5" fill="#7d5210" font-family="sans-serif">A publish can succeed while the downstream</text>
+            <text x="32" y="266" font-size="10.5" fill="#7d5210" font-family="sans-serif">sync fails. Two different investigations.</text>
+          </svg>
+          <figcaption>Publish commits Plan → Assortment first; the integration consumes what that commit produced</figcaption>
+        </figure>
+
+        <div class="card keystone">
+          <h4>The step everyone skips</h4>
+          <p style="margin-bottom:0">Step 4. <strong>Publish is not "send to PLM."</strong> Publish is first an <em>internal</em> commit from the Plan down to the Assortment. The downstream integration is a consumer of the record that commit produces. So a publish can succeed while the downstream sync fails — and those are two different investigations, with different owners.</p>
+        </div>
+
+        <h3>Concept 4 — Anatomy of an AssortmentPublishChange</h3>
+        <table>
+          <thead><tr><th>Field</th><th>Contents</th><th>What a consumer does with it</th></tr></thead>
+          <tbody>
+            <tr><td><code>assortmentBaselineDownloadLink</code></td><td>S3 URL — "the Assortment's complete state at publish time"</td><td>Recovery and reconciliation. The answer to "what is true now?"</td></tr>
+            <tr><td><code>deleteDataDownloadLink</code></td><td>S3 URL — "only Items that were dropped or deleted in this specific publish"</td><td>Apply removals. The field most often ignored, and the one that causes ghost products downstream.</td></tr>
+            <tr><td><code>detail</code></td><td><code>adds</code>, <code>updates</code>, <code>deletes</code>, <code>familyItemsRemoved</code></td><td>Efficient incremental sync. The answer to "what changed this time?"</td></tr>
+          </tbody>
+        </table>
+        <p>Most real consumers need <strong>both</strong>: detail for day-to-day efficiency, baseline for recovery when detail has been missed.</p>
+
+        <div class="card warn">
+          <h4>The two rules that cause production incidents</h4>
           <ul style="margin-bottom:0">
-            <li>Boards, Plan, Showcase and the Admin Console — what each is for and who lives in it</li>
-            <li>Plan &rarr; publish &rarr; <code>AssortmentPublishChange</code> &rarr; downstream, end to end</li>
-            <li>Baseline vs. detail vs. delete data, and why a missed publish is not self-healing</li>
-            <li>Re-baselining: when it is the right answer and when it hides a real bug</li>
+            <li><strong>Deletes do not accumulate.</strong> "Delete data does NOT accumulate across publishes. Each AssortmentPublishChange only contains deletes from that individual publish." A consumer that misses publish #15 has <em>permanently</em> missed those deletes. Nothing later will replay them. The only cure is re-baselining.</li>
+            <li><strong>S3 links expire after 24 hours.</strong> Re-fetching the change object refreshes them. Store the change <strong>ID</strong>, never the URL — a consumer that persists the URL breaks after a day; one that persists the ID can always recover.</li>
           </ul>
         </div>
-        <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Non-accumulating deletes make missed publishes <em>silently</em> unrecoverable. Nothing errors; the downstream system simply keeps products the brand has already cut. It surfaces weeks later as "PLM has styles we dropped" — usually in front of someone senior. On any account with a publish integration, ask early: what happens when your consumer is down for a day, and who notices?</p>
+        </div>
+
+        <h3>Concept 5 — Two ways to consume it</h3>
+        <p>Week 5 goes deep on this; here is the shape, so the lifecycle is complete.</p>
+        <table>
+          <thead><tr><th>Aspect</th><th>Change History Polling</th><th>Assortment Publish Events</th></tr></thead>
+          <tbody>
+            <tr><td>Trigger</td><td>"Time-based (scheduled)"</td><td>"Event-based (on publish)"</td></tr>
+            <tr><td>Latency</td><td>"Minutes to hours"</td><td>"Near real-time"</td></tr>
+            <tr><td>Complexity</td><td>"Simple to implement"</td><td>"Requires webhook endpoint"</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Polling</strong> hits <code>/api/change-history</code> filtered by a time range — <code>createdOn</code> supports a <code>BETWEEN</code> syntax. The consumer stores a last-sync timestamp and advances it after each successful poll. Note this is <em>temporal filtering, not cursors</em>: clock skew and overlap windows are the consumer's problem, and a naive implementation drops or duplicates records at the seam between polls.</p>
+        <p><strong>Best for:</strong> batch sync on a schedule, tracking multiple entity types, historical retrieval, and systems with no webhook support.</p>
+        <p><strong>Event-driven</strong> pushes on publish; the consumer calls back for the full change detail. <strong>Best for:</strong> real-time needs, assortment-specific workflows, webhook-capable systems, and minimising API calls.</p>
+
+        <hr class="divider">
+
+        <h3>Recommended reading</h3>
+        <ul>
+          <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/" target="_blank" rel="noopener">Integration Patterns — overview</a> — the comparison table above, in its original form.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/assortment_publish_integration/" target="_blank" rel="noopener">Assortment Publish Integrations</a> — read this one properly; it is the spine of the module.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/change_history_polling/" target="_blank" rel="noopener">Change History Polling</a> — skim; Week 5 returns to it.</li>
+          <li><a class="link" href="https://vibeiq.com/platform/" target="_blank" rel="noopener">vibeiq.com/platform</a> — the app descriptions quoted above.</li>
+        </ul>
+
+        <hr class="divider">
+
+        <h3>Practical exercise</h3>
+        <div class="card">
+          <p style="margin-bottom:0">Write the <strong>pseudocode for a well-behaved publish consumer</strong> — twenty lines is plenty. It must: record what it has processed, survive being down for 48 hours, apply deletes correctly, and recover without human help after a missed publish. Then annotate the two lines that would be wrong in a naive implementation, and say what each would cost the customer.</p>
+        </div>
+
+        <h3>Realistic customer scenario</h3>
+        <div class="card">
+          <p><strong>Summit Athletic</strong>, three months in. Their PLM lead emails:</p>
+          <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"Centric has 40 styles that merchandising says were cut from the SS27 line weeks ago. They're showing as active and our sourcing team has started costing two of them. Merch swears they dropped them in VibeIQ. Who's wrong?"</p>
+          <p style="margin-bottom:0">Give your <strong>four checkpoints in order</strong> and what you'd look for at each. Then: your <strong>leading hypothesis</strong>, the <strong>fix for the immediate problem</strong>, and the <strong>change that stops it recurring</strong>. Note that "who's wrong" is the wrong question — say what you'd reply instead.</p>
+        </div>
+
+        <h3>Quiz</h3>
+        <div class="q">
+          <ol class="quiz">
+            <li>Name the three apps, what each replaced, and what each is backed by in the data model.</li>
+            <li>Why is "each row in Plan represents an actual product record" a technically important statement, not marketing?</li>
+            <li>Walk the six steps of the publish lifecycle. Which step do people skip, and why does skipping it cause bad diagnosis?</li>
+            <li>What are the three parts of an <code>AssortmentPublishChange</code>, and what would a consumer use each for?</li>
+            <li>Why do most real consumers need both the baseline and the detail?</li>
+            <li>A consumer's worker is down for 36 hours and misses two publishes. What is now wrong, what will <em>not</em> fix itself, and what is the recovery?</li>
+            <li>Why should a consumer store the change ID rather than the S3 URL?</li>
+            <li>Polling uses time ranges rather than cursors. Name one failure that design invites, and how you'd guard against it.</li>
+          </ol>
+        </div>
+
+        <h3>Hands-on challenge</h3>
+        <div class="card">
+          <p style="margin-bottom:0">Write a one-page <strong>publish integration review checklist</strong> — the things you'd verify on any account running a publish integration, covering: delete handling, missed-publish recovery, link expiry, baseline reconciliation cadence, and who is alerted when the consumer fails. Pair it with the Week 2 data-model health check; together they become your standard account-inheritance kit.</p>
+        </div>
+
+        <div class="outcome">
+          <h4>I know this when I can…</h4>
+          <ul>
+            <li>Explain each app, what it replaced, and what it sits on in the data model.</li>
+            <li>Walk the publish lifecycle and correctly separate the internal commit from the downstream sync.</li>
+            <li>Describe an <code>AssortmentPublishChange</code> field by field, without notes.</li>
+            <li>Explain why a missed publish is not self-healing, and what re-baselining is for.</li>
+            <li>Take a "published but didn't arrive" report and localise it to one of four checkpoints before proposing a cause.</li>
+          </ul>
+        </div>
+
+        <details>
+          <summary>How to submit</summary>
+          <p>Answer the quiz and the scenario in our chat. The scenario is the one that matters — it is a real incident shape, and the four-checkpoint habit it builds is the single most transferable thing in this module.</p>
+        </details>
+        <p class="foot">Module 3 · grounded in official Contrail documentation (Integration Patterns) and vibeiq.com/platform.</p>
       </section>
 
       <section class="view" id="view-m4">

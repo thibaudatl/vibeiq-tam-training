@@ -17,7 +17,8 @@ Manager. Grounded in official VibeIQ / Contrail documentation (docs.vibeiq.com).
 - Phase 1 (curriculum design) — complete
 - Module 1 (Business domain & where VibeIQ sits) — live
 - Module 2 (Core data model) — written and live
-- Modules 3–10 — not yet written; each stub lists what it will cover
+- Module 3 (End-user apps & the publish lifecycle) — written and live
+- Modules 4–10 — not yet written; each stub lists what it will cover
 
 ## Curriculum
 
@@ -25,7 +26,7 @@ Manager. Grounded in official VibeIQ / Contrail documentation (docs.vibeiq.com).
 |---|---|---|
 | 1 | Business domain & where VibeIQ sits | live |
 | 2 | Core data model (keystone) | live |
-| 3 | End-user apps & the publish lifecycle | to write |
+| 3 | End-user apps & the publish lifecycle | live |
 | 4 | Data in: the Loader framework | to write |
 | 5 | Data out: integration patterns | to write |
 | 6 | Automation: Apps, Workflows & Extensions | to write |
