@@ -185,6 +185,7 @@
 
     <div class="navlabel">REFERENCE</div>
     <nav>
+      <a href="#findings" data-view="findings"><span class="wk">★</span> Key findings</a>
       <a href="#priority" data-view="priority"><span class="wk">§</span> Priority matrix</a>
       <a href="#questions" data-view="questions"><span class="wk">§</span> Colleague questions</a>
       <a href="#links" data-view="links"><span class="wk">§</span> Doc links</a>
@@ -2118,6 +2119,123 @@ visibility: public            # marketplace candidate</code></pre>
         <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
       </section>
 
+      <!-- ================= KEY FINDINGS ================= -->
+      <section class="view" id="view-findings">
+        <p class="eyebrow">Reference</p>
+        <h2 class="title">Key findings</h2>
+        <p class="lede">The non-obvious, high-consequence things pulled out of every module and collected in one place. These are the findings that change a diagnosis, cost money if missed, or fail without producing an error. Use this as revision before a customer conversation, and as a lookup during one.</p>
+
+        <h3>1 · Symptom → likely cause</h3>
+        <p>What the customer actually says, and where to look first. This table is the fastest route from a vague report to a hypothesis.</p>
+        <table>
+          <thead><tr><th>They report</th><th>Look first at</th><th>Wk</th></tr></thead>
+          <tbody>
+            <tr><td>"Our data reverted overnight"</td><td>A Family-level property reloaded and copying down over option-level edits</td><td>2</td></tr>
+            <tr><td>"We have two of everything"</td><td>UI-created records with no <code>federatedId</code>, or a <code>federatedId</code> that changed between loads</td><td>2 · 4</td></tr>
+            <tr><td>"The system won't let us do this"</td><td>Property modelled as <code>Family</code> where it needed <code>Override</code>; or a rule set with <code>editable: false</code></td><td>2 · 7</td></tr>
+            <tr><td>"PLM has styles we already cut"</td><td>A missed publish — deletes do not accumulate and never replay</td><td>3</td></tr>
+            <tr><td>"It works in VibeIQ but not in PLM"</td><td>Separate the internal Plan→Assortment commit from the downstream sync; they fail independently</td><td>3</td></tr>
+            <tr><td>"The load completed but values are blank"</td><td>Unmatched column names (silently ignored), or the step 4/5/6 transformation interaction</td><td>4</td></tr>
+            <tr><td>"The same file loads differently for different people"</td><td>CLI can't use <code>loaderConfigurationId</code>; compare the config recorded on each <code>LoaderProcess</code></td><td>4</td></tr>
+            <tr><td>"The load emailed 3,000 people at 2am"</td><td>The load emitted <code>create</code> events; workflows bound to those triggers fired once per row</td><td>4 · 6</td></tr>
+            <tr><td>"We're missing maybe one record in a few hundred, can't reproduce it"</td><td>The polling window: exclusive boundaries, in-flight writes, or a locally computed <code>now</code></td><td>5</td></tr>
+            <tr><td>"The event never arrived"</td><td>A workflow investigation — the delivery mechanism <em>is</em> an Event Workflow. Start at the Process List</td><td>5 · 6</td></tr>
+            <tr><td>"Only some of the automation runs"</td><td>First-match-wins: a broad conditional high in the path list made everything below it unreachable</td><td>6</td></tr>
+            <tr><td>"Unrelated automation got slow on Tuesday"</td><td>The shared per-org concurrency ceiling of 60 — often a bulk load on Tuesday</td><td>4 · 6</td></tr>
+            <tr><td>"Wrong values, different ones each re-run"</td><td>A concurrency race: high <code>parallelWorkerCount</code> with no message grouping</td><td>6</td></tr>
+            <tr><td>"The workflow runs but nothing happens"</td><td>A missing or read-only <code>accessGrant</code>, or <code>config</code> pointing somewhere harmless</td><td>6</td></tr>
+            <tr><td>"This value was right last season"</td><td>A formula derived from reference data — reference updates do not re-run formulas</td><td>7</td></tr>
+            <tr><td>"The UI wouldn't let us enter that, so how is it here?"</td><td>An integration write. Rule sets evaluate client-side <em>(see §4)</em></td><td>7</td></tr>
+            <tr><td>"VibeIQ is down" (but only one panel)</td><td>A customer-hosted extension iframe, not VibeIQ</td><td>7</td></tr>
+          </tbody>
+        </table>
+
+        <h3>2 · Failures that produce no error</h3>
+        <p>The dangerous class. Nothing is logged, every status says success, and the damage surfaces weeks later — usually in front of someone senior.</p>
+        <div class="card warn">
+          <h4>Data model &amp; loading</h4>
+          <ul style="margin-bottom:0">
+            <li><strong>Unmatched CSV columns are ignored.</strong> "If the column does not match a key or label on the specified entity type, the row column will be ignored." No warning. <span class="pill p-nice">Wk 4</span></li>
+            <li><strong>Step 4 transforms silently.</strong> Type transformations run twice — step 4 without warnings so conditional columns can work on clean values, step 6 with them. A value altered in step 4 and overwritten in step 5 never warns. <span class="pill p-nice">Wk 4</span></li>
+            <li><strong>No setting nominates the ID column.</strong> "There is no configuration to say 'this column is my Federated ID'." Only Custom Entity excepted. Values must arrive in the expected column, or be mapped there. <span class="pill p-nice">Wk 4</span></li>
+            <li><strong>Changing federatedIds creates duplicates.</strong> "It is critical to ensure that <code>federatedId</code> values in your load files do not change between loads." Nothing errors; you simply get two. <span class="pill p-nice">Wk 2 · 4</span></li>
+            <li><strong>Copy-down overwrites hand edits.</strong> A Family property reload persists onto every Option. <span class="pill p-nice">Wk 2</span></li>
+          </ul>
+        </div>
+        <div class="card warn">
+          <h4>Publish &amp; integrations</h4>
+          <ul style="margin-bottom:0">
+            <li><strong>Deletes never replay.</strong> "Delete data does NOT accumulate across publishes." A consumer down for one publish has permanently missed those deletes. Only re-baselining recovers. <span class="pill p-nice">Wk 3</span></li>
+            <li><strong>Polling loses records at the seam.</strong> Temporal filtering is not a cursor. Exclusive boundaries drop same-instant writes; in-flight writes commit after the query but timestamp before the cutoff; clock skew skips windows. <span class="pill p-nice">Wk 5</span></li>
+            <li><strong>A 404 is not proof of absence.</strong> It may mean access denied or wrong entity type. <span class="pill p-nice">Wk 5</span></li>
+          </ul>
+        </div>
+        <div class="card warn">
+          <h4>Workflows &amp; configuration</h4>
+          <ul style="margin-bottom:0">
+            <li><strong>Unreachable paths.</strong> "Only the first path whose conditional evaluates to <code>true</code> is executed." A broad conditional high in the list makes everything below it dead code. The process still reports success. <span class="pill p-nice">Wk 6</span></li>
+            <li><strong><code>oldData</code> is absent on creates.</strong> So <code>{newData.x} !== {oldData.x}</code> behaves differently for new vs. existing rows <em>in the same load</em>. <span class="pill p-nice">Wk 6</span></li>
+            <li><strong>Misspelled formula slugs return <code>undefined</code>.</strong> "Verify every slug against the live Type before saving a formula." <span class="pill p-nice">Wk 7</span></li>
+            <li><strong>Reference data changes don't re-run formulas.</strong> "Updates to Reference Data does not cause Formulas to re-run." Correct when written, stale forever after. <span class="pill p-nice">Wk 7</span></li>
+          </ul>
+        </div>
+
+        <h3>3 · Decisions you cannot undo</h3>
+        <p>Raise these <em>before</em> they are made. Nobody thanks you at the time; everyone would have thanked you later.</p>
+        <table>
+          <thead><tr><th>Decision</th><th>Why it's permanent</th><th>Ask</th></tr></thead>
+          <tbody>
+            <tr><td><strong>App ownership</strong></td><td>"The org that first creates an app is the owner… App ownership can not be modified." An SI's app can never become the customer's.</td><td>"Whose org is this being created in, and is that where it should live in three years?"</td></tr>
+            <tr><td><strong>App identifier</strong></td><td>Reserved globally, cannot be altered. A rebuild can't reuse the name.</td><td>"Is this the name we want permanently?"</td></tr>
+            <tr><td><strong>Property level</strong></td><td>Changing Family↔Override↔All rewrites how existing values propagate.</td><td>"Which properties are Family, which Override, which All?" — on day one of any account.</td></tr>
+            <tr><td><strong>federatedId source</strong></td><td>Change it and you get duplicates and orphans, silently.</td><td>"What generates this value, and what could ever cause it to change?"</td></tr>
+            <tr><td><strong>Workflow <code>identifier</code></strong></td><td>The stable key enabling cross-org migration. Treat as immutable.</td><td>Set it deliberately at authoring time.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>4 · Claims to verify before asserting</h3>
+        <div class="card keystone">
+          <h4>Say "let me confirm" — not yes, and not no</h4>
+          <p>Three things where the documentation is suggestive but not conclusive. Getting these wrong in front of a customer costs credibility that is expensive to rebuild.</p>
+          <ul style="margin-bottom:0">
+            <li><strong>Rule set enforcement.</strong> Rule sets "evaluate client-side, affecting editor experience for all users." That implies the API and Loader are not bound by them — the working assumption, since assuming enforcement is the more dangerous error. But confirm the exact boundary internally; it decides how validation must be designed for every integrated field. <span class="pill p-nice">Wk 7</span></li>
+            <li><strong>Inbound webhook verification.</strong> <code>X-Verify-Signature</code> is documented as <em>optional</em> and shown as a shared secret in a header, not an HMAC over the body, while the webhook ID in the URL acts as a bearer credential. Outbound <em>does</em> support HMAC. Keep the directions apart and confirm what is enforced server-side. <span class="pill p-nice">Wk 5 · 6</span></li>
+            <li><strong>AI capabilities.</strong> Heavily marketed, thinly documented. Named native agents are a public claim, not a verified capability set. Confirm GA vs. beta vs. roadmap before repeating any of it. <span class="pill p-nice">Wk 1 · 3</span></li>
+          </ul>
+        </div>
+        <div class="card warn">
+          <h4>And one figure never to cite</h4>
+          <p style="margin-bottom:0">The "15 requests/hour" rate limit circulating online belongs to <strong>vibe.co — a different company</strong>. VibeIQ's real limits are undisclosed: "rate-limited to ensure system stability," with higher limits available by contacting support. You cannot promise a throughput number, so insist consumers implement exponential backoff instead. <span class="pill p-nice">Wk 1 · 5</span></p>
+        </div>
+
+        <h3>5 · Numbers worth memorising</h3>
+        <table>
+          <thead><tr><th>Value</th><th>What it governs</th><th>Consequence</th></tr></thead>
+          <tbody>
+            <tr><td><strong>24 hours</strong></td><td>S3 download link expiry on a publish change</td><td>Persist the change <strong>ID</strong>, never the URL. Re-fetching refreshes the links.</td></tr>
+            <tr><td><strong>90 days</strong></td><td>Workflow log retention — "permanently deleted"</td><td>A hard evidence horizon. Check it before promising root cause on an old problem.</td></tr>
+            <tr><td><strong>1–30 (default 5)</strong></td><td><code>parallelWorkerCount</code></td><td>Raising it without message grouping converts slowness into corruption.</td></tr>
+            <tr><td><strong>25</strong></td><td>Concurrent processes per event workflow</td><td>Adjustable via the CSM.</td></tr>
+            <tr><td><strong>60</strong></td><td>Concurrent processes per <em>organization</em></td><td><strong>Shared.</strong> One chatty workflow starves every other integration in the org.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>6 · The reframes that change how you think</h3>
+        <div class="card keystone">
+          <h4>Six sentences worth carrying</h4>
+          <ol style="margin-bottom:0">
+            <li><strong>VibeIQ displaces Miro, Excel and PowerPoint — not PLM.</strong> The strongest answer to "isn't this overlap?", because it names what the customer is actually doing today. <span class="pill p-nice">Wk 1</span></li>
+            <li><strong>Publish is not "send to PLM."</strong> It is first an internal commit from Plan to Assortment. A publish can succeed while the downstream sync fails — two investigations, two owners. <span class="pill p-nice">Wk 3</span></li>
+            <li><strong>A load is an event storm.</strong> Phase 5 upserts, so every bound workflow fires once per row. <span class="pill p-nice">Wk 4</span></li>
+            <li><strong>The integration <em>is</em> a workflow.</strong> Publish events are delivered by an Event Workflow, so integration debugging and workflow debugging are one skill. <span class="pill p-nice">Wk 5 · 6</span></li>
+            <li><strong>The data model is in the payload.</strong> The baseline exposes <code>.item</code>, <code>.item.itemFamily</code> and <code>.projectItem</code> — so downstream mapping is a data-model decision, not plumbing. <span class="pill p-nice">Wk 2 · 5</span></li>
+            <li><strong>The valuable answer isn't yes or no — it's "that's possible, and here's what it costs to own."</strong> A rule set is a Tuesday afternoon. An extension is a hosted service with an on-call rota. <span class="pill p-nice">Wk 7</span></li>
+          </ol>
+        </div>
+
+        <p class="foot">Collected across Modules 1–7. Updated as later modules are written. Every claim here is sourced from official Contrail documentation or explicitly marked as unverified in §4.</p>
+      </section>
+
       <!-- ================= PRIORITY MATRIX ================= -->
       <section class="view" id="view-priority">
         <p class="eyebrow">Reference</p>
@@ -2211,7 +2329,7 @@ visibility: public            # marketplace candidate</code></pre>
   const titles = {
     dashboard:'Dashboard', m1:'Module 1 · Domain', m2:'Module 2', m3:'Module 3', m4:'Module 4 · Loader',
     m5:'Module 5 · Integrations', m6:'Module 6 · Workflows', m7:'Module 7', m8:'Module 8', m9:'Module 9', m10:'Module 10',
-    priority:'Priority matrix', questions:'Colleague questions', links:'Doc links'
+    findings:'Key findings', priority:'Priority matrix', questions:'Colleague questions', links:'Doc links'
   };
   function show(id){
     views.forEach(v=>v.classList.remove('show'));

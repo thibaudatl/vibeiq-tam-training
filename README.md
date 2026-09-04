@@ -9,6 +9,7 @@ Manager. Grounded in official VibeIQ / Contrail documentation (docs.vibeiq.com).
 |---|---|
 | `index.html` | The training hub — open in any browser, no server needed. Sidebar navigation across the dashboard, modules, and reference pages. Every module is browsable; nothing is gated. |
 | `dashboard.md` | Progress tracker (status + confidence per topic). Updated at the end of each module. |
+| Key findings (in the hub) | The non-obvious, high-consequence findings collected from every module: a symptom-to-cause lookup, the failures that produce no error, decisions that can't be undone, claims to verify before asserting, and the numbers worth memorising. |
 | `modules/` | Long-form source notes per week. The hub renders the study version; these are the working notes. |
 | `docs/HANDOFF.md` | Project state and build spec, carried over from the design session. |
 

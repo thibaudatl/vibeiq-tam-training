@@ -61,6 +61,13 @@ every remaining stub carries an explicit "workflow angle" bullet.
    ground. If so, compress Weeks 1–3 and reinvest the time in 4, 5 and 9.
 3. GitHub Pages still needs enabling by Leo (no `gh` CLI on this machine).
 
+## Key findings page
+`index.html` carries a **Key findings** reference view collecting the highest-value
+findings across modules: symptom→cause lookup, silent failure modes, irreversible
+decisions, claims to verify before asserting, numbers to memorise, and the reframes.
+**Keep it current as later modules are written** — new silent failures, new
+irreversible decisions and new unverified claims all belong there.
+
 ## Facts worth not re-deriving
 - Docs are strong on the developer layer, thin on operations (RBAC, SLAs,
   numeric rate limits, tenancy, monitoring, AI GA-vs-roadmap). Those gaps are
