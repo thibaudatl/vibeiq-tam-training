@@ -174,7 +174,7 @@
       <a href="#m1" data-view="m1"><span class="wk">W1</span> Domain &amp; where VibeIQ sits <span class="st">🔄</span></a>
       <a href="#m2" data-view="m2"><span class="wk">W2</span> Core data model <span class="st">★</span></a>
       <a href="#m3" data-view="m3"><span class="wk">W3</span> Apps &amp; publish lifecycle</a>
-      <a class="todo" href="#m4" data-view="m4"><span class="wk">W4</span> Data in: the Loader <span class="st">soon</span></a>
+      <a href="#m4" data-view="m4"><span class="wk">W4</span> Data in: the Loader <span class="st">★</span></a>
       <a class="todo" href="#m5" data-view="m5"><span class="wk">W5</span> Data out: integrations <span class="st">soon</span></a>
       <a href="#m6" data-view="m6"><span class="wk">W6</span> Event Workflows <span class="st">★</span></a>
       <a class="todo" href="#m7" data-view="m7"><span class="wk">W7</span> Apps, Extensions &amp; config <span class="st">soon</span></a>
@@ -219,7 +219,7 @@
             <tr><td>1</td><td>Business domain &amp; where VibeIQ sits</td><td>🔄 In progress</td><td>—</td><td>—</td></tr>
             <tr><td>2</td><td>Core data model (keystone)</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>3</td><td>End-user apps &amp; publish lifecycle</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
-            <tr><td>4</td><td>Data in: the Loader framework</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>4</td><td>Data in: the Loader framework</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>5</td><td>Data out: integration patterns</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
             <tr><td>6</td><td>Event Workflows</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>7</td><td>Apps, Extensions &amp; the config boundary</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
@@ -995,19 +995,236 @@
       <section class="view" id="view-m4">
         <p class="eyebrow">Module 4 · Week 4</p>
         <h2 class="title">Data in: the Loader framework</h2>
-        <p class="lede">The ingestion pipeline, at the level where you can read a failed load like a stack trace.</p>
+        <p class="lede">With Week 5, the technical heart of the program. The Loader is where customer data becomes VibeIQ entities — and where a large share of your escalations will originate. The goal this week is to read a failed load the way an engineer reads a stack trace: know the phase, know the artefact, know the field.</p>
+
+        <div class="card keystone">
+          <h4>Learning objectives</h4>
+          <p style="margin-bottom:0">By the end of this week you can (1) name the five pipeline phases and the six preprocessing steps in order, and say what each produces, (2) read a loader configuration and predict what it does to a given CSV, (3) locate the per-step artefact that proves where a load went wrong, (4) explain the silent failure modes — ignored columns, unstable federatedIds, the warning-less transformation pass — and (5) predict which workflows a bulk load will set off.</p>
+        </div>
+
+        <h3>Concept 1 — A load is an entity, not a command</h3>
+        <p>A <strong><code>LoaderProcess</code></strong> is an asynchronous entity holding the metadata of an import: execution status (pending, running, completed, failed), the configuration parameters used, downloadable process logs, and operational metadata. Creating one via API, SDK or CLI <em>enqueues</em> it.</p>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">This framing pays off immediately. A load is a durable, inspectable record — so "did the load run?" is always answerable, and so is "with what configuration?" When a customer says a load behaved differently than last week, you can compare the <code>LoaderProcess</code> records rather than take anyone's word for it. Ask for the process ID the way you'd ask for a request ID.</p>
+        </div>
+
+        <h3>Concept 2 — The five phases</h3>
+        <ol class="steps">
+          <li><strong>CSV parsing</strong> — "The CSV file is downloaded and parsed... Column headers from the first row are used as property keys."</li>
+          <li><strong>Validation</strong> — data checked against entity-type rules, <em>before</em> transformations begin.</li>
+          <li><strong>Preprocessing</strong> — the six-step transformation sequence (Concept 3).</li>
+          <li><strong>Entity construction</strong> — rows become entity objects matching the schema, correctly typed.</li>
+          <li><strong>API upsert</strong> — create or update, matched by <code>federatedId</code>.</li>
+        </ol>
+
+        <figure>
+          <svg viewBox="0 0 680 300" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Loader pipeline: CSV parse, validation, six preprocessing steps, entity construction, upsert, with per-step artefacts">
+            <defs>
+              <marker id="ar5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+            <rect x="14" y="30" width="96" height="54" rx="9" fill="#efeadf" stroke="#cfc8ba" stroke-width="1.3"/>
+            <text x="62" y="52" text-anchor="middle" font-size="11.5" font-weight="700" fill="#3d4954" font-family="sans-serif">1 · CSV</text>
+            <text x="62" y="68" text-anchor="middle" font-size="10" fill="#3d4954" font-family="sans-serif">parse</text>
+
+            <rect x="124" y="30" width="106" height="54" rx="9" fill="#f6ecd8" stroke="#9a6410" stroke-width="1.3"/>
+            <text x="177" y="52" text-anchor="middle" font-size="11.5" font-weight="700" fill="#9a6410" font-family="sans-serif">2 · Validation</text>
+            <text x="177" y="68" text-anchor="middle" font-size="10" fill="#7d5210" font-family="sans-serif">before transforms</text>
+
+            <rect x="244" y="18" width="196" height="120" rx="9" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1.6"/>
+            <text x="342" y="38" text-anchor="middle" font-size="11.5" font-weight="700" fill="#0f4536" font-family="sans-serif">3 · Preprocessing</text>
+            <text x="256" y="58" font-size="9.5" fill="#0f4536" font-family="sans-serif">1 boolean conversion</text>
+            <text x="256" y="72" font-size="9.5" fill="#0f4536" font-family="sans-serif">2 federatedMappings</text>
+            <text x="256" y="86" font-size="9.5" fill="#0f4536" font-family="sans-serif">3 propertiesToRemove</text>
+            <text x="256" y="100" font-size="9.5" fill="#0f4536" font-family="sans-serif">4 type transforms — no warnings</text>
+            <text x="256" y="114" font-size="9.5" fill="#0f4536" font-family="sans-serif">5 conditionalColumns</text>
+            <text x="256" y="128" font-size="9.5" font-weight="700" fill="#0f4536" font-family="sans-serif">6 type transforms — WITH warnings</text>
+
+            <rect x="454" y="30" width="98" height="54" rx="9" fill="#efeadf" stroke="#cfc8ba" stroke-width="1.3"/>
+            <text x="503" y="50" text-anchor="middle" font-size="11.5" font-weight="700" fill="#3d4954" font-family="sans-serif">4 · Entity</text>
+            <text x="503" y="66" text-anchor="middle" font-size="10" fill="#3d4954" font-family="sans-serif">construction</text>
+
+            <rect x="566" y="30" width="100" height="54" rx="9" fill="#e4eef7" stroke="#1a5a94" stroke-width="1.3"/>
+            <text x="616" y="50" text-anchor="middle" font-size="11.5" font-weight="700" fill="#12456f" font-family="sans-serif">5 · Upsert</text>
+            <text x="616" y="66" text-anchor="middle" font-size="10" fill="#12456f" font-family="sans-serif">by federatedId</text>
+
+            <line x1="112" y1="57" x2="120" y2="57" stroke="#6b7883" stroke-width="1.4" marker-end="url(#ar5)"/>
+            <line x1="232" y1="57" x2="240" y2="57" stroke="#6b7883" stroke-width="1.4" marker-end="url(#ar5)"/>
+            <line x1="442" y1="57" x2="450" y2="57" stroke="#6b7883" stroke-width="1.4" marker-end="url(#ar5)"/>
+            <line x1="554" y1="57" x2="562" y2="57" stroke="#6b7883" stroke-width="1.4" marker-end="url(#ar5)"/>
+
+            <line x1="342" y1="140" x2="342" y2="176" stroke="#1d6e56" stroke-width="1.4" marker-end="url(#ar5)"/>
+            <rect x="150" y="180" width="384" height="52" rx="9" fill="#ffffff" stroke="#1d6e56" stroke-width="1.3"/>
+            <text x="342" y="200" text-anchor="middle" font-size="11" font-weight="700" fill="#0f4536" font-family="sans-serif">every step emits: rows · errors · warnings</text>
+            <text x="342" y="219" text-anchor="middle" font-size="10.5" fill="#3d6b5c" font-family="sans-serif">saved as loader-process-step-&lt;Step Name&gt;.json on the LoaderProcess</text>
+
+            <rect x="14" y="248" width="652" height="38" rx="9" fill="#f7e6df" stroke="#b0442a" stroke-width="1.3"/>
+            <text x="28" y="272" font-size="10.5" fill="#8c3520" font-family="sans-serif">Silent losses happen at phase 1 (unmatched columns are ignored) and step 4 (transforms run with no warnings). Step 6 is where warnings finally appear.</text>
+          </svg>
+          <figcaption>Where a load can go wrong, and which artefact proves it</figcaption>
+        </figure>
+
+        <h3>Concept 3 — The six preprocessing steps</h3>
+        <table>
+          <thead><tr><th>#</th><th>Step</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Boolean conversion</td><td>Converts <code>"true"</code>/<code>"false"</code> strings to real booleans across all columns — CSV parsers only ever produce strings.</td></tr>
+            <tr><td>2</td><td>Federated mappings</td><td>For each <code>{ targetProperty: sourceColumn }</code>: "If <code>sourceColumn</code> matches a column name in the row, the value from that column is copied to <code>targetProperty</code>." If the source column doesn't exist, a <strong>static value</strong> is assigned instead.</td></tr>
+            <tr><td>3</td><td>Remove unwanted properties</td><td>"Deletes columns listed in the <code>propertiesToRemove</code> configuration array from every row."</td></tr>
+            <tr><td>4</td><td>Type transformations <em>(no warnings)</em></td><td>Label-to-slug (headers using display labels become slugs) and display-to-value (for Single/Multi Select backed by option sets, "display labels in the CSV are converted to the option set's internal values").</td></tr>
+            <tr><td>5</td><td>Conditional columns</td><td>Applies <code>conditionalColumns</code> to create or overwrite values from conditions and expressions. Supports <code>{columnName}</code> interpolation and JavaScript evaluation.</td></tr>
+            <tr><td>6</td><td>Type transformations <em>(with warnings)</em></td><td>Repeats step 4, this time recording warnings for unmatched columns, disabled properties and invalid option values.</td></tr>
+          </tbody>
+        </table>
+        <div class="card warn">
+          <h4>Why steps 4 and 6 are the same thing twice</h4>
+          <p style="margin-bottom:0">Step 4 runs the type transformations <em>silently</em>, so that conditional columns in step 5 can operate on already-normalised values. Step 6 re-runs them and reports. The consequence for you: <strong>a value can be silently altered in step 4 and never generate a warning</strong> if step 5 subsequently overwrites the column. When a value in VibeIQ doesn't match the CSV and no warning exists, suspect the interaction between steps 4, 5 and 6 — and read the per-step artefacts rather than reasoning about it abstractly.</p>
+        </div>
+
+        <div class="card keystone">
+          <h4>The artefacts are the whole game</h4>
+          <p style="margin-bottom:0">"Each preprocessing step produces a result object containing <strong>rows</strong> (the transformed data after the step), <strong>errors</strong> (row-level issues with specific column details) and <strong>warnings</strong>." These are saved as <code>loader-process-step-&lt;Step Name&gt;.json</code> and attached to the <code>LoaderProcess</code>. You can therefore see the data <em>after every single step</em> — diff consecutive files and the step that broke a value is unambiguous. Most people argue about loads; you can just look.</p>
+        </div>
+
+        <h3>Concept 4 — The configuration</h3>
+        <p>A load configuration is a JSON object. The fields you will actually meet:</p>
+        <table>
+          <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td><code>loadType</code></td><td>Which entity types to load — <code>ITEM</code>, <code>PROJECT_ITEM</code>, <code>ASSORTMENT</code>, <code>COLOR</code>, <code>CUSTOM_ENTITY</code>, <code>SIZE_RANGE_TEMPLATE</code>, and the assortment owners <code>PLAN</code> / <code>BOARD</code> / <code>SHOWCASE</code>. Pairing rules from Week 2 apply.</td></tr>
+            <tr><td><code>federatedMappings</code></td><td>Remaps CSV columns — copies values across, or creates static columns.</td></tr>
+            <tr><td><code>conditionalColumns</code></td><td>Creates columns via JavaScript conditional logic (<code>fromProperty</code>, <code>conditions</code> with <code>conditional</code> + <code>value</code>, and <code>default</code>).</td></tr>
+            <tr><td><code>propertiesToRemove</code></td><td>Columns to drop before construction.</td></tr>
+            <tr><td><code>fileLocation</code></td><td>The uploaded File entity ID.</td></tr>
+            <tr><td><code>loaderConfigurationId</code></td><td>Reference to a pre-uploaded YAML/JSON configuration.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Concept 5 — federatedId, revisited with the mechanics</h3>
+        <p>Week 2 gave you the concept. Here is the operational detail, and it is sharper than most people expect:</p>
+        <div class="card warn">
+          <h4>There is no "which column is my ID?" setting</h4>
+          <p style="margin-bottom:0">"There is no configuration to say 'this column is my Federated ID'." The <em>only</em> exception is <strong>Custom Entity</strong>, which supports designating one — and if none is specified there, "the out of the box <code>name</code> property will be used." For everything else, the CSV must carry the value in the expected <code>federatedId</code> column. A customer who assumes they can point the loader at their existing <code>style_number</code> column is wrong, and will need <code>federatedMappings</code> to copy it across.</p>
+        </div>
+        <p>And the stability rule, verbatim: <em>"It is critical to ensure that <code>federatedId</code> values in your load files do not change between loads. Doing so will risk the Loader creating duplicate data."</em></p>
+        <p>Also restated here because it is the same bug from a different angle: entities created in the core apps receive no <code>federatedId</code>. To update that data by Loader, values must be assigned manually through the API. The platform "doesn't synchronize property values with <code>federatedId</code> internally" — so nothing will quietly fix this for you.</p>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Combine the three facts and you have a predictable customer story: their source system renumbers a style, the <code>federatedId</code> changes, the next load creates a second entity, and neither the load nor the app reports anything wrong. The duplicates are then discovered by a merchandiser, in a review, weeks later. Your prevention question at implementation time is one sentence: <em>"What generates this value, and what could ever cause it to change?"</em></p>
+        </div>
+
+        <h3>Concept 6 — Transformers</h3>
+        <p>Beyond the built-in preprocessing, transformers do heavier reshaping. The documented set:</p>
+        <ul>
+          <li><strong>Type Mapping</strong> and <strong>Mapping Section</strong> — structural mapping of source to target</li>
+          <li><strong>Map File Utility Class</strong> — lookups from a companion map file</li>
+          <li><strong>Rekeying</strong> — change the key a value lives under</li>
+          <li><strong>Remove</strong> — drop values</li>
+          <li><strong>Value</strong> — alter values</li>
+          <li><strong>Conditional</strong> — apply changes on a condition</li>
+          <li><strong>Morph</strong> — the general case: "can make any number of changes to the object that is passed in," for "situations where multiple changes will need to be made at a time or the key for the data value is variable." Configured with <code>processor: 'MORPH'</code> and <code>functionTransformersKey</code>, which points at an object that may hold several morph functions.</li>
+        </ul>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Transformer choice is a maintainability question you should weigh in on. A Morph transformer can express anything, which means it can also hide everything: a customer who does all their reshaping in one Morph has a load nobody can review or hand over. Prefer the specific transformers where they fit, and treat a growing Morph as technical debt with a support cost attached.</p>
+        </div>
+
+        <h3>Concept 7 — Getting the file in, and CLI vs. API</h3>
+        <p>Upload is two calls: create a <code>File</code> entity, which returns an <code>uploadPost</code> containing an S3 URL and form parameters; then POST the binary to that S3 URL with the returned credentials. The SDK's <code>createAndUploadFileFromBuffer()</code> wraps both and returns a File entity with an <code>id</code>.</p>
+        <table>
+          <thead><tr><th></th><th>CLI</th><th>API / SDK</th></tr></thead>
+          <tbody>
+            <tr><td>Command</td><td><code>contrail load upload-and-load &lt;File&gt; &lt;Config&gt;</code></td><td>Upload file, then create the LoaderProcess</td></tr>
+            <tr><td>Stored configs</td><td><strong>Not available</strong> — <code>loaderConfigurationId</code> is unsupported; the config must be passed every time</td><td>Supported, via <code>loaderConfigurationId</code></td></tr>
+            <tr><td>Good for</td><td>Local files, one-offs, testing</td><td>Production and automation</td></tr>
+          </tbody>
+        </table>
+        <div class="card warn">
+          <h4>A real drift risk</h4>
+          <p style="margin-bottom:0">Because the CLI cannot use a stored configuration, anyone loading from the CLI is passing a <em>local copy</em> of the config. That copy drifts from the stored one. The symptom is maddening and common: "the same file loads differently depending on who runs it." When you hear that, compare the configuration recorded on each <code>LoaderProcess</code> before investigating anything else.</p>
+        </div>
+
+        <h3>Concept 8 — What a load does to your workflows</h3>
+        <p>This is the module's most important cross-cutting point, and it is where Week 4 and Week 6 meet.</p>
+        <div class="card keystone">
+          <h4>A load is an event storm</h4>
+          <p style="margin-bottom:0">Phase 5 upserts entities — so a load <strong>emits ordinary system events</strong>: <code>item|create</code> for new rows, <code>item|update</code> for existing ones, and the same for <code>project-item</code> and <code>assortment-item</code>. Every event workflow bound to those triggers fires, once per row. A 20,000-row load is 20,000 trigger evaluations.</p>
+        </div>
+        <p>Three consequences to hold together:</p>
+        <ol>
+          <li><strong>Create vs. update changes behaviour.</strong> From Week 6: <code>{oldData}</code> is absent on creates. A conditional like <code>{newData.status} !== {oldData.status}</code> evaluates differently for the new rows than the existing ones in the very same load — so a load can trigger notifications for part of the file and not the rest, which looks like a bug and is not.</li>
+          <li><strong>Concurrency ceilings are shared.</strong> A bulk load can saturate the org's 60-process budget, starving unrelated automation. "Our other integration got slow on Tuesday" is often "someone ran a big load on Tuesday."</li>
+          <li><strong>Races become likely precisely when load is heaviest.</strong> A workflow with a high <code>parallelWorkerCount</code> and no message grouping may be fine day to day and corrupt data during a bulk load, because that is when colliding events actually overlap.</li>
+        </ol>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Before any large or first-time load, ask: <em>which workflows are bound to these entity types, what do they do on create, and is anything grouped?</em> If the answer involves notifications or outbound sync, plan for it — deactivate, narrow the conditional, or schedule the load deliberately. "The load worked but it emailed 3,000 people" is an avoidable incident, and avoiding it is exactly the kind of thing a TAM is valued for.</p>
+        </div>
+
+        <hr class="divider">
+
+        <h3>Recommended reading</h3>
+        <ul>
+          <li><a class="link" href="https://docs.vibeiq.com/data_loading/getting_started/" target="_blank" rel="noopener">Data Loading — Getting Started</a> — LoaderProcess, config fields, upload, CLI vs API.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/data_loading/preprocessing_pipeline/" target="_blank" rel="noopener">Preprocessing Pipeline</a> — the six steps and the per-step artefacts. The page this module leans on hardest.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/data_loading/property_type_handling/" target="_blank" rel="noopener">Property Type Handling</a> — re-read with Week 2's property levels in mind.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/data_loading/transform_data/014_morph_transformer/" target="_blank" rel="noopener">Morph Transformer</a> — and skim its siblings for the shape of the set.</li>
+        </ul>
+
+        <hr class="divider">
+
+        <h3>Practical exercise</h3>
         <div class="card">
-          <h4 style="margin-top:6px">Not written yet</h4>
-          <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
-          <ul style="margin-bottom:0">
-            <li>Loader configuration reference; the preprocessing pipeline stage by stage</li>
-            <li>Validation rules and error handling — partial loads, row-level vs. job-level failure</li>
-            <li>The six transformer types, option sets and the option set hierarchy, size range templates</li>
-            <li>Property type handling in practice: what a Family column does to existing Option values</li>
-            <li><strong>Workflow angle:</strong> a load emits <code>create</code> events, not <code>update</code> — which workflows fire during a bulk load, and how to stop a load from triggering 3,000 notifications</li>
+          <p>You're handed a CSV with headers: <code>federatedId</code>, <code>Style Name</code>, <code>Colour</code> (display labels from an option set), <code>Active</code> (<code>"true"</code>/<code>"false"</code>), <code>legacy_code</code>, and <code>Retail Price</code>. Requirements: drop <code>legacy_code</code>; copy <code>Retail Price</code> into a property called <code>msrp</code>; set a <code>channel</code> column to <code>"wholesale"</code> on every row; and flag rows where price exceeds 100.</p>
+          <p style="margin-bottom:0">Write the configuration (<code>federatedMappings</code>, <code>propertiesToRemove</code>, <code>conditionalColumns</code>). Then <strong>trace one row through all six preprocessing steps</strong>, writing out what it looks like after each. Finally: name the two steps where something could go wrong <em>without</em> producing a warning, and say what you'd check.</p>
+        </div>
+
+        <h3>Realistic customer scenario</h3>
+        <div class="card">
+          <p><strong>Summit Athletic</strong>, mid-season. Their integration engineer writes:</p>
+          <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"Last night's load reported completed with no errors. But roughly 400 items now have a blank <code>merchCategory</code>, and about 90 look like duplicates of styles that already existed. Nothing changed in our export — we send the same file format we've sent for six months. Also our Slack channel got 1,200 'item approved' messages at 2am, which has never happened before."</p>
+          <p style="margin-bottom:0">Give: a <strong>separate hypothesis for each of the three symptoms</strong> (blank values, duplicates, the notification storm) — they are probably not one root cause; the <strong>specific artefact or record you'd pull for each</strong>, named exactly; the <strong>one question</strong> you'd ask their engineer that could resolve two symptoms at once; and what you'd say about the 2am Slack storm being "never before" when nothing changed in their file.</p>
+        </div>
+
+        <h3>Quiz</h3>
+        <div class="q">
+          <ol class="quiz">
+            <li>What is a <code>LoaderProcess</code>, and why is "give me the process ID" a better opening than "describe what happened"?</li>
+            <li>Name the five phases in order. At which phase does validation happen relative to transformation, and why does that ordering matter?</li>
+            <li>List the six preprocessing steps. Why do type transformations run twice, and what is different about the second pass?</li>
+            <li>What are <code>loader-process-step-&lt;Step Name&gt;.json</code> files, and how would you use two of them together?</li>
+            <li>What happens to a CSV column that matches no key or label on the target entity type? Why is this dangerous?</li>
+            <li>Explain the <code>federatedId</code> configuration rule and its single exception. What must a customer do if their identifier lives in a differently-named column?</li>
+            <li>Why can the CLI produce different results from the same file loaded via the API, and what would you compare first?</li>
+            <li>What is the Morph transformer for, and what is the maintainability argument against overusing it?</li>
+            <li>A 20,000-row load runs. Which workflow triggers fire, and how many times? Why might notifications go out for only part of the file?</li>
+            <li>Why is a bulk load the moment a latent workflow concurrency bug is most likely to surface, and what would you check before a customer's first large load?</li>
+          </ol>
+        </div>
+
+        <h3>Hands-on challenge</h3>
+        <div class="card">
+          <p style="margin-bottom:0">Write a <strong>pre-load checklist</strong> you'd run before any customer's first production load or any unusually large one. Cover: federatedId source and stability, column-name matching, option-set label alignment, which workflows are bound to the affected entity types and what they do on create, org concurrency headroom, and how you'd verify success afterwards using the per-step artefacts rather than trusting a "completed" status. This joins your Week 2 data-model health check, Week 3 publish checklist and Week 6 workflow review.</p>
+        </div>
+
+        <div class="outcome">
+          <h4>I know this when I can…</h4>
+          <ul>
+            <li>Recite the five phases and six steps, and say which artefact each step leaves behind.</li>
+            <li>Read a loader configuration and predict its effect on a specific CSV row.</li>
+            <li>Find the exact step that altered a value, by diffing artefacts rather than theorising.</li>
+            <li>Explain all three federatedId failure modes and the one question that prevents them.</li>
+            <li>Predict a load's workflow side-effects before running it — and say which ones will differ between new and existing rows.</li>
           </ul>
         </div>
-        <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
+
+        <details>
+          <summary>How to submit</summary>
+          <p>Answer the quiz, the exercise and the scenario in our chat. The scenario is deliberately three bugs wearing one costume — resisting the urge to find a single root cause is the skill being tested.</p>
+        </details>
+        <p class="foot">Module 4 · grounded in official Contrail documentation: Data Loading (Getting Started, Preprocessing Pipeline, Property Type Handling, Transform Data).</p>
       </section>
 
       <section class="view" id="view-m5">
@@ -1517,7 +1734,7 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
   const links = document.querySelectorAll('nav a[data-view]');
   const topTitle = document.getElementById('topTitle');
   const titles = {
-    dashboard:'Dashboard', m1:'Module 1 · Domain', m2:'Module 2', m3:'Module 3', m4:'Module 4',
+    dashboard:'Dashboard', m1:'Module 1 · Domain', m2:'Module 2', m3:'Module 3', m4:'Module 4 · Loader',
     m5:'Module 5', m6:'Module 6 · Workflows', m7:'Module 7', m8:'Module 8', m9:'Module 9', m10:'Module 10',
     priority:'Priority matrix', questions:'Colleague questions', links:'Doc links'
   };

@@ -29,7 +29,7 @@
 | 1 | Business domain & where VibeIQ sits | 🔄 In progress | — | — | — |
 | 2 | Core data model (keystone) | 📖 Ready to read | — | — | — |
 | 3 | End-user apps & the publish lifecycle | 📖 Ready to read | — | — | — |
-| 4 | Data in: the Loader framework | ⬜ | — | — | — |
+| 4 | Data in: the Loader framework | 📖 Ready to read | — | — | — |
 | 5 | Data out: integration patterns | ⬜ | — | — | — |
 | 6 | Event Workflows | 📖 Ready to read | — | — | — |
 | 7 | Apps, Extensions & the config/customization boundary | ⬜ | — | — | — |
@@ -52,7 +52,7 @@
 | Config vs customization boundary | 🔴 | 🔴 |
 | Escalation routing (TAM/Support/Eng/Product/PS) | 🔴 | 🔴 |
 | Technical discovery methodology | 🔴 | 🔴 |
-| Loader pipeline & failure modes | 🟠 | 🔴 |
+| Loader pipeline & failure modes | 🔴 | 🔴 |
 | AssortmentPublishChange internals (baseline/deletes/24h expiry) | 🟠 | 🔴 |
 | Event Workflows (triggers/conditionals/actions) | 🔴 | 🔴 |
 | Auth, rate limits, error codes, webhook security | 🟠 | 🔴 |
@@ -88,6 +88,9 @@ _(populated as we go — running glossary)_
 - **First-match-wins** — only the first workflow path whose conditional is true executes; the rest are skipped.
 - **messageGroupId / dynamicMessageGroupId** — static vs. dynamic serialization of workflow events; the fix for concurrency races.
 - **Workflow Template Definition** — what a workflow becomes when an app is published; installed per org.
+- **LoaderProcess** — the async entity recording a load's status, config and logs. Ask for its ID.
+- **Preprocessing artefacts** — `loader-process-step-<Step Name>.json`, the rows/errors/warnings after each step.
+- **Morph transformer** — the general-purpose reshaper; powerful, and a maintainability risk when overused.
 
 ## 6. Topics to revisit
 -

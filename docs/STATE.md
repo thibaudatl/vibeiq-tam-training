@@ -36,7 +36,7 @@ a markdown tracker (`dashboard.md`) and per-week source notes (`modules/`).
 | 1 | Business domain & where VibeIQ sits | written |
 | 2 | Core data model (keystone) | written |
 | 3 | End-user apps & the publish lifecycle | written |
-| 4 | Data in: the Loader framework | to write |
+| 4 | Data in: the Loader framework | written (deep) |
 | 5 | Data out: integration patterns | to write |
 | 6 | Event Workflows | written (deep) |
 | 7 | Apps, Extensions & the config/customization boundary | to write |
