@@ -176,8 +176,8 @@
       <a href="#m3" data-view="m3"><span class="wk">W3</span> Apps &amp; publish lifecycle</a>
       <a class="todo" href="#m4" data-view="m4"><span class="wk">W4</span> Data in: the Loader <span class="st">soon</span></a>
       <a class="todo" href="#m5" data-view="m5"><span class="wk">W5</span> Data out: integrations <span class="st">soon</span></a>
-      <a class="todo" href="#m6" data-view="m6"><span class="wk">W6</span> Apps, Workflows, Extensions <span class="st">soon</span></a>
-      <a class="todo" href="#m7" data-view="m7"><span class="wk">W7</span> Configuration <span class="st">soon</span></a>
+      <a href="#m6" data-view="m6"><span class="wk">W6</span> Event Workflows <span class="st">★</span></a>
+      <a class="todo" href="#m7" data-view="m7"><span class="wk">W7</span> Apps, Extensions &amp; config <span class="st">soon</span></a>
       <a class="todo" href="#m8" data-view="m8"><span class="wk">W8</span> Platform, security, ops <span class="st">soon</span></a>
       <a class="todo" href="#m9" data-view="m9"><span class="wk">W9</span> Troubleshoot &amp; escalate <span class="st">soon</span></a>
       <a class="todo" href="#m10" data-view="m10"><span class="wk">W10</span> Applied TAM practice <span class="st">soon</span></a>
@@ -221,8 +221,8 @@
             <tr><td>3</td><td>End-user apps &amp; publish lifecycle</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>4</td><td>Data in: the Loader framework</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
             <tr><td>5</td><td>Data out: integration patterns</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
-            <tr><td>6</td><td>Automation: Apps, Workflows, Extensions</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
-            <tr><td>7</td><td>Configuration &amp; the config/custom boundary</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>6</td><td>Event Workflows</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
+            <tr><td>7</td><td>Apps, Extensions &amp; the config boundary</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
             <tr><td>8</td><td>Platform, security &amp; operations</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
             <tr><td>9</td><td>Troubleshooting &amp; escalation</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
             <tr><td>10</td><td>Applied TAM practice</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
@@ -995,15 +995,16 @@
       <section class="view" id="view-m4">
         <p class="eyebrow">Module 4 · Week 4</p>
         <h2 class="title">Data in: the Loader framework</h2>
-        <p class="lede">The pipeline that most of your escalations will trace back to.</p>
+        <p class="lede">The ingestion pipeline, at the level where you can read a failed load like a stack trace.</p>
         <div class="card">
           <h4 style="margin-top:6px">Not written yet</h4>
           <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
           <ul style="margin-bottom:0">
-            <li>Loader configuration, the preprocessing pipeline, and property type handling</li>
-            <li>Validation rules and error handling — reading a failed load like a stack trace</li>
-            <li>Transformers, option sets and the option set hierarchy, size range templates</li>
-            <li>The realistic failure modes: partial loads, silent upserts, malformed hierarchies</li>
+            <li>Loader configuration reference; the preprocessing pipeline stage by stage</li>
+            <li>Validation rules and error handling — partial loads, row-level vs. job-level failure</li>
+            <li>The six transformer types, option sets and the option set hierarchy, size range templates</li>
+            <li>Property type handling in practice: what a Family column does to existing Option values</li>
+            <li><strong>Workflow angle:</strong> a load emits <code>create</code> events, not <code>update</code> — which workflows fire during a bulk load, and how to stop a load from triggering 3,000 notifications</li>
           </ul>
         </div>
         <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
@@ -1012,15 +1013,16 @@
       <section class="view" id="view-m5">
         <p class="eyebrow">Module 5 · Week 5</p>
         <h2 class="title">Data out: integration patterns</h2>
-        <p class="lede">The technical heart of the program, alongside Week 4. This is the seam customers break.</p>
+        <p class="lede">The technical heart, with Week 4. This is the seam customers actually break.</p>
         <div class="card">
           <h4 style="margin-top:6px">Not written yet</h4>
           <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
           <ul style="margin-bottom:0">
-            <li>Event-driven (push) vs. change-history polling (pull), and when each is correct</li>
-            <li>Authentication and API access; rate limits, error codes, webhook security</li>
-            <li>Designing a consumer that survives missed events, retries and 24-hour link expiry</li>
+            <li>Event-driven push vs. <code>/api/change-history</code> polling; the <code>BETWEEN</code> time-range filter and why temporal paging drops records at the seam</li>
+            <li>Authentication (<code>X-Api-Key</code>, <code>X-Api-Org</code>), rate limits, error codes</li>
+            <li>Designing a consumer that survives 48h downtime, non-accumulating deletes and 24h link expiry</li>
             <li>Attribute-level ownership mapping across VibeIQ, PLM and ERP</li>
+            <li><strong>Workflow angle:</strong> webhook security posture, <code>X-Verify-Signature</code> vs. HMAC, and using workflows as the outbound integration mechanism</li>
           </ul>
         </div>
         <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
@@ -1028,33 +1030,344 @@
 
       <section class="view" id="view-m6">
         <p class="eyebrow">Module 6 · Week 6</p>
-        <h2 class="title">Automation: Apps, Workflows &amp; Extensions</h2>
-        <p class="lede">Where the platform stops being configured and starts being programmed.</p>
+        <h2 class="title">Event Workflows</h2>
+        <p class="lede">The deepest technical module in the program, and the one closest to your day job. Workflows are "the main engine for reacting to system events and running apps across the VibeIQ infrastructure" — when a customer says "the automation didn't run," this is the entire surface you have to reason about.</p>
+
+        <div class="card keystone">
+          <h4>Learning objectives</h4>
+          <p style="margin-bottom:0">By the end of this week you can (1) read a workflow definition in <code>app.yml</code> and predict exactly what it will do, (2) name all six trigger categories and pick the right one for a requirement, (3) explain path evaluation and the first-match-wins rule that causes silent misbehaviour, (4) diagnose a concurrency race and prescribe the right message-grouping fix, and (5) work the "why didn't it fire?" ladder from the Admin Console down to <code>taskOutputs</code>.</p>
+        </div>
+
+        <h3>Concept 1 — Anatomy</h3>
+        <p>"Workflows are composed of <strong>triggers, conditionals, and actions</strong>." A trigger says <em>when</em>, conditionals say <em>which branch</em>, actions say <em>what happens</em>. Workflows are declared in an app's <code>app.yml</code> under a top-level <code>workflows:</code> key.</p>
+
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:16px 18px;overflow-x:auto;font-size:13px;line-height:1.55;margin:16px 0"><code style="background:none;color:inherit;padding:0">workflows:
+  syncToProduction:
+    identifier: 'syncToProduction'
+    name: 'Sync Items to Production'
+    triggerKey: item|update
+    isActive: true
+    public: true
+    parallelWorkerCount: 5
+    workflowDefinition:
+      paths:
+        - conditional: 'true'
+          actionDefinitionConfigs:
+            - action: syncItem
+              name: Sync Item</code></pre>
+
+        <table>
+          <thead><tr><th>Property</th><th>Req.</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code>identifier</code></td><td>yes</td><td>Unique, stable key — this is what makes cross-org migration possible. Treat it as immutable.</td></tr>
+            <tr><td><code>name</code></td><td>yes</td><td>Display name in the Admin Console. This is what a customer will quote at you in a ticket.</td></tr>
+            <tr><td><code>triggerKey</code></td><td>yes</td><td>The event that activates the workflow.</td></tr>
+            <tr><td><code>isActive</code></td><td>yes</td><td>Enable/disable registration. First thing to check when nothing fires.</td></tr>
+            <tr><td><code>public</code></td><td>no</td><td>Allow other apps to trigger this workflow.</td></tr>
+            <tr><td><code>parallelWorkerCount</code></td><td>no</td><td>Concurrent process limit, 1–30, default 5.</td></tr>
+            <tr><td><code>messageGroupId</code></td><td>no</td><td>Static serialization group (mutually exclusive with the dynamic form).</td></tr>
+            <tr><td><code>messageGroup</code></td><td>no</td><td>Static bucket name used with dynamic grouping.</td></tr>
+            <tr><td><code>dynamicMessageGroupId</code></td><td>no</td><td>Template string assigning events to queues at runtime.</td></tr>
+            <tr><td><code>crons</code></td><td>no</td><td>Scheduled trigger declarations (<code>name</code> + <code>cron</code>).</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Concept 2 — The six trigger categories</h3>
+        <p><strong>1. System events</strong> — entity CRUD broadcast when data changes, in the form <code>{entityType}|{action}</code>:</p>
+        <table>
+          <thead><tr><th>Entity type</th><th>Trigger keys</th></tr></thead>
+          <tbody>
+            <tr><td><code>item</code></td><td><code>item|create</code> · <code>item|update</code> · <code>item|delete</code></td></tr>
+            <tr><td><code>project-item</code></td><td><code>project-item|create</code> · <code>|update</code> · <code>|delete</code></td></tr>
+            <tr><td><code>assortment</code></td><td><code>assortment|publish</code></td></tr>
+            <tr><td><code>assortment-item</code></td><td><code>assortment-item|create</code> · <code>|update</code> · <code>|delete</code></td></tr>
+            <tr><td><code>plan-placeholder</code></td><td><code>plan-placeholder|create</code> · <code>|update</code> · <code>|delete</code></td></tr>
+            <tr><td><code>custom-entity</code></td><td><code>custom-entity|create</code> · <code>|update</code> · <code>|delete</code></td></tr>
+            <tr><td><code>comment</code></td><td><code>comment|create</code> · <code>comment|update</code></td></tr>
+            <tr><td><code>content</code></td><td><code>content|create</code> · <code>content|update</code></td></tr>
+          </tbody>
+        </table>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Note what this list implies. <code>assortment</code> has <em>only</em> <code>publish</code> — there is no <code>assortment|update</code>. If a customer wants automation on "any change to the assortment," the honest answer is that they must hang it off <code>assortment-item</code> events or off publish, and those have very different timing. This is a requirements conversation, not a config task, and catching it early saves a rebuild.</p>
+        </div>
+
+        <p><strong>2. Manual</strong> — <code>triggerKey: manual</code>. Not tied to an event; used for batch loads, archival jobs and on-demand tasks. Also your safest way to test an action in isolation.</p>
+
+        <p><strong>3. Custom app events</strong> — react to another app's domain events:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">triggerKey: '@{publisherOrgSlug}/{appName}:{EventName}'
+# e.g. '@vibeiq/image-loader:ImageAssignmentComplete'</code></pre>
+        <p>The <code>{EventName}</code> part comes from the publishing app's <code>eventWorkflowTriggerKeyMapping</code> template. This is how apps chain — and how a break in app A silently stops automation in app B.</p>
+
+        <p><strong>4. Declared custom trigger keys</strong> — domain-specific triggers an app declares:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">triggers:
+  CopyDownToLinkedItems:
+    key: item|linked-copy-down
+    name: Trigger copy down to linked item copies
+    description: Triggers a workflow to copy down item updates to linked item copies.</code></pre>
+        <p>Fired programmatically by creating an <code>external-event</code> entity:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">await new Entities().create({
+  entityName: 'external-event',
+  object: {
+    details: { eventType: 'item' },
+    actionType: 'linked-copy-down',
+    // ...payload fields the conditionals and actions will read
+  },
+});</code></pre>
+
+        <p><strong>5. Scheduled</strong> — <code>crons</code> declarations using standard CRON syntax.</p>
+        <p><strong>6. Webhook</strong> — external HTTP callbacks, covered in Concept 7.</p>
+
+        <h3>Concept 3 — Paths, and the rule that bites</h3>
+        <p><code>workflowDefinition.paths</code> is an ordered array. Each path pairs a <code>conditional</code> with a list of <code>actionDefinitionConfigs</code>.</p>
+        <div class="card keystone">
+          <h4>First match wins</h4>
+          <p style="margin-bottom:0">"Only the <strong>first path whose conditional evaluates to <code>true</code></strong> is executed; the remaining paths are skipped." Paths are an <em>if / else-if</em> chain, not a set of independent rules. Actions <em>within</em> a path run sequentially.</p>
+        </div>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">paths:
+  - conditional: '{newData.status} === "active"'
+    actionDefinitionConfigs:
+      - action: notifySlack
+        name: Notify Slack (Active)
+      - action: logItem
+        name: Log Item
+  - conditional: 'true'          # catch-all — only reached if the above was false
+    actionDefinitionConfigs:
+      - action: archiveItem
+        name: Archive Item</code></pre>
+        <div class="card warn">
+          <h4>The classic authoring bug</h4>
+          <p style="margin-bottom:0">Someone writes several paths intending "run all that apply," and puts a broad or <code>true</code> conditional near the top. Everything below it becomes dead code. Nothing errors, the process completes successfully, and the customer reports "only some of the automation runs." Whenever you review a workflow, <strong>read the paths top-down and find the first one that can always be true</strong> — everything after it is unreachable.</p>
+        </div>
+
+        <h3>Concept 4 — Conditional expressions</h3>
+        <p>Conditionals are JavaScript expressions evaluated against the event payload, with interpolations wrapped in <code>{ ... }</code>. Available inputs:</p>
+        <table>
+          <thead><tr><th>Input</th><th>What it holds</th></tr></thead>
+          <tbody>
+            <tr><td><code>{newData.&lt;slug&gt;}</code></td><td>Entity state after the change</td></tr>
+            <tr><td><code>{oldData.&lt;slug&gt;}</code></td><td>State before the change — <strong>absent on creates</strong></td></tr>
+            <tr><td><code>{propertyDiffs.&lt;slug&gt;.&lt;propertyName|oldValue|newValue&gt;}</code></td><td>Map of changed-property metadata</td></tr>
+            <tr><td><code>{changeObjects}</code></td><td>Array of <code>{ id, changes }</code> for bulk-change workflows</td></tr>
+          </tbody>
+        </table>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">conditional: 'true'                                          # always run
+conditional: '{newData.roles}.includes("family")'            # family-level only
+conditional: '{propertyDiffs.status.propertyName} != null'   # did status change at all?
+conditional: '{newData.status} !== {oldData.status}'         # old vs new
+conditional: '{newData.status} === "approved" && {newData.roles}.includes("family")'</code></pre>
+        <p>For bulk propagation, <code>changeObjects</code> lets one conditional test many entities at once:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">conditional: >-
+  {changeObjects}.some(obj =>
+    ["sizeGroup","merchDivisionCode","brand","primaryViewableId"].some(prop =>
+      Object.keys(obj.changes).includes(prop)))</code></pre>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0"><code>{oldData}</code> being absent on creates is a genuine trap. A conditional like <code>{newData.status} !== {oldData.status}</code> behaves differently on a create than an update — and a bulk load creates thousands of entities at once. "The workflow fired on every row of the initial load and spammed everyone" is a real incident, and this is usually why. When reviewing, always ask what the conditional does on a <em>create</em>.</p>
+        </div>
+
+        <h3>Concept 5 — Actions and per-workflow config</h3>
+        <p>Each entry in <code>actionDefinitionConfigs</code> needs <code>action</code> (a key matching the app's <code>actions</code> section) and <code>name</code> (the label shown in the Admin UI), plus optional <code>config</code>. Actions exposing <code>actionConfiguration</code> can be reused with different parameters per workflow:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">actions:
+  syncItem:
+    name: 'Sync Item'
+    async: true
+    actionConfiguration:
+      endpoint:
+        label: 'Target API Endpoint'
+        propertyType: 'string'
+
+# ...then, per workflow:
+    - action: syncItem
+      name: Sync Item
+      config:
+        endpoint: 'https://prod.example.com/items'</code></pre>
+        <p>Config values are "merged with runtime context and passed to the action's <code>execute</code> function via the <code>config</code> argument." One action, many environments — which is exactly how a staging endpoint ends up wired into a production workflow. Check <code>config</code> values during any environment-promotion review.</p>
+
+        <h4>Access grants</h4>
+        <p>Actions can only touch entities the app has been granted:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">accessGrants:
+  - entityType: item
+    accessLevel: write        # get, query, create, update, delete
+  - entityType: project-item
+    accessLevel: read         # get, query</code></pre>
+        <p>A workflow that fires, runs, and "does nothing" is often a missing or read-only access grant.</p>
+
+        <h3>Concept 6 — Concurrency and message grouping</h3>
+        <p>This is the part that produces the hardest bugs you will see, because they are <em>intermittent</em> and load-dependent.</p>
+        <p>Two serialization strategies:</p>
+        <p><strong>Static serialization</strong> — every event for this workflow runs strictly one at a time:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">copyDownToLinkedItemsWorkflow:
+  triggerKey: item|linked-copy-down
+  messageGroupId: copyDownToLinkedItems
+  parallelWorkerCount: 1</code></pre>
+        <p><strong>Dynamic grouping</strong> — events sharing a key serialize; different keys run in parallel:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">propagateRegionalForecasts:
+  triggerKey: project-item|update
+  parallelWorkerCount: 30
+  messageGroup: propagateRegionalForecasts
+  dynamicMessageGroupId: 'propagateRegionalForecasts-{newData.itemFamilyId}'</code></pre>
+        <div class="card keystone">
+          <h4>The idea worth internalising</h4>
+          <p style="margin-bottom:0">Dynamic grouping lets you serialize <em>only where it matters</em>. Keying on <code>itemFamilyId</code> means two events touching the same family queue behind each other — no lost update — while events on different families run concurrently up to <code>parallelWorkerCount</code>. You get correctness where entities collide and throughput everywhere else. Static <code>messageGroupId</code> with <code>parallelWorkerCount: 1</code> is the safe, slow hammer; dynamic grouping is the right tool once volume matters.</p>
+        </div>
+        <table>
+          <thead><tr><th>Limit</th><th>Default</th></tr></thead>
+          <tbody>
+            <tr><td><code>parallelWorkerCount</code> range</td><td>1–30, default 5</td></tr>
+            <tr><td>Concurrent processes per event workflow</td><td>25</td></tr>
+            <tr><td>Concurrent processes per organization</td><td>60</td></tr>
+          </tbody>
+        </table>
+        <p>The per-workflow and per-org ceilings are adjustable via the Customer Success Manager.</p>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Two things to carry into customer conversations. First, the <strong>per-org ceiling of 60 is shared</strong> — one chatty workflow during a bulk load can starve every other workflow in the org, and the symptom is "unrelated automation got slow today." Second, raising <code>parallelWorkerCount</code> to fix slowness <em>without</em> a message group is how you convert a performance complaint into a data-corruption incident. Throughput and correctness are the same dial here; never turn it without asking what collides.</p>
+        </div>
+
+        <h3>Concept 7 — Webhooks</h3>
+        <p>Create one via CLI (<code>contrail webhooks create -j</code>) or by POSTing to <code>https://api.vibeiq.com/prod/api/webhooks</code>. The response carries an <code>id</code> you need later. Authentication uses two headers:</p>
+        <ul>
+          <li><code>X-Api-Key</code> — your API key</li>
+          <li><code>X-Api-Org</code> — your organization key</li>
+        </ul>
+        <p>Link a webhook to a workflow by setting the trigger to <code>"webhookId:WEBHOOK_ID"</code>. Multiple workflows can hang off one webhook. To fire it:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">curl --request POST \
+  --url https://api.vibeiq.com/prod/api/trigger-webhooks/4X0bETHdBKw87l6h \
+  --header 'X-Verify-Signature: my-secret-key'</code></pre>
+        <p>The workflow receives the request as an event shaped:</p>
+        <pre style="background:#1e262d;color:#dfe6df;border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;margin:14px 0"><code style="background:none;color:inherit;padding:0">{
+  "body":    { /* your POST data */ },
+  "headers": { /* request headers */ }
+}</code></pre>
+        <p>The trigger endpoint returns an array of the workflow processes it created, with statuses, IDs and initial event data — useful for confirming a webhook actually started something.</p>
+        <div class="card warn">
+          <h4>Security posture — flag this one</h4>
+          <p style="margin-bottom:0"><code>X-Verify-Signature</code> is documented as <em>optional</em> and, in the example, is a shared secret compared as a header value — not an HMAC over the request body. That is meaningfully weaker than the signed-payload schemes most enterprise security teams expect, and a webhook ID in a URL is a bearer credential. Before a security review, confirm internally what verification is actually enforced, and treat trigger URLs as secrets. This belongs on your colleague-questions list.</p>
+        </div>
+
+        <h3>Concept 8 — From app to running workflow</h3>
+        <ol class="steps">
+          <li>Workflows are declared in <code>app.yml</code>.</li>
+          <li><code>contrail app publish</code> turns them into <strong>Workflow Template Definitions</strong> attached to that app version.</li>
+          <li>An installing org runs <code>contrail workflow-template-definitions install</code> to instantiate the templates as live workflows, preserving <code>config</code> values end to end.</li>
+        </ol>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Workflows are <em>versioned artefacts of an app</em>, not settings someone edits in a console. So "can you just tweak that automation?" is a release question: change the app, publish a version, install it. That distinction is the config-vs-customization boundary (Week 7) showing up in practice, and it sets a customer's expectations about turnaround.</p>
+        </div>
+
+        <h3>Concept 9 — Observability, and the "why didn't it fire?" ladder</h3>
+        <p>The Admin Console shows a <strong>Process List</strong> of "recently executed processes" in "reverse chronological order, with the most recent process at the top." Each process contains tasks, and "every task within a process has an <code>Output</code>. The <code>Output</code> is the result of the task."</p>
+        <table>
+          <thead><tr><th>UI status</th><th>API status</th></tr></thead>
+          <tbody>
+            <tr><td>Pending</td><td><code>PENDING</code></td></tr>
+            <tr><td>Processing</td><td><code>ACTIVE</code></td></tr>
+            <tr><td>Awaiting</td><td><code>AWAITING</code></td></tr>
+            <tr><td>Completed</td><td><code>COMPLETE</code></td></tr>
+            <tr><td>Failed</td><td><code>FAILED</code></td></tr>
+          </tbody>
+        </table>
+        <p>The console's query bar does a "case-insensitive substring match on a stringified version of the event and output fields" — so you can search for a style number or an error fragment and find the processes that touched it. Programmatically, fetch a process by ID or query many via the SDK, and read <code>status</code>, <code>taskOutputs</code>, <code>triggerEvent</code>, <code>startTime</code> and <code>endTime</code>.</p>
+        <div class="card warn">
+          <h4>90-day retention</h4>
+          <p style="margin-bottom:0">"After 90 days, workflow logs (including the list of processes and tasks) are permanently deleted from the VibeIQ system." Any post-mortem on a slow-burning data problem has a hard evidence horizon. When a customer reports something that started "a few months ago," check retention <em>before</em> promising root cause — and tell them to preserve exports if the investigation will be long.</p>
+        </div>
+
         <div class="card">
-          <h4 style="margin-top:6px">Not written yet</h4>
-          <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
-          <ul style="margin-bottom:0">
-            <li>Event Workflows: triggers, conditionals, actions; internal vs. external events</li>
-            <li>Apps — manifest, lifecycle, marketplace, deployment</li>
-            <li>Extensions: Doc Automation, Contextual Action, Admin Utility</li>
-            <li>The SDK and CLI, at the depth a TAM actually needs</li>
+          <h4 style="margin-top:6px">The diagnostic ladder — work it in order</h4>
+          <ol style="margin-bottom:0">
+            <li><strong>Is there a process at all?</strong> Filter the Process List on the entity. No process means the trigger never matched — go to 2. A process means it fired — jump to 5.</li>
+            <li><strong>Is <code>isActive</code> true</strong>, and is the workflow actually installed in <em>this</em> org from the app version they think?</li>
+            <li><strong>Is the <code>triggerKey</code> the right event?</strong> The classic miss: expecting <code>assortment|update</code>, which does not exist.</li>
+            <li><strong>Did the change actually emit that event?</strong> A bulk load creating entities emits <code>create</code>, not <code>update</code>.</li>
+            <li><strong>Which path ran?</strong> Read <code>triggerEvent</code>, then evaluate the conditionals top-down yourself. Remember first-match-wins and that <code>{oldData}</code> is absent on creates.</li>
+            <li><strong>Did the actions succeed?</strong> Read <code>taskOutputs</code> per task. A <code>COMPLETE</code> process with a no-op action usually means a missing access grant or a <code>config</code> pointing somewhere harmless.</li>
+            <li><strong>Is it a timing problem?</strong> Intermittent, load-correlated, "sometimes the value is stale" — suspect concurrency and message grouping, not logic.</li>
+          </ol>
+        </div>
+
+        <hr class="divider">
+
+        <h3>Recommended reading</h3>
+        <ul>
+          <li><a class="link" href="https://docs.vibeiq.com/workflows/" target="_blank" rel="noopener">Workflows — introduction</a></li>
+          <li><a class="link" href="https://docs.vibeiq.com/workflows/002_creating_workflows/" target="_blank" rel="noopener">Creating Workflows</a> — the densest page in the docs. Read it twice; most of this module comes from it.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/workflows/managing_workflows/observing_workflows/" target="_blank" rel="noopener">Observing Workflows</a> — statuses, the process list, retention.</li>
+          <li><a class="link" href="https://docs.vibeiq.com/workflows/running_workflows/002_webhooks/" target="_blank" rel="noopener">Webhooks</a></li>
+        </ul>
+
+        <hr class="divider">
+
+        <h3>Practical exercise</h3>
+        <div class="card">
+          <p>Write the <code>app.yml</code> workflow block for this requirement, in full:</p>
+          <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2)">"When a family-level item's <code>status</code> changes to <code>approved</code>, push it to the PLM endpoint and post to Slack. If a family-level item changes in any other way, just log it. Ignore option-level items entirely. Don't let two events for the same item family process at the same time, but keep throughput up across different families."</p>
+          <p style="margin-bottom:0">Then answer three questions about your own definition: what does it do on a <strong>create</strong>? What happens if the paths are reordered? And what breaks if you drop <code>dynamicMessageGroupId</code> but keep <code>parallelWorkerCount: 30</code>?</p>
+        </div>
+
+        <h3>Realistic customer scenario</h3>
+        <div class="card">
+          <p><strong>Summit Athletic.</strong> They have a workflow that copies approved family-level attributes down to linked item copies across regional projects. It has run fine for four months. Last Tuesday they ran a bulk update of 3,000 items ahead of a line review. A merchandiser reports:</p>
+          <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"About 60 styles have the wrong regional pricing — it looks like values from a different style. And some are just missing. It was fine on Monday. We re-ran the update this morning and a different set of styles broke."</p>
+          <p>Their workflow has <code>parallelWorkerCount: 30</code> and no message grouping of any kind. Two other integrations run in the same org.</p>
+          <p style="margin-bottom:0">Give: your <strong>hypothesis</strong> and why the "different set broke on re-run" detail is the strongest clue; the <strong>two fields you'd check first</strong> in the Process List and what you'd expect to see; the <strong>fix</strong>, written as the actual YAML change; and the <strong>second-order risk</strong> your fix introduces at the org level. Then one sentence to the merchandiser today.</p>
+        </div>
+
+        <h3>Quiz</h3>
+        <div class="q">
+          <ol class="quiz">
+            <li>Name the three components of a workflow and where workflows are declared.</li>
+            <li>List the six trigger categories. Which would you use for a nightly archival job, and which for reacting to another app finishing its work?</li>
+            <li>What is the <code>{entityType}|{action}</code> pattern, and what is notable about the triggers available for <code>assortment</code>?</li>
+            <li>Explain the first-match-wins rule. Describe the authoring bug it causes and how you'd spot it in review.</li>
+            <li>What are <code>newData</code>, <code>oldData</code>, <code>propertyDiffs</code> and <code>changeObjects</code>? Which is missing on a create, and why does that matter during a bulk load?</li>
+            <li>How can one action be reused across two workflows with different targets? What does that imply for environment promotion?</li>
+            <li>Contrast static <code>messageGroupId</code> with <code>dynamicMessageGroupId</code>. Why is dynamic grouping usually the better answer at volume?</li>
+            <li>What are the default concurrency limits per workflow and per org, and why does the org limit matter to a customer running an unrelated integration?</li>
+            <li>Trace a workflow from <code>app.yml</code> to running in a customer org. Why does that make "just tweak the automation" a release conversation?</li>
+            <li>A customer reports automation that silently stopped "a few months ago." What do you check first, and what constraint might already have destroyed your evidence?</li>
+          </ol>
+        </div>
+
+        <h3>Hands-on challenge</h3>
+        <div class="card">
+          <p style="margin-bottom:0">Build your <strong>workflow review checklist</strong> — the things you'd inspect before signing off any customer workflow going to production. Cover at minimum: unreachable paths, create-vs-update behaviour, access grants, <code>config</code> values pointing at the right environment, message grouping vs. what can collide, org-level concurrency budget, and who is alerted on <code>FAILED</code>. This joins the Week 2 data-model health check and the Week 3 publish checklist to complete your account-inheritance kit.</p>
+        </div>
+
+        <div class="outcome">
+          <h4>I know this when I can…</h4>
+          <ul>
+            <li>Read a workflow block in <code>app.yml</code> and predict its behaviour on both create and update.</li>
+            <li>Choose a trigger category from a requirement, and spot requirements no trigger supports.</li>
+            <li>Find unreachable paths by inspection.</li>
+            <li>Recognise a concurrency race from the <em>shape</em> of the symptom and write the grouping fix.</li>
+            <li>Work the diagnostic ladder from Process List to <code>taskOutputs</code> without guessing.</li>
+            <li>Explain to a customer why changing a workflow is a release, not a setting.</li>
           </ul>
         </div>
-        <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
+
+        <details>
+          <summary>How to submit</summary>
+          <p>Answer the quiz, the exercise and the scenario in our chat. The exercise matters most here — writing the YAML yourself is the difference between recognising workflow concepts and being able to sit with a customer's integration engineer.</p>
+        </details>
+        <p class="foot">Module 6 · grounded in official Contrail documentation: Workflows (introduction, creating, observing, webhooks).</p>
       </section>
 
       <section class="view" id="view-m7">
         <p class="eyebrow">Module 7 · Week 7</p>
-        <h2 class="title">Configuration &amp; the config/customization boundary</h2>
-        <p class="lede">The judgement call you will be asked to make on nearly every account.</p>
+        <h2 class="title">Apps, Extensions &amp; the config/customization boundary</h2>
+        <p class="lede">How far you can go without code, where the line is, and what crossing it costs.</p>
         <div class="card">
           <h4 style="margin-top:6px">Not written yet</h4>
           <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
           <ul style="margin-bottom:0">
-            <li>Formulas, validation functions, rule sets and blueprints</li>
-            <li>Custom entities; configuration copy and uniqueness constraints</li>
-            <li>Where configuration ends and customization begins — and why the line matters commercially</li>
-            <li>How to say no to a customization request without saying no to the customer</li>
+            <li>Formulas, validation functions, rule sets and blueprints; custom entities; configuration copy and uniqueness</li>
+            <li>Apps: the manifest, <code>accessGrants</code>, publish and install lifecycle, the marketplace</li>
+            <li>Extensions: Doc Automation, Contextual Action, Admin Utility — what each can and cannot reach</li>
+            <li>The SDK and CLI at the depth a TAM needs; <code>contrail app publish</code> and template installation</li>
+            <li><strong>Workflow angle:</strong> workflows ship inside apps, so every automation change is a release — pricing that reality for a customer</li>
           </ul>
         </div>
         <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
@@ -1068,10 +1381,11 @@
           <h4 style="margin-top:6px">Not written yet</h4>
           <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
           <ul style="margin-bottom:0">
-            <li>Environments and tenancy: dev / staging / prod, and how config is promoted</li>
-            <li>The auth model, API keys, and the end-user permission picture</li>
-            <li>Data residency, the S3 upload path, and compliance posture</li>
-            <li>Monitoring and alerting — what customers see, and what you can see</li>
+            <li>Environments and tenancy: dev / staging / prod, and how config and app versions are promoted</li>
+            <li>The auth model, API keys, app-level access grants, and the end-user permission picture</li>
+            <li>Data residency, the S3 upload path, link expiry as a data-exposure question, compliance posture</li>
+            <li>Concurrency as an operational budget: the per-org ceiling of 60 and who competes for it</li>
+            <li><strong>Workflow angle:</strong> what monitoring customers get for <code>FAILED</code> processes, and the 90-day log retention horizon</li>
           </ul>
         </div>
         <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
@@ -1080,15 +1394,16 @@
       <section class="view" id="view-m9">
         <p class="eyebrow">Module 9 · Week 9</p>
         <h2 class="title">Troubleshooting &amp; escalation methodology</h2>
-        <p class="lede">Turning everything above into a repeatable diagnostic method.</p>
+        <p class="lede">Turning everything above into one repeatable diagnostic method.</p>
         <div class="card">
           <h4 style="margin-top:6px">Not written yet</h4>
           <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
           <ul style="margin-bottom:0">
-            <li>A pipeline-anchored method: localise the failure before theorising about it</li>
-            <li>The standard question set — which layer, which property level, which federatedId</li>
+            <li>Localise before theorising: the pipeline checkpoints for load, publish and workflow failures</li>
+            <li>The standard question set — which entity layer, which property level, which federatedId, which trigger</li>
+            <li>Reading <code>taskOutputs</code>, <code>triggerEvent</code> and process status to a root cause</li>
             <li>Escalation routing: TAM / Support / Engineering / Product / Professional Services</li>
-            <li>Writing an escalation that gets acted on, and holding a customer while it is open</li>
+            <li><strong>Workflow angle:</strong> the full "why didn't it fire?" ladder, plus recognising concurrency races from symptom shape alone</li>
           </ul>
         </div>
         <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
@@ -1102,9 +1417,10 @@
           <h4 style="margin-top:6px">Not written yet</h4>
           <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
           <ul style="margin-bottom:0">
-            <li>Technical discovery — sharpening the Week 1 landscape template into a real instrument</li>
-            <li>Architecture reviews: reading a customer's integration design and finding the flaw</li>
+            <li>Technical discovery — the Week 1 landscape template sharpened into a real instrument</li>
+            <li>Architecture reviews: reading a customer's integration design and finding the flaw before production does</li>
             <li>QBRs: telling a health story with adoption and operational evidence</li>
+            <li><strong>Workflow angle:</strong> running a workflow design review with a customer's engineers</li>
             <li>A full simulated account: discovery, a live incident, and a quarterly review</li>
           </ul>
         </div>
@@ -1163,6 +1479,8 @@
         <div class="card"><h4>SLAs, rate limits &amp; scale</h4><p style="margin-bottom:0">What are the actual numeric API rate limits and documented SLAs? <em>Note: the "15 requests/hour" figure online belongs to vibe.co — a different company — not VibeIQ. Don't cite it.</em></p></div>
         <div class="card"><h4>Monitoring (customer-facing)</h4><p style="margin-bottom:0">What monitoring/alerting do customers get for load, publish, and workflow failures? What's the TAM's visibility into a customer's operational health?</p></div>
         <div class="card warn"><h4>The AI layer (biggest gap)</h4><p style="margin-bottom:0">What's actually GA vs beta vs roadmap? How are agents configured, governed, monitored? Nail this down before making AI claims.</p></div>
+        <div class="card warn"><h4>Webhook verification (raised in Week 6)</h4><p style="margin-bottom:0">Workflow webhooks document <code>X-Verify-Signature</code> as <em>optional</em>, and the example compares a shared secret rather than an HMAC over the request body — while the webhook ID in the trigger URL acts as a bearer credential. What verification is actually enforced server-side? Is request signing available? Needed before any customer security review.</p></div>
+        <div class="card"><h4>Workflow concurrency ceilings</h4><p style="margin-bottom:0">Defaults are 25 concurrent processes per workflow and 60 per org, "adjustable via Customer Success Manager." What is the real process for raising them, what are the hard maximums, and can a customer see their own utilisation before they hit it?</p></div>
         <div class="card"><h4>Support model &amp; escalation</h4><p style="margin-bottom:0">Real internal escalation path &amp; tooling? Where's the TAM/Support/PS/Engineering/Product line in practice? Who owns integration builds — PS or customer?</p></div>
         <div class="card"><h4>Data residency &amp; compliance</h4><p style="margin-bottom:0">File uploads route through AWS S3 (us-east-1 in examples). Residency options? Compliance certs (SOC 2, etc.) you can represent to a security team?</p></div>
       </section>
@@ -1200,7 +1518,7 @@
   const topTitle = document.getElementById('topTitle');
   const titles = {
     dashboard:'Dashboard', m1:'Module 1 · Domain', m2:'Module 2', m3:'Module 3', m4:'Module 4',
-    m5:'Module 5', m6:'Module 6', m7:'Module 7', m8:'Module 8', m9:'Module 9', m10:'Module 10',
+    m5:'Module 5', m6:'Module 6 · Workflows', m7:'Module 7', m8:'Module 8', m9:'Module 9', m10:'Module 10',
     priority:'Priority matrix', questions:'Colleague questions', links:'Doc links'
   };
   function show(id){

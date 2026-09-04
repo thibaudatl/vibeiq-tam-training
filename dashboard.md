@@ -31,8 +31,8 @@
 | 3 | End-user apps & the publish lifecycle | 📖 Ready to read | — | — | — |
 | 4 | Data in: the Loader framework | ⬜ | — | — | — |
 | 5 | Data out: integration patterns | ⬜ | — | — | — |
-| 6 | Automation: Apps, Workflows & Extensions | ⬜ | — | — | — |
-| 7 | Configuration & the config/customization boundary | ⬜ | — | — | — |
+| 6 | Event Workflows | 📖 Ready to read | — | — | — |
+| 7 | Apps, Extensions & the config/customization boundary | ⬜ | — | — | — |
 | 8 | Platform, security & operations | ⬜ | — | — | — |
 | 9 | Troubleshooting & escalation methodology | ⬜ | — | — | — |
 | 10 | Applied TAM practice: discovery, reviews, QBRs | ⬜ | — | — | — |
@@ -54,7 +54,7 @@
 | Technical discovery methodology | 🔴 | 🔴 |
 | Loader pipeline & failure modes | 🟠 | 🔴 |
 | AssortmentPublishChange internals (baseline/deletes/24h expiry) | 🟠 | 🔴 |
-| Event Workflows (triggers/conditionals/actions) | 🟠 | 🔴 |
+| Event Workflows (triggers/conditionals/actions) | 🔴 | 🔴 |
 | Auth, rate limits, error codes, webhook security | 🟠 | 🔴 |
 | Formulas / validation / rule sets / blueprints | 🟠 | 🔴 |
 | End-user apps (Boards/Plan/Showcase/Admin) | 🟠 | 🔴 |
@@ -84,6 +84,10 @@ _(populated as we go — running glossary)_
 - **AssortmentPublishChange** — the snapshot created on publish: baseline link, delete link, and detail arrays.
 - **Baseline vs. detail** — "what is true now" vs. "what changed this time". Consumers usually need both.
 - **Re-baselining** — recovering downstream state from a full baseline after missed publishes.
+- **triggerKey** — the event that activates a workflow, e.g. `item|update`. Note `assortment` has only `assortment|publish`.
+- **First-match-wins** — only the first workflow path whose conditional is true executes; the rest are skipped.
+- **messageGroupId / dynamicMessageGroupId** — static vs. dynamic serialization of workflow events; the fix for concurrency races.
+- **Workflow Template Definition** — what a workflow becomes when an app is published; installed per org.
 
 ## 6. Topics to revisit
 -
@@ -102,6 +106,8 @@ _(from Phase 1 Open Questions — confirm answers as you learn them)_
 - [ ] AI layer: what's GA vs beta vs roadmap? How are agents configured/governed/monitored?
 - [ ] Real internal escalation path & tooling? Who owns integration builds — PS or customer?
 - [ ] Data residency options & compliance certs (SOC 2, etc.)?
+- [ ] Webhooks: what signature verification is actually enforced? Is HMAC request signing available?
+- [ ] Workflow concurrency: real process for raising the 25/workflow and 60/org ceilings; can customers see utilisation?
 
 ## 9. Questions I still don't understand
 _(your own running list — add anything unclear)_

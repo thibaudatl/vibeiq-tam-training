@@ -18,7 +18,13 @@ Manager. Grounded in official VibeIQ / Contrail documentation (docs.vibeiq.com).
 - Module 1 (Business domain & where VibeIQ sits) — live
 - Module 2 (Core data model) — written and live
 - Module 3 (End-user apps & the publish lifecycle) — written and live
-- Modules 4–10 — not yet written; each stub lists what it will cover
+- Module 6 (Event Workflows) — written and live
+- Modules 4, 5, 7–10 — not yet written; each stub lists what it will cover
+
+Workflows were promoted to their own module (Week 6) and Apps/Extensions merged into
+Week 7, because the TAM role includes supporting customer workflows. Modules from
+Week 4 onward are written at greater technical depth, and each carries an explicit
+"workflow angle".
 
 ## Curriculum
 
@@ -29,8 +35,8 @@ Manager. Grounded in official VibeIQ / Contrail documentation (docs.vibeiq.com).
 | 3 | End-user apps & the publish lifecycle | live |
 | 4 | Data in: the Loader framework | to write |
 | 5 | Data out: integration patterns | to write |
-| 6 | Automation: Apps, Workflows & Extensions | to write |
-| 7 | Configuration & the config/customization boundary | to write |
+| 6 | Event Workflows | live |
+| 7 | Apps, Extensions & the config/customization boundary | to write |
 | 8 | Platform, security & operations | to write |
 | 9 | Troubleshooting & escalation | to write |
 | 10 | Applied TAM practice (capstone) | to write |
