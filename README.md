@@ -24,7 +24,8 @@ Manager. Grounded in official VibeIQ / Contrail documentation (docs.vibeiq.com).
 - Module 5 (Data out: integration patterns) — written and live
 - Module 7 (Apps, Extensions & the config boundary) — written and live
 - Module 8 (Platform, security & operations) — written and live
-- Modules 9–10 — not yet written; each stub lists what it will cover
+- Module 9 (Troubleshooting & escalation) — written and live
+- Module 10 (capstone) — not yet written
 
 Workflows were promoted to their own module (Week 6) and Apps/Extensions merged into
 Week 7, because the TAM role includes supporting customer workflows. Modules from
@@ -43,7 +44,7 @@ Week 4 onward are written at greater technical depth, and each carries an explic
 | 6 | Event Workflows | live |
 | 7 | Apps, Extensions & the config/customization boundary | live |
 | 8 | Platform, security & operations | live |
-| 9 | Troubleshooting & escalation | to write |
+| 9 | Troubleshooting & escalation | live |
 | 10 | Applied TAM practice (capstone) | to write |
 
 Modules are written one at a time, grounded in the official Contrail documentation. Nothing is gated — every module in the hub is browsable, including the stubs for those not yet written.

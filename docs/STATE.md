@@ -41,7 +41,7 @@ a markdown tracker (`dashboard.md`) and per-week source notes (`modules/`).
 | 6 | Event Workflows | written (deep) |
 | 7 | Apps, Extensions & the config/customization boundary | written (deep) |
 | 8 | Platform, security & operations | written (deep) |
-| 9 | Troubleshooting & escalation | to write |
+| 9 | Troubleshooting & escalation | written (synthesis) |
 | 10 | Applied TAM practice (capstone) | to write |
 
 Weeks 4, 5 and 9 are the technical heart — protect time for them.

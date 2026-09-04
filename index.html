@@ -179,7 +179,7 @@
       <a href="#m6" data-view="m6"><span class="wk">W6</span> Event Workflows <span class="st">★</span></a>
       <a href="#m7" data-view="m7"><span class="wk">W7</span> Apps, Extensions &amp; config</a>
       <a href="#m8" data-view="m8"><span class="wk">W8</span> Platform, security, ops</a>
-      <a class="todo" href="#m9" data-view="m9"><span class="wk">W9</span> Troubleshoot &amp; escalate <span class="st">soon</span></a>
+      <a href="#m9" data-view="m9"><span class="wk">W9</span> Troubleshoot &amp; escalate <span class="st">★</span></a>
       <a class="todo" href="#m10" data-view="m10"><span class="wk">W10</span> Applied TAM practice <span class="st">soon</span></a>
     </nav>
 
@@ -225,7 +225,7 @@
             <tr><td>6</td><td>Event Workflows</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>7</td><td>Apps, Extensions &amp; the config boundary</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>8</td><td>Platform, security &amp; operations</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
-            <tr><td>9</td><td>Troubleshooting &amp; escalation</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
+            <tr><td>9</td><td>Troubleshooting &amp; escalation</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>10</td><td>Applied TAM practice</td><td>⬜ Not started</td><td>—</td><td>—</td></tr>
           </tbody>
         </table>
@@ -2264,19 +2264,283 @@ visibility: public            # marketplace candidate</code></pre>
       <section class="view" id="view-m9">
         <p class="eyebrow">Module 9 · Week 9</p>
         <h2 class="title">Troubleshooting &amp; escalation methodology</h2>
-        <p class="lede">Turning everything above into one repeatable diagnostic method.</p>
+        <p class="lede">Everything from Weeks 2–8, turned into one repeatable method. This module introduces almost no new facts — its value is entirely in sequence and discipline. The goal is that an unfamiliar problem stops being a puzzle and becomes a route you walk.</p>
+
+        <div class="card keystone">
+          <h4>Learning objectives</h4>
+          <p style="margin-bottom:0">By the end of this week you can (1) localise any failure to one segment of the pipeline before proposing a cause, (2) run the right ladder for that segment from memory, (3) read the platform's evidence rather than reasoning from a customer's description, (4) recognise a class of cause from the <em>shape</em> of a symptom, (5) write an escalation that gets acted on, and (6) hold a customer while it's open.</p>
+        </div>
+
+        <h3>Concept 1 — Localise before theorising</h3>
+        <p>The single most common failure in technical support is proposing a cause before establishing <em>where</em> the problem is. A theory arrives early, everyone starts testing it, and two days go to a hypothesis that was never constrained by evidence.</p>
+        <div class="card keystone">
+          <h4>The rule</h4>
+          <p style="margin-bottom:0">Your first job is not "why is this happening?" It is <strong>"which segment of the pipeline is this in?"</strong> Only once the segment is fixed do you ask why. Localisation is cheap — the platform records almost everything — and it eliminates whole categories of cause in a single check.</p>
+        </div>
+
+        <figure>
+          <svg viewBox="0 0 680 320" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The pipeline map with six checkpoints from source data through loader, entities, workflows, publish, and downstream consumer">
+            <defs>
+              <marker id="ar9" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </marker>
+            </defs>
+
+            <rect x="10" y="54" width="88" height="60" rx="9" fill="#efeadf" stroke="#cfc8ba" stroke-width="1.3"/>
+            <text x="54" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#3d4954" font-family="sans-serif">Source</text>
+            <text x="54" y="96" text-anchor="middle" font-size="10" fill="#3d4954" font-family="sans-serif">system / CSV</text>
+
+            <rect x="118" y="54" width="88" height="60" rx="9" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1.4"/>
+            <text x="162" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#0f4536" font-family="sans-serif">Loader</text>
+            <text x="162" y="96" text-anchor="middle" font-size="10" fill="#3d6b5c" font-family="sans-serif">5 phases</text>
+
+            <rect x="226" y="54" width="88" height="60" rx="9" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1.4"/>
+            <text x="270" y="76" text-anchor="middle" font-size="11" font-weight="700" fill="#0f4536" font-family="sans-serif">Entities</text>
+            <text x="270" y="92" text-anchor="middle" font-size="10" fill="#3d6b5c" font-family="sans-serif">layers +</text>
+            <text x="270" y="105" text-anchor="middle" font-size="10" fill="#3d6b5c" font-family="sans-serif">property levels</text>
+
+            <rect x="334" y="54" width="88" height="60" rx="9" fill="#f6ecd8" stroke="#9a6410" stroke-width="1.4"/>
+            <text x="378" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#9a6410" font-family="sans-serif">Workflows</text>
+            <text x="378" y="96" text-anchor="middle" font-size="10" fill="#7d5210" font-family="sans-serif">+ formulas</text>
+
+            <rect x="442" y="54" width="88" height="60" rx="9" fill="#e4eef7" stroke="#1a5a94" stroke-width="1.4"/>
+            <text x="486" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#12456f" font-family="sans-serif">Publish</text>
+            <text x="486" y="96" text-anchor="middle" font-size="10" fill="#12456f" font-family="sans-serif">Plan→Assortment</text>
+
+            <rect x="550" y="54" width="120" height="60" rx="9" fill="#f7e6df" stroke="#b0442a" stroke-width="1.4"/>
+            <text x="610" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#8c3520" font-family="sans-serif">Consumer</text>
+            <text x="610" y="96" text-anchor="middle" font-size="10" fill="#8c3520" font-family="sans-serif">PLM / ERP</text>
+
+            <line x1="100" y1="84" x2="114" y2="84" stroke="#6b7883" stroke-width="1.4" marker-end="url(#ar9)"/>
+            <line x1="208" y1="84" x2="222" y2="84" stroke="#6b7883" stroke-width="1.4" marker-end="url(#ar9)"/>
+            <line x1="316" y1="84" x2="330" y2="84" stroke="#6b7883" stroke-width="1.4" marker-end="url(#ar9)"/>
+            <line x1="424" y1="84" x2="438" y2="84" stroke="#6b7883" stroke-width="1.4" marker-end="url(#ar9)"/>
+            <line x1="532" y1="84" x2="546" y2="84" stroke="#6b7883" stroke-width="1.4" marker-end="url(#ar9)"/>
+
+            <text x="54"  y="140" text-anchor="middle" font-size="10.5" font-weight="700" fill="#141a1f" font-family="sans-serif">CP1</text>
+            <text x="162" y="140" text-anchor="middle" font-size="10.5" font-weight="700" fill="#141a1f" font-family="sans-serif">CP2</text>
+            <text x="270" y="140" text-anchor="middle" font-size="10.5" font-weight="700" fill="#141a1f" font-family="sans-serif">CP3</text>
+            <text x="378" y="140" text-anchor="middle" font-size="10.5" font-weight="700" fill="#141a1f" font-family="sans-serif">CP4</text>
+            <text x="486" y="140" text-anchor="middle" font-size="10.5" font-weight="700" fill="#141a1f" font-family="sans-serif">CP5</text>
+            <text x="610" y="140" text-anchor="middle" font-size="10.5" font-weight="700" fill="#141a1f" font-family="sans-serif">CP6</text>
+
+            <line x1="10" y1="152" x2="670" y2="152" stroke="#e2ddd3" stroke-width="1"/>
+            <text x="10" y="174" font-size="10.5" fill="#3d4954" font-family="sans-serif"><tspan font-weight="700">CP1</tspan> Is the value correct in the source file at all?</text>
+            <text x="10" y="194" font-size="10.5" fill="#3d4954" font-family="sans-serif"><tspan font-weight="700">CP2</tspan> LoaderProcess: status, config used, per-step artefacts. Diff consecutive steps.</text>
+            <text x="10" y="214" font-size="10.5" fill="#3d4954" font-family="sans-serif"><tspan font-weight="700">CP3</tspan> Which entity layer holds it, at which property level? Is the federatedId what you expect?</text>
+            <text x="10" y="234" font-size="10.5" fill="#3d4954" font-family="sans-serif"><tspan font-weight="700">CP4</tspan> Process List: did it fire, which path ran, what did taskOutputs say? Did a formula overwrite it?</text>
+            <text x="10" y="254" font-size="10.5" fill="#3d4954" font-family="sans-serif"><tspan font-weight="700">CP5</tspan> Is there an AssortmentPublishChange? Did Plan rows reach the Assortment?</text>
+            <text x="10" y="274" font-size="10.5" fill="#3d4954" font-family="sans-serif"><tspan font-weight="700">CP6</tspan> Did the consumer receive it, and process it — including the deletes?</text>
+            <rect x="10" y="286" width="660" height="26" rx="7" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1.2"/>
+            <text x="340" y="303" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0f4536" font-family="sans-serif">Bisect: check CP3 first. It splits the pipeline in half and is almost always the cheapest look.</text>
+          </svg>
+          <figcaption>Six checkpoints — establish the segment before proposing a cause</figcaption>
+        </figure>
+
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Bisect rather than walking left to right. <strong>Start at CP3</strong> — look at the entity itself. If the value is correct there, the problem is downstream (CP4–CP6). If it's wrong there, the problem is upstream (CP1–CP2). One look halves the search space, and CP3 is usually the fastest thing to check because it's just opening the record. Walking the pipeline in order is the instinct; bisecting is the discipline.</p>
+        </div>
+
+        <h3>Concept 2 — The universal question set</h3>
+        <p>Six questions that apply to almost any data-correctness report. Ask them before touching anything:</p>
+        <table>
+          <thead><tr><th>Question</th><th>Why it eliminates whole causes</th><th>Wk</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Which entity layer?</strong> Item, ProjectItem or AssortmentItem</td><td>A value written to Item won't appear where an app shows an AssortmentItem override</td><td>2</td></tr>
+            <tr><td><strong>Which property level?</strong> Family, Option, All, Override</td><td>Explains copy-down clobber and "the system won't let us"</td><td>2</td></tr>
+            <tr><td><strong>Which <code>federatedId</code>?</strong> And what generates it</td><td>Explains duplicates and orphans</td><td>2 · 4</td></tr>
+            <tr><td><strong>Create or update?</strong></td><td>Changes conditional behaviour, formula timing and event type</td><td>4 · 6</td></tr>
+            <tr><td><strong>Which process?</strong> Get the ID — LoaderProcess or workflow process</td><td>Replaces description with evidence</td><td>4 · 6</td></tr>
+            <tr><td><strong>When did it last work?</strong></td><td>Bounds the change set, and tests the 90-day evidence horizon</td><td>8</td></tr>
+          </tbody>
+        </table>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Ask these in the customer's language, not the platform's. "Is this a style-level or colour-level field?" gets a better answer from a merchandiser than "is this Family or Option?" — and it's the same question. Translating your diagnostic model into their vocabulary is most of what makes a TAM feel easy to work with.</p>
+        </div>
+
+        <h3>Concept 3 — The three ladders</h3>
+        <p>Once localised, run the ladder for that segment. These are consolidated from Weeks 4, 6 and 3/5 — learn them as three, not as scattered notes.</p>
+
         <div class="card">
-          <h4 style="margin-top:6px">Not written yet</h4>
-          <p>This module is on the plan but hasn't been authored. When it is, it will cover:</p>
-          <ul style="margin-bottom:0">
-            <li>Localise before theorising: the pipeline checkpoints for load, publish and workflow failures</li>
-            <li>The standard question set — which entity layer, which property level, which federatedId, which trigger</li>
-            <li>Reading <code>taskOutputs</code>, <code>triggerEvent</code> and process status to a root cause</li>
-            <li>Escalation routing: TAM / Support / Engineering / Product / Professional Services</li>
-            <li><strong>Workflow angle:</strong> the full "why didn't it fire?" ladder, plus recognising concurrency races from symptom shape alone</li>
+          <h4 style="margin-top:6px">Ladder A — a load went wrong <span class="pill p-nice">CP2</span></h4>
+          <ol style="margin-bottom:0">
+            <li>Get the <code>LoaderProcess</code> ID. Status, and <em>the configuration recorded on it</em>.</li>
+            <li>Compare that config against the last known-good run — especially if CLI and API runs are mixed.</li>
+            <li>Read the per-step artefacts <code>loader-process-step-&lt;Step&gt;.json</code>. Diff consecutive steps to find where a value changed.</li>
+            <li>Check column matching: unmatched columns are ignored silently.</li>
+            <li>Check option-set alignment: display labels convert to internal values in steps 4/6.</li>
+            <li>Check <code>federatedId</code> presence and stability.</li>
+            <li>If values are right in the artefacts but wrong in the app, the load is exonerated — move to CP3/CP4.</li>
+          </ol>
+        </div>
+
+        <div class="card">
+          <h4 style="margin-top:6px">Ladder B — automation didn't happen <span class="pill p-nice">CP4</span></h4>
+          <ol style="margin-bottom:0">
+            <li>Is there a process at all? Filter the Process List on the entity. None → step 2. Some → step 5.</li>
+            <li><code>isActive</code> true, installed in <em>this</em> org, from the expected app version?</li>
+            <li>Right <code>triggerKey</code>? (<code>assortment</code> has only <code>publish</code>.)</li>
+            <li>Did the change emit that event? A load emits <code>create</code>, not <code>update</code>.</li>
+            <li>Which path ran? Read <code>triggerEvent</code>, evaluate conditionals top-down. First match wins; <code>oldData</code> absent on creates.</li>
+            <li>Did actions succeed? Read <code>taskOutputs</code>. COMPLETE-but-no-op → access grant, or <code>config</code> pointing somewhere harmless.</li>
+            <li>Intermittent and load-correlated? → concurrency and message grouping, not logic.</li>
+          </ol>
+        </div>
+
+        <div class="card">
+          <h4 style="margin-top:6px">Ladder C — it didn't reach the downstream system <span class="pill p-nice">CP5 · CP6</span></h4>
+          <ol style="margin-bottom:0">
+            <li>Did a publish happen? Is there an <code>AssortmentPublishChange</code>?</li>
+            <li>Did the Plan rows actually reach the Assortment? (The internal commit is separate from the sync.)</li>
+            <li>Did the delivery workflow fire? — this is Ladder B, because the integration <em>is</em> a workflow.</li>
+            <li>Did the consumer receive or poll it? Check their logs, and their last-processed change ID.</li>
+            <li>Did it process everything — including the delete file?</li>
+            <li>Any gap in processed change IDs? Missed deletes never replay; re-baseline.</li>
+          </ol>
+        </div>
+
+        <h3>Concept 4 — Symptom shape tells you the class of cause</h3>
+        <p>Before content, look at <em>shape</em>. How a problem is distributed in time and across records narrows the cause faster than any detail about the records themselves.</p>
+        <table>
+          <thead><tr><th>Shape</th><th>Class of cause</th><th>Go straight to</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Intermittent, load-correlated, different records each time</strong></td><td>Concurrency race</td><td><code>parallelWorkerCount</code> and message grouping</td></tr>
+            <tr><td><strong>Consistent, silent, affects every record of a kind</strong></td><td>Configuration</td><td>Property level, formula slug, rule set, mapping</td></tr>
+            <tr><td><strong>Affects part of a batch, not the rest</strong></td><td>Create vs. update divergence</td><td>Conditionals using <code>oldData</code>; which rows were new</td></tr>
+            <tr><td><strong>Started on a date, nothing "changed"</strong></td><td>A deploy, a config promotion, or an expiry</td><td>App version installed, <code>types loadAll</code>, runtime deprecation</td></tr>
+            <tr><td><strong>Sporadic missing records, unreproducible</strong></td><td>Integration seam</td><td>Polling window construction; missed events</td></tr>
+            <tr><td><strong>Correct at write, wrong later</strong></td><td>Recalculation or copy-down</td><td>Formula re-evaluation timing; a Family reload</td></tr>
+            <tr><td><strong>Only some users see it</strong></td><td>Permission or client-side rules</td><td>Type/Type Property Policies; rule set criteria</td></tr>
+            <tr><td><strong>Everything slow, nothing broken</strong></td><td>Shared capacity</td><td>The 60-process org ceiling; what else ran</td></tr>
+          </tbody>
+        </table>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Get the shape from the customer explicitly, because they will not volunteer it. Three questions do it: "Does it affect every record or some?" "Did it start at a particular time?" "If you retry, does the <em>same</em> record fail?" That last one is the highest-yield question in troubleshooting — same record failing means logic or config; a different record means timing or concurrency.</p>
+        </div>
+
+        <h3>Concept 5 — Read evidence, don't reason from descriptions</h3>
+        <p>The platform records more than most people use. Anchor every claim to one of these:</p>
+        <table>
+          <thead><tr><th>Evidence</th><th>Answers</th><th>Lifetime</th></tr></thead>
+          <tbody>
+            <tr><td><code>LoaderProcess</code> + per-step artefacts</td><td>What the load received, and what each step did to it</td><td>—</td></tr>
+            <tr><td>Process List: <code>status</code>, <code>triggerEvent</code>, <code>taskOutputs</code>, <code>startTime</code>/<code>endTime</code></td><td>Whether automation ran, on what, and what it produced</td><td>90 days</td></tr>
+            <tr><td>Event Workflows Dashboard</td><td>Whether failures are trending</td><td>90 days</td></tr>
+            <tr><td>Workflow Artifacts</td><td>Files a developer attached to a run</td><td>90 days</td></tr>
+            <tr><td><code>AssortmentPublishChange</code> + baseline</td><td>Exactly what was published, and the state at that moment</td><td>Links 24h; refetch to refresh</td></tr>
+            <tr><td>Config export (<code>types getAll</code>)</td><td>What the configuration actually is, versus what people believe</td><td>—</td></tr>
+          </tbody>
+        </table>
+        <div class="card warn">
+          <h4>The evidence horizon is real</h4>
+          <p style="margin-bottom:0">Workflow logs and artifacts are "permanently deleted" after 90 days. If a customer reports something that began months ago, establish what evidence still exists <em>before</em> you commit to finding root cause — and if an investigation will be long, tell them to preserve exports now. Promising a root cause you can no longer reach is a self-inflicted wound.</p>
+        </div>
+
+        <h3>Concept 6 — Escalating well</h3>
+        <p>Escalation is not "I couldn't solve it." It is a handover, and its quality determines whether the next person starts where you stopped or starts again.</p>
+        <div class="card keystone">
+          <h4>What a good escalation contains</h4>
+          <ol style="margin-bottom:0">
+            <li><strong>The segment.</strong> "Localised to CP4 — the workflow fires but the action no-ops." Not "publishing is broken."</li>
+            <li><strong>Identifiers.</strong> Process IDs, LoaderProcess IDs, <code>federatedId</code>s, change IDs, org slug, app version. Anything the next person would otherwise have to ask for.</li>
+            <li><strong>What you ruled out, and how.</strong> This is the part that saves the most time and the part most often omitted.</li>
+            <li><strong>The shape.</strong> Intermittent or consistent, all records or some, since when.</li>
+            <li><strong>Business impact and clock.</strong> Who is blocked, and what deadline it threatens.</li>
+            <li><strong>Your hypothesis, marked as one.</strong> Offer it, don't assert it — a confident wrong theory in an escalation costs more than none.</li>
+          </ol>
+        </div>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Point 3 is what separates a TAM from a ticket relay. "I checked the Process List: it fired 47 times, all COMPLETE, taskOutputs empty. Access grants show <code>item: read</code> where the action attempts a write — I believe that's it, but I can't confirm the grant is the blocker from outside" is a handover an engineer can act on in minutes. Forwarding the customer's email is not.</p>
+        </div>
+
+        <h4>Routing</h4>
+        <table>
+          <thead><tr><th>Goes to</th><th>When</th></tr></thead>
+          <tbody>
+            <tr><td><strong>You (TAM)</strong></td><td>Configuration, data model, integration design, adoption, "how should this work" — the majority</td></tr>
+            <tr><td><strong>Support</strong></td><td>Reproducible platform defects with evidence attached</td></tr>
+            <tr><td><strong>Engineering</strong></td><td>Confirmed defects, data corruption, anything needing platform-side inspection</td></tr>
+            <tr><td><strong>Product</strong></td><td>Capability gaps and roadmap questions — including "no trigger exists for this"</td></tr>
+            <tr><td><strong>Professional Services</strong></td><td>Build work: apps, extensions, integration implementation</td></tr>
+            <tr><td><strong>Customer Success Manager</strong></td><td>Concurrency ceiling increases; marketplace approval; commercial framing</td></tr>
+          </tbody>
+        </table>
+        <div class="card warn">
+          <h4>Confirm the real routing internally</h4>
+          <p style="margin-bottom:0">The table above is a sensible default built from what the platform documents, <strong>not</strong> from VibeIQ's actual internal process — which is not public. In your first weeks, establish: the real escalation path and tooling, the practical TAM/Support/PS/Engineering/Product boundary, who owns integration builds (PS or the customer), and what severity definitions and response expectations exist. Until you know, say "let me route this correctly" rather than guessing and creating a false expectation about timing.</p>
+        </div>
+
+        <h3>Concept 7 — Holding the customer while it's open</h3>
+        <p>The technical work is half the job. The other half is that a customer with an open incident is anxious, usually accountable to someone else, and judging you on communication rather than diagnosis.</p>
+        <ul>
+          <li><strong>Separate what you know from what you suspect</strong>, explicitly and every time. "Confirmed: the publish happened. Suspected: their consumer skipped the delete file. Unknown: why it skipped."</li>
+          <li><strong>Commit to a next update time, not a resolution time.</strong> "I'll come back by 4pm with what I've found" is keepable. "It'll be fixed today" usually isn't.</li>
+          <li><strong>Give them something to do</strong> where you can — preserve an export, pause a load, note affected style numbers. Agency reduces anxiety.</li>
+          <li><strong>Say the impact back to them</strong> in their terms: "so this blocks Thursday's line review for the outlet assortment" tells them you understand what actually matters.</li>
+          <li><strong>Close the loop with the mechanism</strong>, not just "fixed." The explanation is what stops a repeat and is what they'll repeat to their leadership.</li>
+        </ul>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Never answer "who's wrong?" — the question Summit Athletic's PLM lead asked in Week 3. Answer "here's what happened and here's what we change." Adjudicating blame between a customer's teams costs you the neutrality that makes you useful to both, and it is never the question they actually need answered.</p>
+        </div>
+
+        <hr class="divider">
+
+        <h3>Practical exercise</h3>
+        <div class="card">
+          <p style="margin-bottom:0">Write your <strong>one-page triage card</strong>, from memory first and then checked: the six checkpoints, the universal question set, the three ladders in outline, and the symptom-shape table. Then test it — take three scenarios from earlier modules (Week 2's copy-down clobber, Week 4's three-symptom load, Week 6's concurrency race) and confirm your card would have routed each correctly without you already knowing the answer. Fix whatever it misses.</p>
+        </div>
+
+        <h3>Realistic customer scenario — a live incident</h3>
+        <div class="card">
+          <p><strong>Summit Athletic.</strong> Thursday 09:40. The VP of Product calls you directly — not the usual channel — and you have a line review at 14:00 that this affects.</p>
+          <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"The SS27 outlet assortment is a mess. Some styles show last season's pricing. A few styles the team definitely cut are back. And two of our merchandisers say they can't edit the margin field at all now, which they could on Monday. We did do a big data load Tuesday night, and I think IT installed something last week. I need this right for 2pm."</p>
+          <p>You have: Admin Console access, the customer's Loader configs, their app version history, and their integration engineer available on Slack.</p>
+          <p style="margin-bottom:0">Produce: (1) your <strong>first three actions in the first ten minutes</strong>, and why those three; (2) which checkpoint each of the three symptoms most likely sits at, and the evidence you'd pull for each; (3) which symptoms are plausibly <strong>one</strong> root cause and which are certainly separate, with reasoning; (4) what you tell the VP at <strong>10:00</strong>, given you will not know the answer yet; (5) what you would do to make the 14:00 review survivable even if the root cause isn't fixed; and (6) the escalation you'd file if you're not converging by 11:30 — written out, with the fields from Concept 6.</p>
+        </div>
+
+        <h3>Quiz</h3>
+        <div class="q">
+          <ol class="quiz">
+            <li>State the localisation rule. Why is proposing a cause early expensive?</li>
+            <li>Name the six checkpoints. Which do you check first, and why does that beat walking the pipeline in order?</li>
+            <li>Give the six universal questions. Translate two of them into a merchandiser's language.</li>
+            <li>Run Ladder B from memory. At which step do you jump if a process already exists?</li>
+            <li>What does it mean when a workflow process is <code>COMPLETE</code> but nothing happened?</li>
+            <li>Why is "if you retry, does the same record fail?" such a high-yield question?</li>
+            <li>A problem started on a specific date and "nothing changed." Name three things that change without anyone changing them.</li>
+            <li>What evidence exists, and what is its lifetime? What must you establish before promising root cause on an old problem?</li>
+            <li>Name the six elements of a good escalation. Which is most often omitted, and what does omitting it cost?</li>
+            <li>Why should you never answer "who's wrong?", and what do you answer instead?</li>
+          </ol>
+        </div>
+
+        <h3>Hands-on challenge</h3>
+        <div class="card">
+          <p style="margin-bottom:0">Assemble the <strong>full account-inheritance kit</strong> — the artefacts built across this program: the Week 2 data-model health check, Week 3 publish integration review, Week 4 pre-load checklist, Week 5 integration design review, Week 6 workflow review, Week 7 routing guide, Week 8 security response kit, and this module's triage card. Put them in one document with a one-paragraph note on when each is used. This is the thing you actually carry into the job, and the capstone assumes you have it.</p>
+        </div>
+
+        <div class="outcome">
+          <h4>I know this when I can…</h4>
+          <ul>
+            <li>Localise before theorising, and bisect at CP3 by reflex.</li>
+            <li>Run all three ladders from memory.</li>
+            <li>Name a class of cause from symptom shape alone, before looking at any data.</li>
+            <li>Anchor every claim to a named piece of evidence, and know when that evidence has expired.</li>
+            <li>Write an escalation an engineer can act on in minutes.</li>
+            <li>Hold an anxious customer through an open incident without over-promising or assigning blame.</li>
           </ul>
         </div>
-        <p class="foot">Modules are written one at a time, grounded in the official Contrail documentation. Nothing here is gated — browse ahead whenever it is useful.</p>
+
+        <details>
+          <summary>How to submit</summary>
+          <p>Answer the quiz and the live incident in our chat. The incident is deliberately time-pressured and under-specified, with symptoms that are probably not one cause — parts 4 and 5 (what you say at 10:00, and making the review survivable regardless) matter as much as the diagnosis.</p>
+        </details>
+        <p class="foot">Module 9 · a synthesis of Weeks 2–8. Escalation routing is a sensible default built from the platform's own structure; confirm VibeIQ's actual internal process in your first weeks.</p>
       </section>
 
       <section class="view" id="view-m10">
@@ -2330,6 +2594,26 @@ visibility: public            # marketplace candidate</code></pre>
             <tr><td>"The app stopped working after we did nothing"</td><td>A runtime deprecation — check <code>nodeRuntime</code> in the manifest</td><td>8</td></tr>
           </tbody>
         </table>
+
+        <h3>1b · Symptom <em>shape</em> → class of cause</h3>
+        <p>Before looking at content, look at distribution. How a problem spreads across records and time narrows the cause faster than any detail about the records themselves. <span class="pill p-nice">Wk 9</span></p>
+        <table>
+          <thead><tr><th>Shape</th><th>Class of cause</th><th>Go straight to</th></tr></thead>
+          <tbody>
+            <tr><td>Intermittent, load-correlated, different records each time</td><td>Concurrency race</td><td><code>parallelWorkerCount</code> and message grouping</td></tr>
+            <tr><td>Consistent, silent, every record of a kind</td><td>Configuration</td><td>Property level, formula slug, rule set, mapping</td></tr>
+            <tr><td>Part of a batch but not the rest</td><td>Create vs. update divergence</td><td>Conditionals using <code>oldData</code>; which rows were new</td></tr>
+            <tr><td>Started on a date, "nothing changed"</td><td>A deploy, a config promotion, or an expiry</td><td>App version, <code>types loadAll</code>, runtime deprecation</td></tr>
+            <tr><td>Sporadic missing records, unreproducible</td><td>Integration seam</td><td>Polling window construction; missed events</td></tr>
+            <tr><td>Correct at write, wrong later</td><td>Recalculation or copy-down</td><td>Formula timing; a Family reload</td></tr>
+            <tr><td>Only some users see it</td><td>Permission or client-side rules</td><td>Type / Type Property Policies; rule set criteria</td></tr>
+            <tr><td>Everything slow, nothing broken</td><td>Shared capacity</td><td>The 60-process org ceiling; what else ran</td></tr>
+          </tbody>
+        </table>
+        <div class="card keystone">
+          <h4>The highest-yield question in troubleshooting</h4>
+          <p style="margin-bottom:0"><strong>"If you retry, does the <em>same</em> record fail?"</strong> Same record → logic or configuration. Different record → timing or concurrency. Two words of answer eliminate half the possibility space, and customers never volunteer it. <span class="pill p-nice">Wk 9</span></p>
+        </div>
 
         <h3>2 · Failures that produce no error</h3>
         <p>The dangerous class. Nothing is logged, every status says success, and the damage surfaces weeks later — usually in front of someone senior.</p>
@@ -2422,7 +2706,7 @@ visibility: public            # marketplace candidate</code></pre>
 
         <h3>6 · The reframes that change how you think</h3>
         <div class="card keystone">
-          <h4>Seven sentences worth carrying</h4>
+          <h4>Nine sentences worth carrying</h4>
           <ol style="margin-bottom:0">
             <li><strong>VibeIQ displaces Miro, Excel and PowerPoint — not PLM.</strong> The strongest answer to "isn't this overlap?", because it names what the customer is actually doing today. <span class="pill p-nice">Wk 1</span></li>
             <li><strong>Publish is not "send to PLM."</strong> It is first an internal commit from Plan to Assortment. A publish can succeed while the downstream sync fails — two investigations, two owners. <span class="pill p-nice">Wk 3</span></li>
@@ -2430,11 +2714,13 @@ visibility: public            # marketplace candidate</code></pre>
             <li><strong>The integration <em>is</em> a workflow.</strong> Publish events are delivered by an Event Workflow, so integration debugging and workflow debugging are one skill. <span class="pill p-nice">Wk 5 · 6</span></li>
             <li><strong>The data model is in the payload.</strong> The baseline exposes <code>.item</code>, <code>.item.itemFamily</code> and <code>.projectItem</code> — so downstream mapping is a data-model decision, not plumbing. <span class="pill p-nice">Wk 2 · 5</span></li>
             <li><strong>The valuable answer isn't yes or no — it's "that's possible, and here's what it costs to own."</strong> A rule set is a Tuesday afternoon. An extension is a hosted service with an on-call rota. <span class="pill p-nice">Wk 7</span></li>
+            <li><strong>Localise before theorising, and bisect rather than walk.</strong> Ask "which segment is this in?" before "why is this happening?" — then check the entity itself first, because it splits the pipeline in half. <span class="pill p-nice">Wk 9</span></li>
+            <li><strong>Never answer "who's wrong?"</strong> Answer "here's what happened, and here's what we change." Adjudicating blame between a customer's teams costs the neutrality that makes you useful to both. <span class="pill p-nice">Wk 3 · 9</span></li>
             <li><strong>"I don't know, I'll find out by Thursday" is a strong answer</strong> — when it is specific and it is kept. Bluffing a compliance answer is unrecoverable: security teams verify, and being wrong once means everything else you say gets checked. <span class="pill p-nice">Wk 8</span></li>
           </ol>
         </div>
 
-        <p class="foot">Collected across Modules 1–8. Updated as later modules are written. Every claim here is sourced from official Contrail documentation or explicitly marked as unverified in §4.</p>
+        <p class="foot">Collected across Modules 1–9. Updated as later modules are written. Every claim here is sourced from official Contrail documentation or explicitly marked as unverified in §4.</p>
       </section>
 
       <!-- ================= PRIORITY MATRIX ================= -->

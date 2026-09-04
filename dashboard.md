@@ -34,7 +34,7 @@
 | 6 | Event Workflows | 📖 Ready to read | — | — | — |
 | 7 | Apps, Extensions & the config/customization boundary | 📖 Ready to read | — | — | — |
 | 8 | Platform, security & operations | 📖 Ready to read | — | — | — |
-| 9 | Troubleshooting & escalation methodology | ⬜ | — | — | — |
+| 9 | Troubleshooting & escalation methodology | 📖 Ready to read | — | — | — |
 | 10 | Applied TAM practice: discovery, reviews, QBRs | ⬜ | — | — | — |
 
 ---
@@ -58,7 +58,7 @@
 | Auth, rate limits, error codes, webhook security | 🟠 | 🔴 |
 | Formulas / validation / rule sets / blueprints | 🟠 | 🔴 |
 | End-user apps (Boards/Plan/Showcase/Admin) | 🟠 | 🔴 |
-| Troubleshooting methodology | 🟠 | 🔴 |
+| Troubleshooting methodology | 🔴 | 🔴 |
 | AI capabilities (GA vs roadmap) | 🟠 | 🔴 |
 | SDK / CLI mechanics | 🟡 | 🔴 |
 | App manifest / marketplace / lifecycle | 🟡 | 🔴 |
