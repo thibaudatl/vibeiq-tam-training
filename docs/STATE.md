@@ -84,6 +84,16 @@ irreversible decisions and new unverified claims all belong there.
   the cause of the classic duplicate-records bug.
 - Property levels: Family / Option / All / Override. `All` has no copy-down.
 - Publish deletes do NOT accumulate across publishes; S3 links expire in 24h.
+- `shouldSkipAssortmentPublish` on a loader config bypasses the publish workflow
+  entirely: no change history, no AssortmentPublishChange, no `assortment|publish`
+  event. A successful load can be completely invisible downstream.
+- `partialAssortmentUpdate` defaults to FALSE, meaning REPLACE. A partial file
+  wipes everything not in it.
+- Loader validation is fail-fast; there are NO partial loads.
+- `failureArea` on LoaderProcess localises a failure in one field.
+- Docs URL note: the loader config and validation pages are at
+  /data_loading/loader_configuration/ and /data_loading/validation_and_errors/
+  (not the names implied by their nav titles).
 - Configuration promotes via `contrail types getAll`/`loadAll`; apps promote via
   publish/install. A full environment promotion is TWO mechanisms.
 - App identifier is global+immutable and app ownership is non-transferable. If an

@@ -92,6 +92,9 @@ _(populated as we go — running glossary)_
 - **LoaderProcess** — the async entity recording a load's status, config and logs. Ask for its ID.
 - **Preprocessing artefacts** — `loader-process-step-<Step Name>.json`, the rows/errors/warnings after each step.
 - **Morph transformer** — the general-purpose reshaper; powerful, and a maintainability risk when overused.
+- **failureArea** — LoaderProcess field: NONE / PARSING_CSV / VALIDATING_DATA / TRANSFORMING_DATA. Read it first.
+- **shouldSkipAssortmentPublish** — loader flag that bypasses publish entirely; the load succeeds and downstream never hears.
+- **partialAssortmentUpdate** — defaults to false, which means *replace* the assortment, not merge into it.
 - **Attribute ownership map** — per attribute: authoritative system, direction, entity layer, property level, conflict rule.
 - **Baseline reconciliation** — scheduled comparison of downstream state against a fresh baseline; reports drift.
 - **Polling seam** — records lost or doubled at the window boundary; fixed by overlap + idempotency + data-derived timestamps.
