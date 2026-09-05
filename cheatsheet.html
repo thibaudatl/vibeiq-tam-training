@@ -1,0 +1,1183 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VibeIQ Exam Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+  :root{
+    --paper:#f6f4ef;
+    --panel:#ffffff;
+    --panel-2:#f0ede5;
+    --ink:#141a1f;
+    --ink-2:#3d4954;
+    --ink-3:#6d7a83;
+    --line:#e0dbd1;
+    --line-2:#c9c2b4;
+    --accent:#1d6e56;
+    --accent-ink:#0f4536;
+    --accent-soft:#e2f0ea;
+    --amber:#8f5c0d;
+    --amber-soft:#f7edd9;
+    --coral:#a83f26;
+    --coral-soft:#f8e6df;
+    --blue:#1a5a94;
+    --blue-soft:#e3edf7;
+    --code-bg:#1c242b;
+    --code-ink:#dfe6e2;
+    --shadow:0 1px 2px rgba(20,26,31,.05);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#12171b;
+      --panel:#181f24;
+      --panel-2:#1e262c;
+      --ink:#e9eae5;
+      --ink-2:#b6bfc2;
+      --ink-3:#8a9599;
+      --line:#2b343b;
+      --line-2:#3c474e;
+      --accent:#63c39d;
+      --accent-ink:#8fd8b9;
+      --accent-soft:#16302a;
+      --amber:#d9a750;
+      --amber-soft:#33270f;
+      --coral:#e08363;
+      --coral-soft:#361e17;
+      --blue:#77b1e0;
+      --blue-soft:#152a3d;
+      --code-bg:#0d1216;
+      --code-ink:#d3ddd8;
+      --shadow:0 1px 2px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#12171b;
+    --panel:#181f24;
+    --panel-2:#1e262c;
+    --ink:#e9eae5;
+    --ink-2:#b6bfc2;
+    --ink-3:#8a9599;
+    --line:#2b343b;
+    --line-2:#3c474e;
+    --accent:#63c39d;
+    --accent-ink:#8fd8b9;
+    --accent-soft:#16302a;
+    --amber:#d9a750;
+    --amber-soft:#33270f;
+    --coral:#e08363;
+    --coral-soft:#361e17;
+    --blue:#77b1e0;
+    --blue-soft:#152a3d;
+    --code-bg:#0d1216;
+    --code-ink:#d3ddd8;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:"IBM Plex Sans","Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;
+  }
+  .page{max-width:1180px;margin:0 auto;padding:0 24px 90px}
+
+  /* ---------- masthead ---------- */
+  header.mast{padding:38px 0 22px;border-bottom:2px solid var(--ink)}
+  .kicker{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--accent-ink);margin:0 0 10px}
+  h1{font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif;font-weight:700;
+    font-size:clamp(34px,5vw,52px);line-height:1.02;letter-spacing:-.015em;margin:0 0 12px;
+    text-wrap:balance}
+  .standfirst{max-width:66ch;color:var(--ink-2);font-size:16.5px;margin:0 0 20px}
+  .standfirst em{font-style:italic;color:var(--ink)}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 26px;font-family:"IBM Plex Mono",monospace;
+    font-size:11.5px;color:var(--ink-3);letter-spacing:.04em}
+
+  /* ---------- jump bar ---------- */
+  nav.jump{position:sticky;top:0;z-index:20;background:var(--paper);
+    border-bottom:1px solid var(--line);padding:9px 0;margin-bottom:34px}
+  nav.jump ol{list-style:none;display:flex;gap:4px;overflow-x:auto;margin:0;padding:0 0 2px}
+  nav.jump a{display:block;white-space:nowrap;text-decoration:none;color:var(--ink-2);
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;padding:5px 9px;border-radius:5px;
+    border:1px solid transparent}
+  nav.jump a:hover,nav.jump a:focus-visible{background:var(--accent);color:#fff;outline:none}
+  nav.jump a b{color:var(--accent);font-weight:600;margin-right:5px}
+  nav.jump a:hover b,nav.jump a:focus-visible b{color:#fff}
+
+  /* ---------- sections ---------- */
+  section{margin:0 0 46px;scroll-margin-top:64px}
+  .shead{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line-2);
+    padding-bottom:7px;margin-bottom:18px}
+  .shead .num{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--accent);
+    font-weight:600;flex:0 0 auto}
+  .shead h2{font-family:"IBM Plex Sans Condensed",sans-serif;font-weight:700;font-size:23px;
+    letter-spacing:-.01em;margin:0;flex:1 1 auto;text-wrap:balance}
+  .shead .wk{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);
+    letter-spacing:.06em;flex:0 0 auto}
+  h3{font-family:"IBM Plex Sans Condensed",sans-serif;font-size:15.5px;font-weight:700;
+    letter-spacing:.01em;margin:26px 0 9px;color:var(--ink)}
+  h3:first-child{margin-top:0}
+  p{margin:0 0 12px;max-width:74ch}
+  .lead{color:var(--ink-2)}
+  ul{margin:0 0 12px;padding-left:19px;max-width:74ch}
+  li{margin:4px 0}
+  strong{font-weight:600}
+  code,.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.86em}
+  code{background:var(--panel-2);padding:.1em .38em;border-radius:4px;color:var(--ink)}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:22px}
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+
+  /* ---------- tables ---------- */
+  .tw{overflow-x:auto;margin:0 0 14px;border:1px solid var(--line);border-radius:6px;
+    background:var(--panel)}
+  table{border-collapse:collapse;width:100%;font-size:13.8px}
+  th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--panel-2);font-family:"IBM Plex Sans Condensed",sans-serif;
+    font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);
+    white-space:nowrap;border-bottom:1px solid var(--line-2)}
+  tbody tr:last-child td{border-bottom:0}
+  td.k{font-family:"IBM Plex Mono",monospace;font-size:12.5px;white-space:nowrap}
+  td.num,th.num{font-variant-numeric:tabular-nums;text-align:right}
+
+  /* ---------- notes ---------- */
+  .note{border-left:3px solid var(--line-2);background:var(--panel);padding:12px 16px;
+    margin:0 0 14px;border-radius:0 6px 6px 0}
+  .note p:last-child{margin-bottom:0}
+  .note .lbl{display:block;font-family:"IBM Plex Sans Condensed",sans-serif;font-size:11.5px;
+    letter-spacing:.09em;text-transform:uppercase;margin-bottom:5px}
+  .note.key{border-color:var(--accent);background:var(--accent-soft)}
+  .note.key .lbl{color:var(--accent-ink)}
+  .note.trap{border-color:var(--coral);background:var(--coral-soft)}
+  .note.trap .lbl{color:var(--coral)}
+  .note.warn{border-color:var(--amber);background:var(--amber-soft)}
+  .note.warn .lbl{color:var(--amber)}
+
+  pre{background:var(--code-bg);color:var(--code-ink);border-radius:7px;padding:13px 16px;
+    overflow-x:auto;font-size:12.8px;line-height:1.5;margin:0 0 14px}
+  pre code{background:none;padding:0;color:inherit;font-size:inherit}
+
+  /* ---------- numbers strip ---------- */
+  .nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:1px;
+    background:var(--line);border:1px solid var(--line);border-radius:7px;overflow:hidden}
+  .nums div{background:var(--panel);padding:13px 14px}
+  .nums b{display:block;font-family:"IBM Plex Sans Condensed",sans-serif;font-size:27px;
+    line-height:1.05;color:var(--accent-ink);font-variant-numeric:tabular-nums}
+  .nums span{display:block;font-size:12.5px;color:var(--ink-2);margin-top:4px}
+
+  /* ---------- pipeline ---------- */
+  .pipe{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+  .pipe .st{flex:1 1 150px;background:var(--panel);border:1px solid var(--line);
+    border-top:3px solid var(--line-2);border-radius:5px;padding:9px 11px}
+  .pipe .st b{display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;
+    color:var(--ink-3);letter-spacing:.06em;margin-bottom:3px}
+  .pipe .st span{font-size:13.5px;font-weight:500}
+  .pipe .st em{display:block;font-style:normal;font-family:"IBM Plex Mono",monospace;
+    font-size:11px;margin-top:5px;color:var(--ink-3)}
+  .pipe .st.p1,.pipe .st.p2{border-top-color:var(--amber)}
+  .pipe .st.p3,.pipe .st.p4,.pipe .st.p5{border-top-color:var(--accent)}
+
+  /* ---------- drill ---------- */
+  details.drill{border:1px solid var(--line);border-radius:6px;background:var(--panel);
+    padding:0 15px;margin:0 0 9px}
+  details.drill[open]{border-color:var(--line-2)}
+  details.drill summary{cursor:pointer;padding:11px 0;font-weight:500;list-style:none;
+    display:flex;gap:11px;align-items:baseline}
+  details.drill summary::-webkit-details-marker{display:none}
+  details.drill summary::before{content:"Q" counter(drill);counter-increment:drill;
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--accent);font-weight:600;
+    flex:0 0 auto}
+  details.drill summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;
+    border-radius:4px}
+  details.drill .ans{border-top:1px solid var(--line);padding:11px 0 13px;color:var(--ink-2);
+    font-size:14px}
+  details.drill .ans p{margin:0 0 8px}
+  details.drill .ans p:last-child{margin-bottom:0}
+  .drills{counter-reset:drill}
+
+  footer{border-top:1px solid var(--line);padding-top:18px;color:var(--ink-3);font-size:13px}
+  footer p{max-width:74ch}
+
+  @media (max-width:640px){
+    .page{padding:0 16px 70px}
+    .shead .wk{display:none}
+  }
+  @media print{
+    nav.jump{display:none}
+    body{background:#fff;font-size:10.5pt}
+    .page{max-width:none;padding:0}
+    section{break-inside:auto;margin-bottom:22px}
+    .note,.tw,.nums,details.drill{break-inside:avoid}
+    details.drill{border:0;padding:0}
+    details.drill[open] .ans,details.drill .ans{display:block}
+  }
+</style>
+
+</head>
+<body>
+<p style="max-width:1180px;margin:0 auto;padding:16px 24px 0;font:500 13px/1.5 system-ui,sans-serif"><a href="index.html" style="color:#1d6e56;text-decoration:none">&larr; Retour au hub de formation</a></p>
+<div class="page">
+
+<header class="mast">
+  <p class="kicker">Fiche de révision · Contrail / VibeIQ</p>
+  <h1>VibeIQ Exam Kit</h1>
+  <p class="standfirst">Tout ce qui tombe à l'examen, condensé depuis les dix modules : le modèle
+  de données, le Loader, le publish, les workflows, et surtout les <em>échecs silencieux</em> —
+  ceux où le système répond « completed » alors que la donnée est perdue. C'est là que se joue
+  la moitié des questions.</p>
+  <div class="meta">
+    <span>Semaines 1 → 10</span>
+    <span>Source : docs.vibeiq.com</span>
+    <span>Terminologie EN conservée telle quelle</span>
+  </div>
+</header>
+
+<nav class="jump" aria-label="Sommaire">
+  <ol>
+    <li><a href="#positionnement"><b>01</b>Positionnement</a></li>
+    <li><a href="#vocabulaire"><b>02</b>Vocabulaire</a></li>
+    <li><a href="#modele"><b>03</b>Modèle de données</a></li>
+    <li><a href="#publish"><b>04</b>Publish</a></li>
+    <li><a href="#loader"><b>05</b>Loader</a></li>
+    <li><a href="#integration"><b>06</b>Intégrations</a></li>
+    <li><a href="#workflows"><b>07</b>Workflows</a></li>
+    <li><a href="#config"><b>08</b>Config &amp; Apps</a></li>
+    <li><a href="#ops"><b>09</b>Sécurité &amp; Ops</a></li>
+    <li><a href="#diagnostic"><b>10</b>Diagnostic</a></li>
+    <li><a href="#chiffres"><b>11</b>Chiffres</a></li>
+    <li><a href="#pieges"><b>12</b>Pièges silencieux</a></li>
+    <li><a href="#drill"><b>13</b>Drill</a></li>
+  </ol>
+</nav>
+
+<!-- 01 -->
+<section id="positionnement">
+  <div class="shead"><span class="num">01</span><h2>Où VibeIQ se situe</h2><span class="wk">Week 1</span></div>
+
+  <div class="note key">
+    <span class="lbl">La phrase à savoir réciter</span>
+    <p>VibeIQ est <strong>en amont du PLM</strong>, dans l'écart créatif-commercial où le produit
+    est encore <em>décidé</em> plutôt que développé. Il est <strong>à côté</strong> de
+    PLM/ERP/PIM/DAM, pas à leur place, et s'intègre en bidirectionnel avec eux.</p>
+  </div>
+
+  <p class="lead">Le calendrier GTM est la colonne vertébrale : trend → line planning → design →
+  <strong>line review</strong> → développement &amp; sourcing → sell-in → production. VibeIQ vit
+  dans la moitié haute ; tech packs, BOM, costing et POs appartiennent au PLM et à l'ERP.</p>
+
+  <div class="grid2">
+    <div>
+      <h3>Le paysage système</h3>
+      <div class="tw"><table>
+        <thead><tr><th>Système</th><th>Possède</th><th>Exemples</th></tr></thead>
+        <tbody>
+          <tr><td>PLM</td><td>Tech packs, BOM, costing, échantillons</td><td>Centric, FlexPLM, Backbone</td></tr>
+          <tr><td>ERP</td><td>POs, stock, finance</td><td>SAP, NetSuite, Oracle</td></tr>
+          <tr><td>PIM</td><td>Attributs commerce publiés</td><td>Akeneo, Salsify, inRiver</td></tr>
+          <tr><td>DAM</td><td>Assets maîtres</td><td>Bynder, Aprimo, AEM</td></tr>
+          <tr><td>Merch planning</td><td>OTB, clustering magasin</td><td>o9, Blue Yonder, Anaplan</td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>Ce que VibeIQ remplace réellement</strong> : Miro, Excel, PowerPoint — pas les
+      systèmes ci-dessus. Board ↔ Miro · Plan ↔ Excel · Showcase ↔ PowerPoint.</p>
+    </div>
+    <div>
+      <h3>Les trois apps et la plateforme</h3>
+      <ul>
+        <li><strong>Board</strong> — trend research, mood boards, direction créative.</li>
+        <li><strong>Plan</strong> — line planning. « Each row represents an actual product
+        record » : la grille est une <em>vue sur des entités</em>, pas un document.</li>
+        <li><strong>Showcase</strong> — line reviews ; reste vivant, le feedback retourne dans le
+        record produit.</li>
+      </ul>
+      <p>Dessous : Product Data Platform · Agent layer · Event &amp; workflow engine ·
+      Integration &amp; app platform (connecteurs, APIs, serveur MCP).</p>
+      <div class="note">
+        <span class="lbl">Marques</span>
+        <p><strong>Contrail</strong> = la sous-marque technique (docs développeur).
+        <strong>VibeIQ</strong> = la marque commerciale. Même produit.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section id="vocabulaire">
+  <div class="shead"><span class="num">02</span><h2>Le vocabulaire client</h2><span class="wk">Week 1</span></div>
+  <p class="lead">À connaître à froid : les clients l'emploient en permanence, et deux de ces
+  termes se mappent directement sur le modèle de données.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Terme</th><th>Sens</th><th>Conséquence technique</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Line</td><td>L'offre complète d'une saison</td><td>—</td></tr>
+      <tr><td class="k">Assortment</td><td>Sélection curatée pour un canal, une région, un client</td><td>Une line → plusieurs assortments</td></tr>
+      <tr><td class="k">Season</td><td>SS26, FW26, Holiday 26</td><td>≈ un Project</td></tr>
+      <tr><td class="k">Style</td><td>Le design (un hoodie)</td><td>= <strong>Family</strong></td></tr>
+      <tr><td class="k">Colourway</td><td>Le style dans une couleur</td><td>= <strong>Option</strong></td></tr>
+      <tr><td class="k">SKU</td><td>Le colourway dans une taille</td><td>Explosion volumétrique</td></tr>
+      <tr><td class="k">Line review</td><td>La réunion où l'assortment est coupé</td><td>Le moment que VibeIQ doit réussir</td></tr>
+      <tr><td class="k">OTB</td><td>Budget d'achat disponible</td><td>Contraint l'assortment</td></tr>
+      <tr><td class="k">Carryover</td><td>Style reconduit d'une saison</td><td>Même Item, nouveau ProjectItem</td></tr>
+      <tr><td class="k">Sell-in / sell-through</td><td>Vendre au buyer / au consommateur</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 03 -->
+<section id="modele">
+  <div class="shead"><span class="num">03</span><h2>Le modèle de données — le module clé</h2><span class="wk">Week 2</span></div>
+  <p class="lead">Presque toute escalade se résout ici : <strong>sur quelle entité est la valeur,
+  à quel property level, sous quel federatedId ?</strong></p>
+
+  <h3>Les trois couches</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Entité</th><th>Portée</th><th>Répond à</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Item</td><td>Org, indépendant de la saison</td><td>« C'est quoi ce produit, en général ? »</td></tr>
+      <tr><td class="k">ProjectItem</td><td>Un Project (≈ une saison)</td><td>« C'est quoi ce produit <em>pour SS26</em> ? »</td></tr>
+      <tr><td class="k">AssortmentItem</td><td>Un Assortment</td><td>« Est-il dans <em>cet</em> assortment, à quelles conditions ? »</td></tr>
+    </tbody>
+  </table></div>
+  <p>Imbrication stricte et à sens unique. D'où les règles de pairing du Loader :
+  <code>PROJECT_ITEM</code> « must be paired with <code>ITEM</code> » ; <code>ASSORTMENT</code>
+  doit être appairé avec <code>ITEM</code> et peut l'être avec <code>PROJECT_ITEM</code> — la
+  sélection charge les trois instances dans le même load.</p>
+
+  <h3>Property levels — Family, Option, All, Override</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Niveau</th><th>Comportement</th><th>Pour</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Family</td><td>Écrit sur la Family et <strong>copie vers le bas</strong> sur chaque Option</td><td>Catégorie, silhouette, description</td></tr>
+      <tr><td class="k">Option</td><td>Écrit uniquement sur l'Option</td><td>Code couleur, image d'option</td></tr>
+      <tr><td class="k">All</td><td>Géré individuellement partout — <strong>aucun copy-down</strong></td><td>Valeurs explicites sans héritage</td></tr>
+      <tr><td class="k">Override</td><td>Copy-down <em>mais</em> surchargeable au niveau Option</td><td>Prix, objectif de marge</td></tr>
+    </tbody>
+  </table></div>
+  <p>Suffixes de colonne CSV pour cibler le niveau : <code>somePropertyFamily</code>,
+  <code>somePropertyOption</code>.</p>
+
+  <div class="note trap">
+    <span class="lbl">Les trois échecs à reconnaître à vue</span>
+    <p><strong>1 · Mauvais niveau au design.</strong> Prix en <code>Family</code> au lieu
+    d'<code>Override</code> → impossible de faire payer plus cher un coloris. Le client dit
+    « le système ne nous laisse pas faire ».</p>
+    <p><strong>2 · Copy-down clobber.</strong> Un rechargement d'une propriété Family écrase les
+    saisies manuelles au niveau Option. Le client dit « nos données ont été réinitialisées cette
+    nuit ». <em>Le grand classique.</em></p>
+    <p><strong>3 · All vs Override.</strong> L'équipe attend un héritage, n'en a aucun, toutes les
+    options sont vides. Le client dit « le load n'a pas marché ».</p>
+  </div>
+
+  <h3>federatedId — la clé d'upsert</h3>
+  <p>« A value you provide which uniquely identifies the entity within an org. » Si l'entité
+  n'existe pas → créée ; si elle existe → mise à jour. Pour les Custom Entities uniquement, à
+  défaut de propriété désignée, <code>name</code> est utilisé.</p>
+  <div class="note trap">
+    <span class="lbl">Le bug d'intégration n°1 de la plateforme</span>
+    <p>Les entités créées <strong>dans les apps par des utilisateurs n'ont pas de
+    federatedId</strong>. Un client pilote à la main, branche ensuite un flux Loader clé sur le
+    style number : tout se charge en <em>nouveau</em>, aucune erreur, ils ont deux de chaque.</p>
+    <p>Question de second ordre à poser sur chaque compte : <strong>d'où vient le federatedId ?</strong>
+    S'il dérive d'une valeur métier mutable (un style number renuméroté), la clé d'upsert change
+    et vous récoltez des orphelins. Une clé stable et dénuée de sens vaut mieux qu'une clé parlante.</p>
+  </div>
+
+  <h3>Projects, Assortments, owners</h3>
+  <p>Un <strong>Project</strong> est le conteneur saison (dossiers imbriqués, plans, assortments,
+  showcases, boards). Un <strong>Assortment</strong> peut exister seul ou avoir un owner — d'où
+  les load types <code>ASSORTMENT</code>, <code>PLAN</code>, <code>BOARD</code>,
+  <code>SHOWCASE</code>. <strong>Board, Plan et Showcase sont chacun adossés à un assortment</strong> :
+  trois vues sur le même type d'objet, c'est pourquoi un produit passe du mood board au line plan
+  sans être recréé.</p>
+</section>
+
+<!-- 04 -->
+<section id="publish">
+  <div class="shead"><span class="num">04</span><h2>Le publish lifecycle</h2><span class="wk">Week 3</span></div>
+  <div class="pipe">
+    <div class="st p1"><b>1</b><span>Édition dans un Plan</span></div>
+    <div class="st p2"><b>2</b><span>Adoption images / couleurs / attributs</span></div>
+    <div class="st p3"><b>3</b><span>Un utilisateur déclenche <em>publish</em></span></div>
+    <div class="st p4"><b>4</b><span>Les lignes du Plan descendent dans l'Assortment<em>commit interne</em></span></div>
+    <div class="st p5"><b>5</b><span>Création d'un <code>AssortmentPublishChange</code></span></div>
+  </div>
+  <div class="note key">
+    <span class="lbl">L'étape que tout le monde saute</span>
+    <p>L'étape 4. <strong>Publish n'est pas « envoyer au PLM »</strong> : c'est d'abord un commit
+    interne du Plan vers l'Assortment. L'intégration aval n'est qu'un <em>consommateur</em> du
+    record produit par ce commit. Un publish peut donc réussir pendant que la synchro aval
+    échoue — deux enquêtes distinctes.</p>
+  </div>
+
+  <h3>Anatomie d'un AssortmentPublishChange</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Champ</th><th>Contenu</th></tr></thead>
+    <tbody>
+      <tr><td class="k">assortmentBaselineDownloadLink</td><td>URL S3 — état complet de l'assortment au moment du publish</td></tr>
+      <tr><td class="k">deleteDataDownloadLink</td><td>URL S3 — uniquement les items retirés <em>dans ce publish</em></td></tr>
+      <tr><td class="k">detail</td><td><code>adds</code>, <code>updates</code>, <code>deletes</code>, <code>familyItemsRemoved</code></td></tr>
+    </tbody>
+  </table></div>
+  <p>Le baseline répond à « qu'est-ce qui est vrai maintenant » ; le detail à « qu'est-ce qui a
+  changé cette fois ». Un consommateur sérieux a besoin des deux : le detail pour l'efficacité,
+  le baseline pour la reprise.</p>
+
+  <div class="note trap">
+    <span class="lbl">Les deux règles qui causent des incidents</span>
+    <p><strong>Les deletes ne s'accumulent pas.</strong> Chaque change ne contient que les
+    suppressions de <em>son</em> publish. Rater le publish #15 = avoir raté ces suppressions
+    définitivement. Seul remède : re-baseliner.</p>
+    <p><strong>Les liens S3 expirent au bout de 24 h.</strong> Re-fetcher l'objet change
+    régénère les liens. <strong>Stockez l'ID du change, jamais l'URL.</strong></p>
+  </div>
+</section>
+
+<!-- 05 -->
+<section id="loader">
+  <div class="shead"><span class="num">05</span><h2>Le Loader</h2><span class="wk">Week 4</span></div>
+  <p class="lead">Un <code>LoaderProcess</code> est une <strong>entité asynchrone</strong> : statut,
+  configuration utilisée, logs, métadonnées. Le créer met le travail en file. Donc un load est
+  inspectable et comparable, pas une commande qu'on lance et qu'on oublie.</p>
+
+  <div class="grid2">
+    <div>
+      <h3>Les deux champs de diagnostic</h3>
+      <ul>
+        <li><code>failureArea</code> — <strong>à lire en premier</strong>. Quatre valeurs :
+        <code>NONE</code>, <code>PARSING_CSV</code>, <code>VALIDATING_DATA</code>,
+        <code>TRANSFORMING_DATA</code>. Un seul champ localise la panne sur un quart du pipeline.</li>
+        <li><code>preprocessingStepResults</code> — un tableau d'IDs de fichiers, un par étape.
+        Chaque fichier <code>loader-process-step-&lt;Step Name&gt;.json</code> contient
+        <strong>rows, errors, warnings</strong>. <em>Diffez deux étapes consécutives et l'étape
+        fautive est sans ambiguïté.</em></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Les cinq phases</h3>
+      <div class="tw"><table>
+        <thead><tr><th class="num">#</th><th>Phase</th><th>failureArea</th></tr></thead>
+        <tbody>
+          <tr><td class="num">1</td><td>CSV parsing</td><td class="k">PARSING_CSV</td></tr>
+          <tr><td class="num">2</td><td>Validation</td><td class="k">VALIDATING_DATA</td></tr>
+          <tr><td class="num">3</td><td>Preprocessing</td><td class="k" rowspan="3">TRANSFORMING_DATA</td></tr>
+          <tr><td class="num">4</td><td>Entity construction</td></tr>
+          <tr><td class="num">5</td><td>Upsert API par federatedId</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="note key">
+    <span class="lbl">Fail-fast — aucun load partiel</span>
+    <p>« If validation produces any errors, the load stops immediately with a
+    <code>VALIDATING_DATA</code> failure area. » Les <strong>erreurs arrêtent</strong>, les
+    <strong>warnings laissent continuer</strong>, et <strong>« no partial loads occur »</strong>.
+    Conséquence : on corrige et on relance, il n'y a pas de réconciliation à faire. Corollaire
+    tout aussi utile : un load « completed » a réellement tout appliqué — si la donnée est fausse
+    après, la cause est la transformation ou la configuration, pas un job à moitié fini.</p>
+  </div>
+
+  <h3>Taxonomie d'erreurs</h3>
+  <p><code>CONFIG</code> · <code>HEADER_MISMATCH</code> · <code>INVALID_DATA</code> ·
+  <code>VALIDATION_ERROR</code> · <code>DUPLICATE_FEDERATED_ID</code> · <code>SYSTEM_ERROR</code>.
+  Issue au niveau ligne : <code>{rowNumber, columnIssues:[{columnName, message, issueType, data}]}</code>.
+  Au niveau fichier/config : <code>{message, issueType}</code>, sans numéro de ligne.</p>
+
+  <h3>Les six étapes de preprocessing</h3>
+  <div class="tw"><table>
+    <thead><tr><th class="num">#</th><th>Étape</th><th>Effet</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td>Boolean conversion</td><td>Les strings <code>"true"</code>/<code>"false"</code> deviennent des booléens</td></tr>
+      <tr><td class="num">2</td><td>federatedMappings</td><td>Colonne source → propriété cible, ou littéral appliqué à toutes les lignes</td></tr>
+      <tr><td class="num">3</td><td>propertiesToRemove</td><td>Supprime les colonnes listées</td></tr>
+      <tr><td class="num">4</td><td>Type transformations <strong>sans warnings</strong></td><td>Label→slug, libellé→valeur pour les option sets</td></tr>
+      <tr><td class="num">5</td><td>conditionalColumns</td><td>Crée/écrase des colonnes ; interpolation <code>{colonne}</code> et expressions JS</td></tr>
+      <tr><td class="num">6</td><td>Type transformations <strong>avec warnings</strong></td><td>Rejoue l'étape 4 et rapporte cette fois</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trap">
+    <span class="lbl">Le trou entre 4 et 6</span>
+    <p>L'étape 4 normalise <em>en silence</em> pour que l'étape 5 travaille sur des valeurs
+    propres ; l'étape 6 rejoue et rapporte. Donc <strong>une valeur altérée en 4 puis écrasée en
+    5 ne produit jamais aucun warning</strong>. Valeur incohérente avec le CSV et aucun warning
+    nulle part → suspectez l'interaction 4/5/6 et lisez les artefacts au lieu de raisonner.</p>
+  </div>
+
+  <h3>Configuration — les champs</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Champ</th><th>Requis</th><th>Rôle</th></tr></thead>
+    <tbody>
+      <tr><td class="k">loadType</td><td>oui</td><td><code>ITEM</code>, <code>PROJECT_ITEM</code>, <code>ASSORTMENT</code>, <code>COLOR</code>, <code>CUSTOM_ENTITY</code>, <code>SIZE_RANGE_TEMPLATE</code>. <strong>Seul <code>ITEM</code> se combine</strong></td></tr>
+      <tr><td class="k">fileLocation</td><td>API/SDK</td><td>ID de l'entité File uploadée ; posé automatiquement par la CLI</td></tr>
+      <tr><td class="k">federatedMappings</td><td>non</td><td>Propriété cible → colonne source</td></tr>
+      <tr><td class="k">conditionalColumns</td><td>non</td><td><code>{toProperty, fromProperty?, conditions?, default?}</code> — <strong>first match wins</strong></td></tr>
+      <tr><td class="k">propertiesToRemove</td><td>non</td><td>Colonnes à supprimer</td></tr>
+      <tr><td class="k">workspaceIdentifier</td><td>avec PROJECT_ITEM</td><td>L'<code>identifier</code> du projet</td></tr>
+      <tr><td class="k">assortmentSplit</td><td>avec ASSORTMENT</td><td>Route les lignes par valeur de colonne</td></tr>
+      <tr><td class="k">partialAssortmentUpdate</td><td>non</td><td>Défaut <code>false</code> — voir les quatre flags</td></tr>
+      <tr><td class="k">shouldSkipAssortmentPublish</td><td>non</td><td>Défaut <code>false</code> — voir les quatre flags</td></tr>
+      <tr><td class="k">loaderConfigurationId</td><td>non</td><td>Config YAML/JSON pré-uploadée, réutilisable</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Les quatre flags qui changent la nature du load</h3>
+  <div class="note trap">
+    <span class="lbl">1 · shouldSkipAssortmentPublish — le plus dangereux</span>
+    <p>À <code>true</code>, l'écriture va <strong>directement en base, en contournant le publish
+    workflow</strong> : pas de change history, pas de recalcul de summary, pas de mise à jour des
+    composite assortments, et <strong>pas d'événement <code>assortment|publish</code></strong>.
+    Le load réussit, VibeIQ est correct, le PLM est périmé indéfiniment, rien nulle part ne
+    signale de problème. Usage légitime : backfill à gros volume sans historique. Le vrai
+    problème : il est posé « juste pour la migration » et reste dans une config réutilisable pour
+    toujours. <strong>Vérifiez-le avant d'accuser le consommateur.</strong></p>
+  </div>
+  <div class="note warn">
+    <span class="lbl">2 · partialAssortmentUpdate — un défaut qui supprime</span>
+    <p>Défaut <code>false</code> = <strong>remplacement</strong>. Sémantique du load complet :
+    items du CSV absents de l'assortment → ajoutés ; présents des deux côtés → mis à jour ;
+    identiques → inchangés ; <strong>« assortment items not in CSV → deleted »</strong>. Envoyer
+    seulement les 40 styles modifiés ne met pas 40 items à jour : il ne reste <em>que</em> ces 40.
+    Le load rapporte un succès. À <code>true</code>, colonnes booléennes <code>addField</code> /
+    <code>dropField</code> ; un « add » sur un item existant est traité comme un update.</p>
+  </div>
+  <div class="note warn">
+    <span class="lbl">3 · assortmentSplit — la perte silencieuse</span>
+    <p>Groupe les lignes par <code>fieldToSplitOn</code> et mappe chaque groupe à un assortment.
+    <strong>« Rows with values not matching any entry are skipped »</strong> — skipped, pas
+    errored. Une nouvelle valeur de catégorie, une faute de frappe, un espace en fin de chaîne, et
+    ces lignes ne se chargent jamais pendant que le job annonce un succès.</p>
+  </div>
+  <div class="note">
+    <span class="lbl">4 · workspaceIdentifier — et un vrai trou UI</span>
+    <p>Requis dès que <code>loadType</code> contient <code>PROJECT_ITEM</code>, « even when also
+    loading assortments ». Vocabulaire : <strong>un « project » dans l'UI est un
+    <code>workspace</code> avec <code>workspaceType: 'PROJECT'</code> dans l'API</strong>. Le
+    piège : l'identifier « is not editable in the Hub UI; it must be set via direct
+    <code>PUT</code> request » — un admin ne peut pas le corriger en cliquant.</p>
+  </div>
+
+  <h3>Family / Option dans un CSV</h3>
+  <p><strong>Chaque ligne représente typiquement une option.</strong> Les lignes partageant un
+  <code>itemFamilyFederatedId</code> deviennent les options d'une même famille, et
+  <strong>le loader crée la famille parente automatiquement</strong>. Une ligne <em>avec</em>
+  <code>itemOptionFederatedId</code> est une option ; sans, c'est une famille seule.
+  <code>name</code> = nom de famille, <code>optionName</code> = nom de l'option,
+  <code>typePath</code> obligatoire sur <em>chaque</em> ligne (souvent via conditionalColumn),
+  <code>optionGroup</code> = l'axe (ex. <code>color</code>).</p>
+  <pre><code>style,styleName,colorName          → "federatedMappings": {
+SH-4471,Tech Fleece Hoodie,Black       "itemFamilyFederatedId": "style",
+SH-4471,Tech Fleece Hoodie,Navy        "itemOptionFederatedId": "colorName",
+SH-4471,Tech Fleece Hoodie,Gold        "name":                  "styleName",
+SH-9902,Trail Short,Black              "optionName":            "colorName"
+                                     }
+3 lignes → 1 famille (SH-4471) avec 3 options, + 1 famille (SH-9902) avec 1 option.</code></pre>
+  <div class="note key">
+    <span class="lbl">L'exercice de cinq minutes</span>
+    <p>On lit le modèle de property levels d'un client directement sur son CSV : les colonnes qui
+    <strong>se répètent</strong> à l'intérieur d'une famille sont des propriétés
+    <strong>Family</strong> ; celles qui <strong>varient</strong> sont <strong>Option</strong> ;
+    celle qui est en général la même mais diffère parfois pour un coloris est
+    <strong>Override</strong>. Cinq minutes qui prédisent des années de tickets.</p>
+  </div>
+
+  <h3>Mécanique du federatedId, côté Loader</h3>
+  <ul>
+    <li><strong>« There is no configuration to say 'this column is my Federated ID'. »</strong>
+    Seule exception : Custom Entity (défaut <code>name</code>). Partout ailleurs, la valeur doit
+    arriver sous le bon nom de propriété — via <code>federatedMappings</code> ou un
+    <code>conditionalColumn</code>.</li>
+    <li>« It is critical to ensure that federatedId values do not change between loads. »</li>
+    <li>Les colonnes CSV non reconnues sont <strong>ignorées en silence</strong>.</li>
+    <li>La validation attrape les doublons <em>dans un fichier</em> ; rien n'attrape une dérive
+    <em>entre</em> deux fichiers.</li>
+    <li>Un ID <strong>calculé</strong> (<code>"{familyNumber}.split('-')[0]"</code>) hérite du
+    formatage du champ source comme dépendance cachée : <code>ABC-123</code> → <code>ABC_123</code>
+    et la clé d'upsert change pour toutes les lignes.</li>
+  </ul>
+
+  <h3>CLI vs API, et l'effet de dérive</h3>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>CLI</th><th>API / SDK</th></tr></thead>
+    <tbody>
+      <tr><td>Commande</td><td class="k">contrail load upload-and-load &lt;File&gt; &lt;Config&gt;</td><td>Upload, puis création du LoaderProcess</td></tr>
+      <tr><td>fileLocation</td><td>Automatique</td><td>À fournir</td></tr>
+      <tr><td>Configs stockées</td><td><strong>Indisponible</strong> — <code>loaderConfigurationId</code> non supporté</td><td>Supporté</td></tr>
+      <tr><td>Bon pour</td><td>Fichiers locaux, tests, one-off</td><td>Production, automatisation</td></tr>
+    </tbody>
+  </table></div>
+  <p>Comme la CLI ne peut pas utiliser de config stockée, elle passe une <em>copie locale</em> qui
+  dérive. Symptôme classique : « le même fichier se charge différemment selon qui le lance. »
+  Comparez la config enregistrée sur chaque <code>LoaderProcess</code> avant toute autre chose.</p>
+
+  <h3>Ce qu'un load fait à vos workflows</h3>
+  <p>La phase 5 fait des upserts, donc le load <strong>émet des événements ordinaires</strong> :
+  <code>item|create</code> pour les nouvelles lignes, <code>item|update</code> pour les
+  existantes, idem pour <code>project-item</code> et <code>assortment-item</code>. Un load de
+  20 000 lignes = 20 000 évaluations de trigger. <strong>Sauf</strong> que
+  <code>shouldSkipAssortmentPublish</code> supprime <code>assortment|publish</code> : les
+  workflows d'entité tirent, l'intégration sortante reste muette.</p>
+</section>
+
+<!-- 06 -->
+<section id="integration">
+  <div class="shead"><span class="num">06</span><h2>Intégrations — la donnée qui sort</h2><span class="wk">Week 5</span></div>
+  <div class="tw"><table>
+    <thead><tr><th>Critère</th><th>Change History Polling</th><th>Publish Events</th></tr></thead>
+    <tbody>
+      <tr><td>Déclenchement</td><td>Planifié (temps)</td><td>Événement (au publish)</td></tr>
+      <tr><td>Latence</td><td>Minutes à heures</td><td>Quasi temps réel</td></tr>
+      <tr><td>Complexité</td><td>Simple</td><td>Nécessite un endpoint webhook</td></tr>
+      <tr><td>État</td><td>Chez le consommateur (timestamp)</td><td>Dans la livraison</td></tr>
+      <tr><td><strong>Portée</strong></td><td><strong>Tout type d'entité</strong></td><td><strong>Publishes d'assortment uniquement</strong></td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>C'est la ligne « portée » qui décide de la plupart des architectures.</strong> Les
+  événements ne portent que les publishes ; un changement d'item qui ne publie jamais n'est pas
+  transporté. Beaucoup de clients font les deux : événements pour la latence, polling en filet.</p>
+
+  <h3>Authentification</h3>
+  <p>Base <code>https://api.vibeiq.com/prod/api</code>, en-têtes <code>X-Api-Key</code> et
+  <code>X-Api-Org</code>. Clés via <code>contrail app getApiKey</code>, format
+  <code>app:uEL7GCBZ7Xhd4w2z</code>. Erreurs : <code>401</code> (clé, expiration, mauvais org
+  slug) · <code>404</code> (absent <em>ou</em> accès refusé <em>ou</em> mauvais type d'entité —
+  <strong>ce n'est pas une preuve d'absence</strong>) · <code>429</code> (backoff, batch).</p>
+  <div class="note warn">
+    <span class="lbl">Ne jamais promettre un débit</span>
+    <p>La plateforme est « rate-limited to ensure system stability » mais les chiffres ne sont pas
+    publiés — limites supérieures via le support. (Le « 15 req/hour » qu'on trouve en ligne
+    concerne vibe.co, une autre société.)</p>
+  </div>
+
+  <h3>Le chemin événementiel</h3>
+  <pre><code>{ "assortmentId": "25uDvGNpYhZHw2nt", "assortmentPublishChangeId": "lTuARQLrhgWHNr3k" }</code></pre>
+  <p>Le payload est mince, et <strong>le mécanisme de livraison est un Event Workflow</strong> :
+  « l'événement n'est jamais arrivé » est donc une enquête de la semaine 7 (Process List, paths,
+  access grants, taskOutputs). Récupération :
+  <code>GET /assortments/{assortmentId}/history/{changeId}</code>.</p>
+  <p>Structure du baseline : <code>baselineData.assortmentItems[]</code> → <code>.item</code>,
+  <code>.item.itemFamily</code>, <code>.projectItem</code>. <strong>Les couches de la semaine 2
+  sont littéralement dans le payload</strong> : le mapping est une décision de modèle de données,
+  pas de la plomberie.</p>
+
+  <h3>Le polling et sa couture</h3>
+  <p><code>/api/change-history</code> avec <code>createdOn BETWEEN a AND b</code>. <strong>Un
+  filtre temporel n'est pas un curseur</strong> — trois causes d'échec :</p>
+  <ul>
+    <li><strong>Exclusivité des bornes</strong> — inclusif : double traitement ; exclusif : perte
+    des enregistrements du même instant.</li>
+    <li><strong>Écritures en vol</strong> — committées après l'exécution de la requête mais
+    horodatées avant la borne : perdues.</li>
+    <li><strong>Dérive d'horloge</strong> — un <code>now</code> calculé localement saute des
+    fenêtres.</li>
+  </ul>
+  <p>Quatre garde-fous : chevaucher la fenêtre (<code>lastSync − marge</code>) · traitement
+  idempotent · avancer le timestamp depuis le <strong>max <code>createdOn</code> retourné</strong>,
+  pas l'horloge locale · ne jamais avancer sur un échec partiel. Symptôme : quelques
+  enregistrements manquants, aucune erreur, non reproductible → allez lire le calcul de fenêtre,
+  pas la donnée.</p>
+
+  <h3>Consommateur résilient — six risques</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Risque</th><th>Réponse</th></tr></thead>
+    <tbody>
+      <tr><td>Liens S3 expirés à 24 h</td><td>Persister l'<strong>ID</strong> du change, re-fetcher</td></tr>
+      <tr><td>Deletes non cumulatifs</td><td>Tracer les change IDs traités ; sur un trou, re-baseliner</td></tr>
+      <tr><td>Indisponibilité</td><td>Réconcilier contre le baseline au redémarrage</td></tr>
+      <tr><td>429</td><td>Backoff exponentiel avec jitter, batch, cache</td></tr>
+      <tr><td>Livraison dupliquée</td><td>Écritures idempotentes clés sur entité + change</td></tr>
+      <tr><td>Échec partiel</td><td>Application transactionnelle ou journal reprenable</td></tr>
+    </tbody>
+  </table></div>
+  <p>L'habitude à recommander : <strong>réconciliation périodique contre un baseline frais</strong>,
+  qui <em>rapporte</em> les écarts au lieu de les corriger en silence.</p>
+
+  <h3>Sécurité des webhooks — deux directions</h3>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>Entrant (externe → VibeIQ)</th><th>Sortant (VibeIQ → externe)</th></tr></thead>
+    <tbody>
+      <tr><td>Endpoint</td><td class="k">POST /api/trigger-webhooks/{ID}</td><td>URL du client</td></tr>
+      <tr><td>Vérification</td><td><code>X-Verify-Signature</code>, <strong>optionnel</strong>, secret partagé</td><td>Clé API, <strong>HMAC</strong>, ou allowlist IP</td></tr>
+      <tr><td>Mise en place</td><td>CLI/API ; l'ID dans l'URL est un porteur de droit</td><td>« Configuration requires contacting VibeIQ support »</td></tr>
+    </tbody>
+  </table></div>
+  <p>Recommandez HMAC en sortant ; n'affirmez rien sur la robustesse de l'entrant. Le setup
+  sortant passe par le support → c'est un <strong>délai</strong> à inscrire au plan de projet.</p>
+
+  <div class="note key">
+    <span class="lbl">L'artefact qui évite les disputes</span>
+    <p>Une <strong>carte de propriété des attributs</strong> : pour chaque attribut, le système
+    faisant autorité, la direction, la couche d'entité VibeIQ, le property level, et la règle de
+    conflit. « Le PLM a écrasé notre objectif de marge » n'est pas un bug, c'est l'absence de ce
+    document.</p>
+  </div>
+</section>
+
+<!-- 07 -->
+<section id="workflows">
+  <div class="shead"><span class="num">07</span><h2>Event Workflows</h2><span class="wk">Week 6</span></div>
+  <p class="lead">« The main engine for reacting to system events and running apps. » Composés de
+  <strong>triggers, conditionals, actions</strong>, déclarés dans <code>app.yml</code> sous
+  <code>workflows:</code>. Propriétés : <code>identifier</code>, <code>name</code>,
+  <code>triggerKey</code>, <code>isActive</code>, <code>public</code>,
+  <code>parallelWorkerCount</code> (1–30, défaut 5), <code>messageGroupId</code>,
+  <code>messageGroup</code> + <code>dynamicMessageGroupId</code>, <code>crons</code>.</p>
+
+  <h3>Six catégories de trigger</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Catégorie</th><th>Forme</th></tr></thead>
+    <tbody>
+      <tr><td>Événements système</td><td class="k">{entityType}|{action} — item, project-item, assortment-item, plan-placeholder, custom-entity, comment, content</td></tr>
+      <tr><td>Manuel</td><td class="k">triggerKey: manual</td></tr>
+      <tr><td>Événement d'app custom</td><td class="k">'@{publisherOrgSlug}/{appName}:{EventName}'</td></tr>
+      <tr><td>Trigger key déclarée</td><td>Entité <code>external-event</code> avec <code>details.eventType</code></td></tr>
+      <tr><td>Planifié</td><td class="k">crons</td></tr>
+      <tr><td>Webhook</td><td class="k">triggerKey: "webhookId:WEBHOOK_ID"</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trap">
+    <span class="lbl">Le trigger qui n'existe pas</span>
+    <p><code>assortment</code> n'a <strong>que</strong> <code>assortment|publish</code>. Il n'y a
+    pas d'<code>assortment|update</code>. Toute exigence qui en suppose un doit être reconçue —
+    et c'est une cause fréquente de « le workflow ne s'est jamais déclenché ».</p>
+  </div>
+
+  <h3>Paths et conditionals</h3>
+  <p><code>workflowDefinition.paths</code> est <strong>ordonné</strong> : « only the first path
+  whose conditional evaluates to <code>true</code> is executed; the remaining paths are skipped ».
+  Ce sont des if/else-if, pas des règles indépendantes — un conditional trop large en haut de
+  liste rend tout le reste du code mort, silencieusement.</p>
+  <ul>
+    <li><code>{newData.&lt;slug&gt;}</code> — l'état après</li>
+    <li><code>{oldData.&lt;slug&gt;}</code> — l'état avant, <strong>absent sur les créations</strong></li>
+    <li><code>{propertyDiffs.&lt;slug&gt;.&lt;oldValue|newValue&gt;}</code></li>
+    <li><code>{changeObjects}</code> — pour les workflows de changement en masse</li>
+  </ul>
+  <div class="note warn">
+    <span class="lbl">Create vs update</span>
+    <p><code>{newData.x} !== {oldData.x}</code> ne se comporte pas pareil en création et en mise
+    à jour. Un load en masse crée des milliers d'entités d'un coup : le workflow notifie pour une
+    partie du fichier et pas pour le reste. Ça ressemble à un bug, ça n'en est pas un.</p>
+  </div>
+
+  <h3>Actions, grants, exécution</h3>
+  <p>Une action référence une clé des <code>actions</code> de l'app, avec un <code>config</code>
+  optionnel « merged with runtime context » — d'où le risque de promotion : un endpoint de
+  staging dans le <code>config</code> d'un workflow de production. Les <code>accessGrants</code>
+  bornent ce que les actions touchent : <code>read</code> (get, query) / <code>write</code>
+  (get, query, create, update, delete). <strong>Un workflow qui tourne sans rien faire est
+  souvent un grant manquant.</strong></p>
+  <div class="note key">
+    <span class="lbl">Une tâche à la fois, dans l'ordre</span>
+    <p>Chaque déclenchement crée un <em>process</em>, qui contient des <em>tasks</em>. « Only one
+    task runs at a time in a process, and tasks always run in order. If one task fails, none of
+    the subsequent tasks are run. » Les actions suivantes ne sont <strong>jamais exécutées</strong>,
+    pas « échouées ». Rangez l'action la plus risquée en dernier, et ne déduisez jamais qu'une
+    action tardive a tourné du simple fait que le process existe.</p>
+  </div>
+
+  <h3>Concurrence et message grouping</h3>
+  <ul>
+    <li><strong>Statique</strong> : <code>messageGroupId: X</code> + <code>parallelWorkerCount: 1</code>
+    → strictement un à la fois.</li>
+    <li><strong>Dynamique</strong> : <code>messageGroup</code> + <code>dynamicMessageGroupId:
+    'X-{newData.itemFamilyId}'</code> → même clé sérialisée, clés différentes en parallèle.</li>
+    <li>Défauts : 25 process concurrents par workflow, <strong>60 par organisation</strong>,
+    ajustable via le CSM.</li>
+  </ul>
+  <p>Deux leçons de terrain : le plafond org est <em>partagé</em>, donc un workflow bavard affame
+  les autres (« notre autre intégration est devenue lente mardi ») ; et augmenter
+  <code>parallelWorkerCount</code> sans grouping transforme une plainte de performance en
+  corruption de données.</p>
+
+  <h3>Cycle de vie et observabilité</h3>
+  <p><code>app.yml</code> → <code>contrail app publish</code> → Workflow Template Definitions →
+  <code>contrail workflow-template-definitions install</code> dans l'org. Donc
+  <strong>modifier un workflow est une release, pas un réglage.</strong></p>
+  <p>Admin Console → <strong>Process List</strong>, antichronologique. Statuts UI/API :
+  Pending/<code>PENDING</code>, Processing/<code>ACTIVE</code>, Awaiting/<code>AWAITING</code>,
+  Completed/<code>COMPLETE</code>, Failed/<code>FAILED</code>. Champs programmatiques :
+  <code>status</code>, <code>taskOutputs</code>, <code>triggerEvent</code>, <code>startTime</code>,
+  <code>endTime</code>.</p>
+  <div class="note trap">
+    <span class="lbl">La preuve a une durée de vie</span>
+    <p>« After 90 days, workflow logs (including the list of processes and tasks) are permanently
+    deleted. » Et surtout : <strong>« once deleted, the process list, task list, and logs for a
+    workflow is lost »</strong> — supprimer un workflow détruit la piste d'audit
+    <em>immédiatement</em>. <strong>Désactivez, ne supprimez pas.</strong></p>
+  </div>
+
+  <h3>L'échelle « pourquoi ça ne s'est pas déclenché ? »</h3>
+  <ol>
+    <li>Y a-t-il un process ? (aucun → le trigger n'a jamais matché ; oui → sautez à 5)</li>
+    <li><code>isActive</code>, installé dans cette org, depuis la version d'app attendue ?</li>
+    <li>Le bon <code>triggerKey</code> ? (classique : attendre <code>assortment|update</code>)</li>
+    <li>Le changement a-t-il émis cet événement ? (un load en masse émet <code>create</code>)</li>
+    <li>Quel path a tourné ? Lisez <code>triggerEvent</code>, évaluez de haut en bas.</li>
+    <li>Les actions ont-elles réussi ? <code>taskOutputs</code>. COMPLETE mais sans effet =
+    access grant ou mauvais <code>config</code>.</li>
+    <li>Intermittent et corrélé à la charge ? → concurrence, pas logique.</li>
+  </ol>
+</section>
+
+<!-- 08 -->
+<section id="config">
+  <div class="shead"><span class="num">08</span><h2>Configuration, apps, extensions</h2><span class="wk">Week 7</span></div>
+  <p class="lead">Un spectre, pas un binaire. Coût, délai de changement et besoin de compétences
+  montent ensemble.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Niveau</th><th>Quoi</th><th>Qui / comment</th></tr></thead>
+    <tbody>
+      <tr><td class="k">L0</td><td>Types &amp; properties</td><td>Admin</td></tr>
+      <tr><td class="k">L1</td><td>Formulas, rule sets, validation functions, blueprints</td><td>Config, sans déploiement</td></tr>
+      <tr><td class="k">L2</td><td>Workflows &amp; actions</td><td>Code, dans une app</td></tr>
+      <tr><td class="k">L3</td><td>Extensions</td><td>Code + UI hébergée</td></tr>
+      <tr><td class="k">L4</td><td>Systèmes externes</td><td>Hors plateforme</td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Question par défaut : quel est le barreau le plus bas qui résout vraiment le
+  problème ?</strong> Pas le plus bas dans l'absolu — une réponse L1 à un problème L2 est un
+  empilement fragile de formules.</p>
+
+  <div class="grid2">
+    <div>
+      <h3>Formulas — trois échecs silencieux</h3>
+      <ol>
+        <li><strong>Slug mal orthographié</strong> → <code>undefined</code>, aucune erreur.
+        Vérifiez chaque slug contre le Type réel avant de sauver.</li>
+        <li>« Updates to Reference Data does not cause Formulas to re-run » → juste au moment de
+        l'écriture, périmé pour toujours ensuite.</li>
+        <li>« On the Frontend, only Formulas in Plans are run » ; un seul niveau d'hydratation
+        d'objet.</li>
+      </ol>
+      <p>Timing : création + mise à jour ; les formules ProjectItem rejouent sur update de l'Item ;
+      <strong>un publish de Plan déclenche toutes les formules Item, ProjectItem et
+      AssortmentItem</strong>.</p>
+    </div>
+    <div>
+      <h3>Rule Sets</h3>
+      <p>Contrôlent <code>editable</code>, <code>required</code>, <code>optionSetValues</code>,
+      <code>minValue</code>/<code>maxValue</code>, <code>validationFunction</code> par slug selon
+      l'état de l'entité. Sémantique : <strong>tableau externe = OU</strong>, <strong>critères
+      internes = ET</strong>, <strong>« editability is locked wins »</strong>, les contraintes de
+      validation s'accumulent.</p>
+      <div class="note warn">
+        <span class="lbl">À confirmer en interne</span>
+        <p>Ils « evaluate client-side, affecting editor experience for all users ». Hypothèse de
+        travail : <strong>garde-fou UX, pas garantie d'intégrité</strong> — les écritures
+        Loader/API les contournent probablement. Ça change la conception de la validation pour
+        tout champ intégré.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Configuration Copy — la promotion d'environnement</h3>
+  <p><code>contrail types getAll</code> (export) / <code>contrail types loadAll</code> (import).
+  Onze catégories, arborescence YAML. Types clés sur <code>typePath</code> (<code>item:footwear</code>),
+  hiérarchies et policies sur <code>identifier</code>. Trois conséquences :</p>
+  <ul>
+    <li>La config est du texte → <strong>mettez-la en gestion de versions</strong>. La montée en
+    maturité la moins chère qui existe.</li>
+    <li>Export org entière, pas de cherry-pick → la promotion est massive, les environnements
+    dérivent sans discipline.</li>
+    <li><strong>Config et apps se promeuvent par deux mécanismes différents</strong>
+    (<code>types loadAll</code> vs publish/install d'app). Une promotion, c'est deux choses qui
+    doivent rester synchrones.</li>
+  </ul>
+
+  <h3>Apps — trois faits définitifs</h3>
+  <div class="note trap">
+    <span class="lbl">La mine commerciale</span>
+    <p>L'identifiant d'app est <strong>réservé globalement et non modifiable</strong> après
+    création (<code>org@domain/app-name</code>). Et : <strong>« the org that first creates an app
+    is the owner… App ownership can not be modified. »</strong> Si un intégrateur crée l'app dans
+    <em>son</em> org, le client ne pourra jamais la posséder ; le seul remède est une
+    reconstruction sous un nouvel identifiant. <strong>Posez la question avant que quiconque lance
+    <code>app create</code>.</strong></p>
+  </div>
+  <p>Visibilité dans <code>app.yml</code> : <code>private</code> (défaut) · <code>private</code> +
+  <code>accessGrants[{orgSlug, permissions:[install]}]</code> · <code>public</code>. Une fiche
+  marketplace publique demande une validation VibeIQ via le CSM.</p>
+
+  <h3>Extensions</h3>
+  <p>Manifeste : <code>identifier</code>, <code>name</code>, <code>userApps: [BOARDS, PLAN]</code>,
+  <code>display</code>, <code>iframeUrl</code>, <code>extensionType</code>. Trois types :
+  <code>DOCUMENT_AUTOMATION</code>, <code>CONTEXTUAL_ACTION</code>, <code>ADMIN_UTILITY</code>.
+  Affichage <strong>modal</strong> (dialogue centré, tâches focalisées) ou <strong>side-menu</strong>
+  (panneau à droite, outils d'inspection).</p>
+  <div class="note warn">
+    <span class="lbl">Ce que ça engage</span>
+    <p>Une extension exige un <strong>hébergement HTTPS public</strong> : c'est un service que le
+    client exploite — disponibilité, TLS, déploiements, astreinte. Quand ça tombe, les
+    utilisateurs déclarent une panne VibeIQ. Réglez la propriété de l'hébergement et la
+    supervision <em>avant</em> la mise en production.</p>
+  </div>
+
+  <h3>Table de routage</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Besoin</th><th>Réponse</th></tr></thead>
+    <tbody>
+      <tr><td>Valeur dérivée sur la même entité</td><td>Formula</td></tr>
+      <tr><td>Champ verrouillé / requis / limité selon l'état</td><td>Rule Set</td></tr>
+      <tr><td>« Quand X, fais Y »</td><td>Workflow</td></tr>
+      <tr><td>Envoyer ailleurs</td><td>Action de workflow / intégration</td></tr>
+      <tr><td>Les utilisateurs ont besoin d'un écran</td><td>Extension + conversation hébergement</td></tr>
+      <tr><td>BOM costing, POs</td><td><strong>Mauvais système</strong> (semaine 1)</td></tr>
+    </tbody>
+  </table></div>
+  <p>La phrase qui a de la valeur n'est pas « oui » ou « non », c'est <strong>« c'est possible, et
+  voilà ce que ça coûte de le posséder »</strong>.</p>
+</section>
+
+<!-- 09 -->
+<section id="ops">
+  <div class="shead"><span class="num">09</span><h2>Plateforme, sécurité, exploitation</h2><span class="wk">Week 8</span></div>
+  <div class="note key">
+    <span class="lbl">L'org est la frontière</span>
+    <p>Isolation, propriété, configuration et capacité sont toutes délimitées par l'org.
+    <strong>Un environnement n'est qu'une autre org</strong> — il n'existe aucune abstraction
+    d'environnement au-dessus. Donc dev/staging/prod est une <em>convention tenue par la
+    discipline</em>, et la promotion (deux mécanismes, aucune réconciliation) dérive en silence.</p>
+  </div>
+
+  <div class="grid2">
+    <div>
+      <h3>Les couches de permission</h3>
+      <div class="tw"><table>
+        <thead><tr><th>Couche</th><th>Contrôle</th></tr></thead>
+        <tbody>
+          <tr><td>Appartenance à l'org</td><td>Existence dans le tenant</td></tr>
+          <tr><td>App <code>accessGrants</code></td><td>Qui peut installer (seule permission : <code>install</code>)</td></tr>
+          <tr><td>Workflow <code>accessGrants</code></td><td>Types d'entités en read/write</td></tr>
+          <tr><td>Type Policies</td><td>READ, CREATE, UPDATE, DELETE</td></tr>
+          <tr><td>Type Property Policies</td><td>Restrictions au niveau propriété</td></tr>
+          <tr><td>Clés API</td><td>Accès machine, scopées app</td></tr>
+        </tbody>
+      </table></div>
+      <p>« VibeIQ n'a pas de modèle de permissions utilisateur » est <strong>faux</strong> : les
+      Type Policies existent et font partie des 11 catégories de Configuration Copy. Ce qui manque
+      est la documentation, pas la capacité. <em>Reste inconnu</em> : comment ces policies se
+      mappent sur des rôles nommés dans les apps.</p>
+    </div>
+    <div>
+      <h3>Credentials</h3>
+      <ul>
+        <li>Clés <code>app:…</code>, longue durée. Jamais dans le repo ; variables d'env ou
+        gestionnaire de secrets ; <strong>une clé par environnement</strong> ; rotation et
+        révocation.</li>
+        <li><strong>La CLI met l'auth en cache dans <code>~/.vibeiq/configs/</code></strong> — un
+        magasin de credentials sur chaque portable qui l'a lancée. Le départ d'un collaborateur
+        doit inclure une révocation.</li>
+        <li>L'URL de déclenchement d'un webhook contient l'ID = un porteur de droit.</li>
+      </ul>
+      <h3>Runtime</h3>
+      <p><code>nodeRuntime: "nodejs22.x"</code> dans <code>app.yml</code>. Chaque client avec une
+      app custom porte une <strong>obligation de maintenance que personne n'a budgétée</strong> :
+      suivez quels comptes ont des apps et sur quel runtime.</p>
+    </div>
+  </div>
+
+  <h3>Observabilité — et sa limite</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Surface</th><th>Montre</th><th>Horizon</th></tr></thead>
+    <tbody>
+      <tr><td>Event Workflows Dashboard</td><td>Workflows déclenchés / en échec</td><td>90 jours</td></tr>
+      <tr><td>Process List</td><td>Process, tasks, statuts, <code>triggerEvent</code>, <code>taskOutputs</code></td><td>90 jours</td></tr>
+      <tr><td>Workflow Artifacts</td><td>Fichiers attachés à un process</td><td>Supprimés avec le process</td></tr>
+      <tr><td>LoaderProcess</td><td>Statut, config utilisée, artefacts par étape</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Rien de tout cela n'est de l'alerting.</strong> Tout doit être regardé. Recommandez
+  au client de construire sa supervision sur les APIs de process — et institutionnalisez le
+  graphe de tendance d'échec : un coup d'œil avant chaque point, une capture dans chaque QBR.</p>
+
+  <h3>Les inconnues qu'on assume</h3>
+  <ol>
+    <li>Rôles utilisateurs et mapping des Type Policies</li>
+    <li>Limites de débit chiffrées et SLAs</li>
+    <li>Résidence des données au-delà d'<code>us-east-1</code></li>
+    <li>Certifications de conformité</li>
+    <li>Alerting proactif côté client</li>
+    <li>Application des rule sets aux écritures API/Loader ; vérification des webhooks entrants</li>
+  </ol>
+  <p>« Je ne sais pas, je vous réponds jeudi » — précis et tenu — vaut mieux qu'un bluff. Bluffer
+  une réponse de conformité est irrattrapable.</p>
+</section>
+
+<!-- 10 -->
+<section id="diagnostic">
+  <div class="shead"><span class="num">10</span><h2>La méthode de diagnostic</h2><span class="wk">Weeks 9–10</span></div>
+  <div class="note key">
+    <span class="lbl">La règle</span>
+    <p>La première question n'est <strong>pas</strong> « pourquoi ça arrive ? » mais
+    <strong>« dans quel segment du pipeline suis-je ? »</strong>. La localisation est bon marché —
+    la plateforme enregistre presque tout — et élimine des catégories entières en une
+    vérification.</p>
+  </div>
+
+  <h3>Six checkpoints — et où commencer</h3>
+  <div class="tw"><table>
+    <thead><tr><th class="num">CP</th><th>Segment</th><th>Ce qu'on regarde</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td>Source</td><td>La valeur est-elle correcte dans le fichier d'origine ?</td></tr>
+      <tr><td class="num">2</td><td>Loader</td><td>LoaderProcess : statut, config utilisée, artefacts par étape (diff)</td></tr>
+      <tr><td class="num">3</td><td><strong>Entités</strong></td><td><strong>Quelle couche, quel property level, quel federatedId ?</strong></td></tr>
+      <tr><td class="num">4</td><td>Workflows / formulas</td><td>Process List : déclenché ? quel path ? <code>taskOutputs</code> ?</td></tr>
+      <tr><td class="num">5</td><td>Publish</td><td>Y a-t-il un AssortmentPublishChange ? Les lignes ont-elles atteint l'assortment ?</td></tr>
+      <tr><td class="num">6</td><td>Consommateur</td><td>Reçu ? Traité — y compris les deletes ?</td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Dichotomie : commencez au CP3.</strong> Correct là → le problème est en aval. Faux là
+  → il est en amont. Un seul regard divise l'espace de recherche par deux.</p>
+
+  <h3>Forme du symptôme → classe de cause</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Ce que décrit le client</th><th>Cherchez</th></tr></thead>
+    <tbody>
+      <tr><td>Intermittent, corrélé à la charge, jamais les mêmes enregistrements</td><td>Course de concurrence</td></tr>
+      <tr><td>Constant, silencieux, tous les enregistrements</td><td>Configuration</td></tr>
+      <tr><td>Une partie d'un lot seulement</td><td>Divergence create vs update</td></tr>
+      <tr><td>« Ça a commencé le 12, on n'a rien changé »</td><td>Déploiement, promotion de config, ou expiration</td></tr>
+      <tr><td>Quelques manquants, non reproductible</td><td>Couture d'intégration (fenêtre de polling)</td></tr>
+      <tr><td>Correct à l'écriture, faux plus tard</td><td>Recalcul ou copy-down</td></tr>
+      <tr><td>Seulement certains utilisateurs</td><td>Permissions ou règles côté client</td></tr>
+      <tr><td>Tout est lent</td><td>Capacité partagée (plafond org)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note key">
+    <span class="lbl">La question au meilleur rendement</span>
+    <p><strong>« Si vous relancez, est-ce le même enregistrement qui échoue ? »</strong>
+    Le même → logique ou configuration. Un autre → timing ou concurrence.</p>
+  </div>
+
+  <h3>Ce que contient une bonne escalade</h3>
+  <ol>
+    <li>Le segment, localisé — pas « X est cassé »</li>
+    <li>Les identifiants (process IDs, change IDs, org)</li>
+    <li><strong>Ce que vous avez écarté, et comment</strong> — le plus souvent omis, celui qui
+    fait gagner le plus de temps</li>
+    <li>La forme du symptôme</li>
+    <li>L'impact métier et l'échéance</li>
+    <li>Votre hypothèse, <em>signalée comme une hypothèse</em></li>
+  </ol>
+  <p>Face au client : séparez explicitement <strong>connu / suspecté / inconnu</strong>, engagez-vous
+  sur une heure de <em>prochaine mise à jour</em> plutôt que sur une heure de résolution, donnez-leur
+  quelque chose à faire, et clôturez avec le mécanisme, pas juste « c'est réglé ». Ne répondez
+  jamais à « qui a tort ? » — répondez « voilà ce qui s'est passé et ce qu'on change ».</p>
+</section>
+
+<!-- 11 -->
+<section id="chiffres">
+  <div class="shead"><span class="num">11</span><h2>Les chiffres à connaître par cœur</h2><span class="wk">Toutes semaines</span></div>
+  <div class="nums">
+    <div><b>5</b><span>phases du Loader</span></div>
+    <div><b>6</b><span>étapes de preprocessing</span></div>
+    <div><b>4</b><span>valeurs de <code>failureArea</code></span></div>
+    <div><b>6</b><span>valeurs d'<code>issueType</code></span></div>
+    <div><b>4</b><span>property levels</span></div>
+    <div><b>3</b><span>couches d'entité</span></div>
+    <div><b>1–30</b><span><code>parallelWorkerCount</code> (défaut 5)</span></div>
+    <div><b>25</b><span>process concurrents par workflow</span></div>
+    <div><b>60</b><span>process par org — <strong>partagés</strong></span></div>
+    <div><b>24 h</b><span>expiration des liens S3</span></div>
+    <div><b>90 j</b><span>rétention des logs de workflow</span></div>
+    <div><b>11</b><span>catégories de Configuration Copy</span></div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section id="pieges">
+  <div class="shead"><span class="num">12</span><h2>Les échecs silencieux</h2><span class="wk">La liste qui rapporte</span></div>
+  <p class="lead">Un examen sur cette plateforme teste surtout une chose : savez-vous où le système
+  répond « succès » alors que la donnée est fausse, perdue ou jamais partie ? Voici les douze.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Où</th><th>Ce qui se passe</th><th>Ce que dit le client</th></tr></thead>
+    <tbody>
+      <tr><td class="k">shouldSkipAssortmentPublish</td><td>Aucun événement <code>assortment|publish</code>, aucun change history</td><td>« On a chargé, le PLM n'a rien reçu »</td></tr>
+      <tr><td class="k">partialAssortmentUpdate</td><td>Défaut = remplacement : l'assortment est réduit au fichier</td><td>« Nos produits ont disparu »</td></tr>
+      <tr><td class="k">assortmentSplit</td><td>Valeurs non mappées : lignes <em>skipped</em>, pas errored</td><td>« Il en manque une partie »</td></tr>
+      <tr><td>Colonnes CSV inconnues</td><td>Ignorées sans un mot</td><td>« Le champ ne se remplit jamais »</td></tr>
+      <tr><td>Preprocessing 4 → 5</td><td>Valeur altérée en 4, écrasée en 5 : aucun warning</td><td>« La valeur ne correspond pas au CSV »</td></tr>
+      <tr><td class="k">federatedId</td><td>Entités créées à la main sans clé → tout se recrée</td><td>« On a deux de chaque »</td></tr>
+      <tr><td>federatedId calculé</td><td>Un changement de format en source change la clé d'upsert</td><td>« Les doublons ont commencé lundi »</td></tr>
+      <tr><td>Copy-down Family</td><td>Un rechargement écrase les saisies Option</td><td>« Nos données ont été réinitialisées »</td></tr>
+      <tr><td>Formula, slug erroné</td><td><code>undefined</code>, aucune erreur</td><td>« La colonne calculée est vide »</td></tr>
+      <tr><td>Reference Data</td><td>Ne redéclenche pas les formules → valeurs périmées</td><td>« C'était juste au départ »</td></tr>
+      <tr><td>Path de workflow trop large</td><td>First-match-wins : tout ce qui suit est du code mort</td><td>« Cette règle ne s'applique jamais »</td></tr>
+      <tr><td>Fenêtre de polling</td><td>Bornes, écritures en vol, dérive d'horloge</td><td>« Il manque un enregistrement de temps en temps »</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 13 -->
+<section id="drill">
+  <div class="shead"><span class="num">13</span><h2>Drill — répondez avant d'ouvrir</h2><span class="wk">Auto-évaluation</span></div>
+  <p class="lead">Douze questions du format que prend l'examen. Formulez la réponse à voix haute,
+  puis dépliez. Une réponse « à peu près » compte comme fausse : ce sont les termes exacts
+  (<code>failureArea</code>, « no partial loads occur », <code>assortment|publish</code>) qui sont
+  notés.</p>
+  <div class="drills">
+
+    <details class="drill"><summary>Quelles sont les trois couches d'entité, et quelle question pose chacune ?</summary>
+      <div class="ans"><p><strong>Item</strong> — portée org, indépendante de la saison : « c'est quoi ce produit, en général ? ». <strong>ProjectItem</strong> — un projet ≈ une saison : « c'est quoi ce produit pour SS26 ? ». <strong>AssortmentItem</strong> — un assortment : « est-il dedans, et à quelles conditions ? ». Imbrication stricte, d'où le pairing du Loader : <code>PROJECT_ITEM</code> doit être appairé avec <code>ITEM</code>, <code>ASSORTMENT</code> avec <code>ITEM</code> et éventuellement <code>PROJECT_ITEM</code>.</p></div>
+    </details>
+
+    <details class="drill"><summary>Différence entre les property levels <code>All</code> et <code>Override</code> ?</summary>
+      <div class="ans"><p><code>Override</code> copie la valeur vers le bas sur toutes les options <em>mais</em> autorise une valeur différente sur une option précise — c'est le niveau du prix ou d'un objectif de marge. <code>All</code> gère la valeur individuellement sur chaque entité de la famille et <strong>« no copy down behavior exists »</strong> — aucune héritage du tout. Confondre les deux donne le symptôme « toutes nos options sont vides ».</p></div>
+    </details>
+
+    <details class="drill"><summary>Un client a deux exemplaires de chaque produit. Hypothèse la plus probable, et la question à poser ?</summary>
+      <div class="ans"><p>Les entités ont été créées à la main dans les apps : <strong>elles n'ont pas de federatedId</strong>. Le flux Loader branché ensuite n'a rien à matcher et crée tout en neuf, sans erreur. Question : <em>« ces enregistrements ont-ils été créés dans l'UI avant la première intégration, et leur a-t-on assigné un federatedId par API ? »</em> Variante : le federatedId est <em>calculé</em> et sa source a changé de format.</p></div>
+    </details>
+
+    <details class="drill"><summary>Que fait exactement l'étape 4 du publish lifecycle, et pourquoi elle compte ?</summary>
+      <div class="ans"><p>Elle <strong>persiste les lignes du Plan dans l'Assortment sous-jacent</strong> — un commit interne. Publish n'est pas « envoyer au PLM » : l'<code>AssortmentPublishChange</code> créé ensuite n'est qu'un record qu'un consommateur externe vient chercher. Un publish peut donc réussir pendant que la synchro aval échoue, et ce sont deux enquêtes différentes.</p></div>
+    </details>
+
+    <details class="drill"><summary>Un consommateur a manqué le publish #15. Qu'a-t-il perdu, et comment on répare ?</summary>
+      <div class="ans"><p>Les <strong>suppressions</strong> de ce publish, définitivement : « delete data does NOT accumulate across publishes », chaque change ne porte que ses propres deletes. Les adds et updates seront rattrapés par un baseline ultérieur, pas les deletes. Seul remède : <strong>re-baseliner</strong> contre <code>assortmentBaselineDownloadLink</code> et réconcilier. Et si le consommateur avait stocké l'URL au lieu de l'ID du change, il ne peut même pas la re-télécharger — les liens expirent en 24 h.</p></div>
+    </details>
+
+    <details class="drill"><summary>Un load rapporte « completed » et le PLM n'a rien reçu. Que vérifiez-vous d'abord ?</summary>
+      <div class="ans"><p><code>shouldSkipAssortmentPublish</code> dans la configuration enregistrée sur le <code>LoaderProcess</code>. À <code>true</code>, l'écriture contourne le publish workflow : ni change history, ni recalcul de summary, ni composites, <strong>ni événement <code>assortment|publish</code></strong>. Le load réussit vraiment, VibeIQ est correct, et rien ne signale que l'aval est périmé. On vérifie le flag <em>avant</em> d'accuser le consommateur.</p></div>
+    </details>
+
+    <details class="drill"><summary>Le client envoie seulement les 120 styles modifiés. Que se passe-t-il, et quel champ change la réponse ?</summary>
+      <div class="ans"><p>L'assortment est <strong>réduit à ces 120 styles</strong> : <code>partialAssortmentUpdate</code> vaut <code>false</code> par défaut, et la sémantique du load complet dit « assortment items not in CSV → deleted ». Le load rapporte un succès. Le champ qui change tout est <code>partialAssortmentUpdate: true</code>, avec les colonnes booléennes <code>addField</code> / <code>dropField</code> (un « add » sur un item existant est traité comme un update).</p></div>
+    </details>
+
+    <details class="drill"><summary>Pourquoi les type transformations tournent-elles deux fois, et que peut-on perdre entre les deux ?</summary>
+      <div class="ans"><p>L'étape 4 normalise <strong>en silence</strong> pour que les <code>conditionalColumns</code> de l'étape 5 travaillent sur des valeurs déjà propres ; l'étape 6 rejoue la transformation et <strong>rapporte cette fois</strong> les warnings. Ce qui se perd : une valeur altérée en 4 puis écrasée en 5 ne génère <em>jamais</em> de warning. Symptôme : la valeur ne correspond pas au CSV, et il n'y a de warning nulle part.</p></div>
+    </details>
+
+    <details class="drill"><summary>Un workflow doit réagir à toute modification d'assortment. Que répondez-vous ?</summary>
+      <div class="ans"><p>Que ce trigger n'existe pas : <strong><code>assortment</code> n'a que <code>assortment|publish</code></strong>. Il faut reconcevoir l'exigence — réagir aux entités (<code>assortment-item|update</code>) si c'est le contenu qui compte, ou accepter la granularité du publish. C'est aussi la cause classique du « notre workflow ne s'est jamais déclenché » : le troisième barreau de l'échelle de diagnostic.</p></div>
+    </details>
+
+    <details class="drill"><summary>Un process est <code>COMPLETE</code> mais rien n'a été écrit. Les deux causes ?</summary>
+      <div class="ans"><p><strong>Un <code>accessGrant</code> manquant</strong> (l'action n'a pas le droit d'écrire sur ce type d'entité) ou <strong>un mauvais <code>config</code></strong> (l'action a bien tourné, mais pointait ailleurs — l'endpoint de staging promu en production, par exemple). Rappel utile au passage : dans un process, une seule task tourne à la fois, dans l'ordre, et si l'une échoue les suivantes ne sont <em>jamais exécutées</em> — pas « échouées ».</p></div>
+    </details>
+
+    <details class="drill"><summary>Un client augmente <code>parallelWorkerCount</code> de 5 à 20 pour aller plus vite. Que se passe-t-il ?</summary>
+      <div class="ans"><p>Sans message grouping, on convertit <strong>une plainte de performance en corruption de données</strong> : des événements qui touchent la même famille se traitent désormais en parallèle et se marchent dessus. Et comme le plafond de <strong>60 process par org est partagé</strong>, ce workflow affame les autres — « notre autre intégration est devenue lente ». La bonne réponse est <code>messageGroup</code> + <code>dynamicMessageGroupId</code> pour sérialiser par clé.</p></div>
+    </details>
+
+    <details class="drill"><summary>Symptôme : quelques enregistrements manquent de temps en temps, aucune erreur, non reproductible. Où allez-vous ?</summary>
+      <div class="ans"><p>Dans le <strong>calcul de la fenêtre de polling</strong>, pas dans la donnée. Un filtre temporel n'est pas un curseur : exclusivité des bornes, écritures committées après l'exécution de la requête mais horodatées avant la borne, dérive d'horloge. Les quatre garde-fous : chevaucher la fenêtre, traitement idempotent, avancer le timestamp depuis le <strong>max <code>createdOn</code> retourné</strong>, et ne jamais avancer sur un échec partiel.</p></div>
+    </details>
+
+  </div>
+</section>
+
+<footer>
+  <p>Condensé des dix modules du programme TAM (semaines 1 à 10), fondé sur la documentation
+  Contrail officielle : data loading, integration patterns, workflows, configuration, apps et
+  extensions. Les citations entre guillemets sont reprises telles quelles de la documentation ;
+  les points marqués « à confirmer » restent des inconnues assumées, pas des faits.</p>
+</footer>
+
+</div>
+</body>
+</html>

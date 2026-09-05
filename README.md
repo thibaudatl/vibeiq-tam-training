@@ -67,6 +67,17 @@ data-model health check (W2) · publish integration review (W3) · pre-load chec
 (W4) · integration design review (W5) · workflow review (W6) · "can it do X?"
 routing guide (W7) · security questionnaire response kit (W8) · triage card (W9).
 
+## Exam Kit (cheat sheet)
+
+`cheatsheet.html` is a standalone one-page revision sheet condensing all ten
+modules — entity layers, property levels, the Loader pipeline and its four
+dangerous flags, publish, workflows, the config spectrum, the six diagnostic
+checkpoints, the numbers worth memorising, twelve silent-failure patterns and a
+twelve-question self-test. Written in French with the technical terms and doc
+quotes kept in English. It prints with the drill answers expanded.
+
+Reachable from the hub sidebar under REVISION, or directly at `cheatsheet.html`.
+
 ## Local use
 
 Open `index.html` directly, or serve the folder:
