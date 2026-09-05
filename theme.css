@@ -1,0 +1,82 @@
+/* ==========================================================================
+   Palette nuit du hub de formation VibeIQ TAM
+
+   Extraite de la page « VibeIQ Exam Kit » (cheatsheet.html), dont le mode
+   sombre sert ici de référence : mêmes valeurs d'encre, de papier et
+   d'accent, ré-exprimées avec les noms de tokens du hub.
+
+   Le thème est posé sur <html data-theme="dark"> par theme.js, qui décide
+   jour/nuit à partir de l'heure de New York (America/New_York).
+   Aucune règle ici ne s'applique tant que cet attribut est absent, donc le
+   thème clair de index.html reste le défaut si le script ne tourne pas.
+   ========================================================================== */
+
+:root[data-theme="dark"]{
+  /* Encres et fonds — repris tels quels de l'Exam Kit */
+  --ink:#e9eae5;
+  --ink-2:#b6bfc2;
+  --ink-3:#8a9599;
+  --paper:#12171b;
+  --panel:#181f24;
+  --line:#2b343b;
+  --line-strong:#3c474e;
+
+  /* Accent : le vert du hub remonté en luminosité pour tenir sur fond sombre */
+  --accent:#63c39d;
+  --accent-soft:#16302a;
+  --accent-ink:#8fd8b9;
+
+  /* Couleurs sémantiques — même logique, versions désaturées et éclaircies */
+  --amber:#d9a750;
+  --amber-soft:#33270f;
+  --coral:#e08363;
+  --coral-soft:#361e17;
+  --blue:#77b1e0;
+  --blue-soft:#152a3d;
+  --crit:#e58b8b;
+  --crit-soft:#3a1d1d;
+
+  /* Surfaces qui étaient codées en dur dans index.html avant cette feature */
+  --sidebar-bg:#0d1216;   /* le rail reste plus sombre que le papier */
+  --slab-bg:#0d1216;      /* cartes « I know this when I can… », bouton menu */
+  --code-bg:#242d34;
+  --code-ink:#e3dac9;
+  --th-bg:#1e262c;
+  --track:#2b343b;        /* fond des barres de progression */
+  --pill-neutral:#262f36;
+  --figure-bg:#f2f0ea;    /* les schémas SVG gardent leur carte claire */
+}
+
+/* Les diagrammes ont des remplissages en dur pensés pour un fond clair : on
+   leur conserve leur carte, mais on adoucit le contact avec la page sombre. */
+:root[data-theme="dark"] figure svg{
+  border-color:var(--line-strong);
+}
+
+/* Les blocs <pre> des modules sont déjà sombres en thème clair ; en nuit on
+   les distingue du papier par une bordure plutôt que par le contraste. */
+:root[data-theme="dark"] pre{
+  border:1px solid var(--line);
+}
+
+:root[data-theme="dark"] .sub a.here{color:var(--accent-ink)}
+:root[data-theme="dark"] nav a.active{color:#0d1216}
+:root[data-theme="dark"] nav a.active .wk{color:#0d1216}
+:root[data-theme="dark"] .toc a:hover,
+:root[data-theme="dark"] .toc a:hover::before{color:#0d1216}
+:root[data-theme="dark"] .steps li::before{color:#0d1216}
+:root[data-theme="dark"] .revealall{color:#0d1216}
+:root[data-theme="dark"] .brand .dot{color:#0d1216}
+
+/* ---- Le sélecteur de thème -------------------------------------------- */
+.themectl{
+  display:flex;align-items:center;gap:8px;width:100%;
+  background:transparent;border:1px solid #2c353d;border-radius:7px;
+  color:#cfc9bd;font-family:inherit;font-size:13px;font-weight:600;
+  padding:7px 10px;cursor:pointer;text-align:left;
+}
+.themectl:hover{background:#1e262d;color:#fff}
+.themectl:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.themectl .et{margin-left:auto;font-size:11px;font-weight:500;color:#8a938a;
+  font-variant-numeric:tabular-nums}
+.themectl:hover .et{color:#cfc9bd}

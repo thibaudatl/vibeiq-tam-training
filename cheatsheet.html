@@ -201,6 +201,15 @@
   footer{border-top:1px solid var(--line);padding-top:18px;color:var(--ink-3);font-size:13px}
   footer p{max-width:74ch}
 
+  .themectl{display:inline-flex;align-items:center;gap:7px;background:var(--panel);
+    border:1px solid var(--line-2);border-radius:6px;color:var(--ink-2);
+    font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;letter-spacing:.04em;
+    padding:5px 9px;cursor:pointer}
+  .themectl:hover{border-color:var(--accent);color:var(--ink)}
+  .themectl:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .themectl .et{color:var(--ink-3)}
+  @media print{ .themectl{display:none} }
+
   @media (max-width:640px){
     .page{padding:0 16px 70px}
     .shead .wk{display:none}
@@ -216,6 +225,7 @@
   }
 </style>
 
+<script src="theme.js"></script>
 </head>
 <body>
 <p style="max-width:1180px;margin:0 auto;padding:16px 24px 0;font:500 13px/1.5 system-ui,sans-serif"><a href="index.html" style="color:#1d6e56;text-decoration:none">&larr; Retour au hub de formation</a></p>
@@ -232,6 +242,7 @@
     <span>Semaines 1 → 10</span>
     <span>Source : docs.vibeiq.com</span>
     <span>Terminologie EN conservée telle quelle</span>
+    <button class="themectl" type="button" data-theme-toggle>Thème</button>
   </div>
 </header>
 

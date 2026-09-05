@@ -78,6 +78,24 @@ quotes kept in English. It prints with the drill answers expanded.
 
 Reachable from the hub sidebar under REVISION, or directly at `cheatsheet.html`.
 
+## Day / night theme
+
+Both pages switch palette on **New York time** (`America/New_York`), because
+that is the clock the platform's own release notes and support hours run on:
+night from 19:00 to 06:59 ET, day otherwise. `theme.js` resolves the hour with
+`Intl` — so US daylight saving is handled for us — stamps `data-theme` on
+`<html>` before first paint, and re-checks every minute, meaning an open tab
+flips by itself at 07:00 and 19:00 ET.
+
+The control (sidebar, under AFFICHAGE) cycles **Auto → Jour → Nuit** and shows
+the current NYC hour; an explicit choice is remembered per browser in
+`localStorage`. With JavaScript off, the light theme stands.
+
+`theme.css` holds the night palette, lifted from the Exam Kit's dark mode and
+re-expressed with the hub's token names. Adding a colour there means adding a
+token in `index.html`'s `:root` first — nothing in the night sheet should be a
+one-off hex.
+
 ## Local use
 
 Open `index.html` directly, or serve the folder:
