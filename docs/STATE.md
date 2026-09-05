@@ -4,7 +4,7 @@ Living status doc. Update at the end of each working session so a fresh
 conversation can pick up cold. (`HANDOFF.md` is the original design-session
 handoff, kept for provenance — this file supersedes it for current status.)
 
-**Last updated:** 2026-09-04 — all 10 modules written
+**Last updated:** 2026-09-04 — all 10 modules written; TAM practice page added
 
 ## What this is
 A self-paced 10-week technical training program for Leo, starting as a
@@ -51,6 +51,29 @@ and deepen workflow-related topics most, because the TAM role includes supportin
 workflows. Consequences already applied: Workflows promoted to its own module
 (Week 6, written deep); Apps + Extensions merged into Week 7 with Configuration;
 every remaining stub carries an explicit "workflow angle" bullet.
+
+## TAM practice page (added 2026-09-04)
+Leo is joining a **post-implementation** account (improvement requests, a live
+VibeIQ↔other-system sync + performance escalation, support, growth, relationship,
+technical reference) and **the TAM role is not defined at VibeIQ yet** — so the
+practice definition is itself a deliverable.
+
+- New view `#practice` in `index.html`: charter · service catalogue · cadence ·
+  the inherited escalation worked with the W9 method · improvement pipeline ·
+  growth signals · relationship · instrumentation · **KPIs (outcome / practice /
+  leading / anti-metrics / health score)** · first 90 days · scaling · asks.
+- Written for two audiences in one document: the charter card and section 9 are
+  shareable upward; the rest is Leo's operating detail.
+- Source note is `modules/practice-tam-operating-model.md` — **deliberately not
+  `week-NN-*.md`**, because this is not a week of the curriculum but the practice
+  built on top of it.
+- **The boundary/routing table is a PROPOSAL**, inferred from the W9 routing
+  default. It must be confirmed against VibeIQ's real internal process; the page
+  says so and the dashboard tracks it as a question.
+- `dashboard.md` gained section **7b** (KPI baseline table, blank baselines) and
+  five KPI-blocking colleague questions.
+- Constraint that shaped the KPIs: workflow evidence lives **90 days**, so any
+  trend metric requires a **monthly snapshot** started in week one.
 
 ## Open with Leo (blocking nothing, but shapes the work)
 1. **Module 1 quiz + Summit Athletic scenario** — not yet answered. Module 2's

@@ -3,7 +3,7 @@
 **Owner:** Leo
 **Program:** 10-week VibeIQ Technical Account Manager readiness
 **Started:** _[fill in]_
-**Last updated:** 2026-09-04
+**Last updated:** 2026-09-04 (TAM practice charter + KPIs added)
 
 **How to use this file:** Bring it into each new training conversation. At the end of every module, ask Claude to update it, then save the new version. Status key below.
 
@@ -121,6 +121,41 @@ _(populated as we go — running glossary)_
 
 ---
 
+## 7b. TAM practice — KPI baseline
+
+The practice charter, service catalogue and full KPI definitions live in the hub:
+**Building the TAM practice** (`#practice`). Source note: `modules/practice-tam-operating-model.md`.
+
+Baseline every one of these in the first 60 days — an unbaselined KPI is a slogan,
+and the platform only retains 90 days of workflow evidence, so **snapshot monthly**
+or the history is gone.
+
+| KPI | Tier | Source | Target | Baseline | Measured |
+|---|---|---|---|---|---|
+| Account technical health score (0–5) | Outcome | Health check | ≥ 3.5, +0.5/qtr | _[ ]_ | _[ ]_ |
+| Escalation rate (P1+P2 / quarter) | Outcome | Ticketing | Down QoQ | _[ ]_ | _[ ]_ |
+| P1 recurrence rate | Outcome | Escalation log | 0% | _[ ]_ | _[ ]_ |
+| Renewal technical risk (R/A/G) | Outcome | Judgement + score | Green, reasons named | _[ ]_ | _[ ]_ |
+| Expansion signals sourced | Outcome | CRM | ≥ 2 / quarter | _[ ]_ | _[ ]_ |
+| Reference-ability | Outcome | Ask them | Yes by Q3 | _[ ]_ | _[ ]_ |
+| Time to localise | Practice | Escalation log | < 1 business day | _[ ]_ | _[ ]_ |
+| Time to first meaningful update | Practice | Escalation log | ≤ 4 hours | _[ ]_ | _[ ]_ |
+| Update promises kept | Practice | Escalation log | 100% | _[ ]_ | _[ ]_ |
+| Post-incident coverage | Practice | Escalation log | 100% | _[ ]_ | _[ ]_ |
+| Improvement cycle time to routed | Practice | Backlog | ≤ 5 working days | _[ ]_ | _[ ]_ |
+| Health-check currency | Practice | Own records | 100% < 90 days | _[ ]_ | _[ ]_ |
+| Unknowns closed / month | Practice | Section 8 below | ≥ 3 in Q1 | _[ ]_ | _[ ]_ |
+| Self-sufficiency | Practice | Own log | ≥ 70% by month 3 | _[ ]_ | _[ ]_ |
+
+**Leading indicators — reviewed weekly, direction not value:** workflow failure trend
+(90d) · load success rate & volume · publish cadence gaps · integration lag · adoption
+breadth by team · export-to-Excel behaviour · open-unknown age · sponsor engagement.
+
+**Anti-metrics — argue against being measured on these:** tickets closed · response
+time alone · usage minutes · hours logged · per-ticket CSAT.
+
+---
+
 ## 8. Questions to ask VibeIQ colleagues
 _(from Phase 1 Open Questions — confirm answers as you learn them)_
 - [ ] Do customers get separate dev/staging/prod orgs? How is config promoted between them?
@@ -133,6 +168,13 @@ _(from Phase 1 Open Questions — confirm answers as you learn them)_
 - [ ] Webhooks: what signature verification is actually enforced? Is HMAC request signing available?
 - [ ] Workflow concurrency: real process for raising the 25/workflow and 60/org ceilings; can customers see utilisation?
 - [ ] Are rule sets enforced on API/Loader writes, or client-side only? (Changes validation design for integrated fields.)
+
+_Blocking a KPI in section 7b — chase these first:_
+- [ ] Is there customer-facing alerting on load / publish / workflow failure? (Blocks the leading-indicator review; without it the customer is the alert.)
+- [ ] Can concurrency utilisation be seen against the 25/workflow and 60/org ceilings? (Blocks "integration lag" as a diagnosable number.)
+- [ ] What is the real internal routing — TAM / Support / Engineering / Product / PS / CSM? (The charter's boundary table is a *proposal* until this is confirmed.)
+- [ ] Which config changes may a TAM make directly in a customer org, and which need PS or customer change control?
+- [ ] What retention applies to `LoaderProcess`? (Workflow evidence is 90 days; load history is undocumented.)
 
 ## 9. Questions I still don't understand
 _(your own running list — add anything unclear)_

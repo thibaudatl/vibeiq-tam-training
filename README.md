@@ -17,12 +17,14 @@ conversation with a tutor; the site holds the material and the progress tracker.
 | Curriculum design | Complete |
 | Module authoring | Complete — all 10 written |
 | Working through them | In progress (Module 1) |
+| TAM practice charter & KPIs | Drafted — boundary table pending internal confirmation |
 
 ## Contents
 
 | Path | What it is |
 |---|---|
-| `index.html` | The training hub — a single self-contained page, no build step and no external requests. Sidebar navigation across the dashboard, all ten modules, and four reference pages. Every module expands in the sidebar to its own sections, and opens with an **On this page** agenda. Every quiz question carries a model answer behind a **Show answer** toggle, with a **Reveal all answers** button per quiz. |
+| `index.html` | The training hub — a single self-contained page, no build step and no external requests. Sidebar navigation across the dashboard, all ten modules, the TAM practice page, and four reference pages. Every module expands in the sidebar to its own sections, and opens with an **On this page** agenda. Every quiz question carries a model answer behind a **Show answer** toggle, with a **Reveal all answers** button per quiz. |
+| `modules/practice-tam-operating-model.md` | Source note for the **Building the TAM practice** page — charter, service catalogue, cadence, KPIs. Not a curriculum week; the practice built on top of the ten. |
 | `dashboard.md` | Progress tracker: week status, confidence by topic, running glossary, and the open questions for VibeIQ colleagues. Carry this between tutoring sessions. |
 | `modules/` | Long-form source notes, one per week. The hub is the study surface; these are the working notes behind it. |
 | `docs/STATE.md` | Living project state — decisions made, what's open, and facts not worth re-deriving. Read this first if picking the project up cold. |
@@ -38,6 +40,17 @@ conversation with a tutor; the site holds the material and the progress tracker.
 - **Colleague questions** — the standing unknowns to close in the first weeks on
   the job. A work item with owners and dates, not a reading list.
 - **Doc links** — official sources, grouped by domain.
+
+### Beyond the curriculum
+
+- **Building the TAM practice** (`#practice`) — how the job is *run*, written because
+  the TAM role isn't defined at VibeIQ yet: the charter and where the line falls
+  against Support / Engineering / Product / PS / CSM, a service catalogue, the
+  operating cadence, the inherited sync-and-performance escalation worked with the
+  Week 9 method, the improvement pipeline, growth signals, **KPIs and indicators**
+  (outcome, practice, leading, anti-metrics, and a defined health score), the first
+  90 days, and what the practice needs to work. The charter card and the KPI section
+  are written to be sent to a manager; the rest is the weekly working detail.
 
 ## Curriculum
 
