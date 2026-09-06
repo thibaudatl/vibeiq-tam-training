@@ -4,7 +4,7 @@ Living status doc. Update at the end of each working session so a fresh
 conversation can pick up cold. (`HANDOFF.md` is the original design-session
 handoff, kept for provenance — this file supersedes it for current status.)
 
-**Last updated:** 2026-09-04 — all 10 modules written; TAM practice page added
+**Last updated:** 2026-09-06 — Module 1 activity solutions added; sidebar section-type glyphs across the whole nav
 
 ## What this is
 A self-paced 10-week technical training program for Leo, starting as a
@@ -101,6 +101,57 @@ All 86 quiz questions across Modules 1-9 have model answers, injected as
 is the capstone and has no quiz. **When a quiz question is added or reworded, add
 or update its answer in the same edit** — the injector matched question text
 exactly, so a mismatch is silent.
+
+## Activity solutions (added 2026-09-06)
+Every module has four activities: **Practical exercise**, **Realistic customer
+scenario**, **Quiz**, **Hands-on challenge**. The quiz has had model answers since
+the start; the other three now get one too, as a `<details class="sol">` appended
+**inside the activity's existing `.card`** — deliberately not a new `<h3>`, because
+heading ids, the sidebar sub-list and the on-page agenda are all generated from
+`<h3>` text and would drift (see Navigation above).
+
+Each solution has three fixed sub-headings in this order: **The answer** (worked
+and concrete — actual pitches, actual questions, not a sketch), **How to think
+about it** (the reasoning frame, and what a weak answer looks like), **Sources**.
+
+- Markup follows the quiz idiom exactly: empty `<summary>`, label supplied by CSS
+  `::before` so closed/open read differently ("▸ Show the solution" / "▾ Solution").
+- The `.revealall` handler scopes to `.q`, so "Reveal all answers" does **not**
+  touch solution blocks. Verified in-browser, not just by reading the code.
+- **Sources may cite non-official material** where the docs are genuinely silent —
+  Module 1's business-domain content has no `docs.vibeiq.com` page behind it at
+  all. Those entries are prefixed `<span class="ext">External — not official
+  documentation:</span>` and must stay labelled. All URLs are verified live before
+  being cited; see the loader URL trap under "Facts worth not re-deriving".
+- **Status: Module 1 done. Modules 2–10 pending** (27 more solutions, plus Module
+  10's four capstone phases). Leo is reviewing M1's shape and depth first.
+- **When an activity prompt is reworded, update its solution in the same edit.**
+
+## Sidebar section-type glyphs (added 2026-09-06)
+Every `a.subitem` in the sidebar carries a leading `<span class="ty">` glyph so the
+menu says what kind of section a link leads to. A legend sits under the `MODULES`
+navlabel.
+
+| Glyph | Type | Applied to |
+|---|---|---|
+| 📚 | Orientation / reference | Recommended reading, dashboard, After Week 10, Key findings, Priority matrix |
+| 🤝 | TAM knowledge | Business domain, positioning, customer craft, the role itself |
+| ⚙️ | Tech knowledge | Platform mechanics — data model, loader, integrations, workflows, config, security |
+| ✅ | Knowledge testing | Practical exercise, Realistic customer scenario, Quiz, Hands-on challenge, the capstone |
+
+Concept sections split by content, not by module: mostly ⚙️ in Weeks 2–8, but
+m3.1, m5.7, m7.1, m7.8, m8.8 and m9.2/6/7 are 🤝 because they build customer-facing
+judgement rather than platform mechanics. Weeks 1 and 10 and the practice page are
+🤝 throughout.
+
+- **Sidebar only.** The on-page "On this page" agenda keeps plain prose.
+- Top-level module links are untouched — they already carry `W1…W10` and a status
+  emoji, and a third marker crowds them.
+- 🧭 was the first choice for orientation and was **rejected after looking at it**:
+  at sidebar size it renders as a dark grey disc on the near-black rail, visually
+  indistinguishable from ⚙️. 📚 is natively bright. Glyph size is 13px, not the
+  11px first tried — emoji need it. Don't "fix" this back.
+- **A new sub-item needs a `.ty` span**, or it reads as broken next to the others.
 
 ## Key findings page
 `index.html` carries a **Key findings** reference view collecting the highest-value

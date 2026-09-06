@@ -9,21 +9,25 @@ Manager. Grounded in official VibeIQ / Contrail documentation (docs.vibeiq.com).
 
 **All ten modules are written and live.** Nothing is gated — read in any order.
 
-Quizzes, exercises, scenarios and the four-phase capstone are worked through in
-conversation with a tutor; the site holds the material and the progress tracker.
+Quizzes carry model answers throughout. **Module 1's exercise, scenario and
+challenge now carry full worked solutions too** — the answer, the reasoning behind
+it, and sources — behind a **Show the solution** button; Modules 2–10 follow. They
+are written to be read *after* attempting, not instead of. The four-phase capstone
+is still worked through in conversation with a tutor.
 
 | Phase | State |
 |---|---|
 | Curriculum design | Complete |
 | Module authoring | Complete — all 10 written |
 | Working through them | In progress (Module 1) |
+| Activity solutions | Module 1 written; Modules 2–10 pending |
 | TAM practice charter & KPIs | Drafted — boundary table pending internal confirmation |
 
 ## Contents
 
 | Path | What it is |
 |---|---|
-| `index.html` | The training hub — a single self-contained page, no build step and no external requests. Sidebar navigation across the dashboard, all ten modules, the TAM practice page, and four reference pages. Every module expands in the sidebar to its own sections, and opens with an **On this page** agenda. Every quiz question carries a model answer behind a **Show answer** toggle, with a **Reveal all answers** button per quiz. |
+| `index.html` | The training hub — a single self-contained page, no build step and no external requests. Sidebar navigation across the dashboard, all ten modules, the TAM practice page, and four reference pages. Every module expands in the sidebar to its own sections, and opens with an **On this page** agenda. Every quiz question carries a model answer behind a **Show answer** toggle, with a **Reveal all answers** button per quiz. The practical exercise, customer scenario and hands-on challenge each carry a worked solution behind a **Show the solution** toggle — the answer, how to think about the problem, and cited sources. Sidebar sub-items are prefixed with a section-type glyph (📚 orientation · 🤝 TAM knowledge · ⚙️ tech knowledge · ✅ knowledge testing), with a legend under MODULES. |
 | `modules/practice-tam-operating-model.md` | Source note for the **Building the TAM practice** page — charter, service catalogue, cadence, KPIs. Not a curriculum week; the practice built on top of the ten. |
 | `dashboard.md` | Progress tracker: week status, confidence by topic, running glossary, and the open questions for VibeIQ colleagues. Carry this between tutoring sessions. |
 | `modules/` | Long-form source notes, one per week. The hub is the study surface; these are the working notes behind it. |

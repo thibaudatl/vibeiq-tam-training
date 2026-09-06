@@ -72,6 +72,16 @@
   .sub a{font-size:12.5px;padding:5px 9px;color:#98a198;line-height:1.32;gap:0}
   .sub a:hover{background:#1e262d;color:#fff}
   .sub a.here{color:#7fd3b4;font-weight:600;background:transparent}
+
+  /* Type glyph on each sidebar sub-item: orientation / TAM / tech / testing.
+     Quiet by design — the label stays the thing you read. Sidebar only; the
+     on-page "On this page" agenda keeps its plain prose. */
+  .sub a .ty{flex:0 0 auto;margin-right:6px;font-size:13px;opacity:.95;line-height:1}
+  .sub a:hover .ty,.sub a.here .ty{opacity:1}
+  .navlegend{display:flex;flex-wrap:wrap;gap:3px 10px;padding:1px 14px 9px;
+    font-size:10px;color:#7c847c;letter-spacing:.02em}
+  .navlegend span{white-space:nowrap}
+  .navlegend b{font-weight:400;font-size:12px;opacity:.95;margin-right:3px}
   .toc a.here{color:var(--accent-ink);font-weight:600}
   .caret{margin-left:auto;font-size:10px;color:#7c847c;transition:transform .15s;flex:0 0 auto}
   nav a.expanded .caret{transform:rotate(90deg)}
@@ -179,6 +189,33 @@
   ol.quiz li:last-child{border-bottom:0}
   ol.quiz li::before{content:"Q"counter(q);position:absolute;left:0;top:12px;font-weight:700;color:var(--accent);font-size:13px}
 
+  /* ---- Model solutions on the exercise / scenario / challenge cards ------
+     Same idiom as the quiz answers above: an empty <summary> whose label is
+     supplied by ::before, so the closed and open states can read differently.
+     Lives inside the activity's .card, never as its own <h3> — the heading
+     ids, the sidebar sub-list and the on-page agenda are all generated from
+     <h3> text and would drift. */
+  .sol{border:0;border-left:3px solid var(--accent);border-radius:0 7px 7px 0;
+    background:var(--accent-soft);padding:0 16px;margin:18px 0 0}
+  .sol[open]{padding-bottom:14px}
+  .sol > summary{padding:10px 0;font-size:12.5px;font-weight:700;
+    color:var(--accent-ink);letter-spacing:.02em}
+  .sol > summary::before{content:"▸ Show the solution";color:var(--accent-ink)}
+  .sol[open] > summary::before{content:"▾ Solution"}
+  .solbody h5{margin:16px 0 7px;font-size:11px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--accent-ink)}
+  .solbody > h5:first-child{margin-top:4px}
+  .solbody p,.solbody li{font-size:14.5px;max-width:none;color:var(--ink)}
+  .solbody p{margin:0 0 9px}
+  .solbody ol,.solbody ul{margin:0 0 9px;padding-left:20px}
+  .solbody li{margin-bottom:5px}
+  .solbody blockquote{margin:0 0 9px;padding-left:14px;border-left:3px solid var(--line-strong);
+    color:var(--ink-2);font-style:italic}
+  .srcs{list-style:none;padding-left:0}
+  .srcs li{font-size:13px;color:var(--ink-2);margin-bottom:6px;padding-left:15px;position:relative}
+  .srcs li::before{content:"→";position:absolute;left:0;color:var(--accent)}
+  .srcs .ext{font-weight:700;color:var(--amber)}
+
   .outcome{background:var(--slab-bg);color:#e8e3d8;border-radius:var(--radius);padding:20px 22px;margin:24px 0}
   .outcome h4{color:#fff;margin-top:0}
   .outcome ul{max-width:none}
@@ -220,158 +257,159 @@
     <nav id="nav">
       <a href="#dashboard" data-view="dashboard"><span class="wk">◆</span> Dashboard<span class="caret">›</span></a>
       <div class="sub" data-for="dashboard">
-        <a class="subitem" href="#dashboard/dashboard-week-status" data-view="dashboard" data-anchor="dashboard-week-status">Week status</a>
-        <a class="subitem" href="#dashboard/dashboard-confidence-by-major-topic" data-view="dashboard" data-anchor="dashboard-confidence-by-major-topic">Confidence by major topic</a>
+        <a class="subitem" href="#dashboard/dashboard-week-status" data-view="dashboard" data-anchor="dashboard-week-status"><span class="ty">📚</span>Week status</a>
+        <a class="subitem" href="#dashboard/dashboard-confidence-by-major-topic" data-view="dashboard" data-anchor="dashboard-confidence-by-major-topic"><span class="ty">📚</span>Confidence by major topic</a>
       </div>
     </nav>
 
     <div class="navlabel">MODULES</div>
+    <div class="navlegend"><span><b>📚</b>orientation</span><span><b>🤝</b>TAM</span><span><b>⚙️</b>tech</span><span><b>✅</b>testing</span></div>
     <nav id="nav-modules">
       <a href="#m1" data-view="m1"><span class="wk">W1</span> Domain &amp; where VibeIQ sits <span class="st">🟡</span><span class="caret">›</span></a>
       <div class="sub" data-for="m1">
-        <a class="subitem" href="#m1/m1-concept-1-the-domain-seasonal-product-creati" data-view="m1" data-anchor="m1-concept-1-the-domain-seasonal-product-creati">1. The domain: seasonal product creation</a>
-        <a class="subitem" href="#m1/m1-concept-2-the-problem-vibeiq-exists-to-solve" data-view="m1" data-anchor="m1-concept-2-the-problem-vibeiq-exists-to-solve">2. The problem VibeIQ exists to solve</a>
-        <a class="subitem" href="#m1/m1-concept-3-where-vibeiq-sits" data-view="m1" data-anchor="m1-concept-3-where-vibeiq-sits">3. Where VibeIQ sits</a>
-        <a class="subitem" href="#m1/m1-concept-4-who-the-users-are" data-view="m1" data-anchor="m1-concept-4-who-the-users-are">4. Who the users are</a>
-        <a class="subitem" href="#m1/m1-concept-5-contrail-vs-the-marketing-brand" data-view="m1" data-anchor="m1-concept-5-contrail-vs-the-marketing-brand">5. Contrail vs. the marketing brand</a>
-        <a class="subitem" href="#m1/m1-recommended-reading" data-view="m1" data-anchor="m1-recommended-reading">Recommended reading</a>
-        <a class="subitem" href="#m1/m1-practical-exercise" data-view="m1" data-anchor="m1-practical-exercise">Practical exercise</a>
-        <a class="subitem" href="#m1/m1-realistic-customer-scenario" data-view="m1" data-anchor="m1-realistic-customer-scenario">Realistic customer scenario</a>
-        <a class="subitem" href="#m1/m1-quiz" data-view="m1" data-anchor="m1-quiz">Quiz</a>
-        <a class="subitem" href="#m1/m1-hands-on-challenge" data-view="m1" data-anchor="m1-hands-on-challenge">Hands-on challenge</a>
+        <a class="subitem" href="#m1/m1-concept-1-the-domain-seasonal-product-creati" data-view="m1" data-anchor="m1-concept-1-the-domain-seasonal-product-creati"><span class="ty">🤝</span>1. The domain: seasonal product creation</a>
+        <a class="subitem" href="#m1/m1-concept-2-the-problem-vibeiq-exists-to-solve" data-view="m1" data-anchor="m1-concept-2-the-problem-vibeiq-exists-to-solve"><span class="ty">🤝</span>2. The problem VibeIQ exists to solve</a>
+        <a class="subitem" href="#m1/m1-concept-3-where-vibeiq-sits" data-view="m1" data-anchor="m1-concept-3-where-vibeiq-sits"><span class="ty">🤝</span>3. Where VibeIQ sits</a>
+        <a class="subitem" href="#m1/m1-concept-4-who-the-users-are" data-view="m1" data-anchor="m1-concept-4-who-the-users-are"><span class="ty">🤝</span>4. Who the users are</a>
+        <a class="subitem" href="#m1/m1-concept-5-contrail-vs-the-marketing-brand" data-view="m1" data-anchor="m1-concept-5-contrail-vs-the-marketing-brand"><span class="ty">🤝</span>5. Contrail vs. the marketing brand</a>
+        <a class="subitem" href="#m1/m1-recommended-reading" data-view="m1" data-anchor="m1-recommended-reading"><span class="ty">📚</span>Recommended reading</a>
+        <a class="subitem" href="#m1/m1-practical-exercise" data-view="m1" data-anchor="m1-practical-exercise"><span class="ty">✅</span>Practical exercise</a>
+        <a class="subitem" href="#m1/m1-realistic-customer-scenario" data-view="m1" data-anchor="m1-realistic-customer-scenario"><span class="ty">✅</span>Realistic customer scenario</a>
+        <a class="subitem" href="#m1/m1-quiz" data-view="m1" data-anchor="m1-quiz"><span class="ty">✅</span>Quiz</a>
+        <a class="subitem" href="#m1/m1-hands-on-challenge" data-view="m1" data-anchor="m1-hands-on-challenge"><span class="ty">✅</span>Hands-on challenge</a>
       </div>
       <a href="#m2" data-view="m2"><span class="wk">W2</span> Core data model <span class="st">🔄</span><span class="caret">›</span></a>
       <div class="sub" data-for="m2">
-        <a class="subitem" href="#m2/m2-concept-1-the-three-item-layers" data-view="m2" data-anchor="m2-concept-1-the-three-item-layers">1. The three item layers</a>
-        <a class="subitem" href="#m2/m2-concept-2-property-levels-family-option-all" data-view="m2" data-anchor="m2-concept-2-property-levels-family-option-all">2. Property levels: Family, Option, All, Override</a>
-        <a class="subitem" href="#m2/m2-concept-3-federatedid-and-the-duplicate-reco" data-view="m2" data-anchor="m2-concept-3-federatedid-and-the-duplicate-reco">3. federatedId, and the duplicate-records bug</a>
-        <a class="subitem" href="#m2/m2-concept-4-projects-assortments-and-their-own" data-view="m2" data-anchor="m2-concept-4-projects-assortments-and-their-own">4. Projects, Assortments and their owners</a>
-        <a class="subitem" href="#m2/m2-concept-5-where-this-is-heading-the-publish" data-view="m2" data-anchor="m2-concept-5-where-this-is-heading-the-publish">5. Where this is heading: the publish lifecycle</a>
-        <a class="subitem" href="#m2/m2-recommended-reading" data-view="m2" data-anchor="m2-recommended-reading">Recommended reading</a>
-        <a class="subitem" href="#m2/m2-practical-exercise" data-view="m2" data-anchor="m2-practical-exercise">Practical exercise</a>
-        <a class="subitem" href="#m2/m2-realistic-customer-scenario" data-view="m2" data-anchor="m2-realistic-customer-scenario">Realistic customer scenario</a>
-        <a class="subitem" href="#m2/m2-quiz" data-view="m2" data-anchor="m2-quiz">Quiz</a>
-        <a class="subitem" href="#m2/m2-hands-on-challenge" data-view="m2" data-anchor="m2-hands-on-challenge">Hands-on challenge</a>
+        <a class="subitem" href="#m2/m2-concept-1-the-three-item-layers" data-view="m2" data-anchor="m2-concept-1-the-three-item-layers"><span class="ty">⚙️</span>1. The three item layers</a>
+        <a class="subitem" href="#m2/m2-concept-2-property-levels-family-option-all" data-view="m2" data-anchor="m2-concept-2-property-levels-family-option-all"><span class="ty">⚙️</span>2. Property levels: Family, Option, All, Override</a>
+        <a class="subitem" href="#m2/m2-concept-3-federatedid-and-the-duplicate-reco" data-view="m2" data-anchor="m2-concept-3-federatedid-and-the-duplicate-reco"><span class="ty">⚙️</span>3. federatedId, and the duplicate-records bug</a>
+        <a class="subitem" href="#m2/m2-concept-4-projects-assortments-and-their-own" data-view="m2" data-anchor="m2-concept-4-projects-assortments-and-their-own"><span class="ty">⚙️</span>4. Projects, Assortments and their owners</a>
+        <a class="subitem" href="#m2/m2-concept-5-where-this-is-heading-the-publish" data-view="m2" data-anchor="m2-concept-5-where-this-is-heading-the-publish"><span class="ty">⚙️</span>5. Where this is heading: the publish lifecycle</a>
+        <a class="subitem" href="#m2/m2-recommended-reading" data-view="m2" data-anchor="m2-recommended-reading"><span class="ty">📚</span>Recommended reading</a>
+        <a class="subitem" href="#m2/m2-practical-exercise" data-view="m2" data-anchor="m2-practical-exercise"><span class="ty">✅</span>Practical exercise</a>
+        <a class="subitem" href="#m2/m2-realistic-customer-scenario" data-view="m2" data-anchor="m2-realistic-customer-scenario"><span class="ty">✅</span>Realistic customer scenario</a>
+        <a class="subitem" href="#m2/m2-quiz" data-view="m2" data-anchor="m2-quiz"><span class="ty">✅</span>Quiz</a>
+        <a class="subitem" href="#m2/m2-hands-on-challenge" data-view="m2" data-anchor="m2-hands-on-challenge"><span class="ty">✅</span>Hands-on challenge</a>
       </div>
       <a href="#m3" data-view="m3"><span class="wk">W3</span> Apps &amp; publish lifecycle<span class="caret">›</span></a>
       <div class="sub" data-for="m3">
-        <a class="subitem" href="#m3/m3-concept-1-the-three-apps" data-view="m3" data-anchor="m3-concept-1-the-three-apps">1. The three apps</a>
-        <a class="subitem" href="#m3/m3-concept-2-the-platform-underneath" data-view="m3" data-anchor="m3-concept-2-the-platform-underneath">2. The platform underneath</a>
-        <a class="subitem" href="#m3/m3-concept-3-the-publish-lifecycle-end-to-end" data-view="m3" data-anchor="m3-concept-3-the-publish-lifecycle-end-to-end">3. The publish lifecycle, end to end</a>
-        <a class="subitem" href="#m3/m3-concept-4-anatomy-of-an-assortmentpublishcha" data-view="m3" data-anchor="m3-concept-4-anatomy-of-an-assortmentpublishcha">4. Anatomy of an AssortmentPublishChange</a>
-        <a class="subitem" href="#m3/m3-concept-5-two-ways-to-consume-it" data-view="m3" data-anchor="m3-concept-5-two-ways-to-consume-it">5. Two ways to consume it</a>
-        <a class="subitem" href="#m3/m3-recommended-reading" data-view="m3" data-anchor="m3-recommended-reading">Recommended reading</a>
-        <a class="subitem" href="#m3/m3-practical-exercise" data-view="m3" data-anchor="m3-practical-exercise">Practical exercise</a>
-        <a class="subitem" href="#m3/m3-realistic-customer-scenario" data-view="m3" data-anchor="m3-realistic-customer-scenario">Realistic customer scenario</a>
-        <a class="subitem" href="#m3/m3-quiz" data-view="m3" data-anchor="m3-quiz">Quiz</a>
-        <a class="subitem" href="#m3/m3-hands-on-challenge" data-view="m3" data-anchor="m3-hands-on-challenge">Hands-on challenge</a>
+        <a class="subitem" href="#m3/m3-concept-1-the-three-apps" data-view="m3" data-anchor="m3-concept-1-the-three-apps"><span class="ty">🤝</span>1. The three apps</a>
+        <a class="subitem" href="#m3/m3-concept-2-the-platform-underneath" data-view="m3" data-anchor="m3-concept-2-the-platform-underneath"><span class="ty">⚙️</span>2. The platform underneath</a>
+        <a class="subitem" href="#m3/m3-concept-3-the-publish-lifecycle-end-to-end" data-view="m3" data-anchor="m3-concept-3-the-publish-lifecycle-end-to-end"><span class="ty">⚙️</span>3. The publish lifecycle, end to end</a>
+        <a class="subitem" href="#m3/m3-concept-4-anatomy-of-an-assortmentpublishcha" data-view="m3" data-anchor="m3-concept-4-anatomy-of-an-assortmentpublishcha"><span class="ty">⚙️</span>4. Anatomy of an AssortmentPublishChange</a>
+        <a class="subitem" href="#m3/m3-concept-5-two-ways-to-consume-it" data-view="m3" data-anchor="m3-concept-5-two-ways-to-consume-it"><span class="ty">⚙️</span>5. Two ways to consume it</a>
+        <a class="subitem" href="#m3/m3-recommended-reading" data-view="m3" data-anchor="m3-recommended-reading"><span class="ty">📚</span>Recommended reading</a>
+        <a class="subitem" href="#m3/m3-practical-exercise" data-view="m3" data-anchor="m3-practical-exercise"><span class="ty">✅</span>Practical exercise</a>
+        <a class="subitem" href="#m3/m3-realistic-customer-scenario" data-view="m3" data-anchor="m3-realistic-customer-scenario"><span class="ty">✅</span>Realistic customer scenario</a>
+        <a class="subitem" href="#m3/m3-quiz" data-view="m3" data-anchor="m3-quiz"><span class="ty">✅</span>Quiz</a>
+        <a class="subitem" href="#m3/m3-hands-on-challenge" data-view="m3" data-anchor="m3-hands-on-challenge"><span class="ty">✅</span>Hands-on challenge</a>
       </div>
       <a href="#m4" data-view="m4"><span class="wk">W4</span> Data in: the Loader <span class="st">★</span><span class="caret">›</span></a>
       <div class="sub" data-for="m4">
-        <a class="subitem" href="#m4/m4-concept-1-a-load-is-an-entity-not-a-command" data-view="m4" data-anchor="m4-concept-1-a-load-is-an-entity-not-a-command">1. A load is an entity, not a command</a>
-        <a class="subitem" href="#m4/m4-concept-2-the-five-phases" data-view="m4" data-anchor="m4-concept-2-the-five-phases">2. The five phases</a>
-        <a class="subitem" href="#m4/m4-concept-3-validation-fail-fast-and-no-partia" data-view="m4" data-anchor="m4-concept-3-validation-fail-fast-and-no-partia">3. Validation: fail-fast, and no partial loads</a>
-        <a class="subitem" href="#m4/m4-concept-4-the-six-preprocessing-steps" data-view="m4" data-anchor="m4-concept-4-the-six-preprocessing-steps">4. The six preprocessing steps</a>
-        <a class="subitem" href="#m4/m4-concept-5-the-configuration-for-real" data-view="m4" data-anchor="m4-concept-5-the-configuration-for-real">5. The configuration, for real</a>
-        <a class="subitem" href="#m4/m4-concept-6-how-family-and-option-are-expresse" data-view="m4" data-anchor="m4-concept-6-how-family-and-option-are-expresse">6. How Family and Option are expressed in a CSV</a>
-        <a class="subitem" href="#m4/m4-concept-7-the-four-flags-that-change-what-a" data-view="m4" data-anchor="m4-concept-7-the-four-flags-that-change-what-a">7. The four flags that change what a load is</a>
-        <a class="subitem" href="#m4/m4-concept-8-federatedid-with-the-mechanics" data-view="m4" data-anchor="m4-concept-8-federatedid-with-the-mechanics">8. federatedId, with the mechanics</a>
-        <a class="subitem" href="#m4/m4-concept-9-transformers-and-images" data-view="m4" data-anchor="m4-concept-9-transformers-and-images">9. Transformers and images</a>
-        <a class="subitem" href="#m4/m4-concept-10-getting-the-file-in-and-cli-vs-ap" data-view="m4" data-anchor="m4-concept-10-getting-the-file-in-and-cli-vs-ap">10. Getting the file in, and CLI vs. API</a>
-        <a class="subitem" href="#m4/m4-concept-11-what-a-load-does-to-your-workflow" data-view="m4" data-anchor="m4-concept-11-what-a-load-does-to-your-workflow">11. What a load does to your workflows</a>
-        <a class="subitem" href="#m4/m4-recommended-reading" data-view="m4" data-anchor="m4-recommended-reading">Recommended reading</a>
-        <a class="subitem" href="#m4/m4-practical-exercise" data-view="m4" data-anchor="m4-practical-exercise">Practical exercise</a>
-        <a class="subitem" href="#m4/m4-realistic-customer-scenario" data-view="m4" data-anchor="m4-realistic-customer-scenario">Realistic customer scenario</a>
-        <a class="subitem" href="#m4/m4-quiz" data-view="m4" data-anchor="m4-quiz">Quiz</a>
-        <a class="subitem" href="#m4/m4-hands-on-challenge" data-view="m4" data-anchor="m4-hands-on-challenge">Hands-on challenge</a>
+        <a class="subitem" href="#m4/m4-concept-1-a-load-is-an-entity-not-a-command" data-view="m4" data-anchor="m4-concept-1-a-load-is-an-entity-not-a-command"><span class="ty">⚙️</span>1. A load is an entity, not a command</a>
+        <a class="subitem" href="#m4/m4-concept-2-the-five-phases" data-view="m4" data-anchor="m4-concept-2-the-five-phases"><span class="ty">⚙️</span>2. The five phases</a>
+        <a class="subitem" href="#m4/m4-concept-3-validation-fail-fast-and-no-partia" data-view="m4" data-anchor="m4-concept-3-validation-fail-fast-and-no-partia"><span class="ty">⚙️</span>3. Validation: fail-fast, and no partial loads</a>
+        <a class="subitem" href="#m4/m4-concept-4-the-six-preprocessing-steps" data-view="m4" data-anchor="m4-concept-4-the-six-preprocessing-steps"><span class="ty">⚙️</span>4. The six preprocessing steps</a>
+        <a class="subitem" href="#m4/m4-concept-5-the-configuration-for-real" data-view="m4" data-anchor="m4-concept-5-the-configuration-for-real"><span class="ty">⚙️</span>5. The configuration, for real</a>
+        <a class="subitem" href="#m4/m4-concept-6-how-family-and-option-are-expresse" data-view="m4" data-anchor="m4-concept-6-how-family-and-option-are-expresse"><span class="ty">⚙️</span>6. How Family and Option are expressed in a CSV</a>
+        <a class="subitem" href="#m4/m4-concept-7-the-four-flags-that-change-what-a" data-view="m4" data-anchor="m4-concept-7-the-four-flags-that-change-what-a"><span class="ty">⚙️</span>7. The four flags that change what a load is</a>
+        <a class="subitem" href="#m4/m4-concept-8-federatedid-with-the-mechanics" data-view="m4" data-anchor="m4-concept-8-federatedid-with-the-mechanics"><span class="ty">⚙️</span>8. federatedId, with the mechanics</a>
+        <a class="subitem" href="#m4/m4-concept-9-transformers-and-images" data-view="m4" data-anchor="m4-concept-9-transformers-and-images"><span class="ty">⚙️</span>9. Transformers and images</a>
+        <a class="subitem" href="#m4/m4-concept-10-getting-the-file-in-and-cli-vs-ap" data-view="m4" data-anchor="m4-concept-10-getting-the-file-in-and-cli-vs-ap"><span class="ty">⚙️</span>10. Getting the file in, and CLI vs. API</a>
+        <a class="subitem" href="#m4/m4-concept-11-what-a-load-does-to-your-workflow" data-view="m4" data-anchor="m4-concept-11-what-a-load-does-to-your-workflow"><span class="ty">⚙️</span>11. What a load does to your workflows</a>
+        <a class="subitem" href="#m4/m4-recommended-reading" data-view="m4" data-anchor="m4-recommended-reading"><span class="ty">📚</span>Recommended reading</a>
+        <a class="subitem" href="#m4/m4-practical-exercise" data-view="m4" data-anchor="m4-practical-exercise"><span class="ty">✅</span>Practical exercise</a>
+        <a class="subitem" href="#m4/m4-realistic-customer-scenario" data-view="m4" data-anchor="m4-realistic-customer-scenario"><span class="ty">✅</span>Realistic customer scenario</a>
+        <a class="subitem" href="#m4/m4-quiz" data-view="m4" data-anchor="m4-quiz"><span class="ty">✅</span>Quiz</a>
+        <a class="subitem" href="#m4/m4-hands-on-challenge" data-view="m4" data-anchor="m4-hands-on-challenge"><span class="ty">✅</span>Hands-on challenge</a>
       </div>
       <a href="#m5" data-view="m5"><span class="wk">W5</span> Data out: integrations <span class="st">★</span><span class="caret">›</span></a>
       <div class="sub" data-for="m5">
-        <a class="subitem" href="#m5/m5-concept-1-choosing-the-pattern" data-view="m5" data-anchor="m5-concept-1-choosing-the-pattern">1. Choosing the pattern</a>
-        <a class="subitem" href="#m5/m5-concept-2-authentication-and-the-api-surface" data-view="m5" data-anchor="m5-concept-2-authentication-and-the-api-surface">2. Authentication and the API surface</a>
-        <a class="subitem" href="#m5/m5-concept-3-the-event-driven-path-end-to-end" data-view="m5" data-anchor="m5-concept-3-the-event-driven-path-end-to-end">3. The event-driven path, end to end</a>
-        <a class="subitem" href="#m5/m5-concept-4-the-polling-path-and-the-seam" data-view="m5" data-anchor="m5-concept-4-the-polling-path-and-the-seam">4. The polling path, and the seam</a>
-        <a class="subitem" href="#m5/m5-concept-5-designing-a-consumer-that-survives" data-view="m5" data-anchor="m5-concept-5-designing-a-consumer-that-survives">5. Designing a consumer that survives contact with reality</a>
-        <a class="subitem" href="#m5/m5-concept-6-webhook-security-in-both-direction" data-view="m5" data-anchor="m5-concept-6-webhook-security-in-both-direction">6. Webhook security, in both directions</a>
-        <a class="subitem" href="#m5/m5-concept-7-attribute-ownership-the-artefact-t" data-view="m5" data-anchor="m5-concept-7-attribute-ownership-the-artefact-t">7. Attribute ownership, the artefact that prevents the arguments</a>
-        <a class="subitem" href="#m5/m5-recommended-reading" data-view="m5" data-anchor="m5-recommended-reading">Recommended reading</a>
-        <a class="subitem" href="#m5/m5-practical-exercise" data-view="m5" data-anchor="m5-practical-exercise">Practical exercise</a>
-        <a class="subitem" href="#m5/m5-realistic-customer-scenario-an-architecture" data-view="m5" data-anchor="m5-realistic-customer-scenario-an-architecture">Realistic customer scenario — an architecture review</a>
-        <a class="subitem" href="#m5/m5-quiz" data-view="m5" data-anchor="m5-quiz">Quiz</a>
-        <a class="subitem" href="#m5/m5-hands-on-challenge" data-view="m5" data-anchor="m5-hands-on-challenge">Hands-on challenge</a>
+        <a class="subitem" href="#m5/m5-concept-1-choosing-the-pattern" data-view="m5" data-anchor="m5-concept-1-choosing-the-pattern"><span class="ty">⚙️</span>1. Choosing the pattern</a>
+        <a class="subitem" href="#m5/m5-concept-2-authentication-and-the-api-surface" data-view="m5" data-anchor="m5-concept-2-authentication-and-the-api-surface"><span class="ty">⚙️</span>2. Authentication and the API surface</a>
+        <a class="subitem" href="#m5/m5-concept-3-the-event-driven-path-end-to-end" data-view="m5" data-anchor="m5-concept-3-the-event-driven-path-end-to-end"><span class="ty">⚙️</span>3. The event-driven path, end to end</a>
+        <a class="subitem" href="#m5/m5-concept-4-the-polling-path-and-the-seam" data-view="m5" data-anchor="m5-concept-4-the-polling-path-and-the-seam"><span class="ty">⚙️</span>4. The polling path, and the seam</a>
+        <a class="subitem" href="#m5/m5-concept-5-designing-a-consumer-that-survives" data-view="m5" data-anchor="m5-concept-5-designing-a-consumer-that-survives"><span class="ty">⚙️</span>5. Designing a consumer that survives contact with reality</a>
+        <a class="subitem" href="#m5/m5-concept-6-webhook-security-in-both-direction" data-view="m5" data-anchor="m5-concept-6-webhook-security-in-both-direction"><span class="ty">⚙️</span>6. Webhook security, in both directions</a>
+        <a class="subitem" href="#m5/m5-concept-7-attribute-ownership-the-artefact-t" data-view="m5" data-anchor="m5-concept-7-attribute-ownership-the-artefact-t"><span class="ty">🤝</span>7. Attribute ownership, the artefact that prevents the arguments</a>
+        <a class="subitem" href="#m5/m5-recommended-reading" data-view="m5" data-anchor="m5-recommended-reading"><span class="ty">📚</span>Recommended reading</a>
+        <a class="subitem" href="#m5/m5-practical-exercise" data-view="m5" data-anchor="m5-practical-exercise"><span class="ty">✅</span>Practical exercise</a>
+        <a class="subitem" href="#m5/m5-realistic-customer-scenario-an-architecture" data-view="m5" data-anchor="m5-realistic-customer-scenario-an-architecture"><span class="ty">✅</span>Realistic customer scenario — an architecture review</a>
+        <a class="subitem" href="#m5/m5-quiz" data-view="m5" data-anchor="m5-quiz"><span class="ty">✅</span>Quiz</a>
+        <a class="subitem" href="#m5/m5-hands-on-challenge" data-view="m5" data-anchor="m5-hands-on-challenge"><span class="ty">✅</span>Hands-on challenge</a>
       </div>
       <a href="#m6" data-view="m6"><span class="wk">W6</span> Event Workflows <span class="st">★</span><span class="caret">›</span></a>
       <div class="sub" data-for="m6">
-        <a class="subitem" href="#m6/m6-concept-1-anatomy" data-view="m6" data-anchor="m6-concept-1-anatomy">1. Anatomy</a>
-        <a class="subitem" href="#m6/m6-concept-2-the-six-trigger-categories" data-view="m6" data-anchor="m6-concept-2-the-six-trigger-categories">2. The six trigger categories</a>
-        <a class="subitem" href="#m6/m6-concept-3-paths-and-the-rule-that-bites" data-view="m6" data-anchor="m6-concept-3-paths-and-the-rule-that-bites">3. Paths, and the rule that bites</a>
-        <a class="subitem" href="#m6/m6-concept-4-conditional-expressions" data-view="m6" data-anchor="m6-concept-4-conditional-expressions">4. Conditional expressions</a>
-        <a class="subitem" href="#m6/m6-concept-5-actions-and-per-workflow-config" data-view="m6" data-anchor="m6-concept-5-actions-and-per-workflow-config">5. Actions and per-workflow config</a>
-        <a class="subitem" href="#m6/m6-concept-6-concurrency-and-message-grouping" data-view="m6" data-anchor="m6-concept-6-concurrency-and-message-grouping">6. Concurrency and message grouping</a>
-        <a class="subitem" href="#m6/m6-concept-7-webhooks" data-view="m6" data-anchor="m6-concept-7-webhooks">7. Webhooks</a>
-        <a class="subitem" href="#m6/m6-concept-8-from-app-to-running-workflow" data-view="m6" data-anchor="m6-concept-8-from-app-to-running-workflow">8. From app to running workflow</a>
-        <a class="subitem" href="#m6/m6-concept-9-observability-and-the-why-didn-t-i" data-view="m6" data-anchor="m6-concept-9-observability-and-the-why-didn-t-i">9. Observability, and the "why didn't it fire?" ladder</a>
-        <a class="subitem" href="#m6/m6-recommended-reading" data-view="m6" data-anchor="m6-recommended-reading">Recommended reading</a>
-        <a class="subitem" href="#m6/m6-practical-exercise" data-view="m6" data-anchor="m6-practical-exercise">Practical exercise</a>
-        <a class="subitem" href="#m6/m6-realistic-customer-scenario" data-view="m6" data-anchor="m6-realistic-customer-scenario">Realistic customer scenario</a>
-        <a class="subitem" href="#m6/m6-quiz" data-view="m6" data-anchor="m6-quiz">Quiz</a>
-        <a class="subitem" href="#m6/m6-hands-on-challenge" data-view="m6" data-anchor="m6-hands-on-challenge">Hands-on challenge</a>
+        <a class="subitem" href="#m6/m6-concept-1-anatomy" data-view="m6" data-anchor="m6-concept-1-anatomy"><span class="ty">⚙️</span>1. Anatomy</a>
+        <a class="subitem" href="#m6/m6-concept-2-the-six-trigger-categories" data-view="m6" data-anchor="m6-concept-2-the-six-trigger-categories"><span class="ty">⚙️</span>2. The six trigger categories</a>
+        <a class="subitem" href="#m6/m6-concept-3-paths-and-the-rule-that-bites" data-view="m6" data-anchor="m6-concept-3-paths-and-the-rule-that-bites"><span class="ty">⚙️</span>3. Paths, and the rule that bites</a>
+        <a class="subitem" href="#m6/m6-concept-4-conditional-expressions" data-view="m6" data-anchor="m6-concept-4-conditional-expressions"><span class="ty">⚙️</span>4. Conditional expressions</a>
+        <a class="subitem" href="#m6/m6-concept-5-actions-and-per-workflow-config" data-view="m6" data-anchor="m6-concept-5-actions-and-per-workflow-config"><span class="ty">⚙️</span>5. Actions and per-workflow config</a>
+        <a class="subitem" href="#m6/m6-concept-6-concurrency-and-message-grouping" data-view="m6" data-anchor="m6-concept-6-concurrency-and-message-grouping"><span class="ty">⚙️</span>6. Concurrency and message grouping</a>
+        <a class="subitem" href="#m6/m6-concept-7-webhooks" data-view="m6" data-anchor="m6-concept-7-webhooks"><span class="ty">⚙️</span>7. Webhooks</a>
+        <a class="subitem" href="#m6/m6-concept-8-from-app-to-running-workflow" data-view="m6" data-anchor="m6-concept-8-from-app-to-running-workflow"><span class="ty">⚙️</span>8. From app to running workflow</a>
+        <a class="subitem" href="#m6/m6-concept-9-observability-and-the-why-didn-t-i" data-view="m6" data-anchor="m6-concept-9-observability-and-the-why-didn-t-i"><span class="ty">⚙️</span>9. Observability, and the "why didn't it fire?" ladder</a>
+        <a class="subitem" href="#m6/m6-recommended-reading" data-view="m6" data-anchor="m6-recommended-reading"><span class="ty">📚</span>Recommended reading</a>
+        <a class="subitem" href="#m6/m6-practical-exercise" data-view="m6" data-anchor="m6-practical-exercise"><span class="ty">✅</span>Practical exercise</a>
+        <a class="subitem" href="#m6/m6-realistic-customer-scenario" data-view="m6" data-anchor="m6-realistic-customer-scenario"><span class="ty">✅</span>Realistic customer scenario</a>
+        <a class="subitem" href="#m6/m6-quiz" data-view="m6" data-anchor="m6-quiz"><span class="ty">✅</span>Quiz</a>
+        <a class="subitem" href="#m6/m6-hands-on-challenge" data-view="m6" data-anchor="m6-hands-on-challenge"><span class="ty">✅</span>Hands-on challenge</a>
       </div>
       <a href="#m7" data-view="m7"><span class="wk">W7</span> Apps, Extensions &amp; config<span class="caret">›</span></a>
       <div class="sub" data-for="m7">
-        <a class="subitem" href="#m7/m7-concept-1-the-spectrum" data-view="m7" data-anchor="m7-concept-1-the-spectrum">1. The spectrum</a>
-        <a class="subitem" href="#m7/m7-concept-2-formulas" data-view="m7" data-anchor="m7-concept-2-formulas">2. Formulas</a>
-        <a class="subitem" href="#m7/m7-concept-3-rule-sets" data-view="m7" data-anchor="m7-concept-3-rule-sets">3. Rule Sets</a>
-        <a class="subitem" href="#m7/m7-concept-4-the-rest-of-the-configuration-laye" data-view="m7" data-anchor="m7-concept-4-the-rest-of-the-configuration-laye">4. The rest of the configuration layer</a>
-        <a class="subitem" href="#m7/m7-concept-5-configuration-copy-and-how-environ" data-view="m7" data-anchor="m7-concept-5-configuration-copy-and-how-environ">5. Configuration Copy, and how environments actually work</a>
-        <a class="subitem" href="#m7/m7-concept-6-apps-identity-ownership-versions" data-view="m7" data-anchor="m7-concept-6-apps-identity-ownership-versions">6. Apps: identity, ownership, versions</a>
-        <a class="subitem" href="#m7/m7-concept-7-extensions" data-view="m7" data-anchor="m7-concept-7-extensions">7. Extensions</a>
-        <a class="subitem" href="#m7/m7-concept-8-holding-the-line" data-view="m7" data-anchor="m7-concept-8-holding-the-line">8. Holding the line</a>
-        <a class="subitem" href="#m7/m7-recommended-reading" data-view="m7" data-anchor="m7-recommended-reading">Recommended reading</a>
-        <a class="subitem" href="#m7/m7-practical-exercise" data-view="m7" data-anchor="m7-practical-exercise">Practical exercise</a>
-        <a class="subitem" href="#m7/m7-realistic-customer-scenario" data-view="m7" data-anchor="m7-realistic-customer-scenario">Realistic customer scenario</a>
-        <a class="subitem" href="#m7/m7-quiz" data-view="m7" data-anchor="m7-quiz">Quiz</a>
-        <a class="subitem" href="#m7/m7-hands-on-challenge" data-view="m7" data-anchor="m7-hands-on-challenge">Hands-on challenge</a>
+        <a class="subitem" href="#m7/m7-concept-1-the-spectrum" data-view="m7" data-anchor="m7-concept-1-the-spectrum"><span class="ty">🤝</span>1. The spectrum</a>
+        <a class="subitem" href="#m7/m7-concept-2-formulas" data-view="m7" data-anchor="m7-concept-2-formulas"><span class="ty">⚙️</span>2. Formulas</a>
+        <a class="subitem" href="#m7/m7-concept-3-rule-sets" data-view="m7" data-anchor="m7-concept-3-rule-sets"><span class="ty">⚙️</span>3. Rule Sets</a>
+        <a class="subitem" href="#m7/m7-concept-4-the-rest-of-the-configuration-laye" data-view="m7" data-anchor="m7-concept-4-the-rest-of-the-configuration-laye"><span class="ty">⚙️</span>4. The rest of the configuration layer</a>
+        <a class="subitem" href="#m7/m7-concept-5-configuration-copy-and-how-environ" data-view="m7" data-anchor="m7-concept-5-configuration-copy-and-how-environ"><span class="ty">⚙️</span>5. Configuration Copy, and how environments actually work</a>
+        <a class="subitem" href="#m7/m7-concept-6-apps-identity-ownership-versions" data-view="m7" data-anchor="m7-concept-6-apps-identity-ownership-versions"><span class="ty">⚙️</span>6. Apps: identity, ownership, versions</a>
+        <a class="subitem" href="#m7/m7-concept-7-extensions" data-view="m7" data-anchor="m7-concept-7-extensions"><span class="ty">⚙️</span>7. Extensions</a>
+        <a class="subitem" href="#m7/m7-concept-8-holding-the-line" data-view="m7" data-anchor="m7-concept-8-holding-the-line"><span class="ty">🤝</span>8. Holding the line</a>
+        <a class="subitem" href="#m7/m7-recommended-reading" data-view="m7" data-anchor="m7-recommended-reading"><span class="ty">📚</span>Recommended reading</a>
+        <a class="subitem" href="#m7/m7-practical-exercise" data-view="m7" data-anchor="m7-practical-exercise"><span class="ty">✅</span>Practical exercise</a>
+        <a class="subitem" href="#m7/m7-realistic-customer-scenario" data-view="m7" data-anchor="m7-realistic-customer-scenario"><span class="ty">✅</span>Realistic customer scenario</a>
+        <a class="subitem" href="#m7/m7-quiz" data-view="m7" data-anchor="m7-quiz"><span class="ty">✅</span>Quiz</a>
+        <a class="subitem" href="#m7/m7-hands-on-challenge" data-view="m7" data-anchor="m7-hands-on-challenge"><span class="ty">✅</span>Hands-on challenge</a>
       </div>
       <a href="#m8" data-view="m8"><span class="wk">W8</span> Platform, security, ops<span class="caret">›</span></a>
       <div class="sub" data-for="m8">
-        <a class="subitem" href="#m8/m8-concept-1-tenancy-the-org-is-the-boundary" data-view="m8" data-anchor="m8-concept-1-tenancy-the-org-is-the-boundary">1. Tenancy: the org is the boundary</a>
-        <a class="subitem" href="#m8/m8-concept-2-the-permission-model-layer-by-laye" data-view="m8" data-anchor="m8-concept-2-the-permission-model-layer-by-laye">2. The permission model, layer by layer</a>
-        <a class="subitem" href="#m8/m8-concept-3-credentials-where-they-live-and-ho" data-view="m8" data-anchor="m8-concept-3-credentials-where-they-live-and-ho">3. Credentials: where they live and how they leak</a>
-        <a class="subitem" href="#m8/m8-concept-4-where-the-data-actually-goes" data-view="m8" data-anchor="m8-concept-4-where-the-data-actually-goes">4. Where the data actually goes</a>
-        <a class="subitem" href="#m8/m8-concept-5-runtime-and-platform-upgrades" data-view="m8" data-anchor="m8-concept-5-runtime-and-platform-upgrades">5. Runtime and platform upgrades</a>
-        <a class="subitem" href="#m8/m8-concept-6-what-you-can-actually-see" data-view="m8" data-anchor="m8-concept-6-what-you-can-actually-see">6. What you can actually see</a>
-        <a class="subitem" href="#m8/m8-concept-7-capacity-as-a-shared-invisible-res" data-view="m8" data-anchor="m8-concept-7-capacity-as-a-shared-invisible-res">7. Capacity as a shared, invisible resource</a>
-        <a class="subitem" href="#m8/m8-concept-8-answering-what-you-don-t-know" data-view="m8" data-anchor="m8-concept-8-answering-what-you-don-t-know">8. Answering what you don't know</a>
-        <a class="subitem" href="#m8/m8-recommended-reading" data-view="m8" data-anchor="m8-recommended-reading">Recommended reading</a>
-        <a class="subitem" href="#m8/m8-practical-exercise" data-view="m8" data-anchor="m8-practical-exercise">Practical exercise</a>
-        <a class="subitem" href="#m8/m8-realistic-customer-scenario" data-view="m8" data-anchor="m8-realistic-customer-scenario">Realistic customer scenario</a>
-        <a class="subitem" href="#m8/m8-quiz" data-view="m8" data-anchor="m8-quiz">Quiz</a>
-        <a class="subitem" href="#m8/m8-hands-on-challenge" data-view="m8" data-anchor="m8-hands-on-challenge">Hands-on challenge</a>
+        <a class="subitem" href="#m8/m8-concept-1-tenancy-the-org-is-the-boundary" data-view="m8" data-anchor="m8-concept-1-tenancy-the-org-is-the-boundary"><span class="ty">⚙️</span>1. Tenancy: the org is the boundary</a>
+        <a class="subitem" href="#m8/m8-concept-2-the-permission-model-layer-by-laye" data-view="m8" data-anchor="m8-concept-2-the-permission-model-layer-by-laye"><span class="ty">⚙️</span>2. The permission model, layer by layer</a>
+        <a class="subitem" href="#m8/m8-concept-3-credentials-where-they-live-and-ho" data-view="m8" data-anchor="m8-concept-3-credentials-where-they-live-and-ho"><span class="ty">⚙️</span>3. Credentials: where they live and how they leak</a>
+        <a class="subitem" href="#m8/m8-concept-4-where-the-data-actually-goes" data-view="m8" data-anchor="m8-concept-4-where-the-data-actually-goes"><span class="ty">⚙️</span>4. Where the data actually goes</a>
+        <a class="subitem" href="#m8/m8-concept-5-runtime-and-platform-upgrades" data-view="m8" data-anchor="m8-concept-5-runtime-and-platform-upgrades"><span class="ty">⚙️</span>5. Runtime and platform upgrades</a>
+        <a class="subitem" href="#m8/m8-concept-6-what-you-can-actually-see" data-view="m8" data-anchor="m8-concept-6-what-you-can-actually-see"><span class="ty">⚙️</span>6. What you can actually see</a>
+        <a class="subitem" href="#m8/m8-concept-7-capacity-as-a-shared-invisible-res" data-view="m8" data-anchor="m8-concept-7-capacity-as-a-shared-invisible-res"><span class="ty">⚙️</span>7. Capacity as a shared, invisible resource</a>
+        <a class="subitem" href="#m8/m8-concept-8-answering-what-you-don-t-know" data-view="m8" data-anchor="m8-concept-8-answering-what-you-don-t-know"><span class="ty">🤝</span>8. Answering what you don't know</a>
+        <a class="subitem" href="#m8/m8-recommended-reading" data-view="m8" data-anchor="m8-recommended-reading"><span class="ty">📚</span>Recommended reading</a>
+        <a class="subitem" href="#m8/m8-practical-exercise" data-view="m8" data-anchor="m8-practical-exercise"><span class="ty">✅</span>Practical exercise</a>
+        <a class="subitem" href="#m8/m8-realistic-customer-scenario" data-view="m8" data-anchor="m8-realistic-customer-scenario"><span class="ty">✅</span>Realistic customer scenario</a>
+        <a class="subitem" href="#m8/m8-quiz" data-view="m8" data-anchor="m8-quiz"><span class="ty">✅</span>Quiz</a>
+        <a class="subitem" href="#m8/m8-hands-on-challenge" data-view="m8" data-anchor="m8-hands-on-challenge"><span class="ty">✅</span>Hands-on challenge</a>
       </div>
       <a href="#m9" data-view="m9"><span class="wk">W9</span> Troubleshoot &amp; escalate <span class="st">★</span><span class="caret">›</span></a>
       <div class="sub" data-for="m9">
-        <a class="subitem" href="#m9/m9-concept-1-localise-before-theorising" data-view="m9" data-anchor="m9-concept-1-localise-before-theorising">1. Localise before theorising</a>
-        <a class="subitem" href="#m9/m9-concept-2-the-universal-question-set" data-view="m9" data-anchor="m9-concept-2-the-universal-question-set">2. The universal question set</a>
-        <a class="subitem" href="#m9/m9-concept-3-the-three-ladders" data-view="m9" data-anchor="m9-concept-3-the-three-ladders">3. The three ladders</a>
-        <a class="subitem" href="#m9/m9-concept-4-symptom-shape-tells-you-the-class" data-view="m9" data-anchor="m9-concept-4-symptom-shape-tells-you-the-class">4. Symptom shape tells you the class of cause</a>
-        <a class="subitem" href="#m9/m9-concept-5-read-evidence-don-t-reason-from-de" data-view="m9" data-anchor="m9-concept-5-read-evidence-don-t-reason-from-de">5. Read evidence, don't reason from descriptions</a>
-        <a class="subitem" href="#m9/m9-concept-6-escalating-well" data-view="m9" data-anchor="m9-concept-6-escalating-well">6. Escalating well</a>
-        <a class="subitem" href="#m9/m9-concept-7-holding-the-customer-while-it-s-op" data-view="m9" data-anchor="m9-concept-7-holding-the-customer-while-it-s-op">7. Holding the customer while it's open</a>
-        <a class="subitem" href="#m9/m9-practical-exercise" data-view="m9" data-anchor="m9-practical-exercise">Practical exercise</a>
-        <a class="subitem" href="#m9/m9-realistic-customer-scenario-a-live-incident" data-view="m9" data-anchor="m9-realistic-customer-scenario-a-live-incident">Realistic customer scenario — a live incident</a>
-        <a class="subitem" href="#m9/m9-quiz" data-view="m9" data-anchor="m9-quiz">Quiz</a>
-        <a class="subitem" href="#m9/m9-hands-on-challenge" data-view="m9" data-anchor="m9-hands-on-challenge">Hands-on challenge</a>
+        <a class="subitem" href="#m9/m9-concept-1-localise-before-theorising" data-view="m9" data-anchor="m9-concept-1-localise-before-theorising"><span class="ty">⚙️</span>1. Localise before theorising</a>
+        <a class="subitem" href="#m9/m9-concept-2-the-universal-question-set" data-view="m9" data-anchor="m9-concept-2-the-universal-question-set"><span class="ty">🤝</span>2. The universal question set</a>
+        <a class="subitem" href="#m9/m9-concept-3-the-three-ladders" data-view="m9" data-anchor="m9-concept-3-the-three-ladders"><span class="ty">⚙️</span>3. The three ladders</a>
+        <a class="subitem" href="#m9/m9-concept-4-symptom-shape-tells-you-the-class" data-view="m9" data-anchor="m9-concept-4-symptom-shape-tells-you-the-class"><span class="ty">⚙️</span>4. Symptom shape tells you the class of cause</a>
+        <a class="subitem" href="#m9/m9-concept-5-read-evidence-don-t-reason-from-de" data-view="m9" data-anchor="m9-concept-5-read-evidence-don-t-reason-from-de"><span class="ty">⚙️</span>5. Read evidence, don't reason from descriptions</a>
+        <a class="subitem" href="#m9/m9-concept-6-escalating-well" data-view="m9" data-anchor="m9-concept-6-escalating-well"><span class="ty">🤝</span>6. Escalating well</a>
+        <a class="subitem" href="#m9/m9-concept-7-holding-the-customer-while-it-s-op" data-view="m9" data-anchor="m9-concept-7-holding-the-customer-while-it-s-op"><span class="ty">🤝</span>7. Holding the customer while it's open</a>
+        <a class="subitem" href="#m9/m9-practical-exercise" data-view="m9" data-anchor="m9-practical-exercise"><span class="ty">✅</span>Practical exercise</a>
+        <a class="subitem" href="#m9/m9-realistic-customer-scenario-a-live-incident" data-view="m9" data-anchor="m9-realistic-customer-scenario-a-live-incident"><span class="ty">✅</span>Realistic customer scenario — a live incident</a>
+        <a class="subitem" href="#m9/m9-quiz" data-view="m9" data-anchor="m9-quiz"><span class="ty">✅</span>Quiz</a>
+        <a class="subitem" href="#m9/m9-hands-on-challenge" data-view="m9" data-anchor="m9-hands-on-challenge"><span class="ty">✅</span>Hands-on challenge</a>
       </div>
       <a href="#m10" data-view="m10"><span class="wk">W10</span> Applied TAM practice <span class="st">★</span><span class="caret">›</span></a>
       <div class="sub" data-for="m10">
-        <a class="subitem" href="#m10/m10-concept-1-the-four-situations" data-view="m10" data-anchor="m10-concept-1-the-four-situations">1. The four situations</a>
-        <a class="subitem" href="#m10/m10-concept-2-discovery-that-predicts" data-view="m10" data-anchor="m10-concept-2-discovery-that-predicts">2. Discovery that predicts</a>
-        <a class="subitem" href="#m10/m10-concept-3-architecture-and-workflow-review" data-view="m10" data-anchor="m10-concept-3-architecture-and-workflow-review">3. Architecture and workflow review</a>
-        <a class="subitem" href="#m10/m10-concept-4-qbrs-reporting-risk-not-activity" data-view="m10" data-anchor="m10-concept-4-qbrs-reporting-risk-not-activity">4. QBRs: reporting risk, not activity</a>
-        <a class="subitem" href="#m10/m10-concept-5-inheriting-an-account-the-first-th" data-view="m10" data-anchor="m10-concept-5-inheriting-an-account-the-first-th">5. Inheriting an account: the first thirty days</a>
-        <a class="subitem" href="#m10/m10-the-capstone-meridian-outdoor-four-phases" data-view="m10" data-anchor="m10-the-capstone-meridian-outdoor-four-phases">The capstone — Meridian Outdoor, four phases</a>
-        <a class="subitem" href="#m10/m10-after-week-10" data-view="m10" data-anchor="m10-after-week-10">After Week 10</a>
+        <a class="subitem" href="#m10/m10-concept-1-the-four-situations" data-view="m10" data-anchor="m10-concept-1-the-four-situations"><span class="ty">🤝</span>1. The four situations</a>
+        <a class="subitem" href="#m10/m10-concept-2-discovery-that-predicts" data-view="m10" data-anchor="m10-concept-2-discovery-that-predicts"><span class="ty">🤝</span>2. Discovery that predicts</a>
+        <a class="subitem" href="#m10/m10-concept-3-architecture-and-workflow-review" data-view="m10" data-anchor="m10-concept-3-architecture-and-workflow-review"><span class="ty">🤝</span>3. Architecture and workflow review</a>
+        <a class="subitem" href="#m10/m10-concept-4-qbrs-reporting-risk-not-activity" data-view="m10" data-anchor="m10-concept-4-qbrs-reporting-risk-not-activity"><span class="ty">🤝</span>4. QBRs: reporting risk, not activity</a>
+        <a class="subitem" href="#m10/m10-concept-5-inheriting-an-account-the-first-th" data-view="m10" data-anchor="m10-concept-5-inheriting-an-account-the-first-th"><span class="ty">🤝</span>5. Inheriting an account: the first thirty days</a>
+        <a class="subitem" href="#m10/m10-the-capstone-meridian-outdoor-four-phases" data-view="m10" data-anchor="m10-the-capstone-meridian-outdoor-four-phases"><span class="ty">✅</span>The capstone — Meridian Outdoor, four phases</a>
+        <a class="subitem" href="#m10/m10-after-week-10" data-view="m10" data-anchor="m10-after-week-10"><span class="ty">📚</span>After Week 10</a>
       </div>
     </nav>
 
@@ -379,18 +417,18 @@
     <nav>
       <a href="#practice" data-view="practice"><span class="wk">◈</span> Building the TAM practice<span class="caret">›</span></a>
       <div class="sub" data-for="practice">
-        <a class="subitem" href="#practice/practice-1-charter-what-the-role-owns" data-view="practice" data-anchor="practice-1-charter-what-the-role-owns">1 · Charter: what the role owns</a>
-        <a class="subitem" href="#practice/practice-2-the-service-catalogue" data-view="practice" data-anchor="practice-2-the-service-catalogue">2 · The service catalogue</a>
-        <a class="subitem" href="#practice/practice-3-operating-cadence" data-view="practice" data-anchor="practice-3-operating-cadence">3 · Operating cadence</a>
-        <a class="subitem" href="#practice/practice-4-the-escalation-you-inherit" data-view="practice" data-anchor="practice-4-the-escalation-you-inherit">4 · The escalation you inherit</a>
-        <a class="subitem" href="#practice/practice-5-the-improvement-pipeline" data-view="practice" data-anchor="practice-5-the-improvement-pipeline">5 · The improvement pipeline</a>
-        <a class="subitem" href="#practice/practice-6-growth-technically-led" data-view="practice" data-anchor="practice-6-growth-technically-led">6 · Growth, technically led</a>
-        <a class="subitem" href="#practice/practice-7-relationship-and-technical-reference" data-view="practice" data-anchor="practice-7-relationship-and-technical-reference">7 · Relationship &amp; technical reference</a>
-        <a class="subitem" href="#practice/practice-8-instrumentation" data-view="practice" data-anchor="practice-8-instrumentation">8 · Instrumentation</a>
-        <a class="subitem" href="#practice/practice-9-kpis-and-indicators" data-view="practice" data-anchor="practice-9-kpis-and-indicators">9 · KPIs and indicators</a>
-        <a class="subitem" href="#practice/practice-10-the-first-90-days" data-view="practice" data-anchor="practice-10-the-first-90-days">10 · The first 90 days</a>
-        <a class="subitem" href="#practice/practice-11-from-one-account-to-a-practice" data-view="practice" data-anchor="practice-11-from-one-account-to-a-practice">11 · From one account to a practice</a>
-        <a class="subitem" href="#practice/practice-12-what-the-practice-needs" data-view="practice" data-anchor="practice-12-what-the-practice-needs">12 · What the practice needs</a>
+        <a class="subitem" href="#practice/practice-1-charter-what-the-role-owns" data-view="practice" data-anchor="practice-1-charter-what-the-role-owns"><span class="ty">🤝</span>1 · Charter: what the role owns</a>
+        <a class="subitem" href="#practice/practice-2-the-service-catalogue" data-view="practice" data-anchor="practice-2-the-service-catalogue"><span class="ty">🤝</span>2 · The service catalogue</a>
+        <a class="subitem" href="#practice/practice-3-operating-cadence" data-view="practice" data-anchor="practice-3-operating-cadence"><span class="ty">🤝</span>3 · Operating cadence</a>
+        <a class="subitem" href="#practice/practice-4-the-escalation-you-inherit" data-view="practice" data-anchor="practice-4-the-escalation-you-inherit"><span class="ty">🤝</span>4 · The escalation you inherit</a>
+        <a class="subitem" href="#practice/practice-5-the-improvement-pipeline" data-view="practice" data-anchor="practice-5-the-improvement-pipeline"><span class="ty">🤝</span>5 · The improvement pipeline</a>
+        <a class="subitem" href="#practice/practice-6-growth-technically-led" data-view="practice" data-anchor="practice-6-growth-technically-led"><span class="ty">🤝</span>6 · Growth, technically led</a>
+        <a class="subitem" href="#practice/practice-7-relationship-and-technical-reference" data-view="practice" data-anchor="practice-7-relationship-and-technical-reference"><span class="ty">🤝</span>7 · Relationship &amp; technical reference</a>
+        <a class="subitem" href="#practice/practice-8-instrumentation" data-view="practice" data-anchor="practice-8-instrumentation"><span class="ty">🤝</span>8 · Instrumentation</a>
+        <a class="subitem" href="#practice/practice-9-kpis-and-indicators" data-view="practice" data-anchor="practice-9-kpis-and-indicators"><span class="ty">🤝</span>9 · KPIs and indicators</a>
+        <a class="subitem" href="#practice/practice-10-the-first-90-days" data-view="practice" data-anchor="practice-10-the-first-90-days"><span class="ty">🤝</span>10 · The first 90 days</a>
+        <a class="subitem" href="#practice/practice-11-from-one-account-to-a-practice" data-view="practice" data-anchor="practice-11-from-one-account-to-a-practice"><span class="ty">🤝</span>11 · From one account to a practice</a>
+        <a class="subitem" href="#practice/practice-12-what-the-practice-needs" data-view="practice" data-anchor="practice-12-what-the-practice-needs"><span class="ty">🤝</span>12 · What the practice needs</a>
       </div>
     </nav>
 
@@ -398,20 +436,20 @@
     <nav>
       <a href="#findings" data-view="findings"><span class="wk">★</span> Key findings<span class="caret">›</span></a>
       <div class="sub" data-for="findings">
-        <a class="subitem" href="#findings/findings-1-symptom-likely-cause" data-view="findings" data-anchor="findings-1-symptom-likely-cause">1 · Symptom → likely cause</a>
-        <a class="subitem" href="#findings/findings-1b-symptom-shape-class-of-cause" data-view="findings" data-anchor="findings-1b-symptom-shape-class-of-cause">1b · Symptom shape → class of cause</a>
-        <a class="subitem" href="#findings/findings-2-failures-that-produce-no-error" data-view="findings" data-anchor="findings-2-failures-that-produce-no-error">2 · Failures that produce no error</a>
-        <a class="subitem" href="#findings/findings-3-decisions-you-cannot-undo" data-view="findings" data-anchor="findings-3-decisions-you-cannot-undo">3 · Decisions you cannot undo</a>
-        <a class="subitem" href="#findings/findings-4-claims-to-verify-before-asserting" data-view="findings" data-anchor="findings-4-claims-to-verify-before-asserting">4 · Claims to verify before asserting</a>
-        <a class="subitem" href="#findings/findings-5-numbers-worth-memorising" data-view="findings" data-anchor="findings-5-numbers-worth-memorising">5 · Numbers worth memorising</a>
-        <a class="subitem" href="#findings/findings-6-the-reframes-that-change-how-you-think" data-view="findings" data-anchor="findings-6-the-reframes-that-change-how-you-think">6 · The reframes that change how you think</a>
+        <a class="subitem" href="#findings/findings-1-symptom-likely-cause" data-view="findings" data-anchor="findings-1-symptom-likely-cause"><span class="ty">📚</span>1 · Symptom → likely cause</a>
+        <a class="subitem" href="#findings/findings-1b-symptom-shape-class-of-cause" data-view="findings" data-anchor="findings-1b-symptom-shape-class-of-cause"><span class="ty">📚</span>1b · Symptom shape → class of cause</a>
+        <a class="subitem" href="#findings/findings-2-failures-that-produce-no-error" data-view="findings" data-anchor="findings-2-failures-that-produce-no-error"><span class="ty">📚</span>2 · Failures that produce no error</a>
+        <a class="subitem" href="#findings/findings-3-decisions-you-cannot-undo" data-view="findings" data-anchor="findings-3-decisions-you-cannot-undo"><span class="ty">📚</span>3 · Decisions you cannot undo</a>
+        <a class="subitem" href="#findings/findings-4-claims-to-verify-before-asserting" data-view="findings" data-anchor="findings-4-claims-to-verify-before-asserting"><span class="ty">📚</span>4 · Claims to verify before asserting</a>
+        <a class="subitem" href="#findings/findings-5-numbers-worth-memorising" data-view="findings" data-anchor="findings-5-numbers-worth-memorising"><span class="ty">📚</span>5 · Numbers worth memorising</a>
+        <a class="subitem" href="#findings/findings-6-the-reframes-that-change-how-you-think" data-view="findings" data-anchor="findings-6-the-reframes-that-change-how-you-think"><span class="ty">📚</span>6 · The reframes that change how you think</a>
       </div>
       <a href="#priority" data-view="priority"><span class="wk">§</span> Priority matrix<span class="caret">›</span></a>
       <div class="sub" data-for="priority">
-        <a class="subitem" href="#priority/priority-critical-must-know" data-view="priority" data-anchor="priority-critical-must-know">Critical must know</a>
-        <a class="subitem" href="#priority/priority-important" data-view="priority" data-anchor="priority-important">Important</a>
-        <a class="subitem" href="#priority/priority-useful" data-view="priority" data-anchor="priority-useful">Useful</a>
-        <a class="subitem" href="#priority/priority-nice-to-know" data-view="priority" data-anchor="priority-nice-to-know">Nice to know</a>
+        <a class="subitem" href="#priority/priority-critical-must-know" data-view="priority" data-anchor="priority-critical-must-know"><span class="ty">📚</span>Critical must know</a>
+        <a class="subitem" href="#priority/priority-important" data-view="priority" data-anchor="priority-important"><span class="ty">📚</span>Important</a>
+        <a class="subitem" href="#priority/priority-useful" data-view="priority" data-anchor="priority-useful"><span class="ty">📚</span>Useful</a>
+        <a class="subitem" href="#priority/priority-nice-to-know" data-view="priority" data-anchor="priority-nice-to-know"><span class="ty">📚</span>Nice to know</a>
       </div>
       <a href="#questions" data-view="questions"><span class="wk">§</span> Colleague questions</a>
       <a href="#links" data-view="links"><span class="wk">§</span> Doc links</a>
@@ -731,14 +769,71 @@
             <li>For a <strong>VP of Merchandising</strong> (non-technical, business outcomes).</li>
             <li>For an <strong>integration engineer</strong> (technical, how it fits their stack).</li>
           </ol>
-          <p style="margin-bottom:0"><strong>Constraint:</strong> neither may use "PLM" as a synonym for VibeIQ, and each must correctly convey the "upstream, sits alongside" positioning.</p>
+          <p><strong>Constraint:</strong> neither may use "PLM" as a synonym for VibeIQ, and each must correctly convey the "upstream, sits alongside" positioning.</p>
+          <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>1 · For a VP of Merchandising</strong> (128 words)</p>
+              <blockquote>Every season your team decides what to make — how many styles, in which categories, at what price points, hitting what margin. That decision gets made across a spreadsheet with images pasted in, a deck rebuilt before every line review, and a mood board nobody can find in March. VibeIQ gives that work one live place. Your merchants, designers and planners look at the same line, with cost and margin sitting next to the picture, and they cut it in the room instead of a week later. Line reviews stop needing a week of deck-building. And when the line is set, the decisions — with the reasoning attached — carry forward into PLM instead of being re-keyed. It doesn't replace what you have downstream. It replaces the spreadsheet.</blockquote>
+              <p><strong>2 · For an integration engineer</strong> (131 words)</p>
+              <blockquote>VibeIQ is where the product record gets born, before it's real enough for PLM — concept, placeholder, "four more knits at $79." So it sits upstream of your PLM and alongside it, not on top of it. Practically: you'll feed it from your systems, and it publishes approved assortments back out. Inbound is a CSV loader keyed on a <code>federatedId</code> you control, which drives upsert. Outbound is event-driven — an assortment publish fires an event you can consume by webhook, or you poll change history if you'd rather own the schedule. The platform underneath is called Contrail; docs and SDKs are all <code>@contrail/*</code>. The design question isn't protocol, it's ownership: which system is authoritative for each attribute. Cost and materials usually stay yours and flow back in.</blockquote>
+
+              <h5>How to think about it</h5>
+              <p><strong>The two pitches answer different questions.</strong> The VP is asking <em>"what changes for my team?"</em> — so lead with the line review, the moment VibeIQ has to make good, and with cycle time and re-keying. The engineer is asking <em>"what will this do to my stack?"</em> — so lead with the data direction, the integration seam and who owns which attribute. Same positioning, different entry point. Neither pitch is a feature list.</p>
+              <p><strong>Why "upstream of, and alongside" has to survive both.</strong> Those two words do separate jobs. <em>Upstream</em> sets the data direction and tells the engineer where records originate. <em>Alongside</em> defuses the objection the VP is already forming — "we just bought PLM." Drop either and the pitch breaks: upstream alone sounds like a replacement, alongside alone sounds like a redundant extra system.</p>
+              <p><strong>The trap the constraint exists to block.</strong> The easy way to explain VibeIQ is by category — "it's like a PLM for the fun part," "a lightweight PLM front end." It lands, which is why it's tempting, and it's wrong in a way that costs you later: it invites a scope conversation about BOMs, costing rollups and POs that VibeIQ will lose, and it makes the customer's existing PLM investment sound threatened. Say what it <em>does</em>, not what category it resembles.</p>
+              <p><strong>Name the incumbent.</strong> Both pitches land on something concrete being replaced — the spreadsheet, the deck, the mood board. That's VibeIQ's own framing (Board→Miro, Plan→Excel, Showcase→PowerPoint) and it's the strongest move available, because the customer recognises the pain immediately and it reframes the purchase as removing a process rather than adding a system.</p>
+              <p><strong>Self-check:</strong> read each pitch aloud and time it. If it runs past ~60 seconds you've added a feature. If a listener could reasonably reply "so it's a PLM?", the positioning failed regardless of length.</p>
+
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://vibeiq.com/platform/" target="_blank" rel="noopener">vibeiq.com/platform</a> — the official positioning both pitches are built on: Board/Plan/Showcase replacing Miro/Excel/PowerPoint, the four platform layers, and "connect to PLM, ERP, and any AI tool."</li>
+                <li><a class="link" href="https://docs.vibeiq.com/" target="_blank" rel="noopener">docs.vibeiq.com</a> — the Contrail developer surface the engineer pitch points at. Note what it is <em>not</em>: it carries only Data Loading, Apps, Extensions, Workflows, Configuration, Integration Patterns and Release Notes. There is no business-positioning page, which is precisely why this pitch has to be constructed rather than quoted.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/" target="_blank" rel="noopener">/integration_patterns</a> — backs the engineer pitch's event-driven vs. polling claim. You'll work it properly in <a class="link" href="#m5" data-view="m5">Week 5</a>.</li>
+                <li><span class="ext">External — not official documentation:</span> for general grounding on assortment planning as a discipline, any industry primer on "merchandise assortment planning." Useful context; not a VibeIQ claim, and not something to quote to a customer as fact.</li>
+              </ul>
+            </div>
+          </details>
         </div>
 
         <h3 id="m1-realistic-customer-scenario">Realistic customer scenario</h3>
         <div class="card">
           <p>You're on an intro call with <strong>"Summit Athletic,"</strong> a mid-size footwear brand. Their VP of Product says:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"We already have Centric PLM and just finished rolling it out. I don't understand why we'd need another product system on top of it. Isn't this overlap?"</p>
-          <p style="margin-bottom:0">Sketch your response: the core distinction you'd draw, plus one discovery question to test whether VibeIQ actually fits. Don't write a speech — just the shape of the response and the question.</p>
+          <p>Sketch your response: the core distinction you'd draw, plus one discovery question to test whether VibeIQ actually fits. Don't write a speech — just the shape of the response and the question.</p>
+          <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>The shape of the response — four moves, in order:</strong></p>
+              <ol>
+                <li><strong>Validate, and mean it.</strong> "If you've just finished a Centric rollout, you should be sceptical of another product system. I would be." You are six weeks after a painful, expensive project. Anything that sounds like "actually you also need…" makes you the next line item on a budget they're defending.</li>
+                <li><strong>Draw the boundary once, in their language.</strong> Centric is the system of record for <em>how a product gets made</em> — tech packs, BOMs, materials, costing, vendors, samples. It starts being the answer at development and sourcing. The question <em>before</em> that one is different: <em>what should we make at all?</em> How many styles, in which categories, at what price points, hitting what margin. That's the line-planning decision, and it happens months earlier.</li>
+                <li><strong>Then stop talking about PLM and name the incumbent.</strong> "Where does that decision live for you today?" You already know the answer: an Excel file with images pasted in, a PowerPoint rebuilt before every line review, and a Miro board from the concept phase. That is what VibeIQ replaces — not Centric.</li>
+                <li><strong>Close on the relationship, not the product.</strong> "Centric stays exactly where it is. If anything, the cleaner the decision is when it reaches Centric, the better your rollout looks." You are making their PLM investment succeed, not competing with it.</li>
+              </ol>
+              <p><strong>The one discovery question:</strong></p>
+              <blockquote>"Walk me through your last line review. Who was in the room, what were they looking at, and how long did it take someone to build it?"</blockquote>
+              <p>Then stay quiet. If the answer is "a merchant spent four days on a deck, we cut 380 styles to 240 in the room, and the reasoning lived in someone's notes" — VibeIQ fits and they've just described the fit themselves, which is worth more than you describing it. If the answer is "we don't really do that, product just goes into Centric when design finishes" — you have a genuine qualification problem, and you need to know that on the intro call rather than in month four.</p>
+
+              <h5>How to think about it</h5>
+              <p><strong>Don't argue PLM categories.</strong> This is the whole move. The instinct is to explain why VibeIQ is not a PLM — and that's a debate about definitions, on the customer's home turf, that you can only draw at best. They just spent a year with a PLM vendor and their definition is fresher than yours. Every minute in that argument reinforces the frame that these two things are comparable.</p>
+              <p><strong>Naming the incumbent moves the frame.</strong> "You're replacing your line-planning spreadsheet" is concrete, immediately recognised, and unarguable — they know that file exists and they know it's painful. It also changes what the purchase <em>is</em>: not a second product system stacked on the one they just rolled out, but the removal of a process everybody in the room already resents. Same product, entirely different objection.</p>
+              <p><strong>Why the objection is reasonable, not an obstacle.</strong> "Isn't this overlap?" is the correct question from someone who has just been through an implementation. Treating it as resistance to be handled is how you lose a technical buyer. Treating it as a fair question you have a real answer to is how you become the person they call later.</p>
+              <p><strong>The discovery question has to be able to come back "no."</strong> A question that can only confirm your pitch isn't discovery, it's a setup, and experienced buyers hear the difference. This one is built to be genuinely diagnostic: it asks about a specific recent event rather than a general process, so you get what actually happened instead of the org chart's version. And a "no" is a good outcome on an intro call — the expensive failure is a customer who buys and then discovers their line review isn't the meeting VibeIQ makes good.</p>
+              <p><strong>What a weak answer looks like:</strong> a feature list ("we do boards, planning grids and presentations"), which invites feature-by-feature comparison against Centric modules; or a capability claim about AI, which you cannot yet substantiate — see the quiz question on that below, and note it is the single fastest way for a new TAM to create an unrecoverable trust problem.</p>
+              <p><strong>The deeper point.</strong> Nearly every escalation you will handle later — "the data is wrong in Plan," "the publish never reached PLM" — is this same boundary question wearing different clothes. Drawing the line cleanly on an intro call is the same skill as drawing it during an incident in <a class="link" href="#m9" data-view="m9">Week 9</a>.</p>
+
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://vibeiq.com/platform/" target="_blank" rel="noopener">vibeiq.com/platform</a> — the "connect to PLM, ERP, and any AI tool" framing, and the Board/Plan/Showcase → Miro/Excel/PowerPoint displacement that move 3 depends on.</li>
+                <li><a class="link" href="#m1/m1-concept-3-where-vibeiq-sits" data-view="m1" data-anchor="m1-concept-3-where-vibeiq-sits">Concept 3 — Where VibeIQ sits</a> — the two sentences worth memorising, and the reason "alongside" is what defuses this exact objection.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/assortment_publish_integration/" target="_blank" rel="noopener">/assortment_publish_integration</a> — the mechanism behind "decisions carry forward into PLM." Worth knowing it exists now; you build it in <a class="link" href="#m3" data-view="m3">Week 3</a>.</li>
+                <li><span class="ext">External — not official documentation:</span> Centric Software's own product scope (tech packs, BOM, costing, sourcing) is the fairest source for what their PLM claims to own. Read the vendor's positioning rather than asserting a boundary from memory in front of a customer who just bought it.</li>
+              </ul>
+            </div>
+          </details>
         </div>
 
         <h3 id="m1-quiz">Quiz</h3>
@@ -774,7 +869,59 @@
 
         <h3 id="m1-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
-          <p style="margin-bottom:0">Produce a one-page <strong>"customer landscape" discovery template</strong> — 8–12 questions to map where VibeIQ sits in any customer's ecosystem, grouped into: existing systems, data ownership, seasonal cadence, downstream handoff. We'll reuse and sharpen it in Week 10.</p>
+          <p>Produce a one-page <strong>"customer landscape" discovery template</strong> — 8–12 questions to map where VibeIQ sits in any customer's ecosystem, grouped into: existing systems, data ownership, seasonal cadence, downstream handoff. We'll reuse and sharpen it in Week 10.</p>
+          <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p>Twelve questions, four groups. Each carries the thing that matters most — <strong>what the answer changes</strong>. A question whose answer changes nothing is a question you drop.</p>
+
+              <p><strong>A · Existing systems</strong> — what's in the room</p>
+              <ol>
+                <li><strong>"Which systems does a product record touch between first idea and store shelf? Name the vendor for each."</strong><br><em>Changes:</em> your integration surface, and who else is in the room at every future architecture conversation. Insist on vendor names — "our PLM" hides whether it's Centric, FlexPLM or a homegrown database, and those are three different projects.</li>
+                <li><strong>"Where does line planning physically happen today — what file, opened by whom?"</strong><br><em>Changes:</em> whether there is a real incumbent to displace. The honest answer is usually a spreadsheet and a deck. If it's a PLM module they already paid for, expect a harder internal fight and a different sponsor.</li>
+                <li><strong>"Which of these went live in the last eighteen months, and how did it go?"</strong><br><em>Changes:</em> your political map and your pace. A brand six weeks out of a painful PLM rollout has no appetite and no budget goodwill, and you will hear "isn't this overlap?" in every meeting.</li>
+              </ol>
+
+              <p><strong>B · Data ownership</strong> — the map that prevents the arguments</p>
+              <ol start="4">
+                <li><strong>"For cost, margin, materials, images and seasonal status — which system is authoritative for each, and who edits it there?"</strong><br><em>Changes:</em> essentially the whole integration design. This is the attribute-ownership map, and getting it right is core TAM work; nearly every later escalation is really a dispute about one row of it.</li>
+                <li><strong>"What uniquely identifies a style across all these systems? Is that identifier stable if the style is renamed or recategorised?"</strong><br><em>Changes:</em> your <code>federatedId</code> strategy, and whether you are heading for the duplicate-records bug. "Stable" is the word that matters, and the answer is often no — people volunteer an identifier that is really a formatted label.</li>
+                <li><strong>"Where does a product record get created first — and does anything exist in your systems before it's real enough for PLM?"</strong><br><em>Changes:</em> whether VibeIQ is a source or a sink. If placeholders ("four more knits at $79") have nowhere to live today, that's the strongest fit signal in this template.</li>
+                <li><strong>"Which attributes must flow back <em>into</em> the decision — cost, sell-through, inventory?"</strong><br><em>Changes:</em> whether this is a one-way publish or a two-way integration. Most customers need two-way, and it is routinely scoped as one-way because nobody asked.</li>
+              </ol>
+
+              <p><strong>C · Seasonal cadence</strong> — the clock everything runs on</p>
+              <ol start="8">
+                <li><strong>"Walk me through your GTM calendar for one season. What are the fixed dates?"</strong><br><em>Changes:</em> your implementation timeline and every go-live conversation. Seasonal deadlines don't move, so the calendar — not the project plan — decides what "late" means.</li>
+                <li><strong>"How many styles per season, and how many colourways per style? How many assortments does one line become?"</strong><br><em>Changes:</em> your sense of scale, and it's the first place the Family/Option model will bite. "One line → many assortments" is the concept to listen for.</li>
+                <li><strong>"Tell me about your last line review — who was in the room, what were they looking at, how long did someone spend building it?"</strong><br><em>Changes:</em> whether VibeIQ makes good on the moment that matters. This is the single highest-value question in the template, and it must be able to come back "we don't really do that."</li>
+              </ol>
+
+              <p><strong>D · Downstream handoff</strong> — where decisions go to die</p>
+              <ol start="11">
+                <li><strong>"Once the line is approved, how does it get into PLM today? Who does that, and how long does it take?"</strong><br><em>Changes:</em> your integration priority and your quantified business case. The answer is often a person re-keying for a week, which is both the value story and the first thing to automate.</li>
+                <li><strong>"When a decision gets reversed downstream, how does anyone find out <em>why</em> it was made in the first place?"</strong><br><em>Changes:</em> whether they feel the pain VibeIQ actually solves. Lost reasoning is the problem the product exists for, and customers rarely name it unprompted — they've stopped noticing it.</li>
+              </ol>
+
+              <p><strong>How to run it:</strong> not as a questionnaire. Twelve questions is roughly a 60-minute conversation if you let people talk, and the ones that pay are 4, 5 and 10 — protect time for those and cut from A if you're running long. Write the answers down verbatim where you can; the phrasing a customer uses for their own identifier scheme is evidence you will want later.</p>
+
+              <h5>How to think about it</h5>
+              <p><strong>The design rule: every question earns its place by changing a decision.</strong> That's why each line above carries a "changes" note. It's the discipline that separates discovery from an interrogation — and it's what lets you cut the list in half when the call runs short, because you can see what you're giving up.</p>
+              <p><strong>Ask about specific past events, not general process.</strong> "Walk me through your last line review" beats "how does line review work?" People describe processes as they are documented and events as they happened, and the gap between those two is where your project risk lives.</p>
+              <p><strong>Questions 4 and 5 are load-bearing.</strong> Attribute ownership and identifier stability are the two answers that shape the most downstream work, and they're the two most likely to be answered confidently and wrongly. Expect to re-ask both later, against an actual data sample, rather than trusting the whiteboard version.</p>
+              <p><strong>Some answers expire.</strong> Anything that changes the integration design is worth far more before the integrator writes their design document than after. That timing pressure is exactly what <a class="link" href="#m10/m10-the-capstone-meridian-outdoor-four-phases" data-view="m10" data-anchor="m10-the-capstone-meridian-outdoor-four-phases">the Week 10 capstone</a> tests, when it asks which three of your twelve questions lose their value if not asked before implementation starts.</p>
+              <p><strong>This is artefact one of eight.</strong> It's the first of the account-inheritance kit, and it's meant to be used and sharpened, not admired. Take this version, cut what doesn't sound like you, and add what your own accounts teach you — a template you haven't edited is one you won't reach for on a live call.</p>
+
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="#m1/m1-concept-3-where-vibeiq-sits" data-view="m1" data-anchor="m1-concept-3-where-vibeiq-sits">Concept 3 — Where VibeIQ sits</a> — the system-landscape map (PLM / ERP / PIM / DAM / planning / creative) that group A is built to fill in.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/getting_started/" target="_blank" rel="noopener">/data_loading/getting_started</a> — why question 5 is phrased around stability: <code>federatedId</code> is the value that drives upsert, so a computed or reformatted identifier creates duplicates on the next load. Worked in <a class="link" href="#m4" data-view="m4">Week 4</a>.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/" target="_blank" rel="noopener">/integration_patterns</a> — the push/poll choice that question 7's answer determines. <a class="link" href="#m5" data-view="m5">Week 5</a>.</li>
+                <li><span class="ext">External — not official documentation:</span> named VibeIQ customers and funding coverage are useful for reading a prospect's peer set, but treat them as press, not fact, and don't repeat specifics you haven't confirmed internally.</li>
+              </ul>
+            </div>
+          </details>
         </div>
 
         <div class="outcome">
@@ -792,6 +939,7 @@
         <details>
           <summary>How to submit</summary>
           <p>Answer the quiz and the scenario in our chat and I'll review them. Nothing is gated on it — Module 2 is right there whenever you want it — but the review is where the feedback happens, and the scenario is worth more than the quiz. The exercise and challenge are optional to share.</p>
+          <p style="margin-bottom:0">The exercise, the scenario and the challenge each carry a model solution behind a <strong>Show the solution</strong> button. They're written to be read <em>after</em> you've attempted the thing — the reveal is deliberate friction, and the value is in the reasoning section rather than the answer itself.</p>
         </details>
         <p class="foot">Module 1 · grounded in official VibeIQ / Contrail documentation. Diagrams reproduced from the training session.</p>
       </section>
