@@ -4,7 +4,7 @@ Living status doc. Update at the end of each working session so a fresh
 conversation can pick up cold. (`HANDOFF.md` is the original design-session
 handoff, kept for provenance — this file supersedes it for current status.)
 
-**Last updated:** 2026-09-06 — practice page reorganised behind disclosures and its section ids de-numbered; JD success criteria mapped (section 10); activity solutions complete; sidebar glyphs; dashboard course map
+**Last updated:** 2026-09-06 — cheat sheet now exists in French and English as twin files with a locale toggle; practice page reorganised behind disclosures and its section ids de-numbered; JD success criteria mapped (section 10); activity solutions complete; sidebar glyphs; dashboard course map
 
 ## What this is
 A self-paced 10-week technical training program for Leo, starting as a
@@ -162,6 +162,31 @@ Verified in-browser: 14 disclosures, all 52 practice links resolve, all 13
 anchors reachable, expand/collapse-all works, the quiz **Reveal all answers**
 and the 31 `.sol` toggles are unaffected, tables legible in both themes, and
 the whole 887 KB document parses with no unbalanced tags.
+
+## Cheat sheet in two languages (added 2026-09-06)
+The Exam Kit is the one page meant to be read under time pressure, and the one
+most likely to be shown to an English-speaking colleague. It now exists as
+**twin files** rather than one page with runtime string-swapping:
+`cheatsheet.html` (French, technical terms and doc quotes kept in English) and
+`cheatsheet.en.html` (English throughout). Same structure, same anchors, same
+styles — the drill answers, the twelve silent-failure patterns and the
+self-test all line up one-to-one.
+
+- The **Français / English** control in the masthead is a real `<a href>` to
+  the twin, not a button. Right-click, open-in-new-tab, copy-link and print
+  therefore all behave the way a reader expects.
+- `locale.js` (89 lines, no dependencies) remembers the choice per browser in
+  `localStorage` under `vibeiq-locale` and rewrites the hub's REVISION links
+  to point at the matching file. It deliberately **never redirects a page you
+  are already reading** — the reader is not moved under their feet.
+- `theme.js` is shared by both files, so its labels now follow `<html lang>`:
+  Auto → Jour → Nuit in French, Auto → Day → Night in English, with the title
+  and aria-label strings alongside them.
+- `<link rel="alternate" hreflang>` on both files declares the pairing.
+
+Keeping them in sync is a manual, deliberate cost: **edit both files or
+neither.** If they drift, the English page is the one to re-derive from the
+French, which stays the source of truth.
 
 ## Open with Leo (blocking nothing, but shapes the work)
 1. **Module 1 quiz + Summit Athletic scenario** — not yet answered. Module 2's

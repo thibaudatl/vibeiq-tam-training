@@ -102,8 +102,14 @@ routing guide (W7) · security questionnaire response kit (W8) · triage card (W
 modules — entity layers, property levels, the Loader pipeline and its four
 dangerous flags, publish, workflows, the config spectrum, the six diagnostic
 checkpoints, the numbers worth memorising, twelve silent-failure patterns and a
-twelve-question self-test. Written in French with the technical terms and doc
-quotes kept in English. It prints with the drill answers expanded.
+twelve-question self-test. It prints with the drill answers expanded.
+
+It exists in two languages, as twin files: `cheatsheet.html` (French, with the
+technical terms and doc quotes kept in English) and `cheatsheet.en.html`
+(English throughout). The **Français / English** button in the masthead is a
+plain link to the twin, so right-click and open-in-new-tab behave normally.
+`locale.js` remembers the choice per browser and re-points the hub's REVISION
+link at the matching file — it never redirects a page you are already reading.
 
 Reachable from the hub sidebar under REVISION, or directly at `cheatsheet.html`.
 
@@ -118,7 +124,8 @@ flips by itself at 07:00 and 19:00 ET.
 
 The control (sidebar, under AFFICHAGE) cycles **Auto → Jour → Nuit** and shows
 the current NYC hour; an explicit choice is remembered per browser in
-`localStorage`. With JavaScript off, the light theme stands.
+`localStorage`. Its labels follow the page's `<html lang>`, so the English cheat
+sheet reads **Auto → Day → Night**. With JavaScript off, the light theme stands.
 
 `theme.css` holds the night palette, lifted from the Exam Kit's dark mode and
 re-expressed with the hub's token names. Adding a colour there means adding a

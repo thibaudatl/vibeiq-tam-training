@@ -16,8 +16,34 @@
   var TZ = 'America/New_York';
   var NIGHT_FROM = 19;   // 19 h ET → nuit
   var NIGHT_UNTIL = 7;   //  7 h ET → jour
-  var LABELS = { auto: 'Auto', light: 'Jour', dark: 'Nuit' };
   var ICONS = { auto: '◐', light: '☀', dark: '☾' };
+
+  // Les deux fiches partagent ce script ; les libellés suivent <html lang>.
+  var STRINGS = {
+    fr: {
+      labels: { auto: 'Auto', light: 'Jour', dark: 'Nuit' },
+      prefix: 'Thème : ',
+      title: function (lbl, hh, night) {
+        return 'Thème ' + lbl + '. Il est ' + hh + ' h à New York, donc ' +
+          (night ? 'nuit' : 'jour') + ' en mode Auto. Cliquer pour changer.';
+      },
+      aria: function (lbl) { return 'Thème : ' + lbl + '. Changer de thème.'; }
+    },
+    en: {
+      labels: { auto: 'Auto', light: 'Day', dark: 'Night' },
+      prefix: 'Theme: ',
+      title: function (lbl, hh, night) {
+        return 'Theme ' + lbl + '. It is ' + hh + ':00 in New York, so Auto mode is ' +
+          (night ? 'night' : 'day') + '. Click to change.';
+      },
+      aria: function (lbl) { return 'Theme: ' + lbl + '. Change theme.'; }
+    }
+  };
+
+  function strings() {
+    var l = (document.documentElement.getAttribute('lang') || 'fr').slice(0, 2);
+    return STRINGS[l === 'en' ? 'en' : 'fr'];
+  }
 
   var fmt = null;
   try {
@@ -60,15 +86,15 @@
     var h = etHour();
     var hh = (h < 10 ? '0' : '') + h;
     var nyc = hh + ':00 NYC';
+    var t = strings();
+    var lbl = t.labels[m];
     var els = document.querySelectorAll('[data-theme-toggle]');
     for (var i = 0; i < els.length; i++) {
       var el = els[i];
-      el.innerHTML = '<span aria-hidden="true">' + ICONS[m] + '</span> Thème : ' + LABELS[m] +
+      el.innerHTML = '<span aria-hidden="true">' + ICONS[m] + '</span> ' + t.prefix + lbl +
         '<span class="et">' + nyc + '</span>';
-      el.setAttribute('title',
-        'Thème ' + LABELS[m] + '. Il est ' + hh + ' h à New York, donc ' +
-        (isNight() ? 'nuit' : 'jour') + ' en mode Auto. Cliquer pour changer.');
-      el.setAttribute('aria-label', 'Thème : ' + LABELS[m] + '. Changer de thème.');
+      el.setAttribute('title', t.title(lbl, hh, isNight()));
+      el.setAttribute('aria-label', t.aria(lbl));
     }
   }
 

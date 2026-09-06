@@ -1,0 +1,1191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VibeIQ Exam Kit</title>
+<link rel="alternate" hreflang="fr" href="cheatsheet.html">
+<link rel="alternate" hreflang="en" href="cheatsheet.en.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+  :root{
+    --paper:#f6f4ef;
+    --panel:#ffffff;
+    --panel-2:#f0ede5;
+    --ink:#141a1f;
+    --ink-2:#3d4954;
+    --ink-3:#6d7a83;
+    --line:#e0dbd1;
+    --line-2:#c9c2b4;
+    --accent:#1d6e56;
+    --accent-ink:#0f4536;
+    --accent-soft:#e2f0ea;
+    --amber:#8f5c0d;
+    --amber-soft:#f7edd9;
+    --coral:#a83f26;
+    --coral-soft:#f8e6df;
+    --blue:#1a5a94;
+    --blue-soft:#e3edf7;
+    --code-bg:#1c242b;
+    --code-ink:#dfe6e2;
+    --shadow:0 1px 2px rgba(20,26,31,.05);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#12171b;
+      --panel:#181f24;
+      --panel-2:#1e262c;
+      --ink:#e9eae5;
+      --ink-2:#b6bfc2;
+      --ink-3:#8a9599;
+      --line:#2b343b;
+      --line-2:#3c474e;
+      --accent:#63c39d;
+      --accent-ink:#8fd8b9;
+      --accent-soft:#16302a;
+      --amber:#d9a750;
+      --amber-soft:#33270f;
+      --coral:#e08363;
+      --coral-soft:#361e17;
+      --blue:#77b1e0;
+      --blue-soft:#152a3d;
+      --code-bg:#0d1216;
+      --code-ink:#d3ddd8;
+      --shadow:0 1px 2px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#12171b;
+    --panel:#181f24;
+    --panel-2:#1e262c;
+    --ink:#e9eae5;
+    --ink-2:#b6bfc2;
+    --ink-3:#8a9599;
+    --line:#2b343b;
+    --line-2:#3c474e;
+    --accent:#63c39d;
+    --accent-ink:#8fd8b9;
+    --accent-soft:#16302a;
+    --amber:#d9a750;
+    --amber-soft:#33270f;
+    --coral:#e08363;
+    --coral-soft:#361e17;
+    --blue:#77b1e0;
+    --blue-soft:#152a3d;
+    --code-bg:#0d1216;
+    --code-ink:#d3ddd8;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:"IBM Plex Sans","Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;
+  }
+  .page{max-width:1180px;margin:0 auto;padding:0 24px 90px}
+
+  /* ---------- masthead ---------- */
+  header.mast{padding:38px 0 22px;border-bottom:2px solid var(--ink)}
+  .kicker{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--accent-ink);margin:0 0 10px}
+  h1{font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif;font-weight:700;
+    font-size:clamp(34px,5vw,52px);line-height:1.02;letter-spacing:-.015em;margin:0 0 12px;
+    text-wrap:balance}
+  .standfirst{max-width:66ch;color:var(--ink-2);font-size:16.5px;margin:0 0 20px}
+  .standfirst em{font-style:italic;color:var(--ink)}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 26px;font-family:"IBM Plex Mono",monospace;
+    font-size:11.5px;color:var(--ink-3);letter-spacing:.04em}
+
+  /* ---------- jump bar ---------- */
+  nav.jump{position:sticky;top:0;z-index:20;background:var(--paper);
+    border-bottom:1px solid var(--line);padding:9px 0;margin-bottom:34px}
+  nav.jump ol{list-style:none;display:flex;gap:4px;overflow-x:auto;margin:0;padding:0 0 2px}
+  nav.jump a{display:block;white-space:nowrap;text-decoration:none;color:var(--ink-2);
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;padding:5px 9px;border-radius:5px;
+    border:1px solid transparent}
+  nav.jump a:hover,nav.jump a:focus-visible{background:var(--accent);color:#fff;outline:none}
+  nav.jump a b{color:var(--accent);font-weight:600;margin-right:5px}
+  nav.jump a:hover b,nav.jump a:focus-visible b{color:#fff}
+
+  /* ---------- sections ---------- */
+  section{margin:0 0 46px;scroll-margin-top:64px}
+  .shead{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line-2);
+    padding-bottom:7px;margin-bottom:18px}
+  .shead .num{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--accent);
+    font-weight:600;flex:0 0 auto}
+  .shead h2{font-family:"IBM Plex Sans Condensed",sans-serif;font-weight:700;font-size:23px;
+    letter-spacing:-.01em;margin:0;flex:1 1 auto;text-wrap:balance}
+  .shead .wk{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);
+    letter-spacing:.06em;flex:0 0 auto}
+  h3{font-family:"IBM Plex Sans Condensed",sans-serif;font-size:15.5px;font-weight:700;
+    letter-spacing:.01em;margin:26px 0 9px;color:var(--ink)}
+  h3:first-child{margin-top:0}
+  p{margin:0 0 12px;max-width:74ch}
+  .lead{color:var(--ink-2)}
+  ul{margin:0 0 12px;padding-left:19px;max-width:74ch}
+  li{margin:4px 0}
+  strong{font-weight:600}
+  code,.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.86em}
+  code{background:var(--panel-2);padding:.1em .38em;border-radius:4px;color:var(--ink)}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:22px}
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+
+  /* ---------- tables ---------- */
+  .tw{overflow-x:auto;margin:0 0 14px;border:1px solid var(--line);border-radius:6px;
+    background:var(--panel)}
+  table{border-collapse:collapse;width:100%;font-size:13.8px}
+  th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:var(--panel-2);font-family:"IBM Plex Sans Condensed",sans-serif;
+    font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);
+    white-space:nowrap;border-bottom:1px solid var(--line-2)}
+  tbody tr:last-child td{border-bottom:0}
+  td.k{font-family:"IBM Plex Mono",monospace;font-size:12.5px;white-space:nowrap}
+  td.num,th.num{font-variant-numeric:tabular-nums;text-align:right}
+
+  /* ---------- notes ---------- */
+  .note{border-left:3px solid var(--line-2);background:var(--panel);padding:12px 16px;
+    margin:0 0 14px;border-radius:0 6px 6px 0}
+  .note p:last-child{margin-bottom:0}
+  .note .lbl{display:block;font-family:"IBM Plex Sans Condensed",sans-serif;font-size:11.5px;
+    letter-spacing:.09em;text-transform:uppercase;margin-bottom:5px}
+  .note.key{border-color:var(--accent);background:var(--accent-soft)}
+  .note.key .lbl{color:var(--accent-ink)}
+  .note.trap{border-color:var(--coral);background:var(--coral-soft)}
+  .note.trap .lbl{color:var(--coral)}
+  .note.warn{border-color:var(--amber);background:var(--amber-soft)}
+  .note.warn .lbl{color:var(--amber)}
+
+  pre{background:var(--code-bg);color:var(--code-ink);border-radius:7px;padding:13px 16px;
+    overflow-x:auto;font-size:12.8px;line-height:1.5;margin:0 0 14px}
+  pre code{background:none;padding:0;color:inherit;font-size:inherit}
+
+  /* ---------- numbers strip ---------- */
+  .nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:1px;
+    background:var(--line);border:1px solid var(--line);border-radius:7px;overflow:hidden}
+  .nums div{background:var(--panel);padding:13px 14px}
+  .nums b{display:block;font-family:"IBM Plex Sans Condensed",sans-serif;font-size:27px;
+    line-height:1.05;color:var(--accent-ink);font-variant-numeric:tabular-nums}
+  .nums span{display:block;font-size:12.5px;color:var(--ink-2);margin-top:4px}
+
+  /* ---------- pipeline ---------- */
+  .pipe{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+  .pipe .st{flex:1 1 150px;background:var(--panel);border:1px solid var(--line);
+    border-top:3px solid var(--line-2);border-radius:5px;padding:9px 11px}
+  .pipe .st b{display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;
+    color:var(--ink-3);letter-spacing:.06em;margin-bottom:3px}
+  .pipe .st span{font-size:13.5px;font-weight:500}
+  .pipe .st em{display:block;font-style:normal;font-family:"IBM Plex Mono",monospace;
+    font-size:11px;margin-top:5px;color:var(--ink-3)}
+  .pipe .st.p1,.pipe .st.p2{border-top-color:var(--amber)}
+  .pipe .st.p3,.pipe .st.p4,.pipe .st.p5{border-top-color:var(--accent)}
+
+  /* ---------- drill ---------- */
+  details.drill{border:1px solid var(--line);border-radius:6px;background:var(--panel);
+    padding:0 15px;margin:0 0 9px}
+  details.drill[open]{border-color:var(--line-2)}
+  details.drill summary{cursor:pointer;padding:11px 0;font-weight:500;list-style:none;
+    display:flex;gap:11px;align-items:baseline}
+  details.drill summary::-webkit-details-marker{display:none}
+  details.drill summary::before{content:"Q" counter(drill);counter-increment:drill;
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--accent);font-weight:600;
+    flex:0 0 auto}
+  details.drill summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;
+    border-radius:4px}
+  details.drill .ans{border-top:1px solid var(--line);padding:11px 0 13px;color:var(--ink-2);
+    font-size:14px}
+  details.drill .ans p{margin:0 0 8px}
+  details.drill .ans p:last-child{margin-bottom:0}
+  .drills{counter-reset:drill}
+
+  footer{border-top:1px solid var(--line);padding-top:18px;color:var(--ink-3);font-size:13px}
+  footer p{max-width:74ch}
+
+  .themectl{display:inline-flex;align-items:center;gap:7px;background:var(--panel);
+    border:1px solid var(--line-2);border-radius:6px;color:var(--ink-2);
+    font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;letter-spacing:.04em;
+    padding:5px 9px;cursor:pointer}
+  a.themectl{text-decoration:none}
+  .themectl:hover{border-color:var(--accent);color:var(--ink)}
+  .themectl:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .themectl .et{color:var(--ink-3)}
+  @media print{ .themectl{display:none} }
+
+  @media (max-width:640px){
+    .page{padding:0 16px 70px}
+    .shead .wk{display:none}
+  }
+  @media print{
+    nav.jump{display:none}
+    body{background:#fff;font-size:10.5pt}
+    .page{max-width:none;padding:0}
+    section{break-inside:auto;margin-bottom:22px}
+    .note,.tw,.nums,details.drill{break-inside:avoid}
+    details.drill{border:0;padding:0}
+    details.drill[open] .ans,details.drill .ans{display:block}
+  }
+</style>
+
+<script src="theme.js"></script>
+<script src="locale.js"></script>
+</head>
+<body>
+<p style="max-width:1180px;margin:0 auto;padding:16px 24px 0;font:500 13px/1.5 system-ui,sans-serif"><a href="index.html" style="color:#1d6e56;text-decoration:none">&larr; Back to the training hub</a></p>
+<div class="page">
+
+<header class="mast">
+  <p class="kicker">Revision sheet · Contrail / VibeIQ</p>
+  <h1>VibeIQ Exam Kit</h1>
+  <p class="standfirst">Everything the exam covers, condensed from the ten modules: the data
+  model, the Loader, publish, workflows, and above all the <em>silent failures</em> — the ones
+  where the system answers &laquo; completed &raquo; while the data is gone. That is where half
+  the questions live.</p>
+  <div class="meta">
+    <span>Weeks 1 &rarr; 10</span>
+    <span>Source: docs.vibeiq.com</span>
+    <span>Platform terminology kept verbatim</span>
+    <a class="themectl" data-locale-toggle href="cheatsheet.html">Français</a>
+    <button class="themectl" type="button" data-theme-toggle>Theme</button>
+  </div>
+</header>
+
+<nav class="jump" aria-label="Contents">
+  <ol>
+    <li><a href="#positionnement"><b>01</b>Positioning</a></li>
+    <li><a href="#vocabulaire"><b>02</b>Vocabulary</a></li>
+    <li><a href="#modele"><b>03</b>Data model</a></li>
+    <li><a href="#publish"><b>04</b>Publish</a></li>
+    <li><a href="#loader"><b>05</b>Loader</a></li>
+    <li><a href="#integration"><b>06</b>Integrations</a></li>
+    <li><a href="#workflows"><b>07</b>Workflows</a></li>
+    <li><a href="#config"><b>08</b>Config &amp; Apps</a></li>
+    <li><a href="#ops"><b>09</b>Security &amp; Ops</a></li>
+    <li><a href="#diagnostic"><b>10</b>Diagnosis</a></li>
+    <li><a href="#chiffres"><b>11</b>Numbers</a></li>
+    <li><a href="#pieges"><b>12</b>Silent traps</a></li>
+    <li><a href="#drill"><b>13</b>Drill</a></li>
+  </ol>
+</nav>
+
+<!-- 01 -->
+<section id="positionnement">
+  <div class="shead"><span class="num">01</span><h2>Where VibeIQ sits</h2><span class="wk">Week 1</span></div>
+
+  <div class="note key">
+    <span class="lbl">The sentence to be able to recite</span>
+    <p>VibeIQ sits <strong>upstream of PLM</strong>, in the creative-commercial gap where the
+    product is still being <em>decided</em> rather than developed. It sits <strong>alongside</strong>
+    PLM/ERP/PIM/DAM, not in their place, and integrates bidirectionally with them.</p>
+  </div>
+
+  <p class="lead">The GTM calendar is the backbone: trend &rarr; line planning &rarr; design &rarr;
+  <strong>line review</strong> &rarr; development &amp; sourcing &rarr; sell-in &rarr; production.
+  VibeIQ lives in the top half; tech packs, BOM, costing and POs belong to PLM and ERP.</p>
+
+  <div class="grid2">
+    <div>
+      <h3>The system landscape</h3>
+      <div class="tw"><table>
+        <thead><tr><th>System</th><th>Owns</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td>PLM</td><td>Tech packs, BOM, costing, samples</td><td>Centric, FlexPLM, Backbone</td></tr>
+          <tr><td>ERP</td><td>POs, inventory, finance</td><td>SAP, NetSuite, Oracle</td></tr>
+          <tr><td>PIM</td><td>Published commerce attributes</td><td>Akeneo, Salsify, inRiver</td></tr>
+          <tr><td>DAM</td><td>Master assets</td><td>Bynder, Aprimo, AEM</td></tr>
+          <tr><td>Merch planning</td><td>OTB, store clustering</td><td>o9, Blue Yonder, Anaplan</td></tr>
+        </tbody>
+      </table></div>
+      <p><strong>What VibeIQ actually replaces</strong>: Miro, Excel, PowerPoint — not the systems
+      above. Board &harr; Miro · Plan &harr; Excel · Showcase &harr; PowerPoint.</p>
+    </div>
+    <div>
+      <h3>The three apps and the platform</h3>
+      <ul>
+        <li><strong>Board</strong> — trend research, mood boards, creative direction.</li>
+        <li><strong>Plan</strong> — line planning. &laquo; Each row represents an actual product
+        record &raquo;: the grid is a <em>view onto entities</em>, not a document.</li>
+        <li><strong>Showcase</strong> — line reviews; stays live, and feedback flows back into the
+        product record.</li>
+      </ul>
+      <p>Underneath: Product Data Platform · Agent layer · Event &amp; workflow engine ·
+      Integration &amp; app platform (connectors, APIs, MCP server).</p>
+      <div class="note">
+        <span class="lbl">Brands</span>
+        <p><strong>Contrail</strong> = the technical sub-brand (developer docs).
+        <strong>VibeIQ</strong> = the commercial brand. Same product.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section id="vocabulaire">
+  <div class="shead"><span class="num">02</span><h2>The customer's vocabulary</h2><span class="wk">Week 1</span></div>
+  <p class="lead">Know these cold: customers use them constantly, and two of them map straight
+  onto the data model.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Term</th><th>Meaning</th><th>Technical consequence</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Line</td><td>The full offer for a season</td><td>—</td></tr>
+      <tr><td class="k">Assortment</td><td>Curated selection for a channel, region or customer</td><td>One line &rarr; many assortments</td></tr>
+      <tr><td class="k">Season</td><td>SS26, FW26, Holiday 26</td><td>&asymp; a Project</td></tr>
+      <tr><td class="k">Style</td><td>The design (a hoodie)</td><td>= <strong>Family</strong></td></tr>
+      <tr><td class="k">Colourway</td><td>The style in one colour</td><td>= <strong>Option</strong></td></tr>
+      <tr><td class="k">SKU</td><td>The colourway in one size</td><td>Volume explosion</td></tr>
+      <tr><td class="k">Line review</td><td>The meeting where the assortment gets cut</td><td>The moment VibeIQ has to win</td></tr>
+      <tr><td class="k">OTB</td><td>Open-to-buy budget</td><td>Constrains the assortment</td></tr>
+      <tr><td class="k">Carryover</td><td>Style carried over from a season</td><td>Same Item, new ProjectItem</td></tr>
+      <tr><td class="k">Sell-in / sell-through</td><td>Selling to the buyer / to the consumer</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 03 -->
+<section id="modele">
+  <div class="shead"><span class="num">03</span><h2>The data model — the key module</h2><span class="wk">Week 2</span></div>
+  <p class="lead">Almost every escalation resolves here: <strong>which entity holds the value, at
+  which property level, under which federatedId?</strong></p>
+
+  <h3>The three layers</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Entity</th><th>Scope</th><th>Answers</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Item</td><td>Org-wide, season-independent</td><td>&laquo; What is this product, in general? &raquo;</td></tr>
+      <tr><td class="k">ProjectItem</td><td>One Project (&asymp; one season)</td><td>&laquo; What is this product <em>for SS26</em>? &raquo;</td></tr>
+      <tr><td class="k">AssortmentItem</td><td>One Assortment</td><td>&laquo; Is it in <em>this</em> assortment, and on what terms? &raquo;</td></tr>
+    </tbody>
+  </table></div>
+  <p>Strict, one-way nesting. Hence the Loader's pairing rules: <code>PROJECT_ITEM</code>
+  &laquo; must be paired with <code>ITEM</code> &raquo;; <code>ASSORTMENT</code> must be paired
+  with <code>ITEM</code> and may be paired with <code>PROJECT_ITEM</code> — the selection loads
+  all three instances in the same load.</p>
+
+  <h3>Property levels — Family, Option, All, Override</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Level</th><th>Behaviour</th><th>Use for</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Family</td><td>Written on the Family and <strong>copied down</strong> to every Option</td><td>Category, silhouette, description</td></tr>
+      <tr><td class="k">Option</td><td>Written on the Option only</td><td>Colour code, option image</td></tr>
+      <tr><td class="k">All</td><td>Managed individually everywhere — <strong>no copy-down</strong></td><td>Explicit values with no inheritance</td></tr>
+      <tr><td class="k">Override</td><td>Copies down <em>but</em> can be overridden at Option level</td><td>Price, margin target</td></tr>
+    </tbody>
+  </table></div>
+  <p>CSV column suffixes to target the level: <code>somePropertyFamily</code>,
+  <code>somePropertyOption</code>.</p>
+
+  <div class="note trap">
+    <span class="lbl">The three failures to recognise on sight</span>
+    <p><strong>1 · Wrong level at design time.</strong> Price set to <code>Family</code> instead of
+    <code>Override</code> &rarr; you cannot charge more for one colourway. The customer says
+    &laquo; the system won't let us do it &raquo;.</p>
+    <p><strong>2 · Copy-down clobber.</strong> Reloading a Family property overwrites manual
+    entries at Option level. The customer says &laquo; our data was reset overnight &raquo;.
+    <em>The all-time classic.</em></p>
+    <p><strong>3 · All vs Override.</strong> The team expects inheritance, gets none, and every
+    option is empty. The customer says &laquo; the load didn't work &raquo;.</p>
+  </div>
+
+  <h3>federatedId — the upsert key</h3>
+  <p>&laquo; A value you provide which uniquely identifies the entity within an org. &raquo; If the
+  entity does not exist &rarr; created; if it exists &rarr; updated. For Custom Entities only,
+  absent a designated property, <code>name</code> is used.</p>
+  <div class="note trap">
+    <span class="lbl">The platform's #1 integration bug</span>
+    <p>Entities created <strong>in the apps by users have no federatedId</strong>. A customer runs
+    a manual pilot, then wires up a Loader feed keyed on style number: everything loads as
+    <em>new</em>, no errors, and they have two of everything.</p>
+    <p>The second-order question to ask on every account: <strong>where does the federatedId come
+    from?</strong> If it derives from a mutable business value (a style number that gets
+    renumbered), the upsert key changes and you harvest orphans. A stable, meaningless key beats a
+    meaningful one.</p>
+  </div>
+
+  <h3>Projects, Assortments, owners</h3>
+  <p>A <strong>Project</strong> is the season container (nested folders, plans, assortments,
+  showcases, boards). An <strong>Assortment</strong> can stand alone or have an owner — hence the
+  load types <code>ASSORTMENT</code>, <code>PLAN</code>, <code>BOARD</code>,
+  <code>SHOWCASE</code>. <strong>Board, Plan and Showcase are each backed by an assortment</strong>:
+  three views onto the same kind of object, which is why a product moves from mood board to line
+  plan without being recreated.</p>
+</section>
+
+<!-- 04 -->
+<section id="publish">
+  <div class="shead"><span class="num">04</span><h2>The publish lifecycle</h2><span class="wk">Week 3</span></div>
+  <div class="pipe">
+    <div class="st p1"><b>1</b><span>Editing in a Plan</span></div>
+    <div class="st p2"><b>2</b><span>Adopting images / colours / attributes</span></div>
+    <div class="st p3"><b>3</b><span>A user triggers <em>publish</em></span></div>
+    <div class="st p4"><b>4</b><span>Plan rows are pushed into the Assortment<em>internal commit</em></span></div>
+    <div class="st p5"><b>5</b><span>An <code>AssortmentPublishChange</code> is created</span></div>
+  </div>
+  <div class="note key">
+    <span class="lbl">The step everyone skips</span>
+    <p>Step 4. <strong>Publish is not &laquo; send to the PLM &raquo;</strong>: it is first an
+    internal commit from the Plan to the Assortment. Downstream integration is merely a
+    <em>consumer</em> of the record that commit produces. So a publish can succeed while the
+    downstream sync fails — two separate investigations.</p>
+  </div>
+
+  <h3>Anatomy of an AssortmentPublishChange</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Field</th><th>Contents</th></tr></thead>
+    <tbody>
+      <tr><td class="k">assortmentBaselineDownloadLink</td><td>S3 URL — the full state of the assortment at publish time</td></tr>
+      <tr><td class="k">deleteDataDownloadLink</td><td>S3 URL — only the items removed <em>in this publish</em></td></tr>
+      <tr><td class="k">detail</td><td><code>adds</code>, <code>updates</code>, <code>deletes</code>, <code>familyItemsRemoved</code></td></tr>
+    </tbody>
+  </table></div>
+  <p>The baseline answers &laquo; what is true now &raquo;; the detail answers &laquo; what changed
+  this time &raquo;. A serious consumer needs both: the detail for efficiency, the baseline for
+  recovery.</p>
+
+  <div class="note trap">
+    <span class="lbl">The two rules that cause incidents</span>
+    <p><strong>Deletes do not accumulate.</strong> Each change carries only the deletions from
+    <em>its own</em> publish. Missing publish #15 means those deletions are missed permanently.
+    The only remedy: re-baseline.</p>
+    <p><strong>S3 links expire after 24 h.</strong> Re-fetching the change object regenerates the
+    links. <strong>Store the change ID, never the URL.</strong></p>
+  </div>
+</section>
+
+<!-- 05 -->
+<section id="loader">
+  <div class="shead"><span class="num">05</span><h2>The Loader</h2><span class="wk">Week 4</span></div>
+  <p class="lead">A <code>LoaderProcess</code> is an <strong>asynchronous entity</strong>: status,
+  configuration used, logs, metadata. Creating it queues the work. So a load is inspectable and
+  comparable, not a command you fire and forget.</p>
+
+  <div class="grid2">
+    <div>
+      <h3>The two diagnostic fields</h3>
+      <ul>
+        <li><code>failureArea</code> — <strong>read this first</strong>. Four values:
+        <code>NONE</code>, <code>PARSING_CSV</code>, <code>VALIDATING_DATA</code>,
+        <code>TRANSFORMING_DATA</code>. A single field narrows the fault to a quarter of the
+        pipeline.</li>
+        <li><code>preprocessingStepResults</code> — an array of file IDs, one per step. Each
+        <code>loader-process-step-&lt;Step Name&gt;.json</code> file contains
+        <strong>rows, errors, warnings</strong>. <em>Diff two consecutive steps and the offending
+        step is unambiguous.</em></li>
+      </ul>
+    </div>
+    <div>
+      <h3>The five phases</h3>
+      <div class="tw"><table>
+        <thead><tr><th class="num">#</th><th>Phase</th><th>failureArea</th></tr></thead>
+        <tbody>
+          <tr><td class="num">1</td><td>CSV parsing</td><td class="k">PARSING_CSV</td></tr>
+          <tr><td class="num">2</td><td>Validation</td><td class="k">VALIDATING_DATA</td></tr>
+          <tr><td class="num">3</td><td>Preprocessing</td><td class="k" rowspan="3">TRANSFORMING_DATA</td></tr>
+          <tr><td class="num">4</td><td>Entity construction</td></tr>
+          <tr><td class="num">5</td><td>Upsert API by federatedId</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="note key">
+    <span class="lbl">Fail-fast — no partial loads</span>
+    <p>&laquo; If validation produces any errors, the load stops immediately with a
+    <code>VALIDATING_DATA</code> failure area. &raquo; <strong>Errors stop</strong>,
+    <strong>warnings let it continue</strong>, and <strong>&laquo; no partial loads occur &raquo;</strong>.
+    Consequence: you fix and re-run, there is no reconciliation to do. Equally useful corollary: a
+    &laquo; completed &raquo; load really did apply everything — if the data is wrong afterwards,
+    the cause is transformation or configuration, not a half-finished job.</p>
+  </div>
+
+  <h3>Error taxonomy</h3>
+  <p><code>CONFIG</code> · <code>HEADER_MISMATCH</code> · <code>INVALID_DATA</code> ·
+  <code>VALIDATION_ERROR</code> · <code>DUPLICATE_FEDERATED_ID</code> · <code>SYSTEM_ERROR</code>.
+  Row-level issue: <code>{rowNumber, columnIssues:[{columnName, message, issueType, data}]}</code>.
+  File/config level: <code>{message, issueType}</code>, with no row number.</p>
+
+  <h3>The six preprocessing steps</h3>
+  <div class="tw"><table>
+    <thead><tr><th class="num">#</th><th>Step</th><th>Effect</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td>Boolean conversion</td><td>The strings <code>"true"</code>/<code>"false"</code> become booleans</td></tr>
+      <tr><td class="num">2</td><td>federatedMappings</td><td>Source column &rarr; target property, or a literal applied to every row</td></tr>
+      <tr><td class="num">3</td><td>propertiesToRemove</td><td>Drops the listed columns</td></tr>
+      <tr><td class="num">4</td><td>Type transformations <strong>without warnings</strong></td><td>Label&rarr;slug, label&rarr;value for option sets</td></tr>
+      <tr><td class="num">5</td><td>conditionalColumns</td><td>Creates/overwrites columns; <code>{column}</code> interpolation and JS expressions</td></tr>
+      <tr><td class="num">6</td><td>Type transformations <strong>with warnings</strong></td><td>Replays step 4 and reports this time</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trap">
+    <span class="lbl">The gap between 4 and 6</span>
+    <p>Step 4 normalises <em>silently</em> so that step 5 works on clean values; step 6 replays and
+    reports. So <strong>a value mangled in step 4 and then overwritten in step 5 never produces a
+    single warning</strong>. Value inconsistent with the CSV and no warning anywhere &rarr; suspect
+    the 4/5/6 interaction and read the artifacts instead of reasoning.</p>
+  </div>
+
+  <h3>Configuration — the fields</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Field</th><th>Required</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td class="k">loadType</td><td>yes</td><td><code>ITEM</code>, <code>PROJECT_ITEM</code>, <code>ASSORTMENT</code>, <code>COLOR</code>, <code>CUSTOM_ENTITY</code>, <code>SIZE_RANGE_TEMPLATE</code>. <strong>Only <code>ITEM</code> combines</strong></td></tr>
+      <tr><td class="k">fileLocation</td><td>API/SDK</td><td>ID of the uploaded File entity; set automatically by the CLI</td></tr>
+      <tr><td class="k">federatedMappings</td><td>no</td><td>Target property &rarr; source column</td></tr>
+      <tr><td class="k">conditionalColumns</td><td>no</td><td><code>{toProperty, fromProperty?, conditions?, default?}</code> — <strong>first match wins</strong></td></tr>
+      <tr><td class="k">propertiesToRemove</td><td>no</td><td>Columns to drop</td></tr>
+      <tr><td class="k">workspaceIdentifier</td><td>with PROJECT_ITEM</td><td>The project's <code>identifier</code></td></tr>
+      <tr><td class="k">assortmentSplit</td><td>with ASSORTMENT</td><td>Routes rows by column value</td></tr>
+      <tr><td class="k">partialAssortmentUpdate</td><td>no</td><td>Defaults to <code>false</code> — see the four flags</td></tr>
+      <tr><td class="k">shouldSkipAssortmentPublish</td><td>no</td><td>Defaults to <code>false</code> — see the four flags</td></tr>
+      <tr><td class="k">loaderConfigurationId</td><td>no</td><td>Pre-uploaded, reusable YAML/JSON config</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>The four flags that change what a load <em>is</em></h3>
+  <div class="note trap">
+    <span class="lbl">1 · shouldSkipAssortmentPublish — the most dangerous</span>
+    <p>Set to <code>true</code>, the write goes <strong>straight to the database, bypassing the
+    publish workflow</strong>: no change history, no summary recalculation, no composite assortment
+    update, and <strong>no <code>assortment|publish</code> event</strong>. The load succeeds,
+    VibeIQ is correct, the PLM is stale indefinitely, and nothing anywhere flags a problem.
+    Legitimate use: high-volume backfill with no history needed. The real problem: it gets set
+    &laquo; just for the migration &raquo; and stays in a reusable config forever.
+    <strong>Check it before you blame the consumer.</strong></p>
+  </div>
+  <div class="note warn">
+    <span class="lbl">2 · partialAssortmentUpdate — a default that deletes</span>
+    <p>Defaults to <code>false</code> = <strong>replacement</strong>. Full-load semantics: CSV items
+    absent from the assortment &rarr; added; present on both sides &rarr; updated; identical &rarr;
+    unchanged; <strong>&laquo; assortment items not in CSV &rarr; deleted &raquo;</strong>. Sending
+    only the 40 changed styles does not update 40 items: <em>only</em> those 40 remain. The load
+    reports success. Set to <code>true</code>, you get the boolean columns <code>addField</code> /
+    <code>dropField</code>; an &laquo; add &raquo; on an existing item is treated as an update.</p>
+  </div>
+  <div class="note warn">
+    <span class="lbl">3 · assortmentSplit — the silent loss</span>
+    <p>Groups rows by <code>fieldToSplitOn</code> and maps each group to an assortment.
+    <strong>&laquo; Rows with values not matching any entry are skipped &raquo;</strong> — skipped,
+    not errored. One new category value, one typo, one trailing space, and those rows never load
+    while the job reports success.</p>
+  </div>
+  <div class="note">
+    <span class="lbl">4 · workspaceIdentifier — and a genuine UI gap</span>
+    <p>Required as soon as <code>loadType</code> contains <code>PROJECT_ITEM</code>, &laquo; even
+    when also loading assortments &raquo;. Vocabulary: <strong>a &laquo; project &raquo; in the UI
+    is a <code>workspace</code> with <code>workspaceType: 'PROJECT'</code> in the API</strong>. The
+    trap: the identifier &laquo; is not editable in the Hub UI; it must be set via direct
+    <code>PUT</code> request &raquo; — an admin cannot fix it by clicking.</p>
+  </div>
+
+  <h3>Family / Option in a CSV</h3>
+  <p><strong>Each row typically represents one option.</strong> Rows sharing an
+  <code>itemFamilyFederatedId</code> become the options of one family, and <strong>the loader
+  creates the parent family automatically</strong>. A row <em>with</em> an
+  <code>itemOptionFederatedId</code> is an option; without one, it is a family on its own.
+  <code>name</code> = family name, <code>optionName</code> = option name, <code>typePath</code>
+  mandatory on <em>every</em> row (often via conditionalColumn), <code>optionGroup</code> = the
+  axis (e.g. <code>color</code>).</p>
+  <pre><code>style,styleName,colorName          → "federatedMappings": {
+SH-4471,Tech Fleece Hoodie,Black       "itemFamilyFederatedId": "style",
+SH-4471,Tech Fleece Hoodie,Navy        "itemOptionFederatedId": "colorName",
+SH-4471,Tech Fleece Hoodie,Gold        "name":                  "styleName",
+SH-9902,Trail Short,Black              "optionName":            "colorName"
+                                     }
+3 rows → 1 family (SH-4471) with 3 options, + 1 family (SH-9902) with 1 option.</code></pre>
+  <div class="note key">
+    <span class="lbl">The five-minute exercise</span>
+    <p>You can read a customer's property-level model straight off their CSV: columns that
+    <strong>repeat</strong> within a family are <strong>Family</strong> properties; those that
+    <strong>vary</strong> are <strong>Option</strong>; the one that is usually the same but
+    occasionally differs for a colourway is <strong>Override</strong>. Five minutes that predict
+    years of tickets.</p>
+  </div>
+
+  <h3>federatedId mechanics, Loader side</h3>
+  <ul>
+    <li><strong>&laquo; There is no configuration to say 'this column is my Federated ID'. &raquo;</strong>
+    Sole exception: Custom Entity (defaults to <code>name</code>). Everywhere else the value must
+    arrive under the right property name — via <code>federatedMappings</code> or a
+    <code>conditionalColumn</code>.</li>
+    <li>&laquo; It is critical to ensure that federatedId values do not change between loads. &raquo;</li>
+    <li>Unrecognised CSV columns are <strong>silently ignored</strong>.</li>
+    <li>Validation catches duplicates <em>within a file</em>; nothing catches drift
+    <em>between</em> two files.</li>
+    <li>A <strong>computed</strong> ID (<code>"{familyNumber}.split('-')[0]"</code>) inherits the
+    source field's formatting as a hidden dependency: <code>ABC-123</code> &rarr;
+    <code>ABC_123</code> and the upsert key changes for every row.</li>
+  </ul>
+
+  <h3>CLI vs API, and the drift effect</h3>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>CLI</th><th>API / SDK</th></tr></thead>
+    <tbody>
+      <tr><td>Command</td><td class="k">contrail load upload-and-load &lt;File&gt; &lt;Config&gt;</td><td>Upload, then create the LoaderProcess</td></tr>
+      <tr><td>fileLocation</td><td>Automatic</td><td>You supply it</td></tr>
+      <tr><td>Stored configs</td><td><strong>Unavailable</strong> — <code>loaderConfigurationId</code> not supported</td><td>Supported</td></tr>
+      <tr><td>Good for</td><td>Local files, testing, one-offs</td><td>Production, automation</td></tr>
+    </tbody>
+  </table></div>
+  <p>Because the CLI cannot use a stored config, it passes a <em>local copy</em> that drifts.
+  Classic symptom: &laquo; the same file loads differently depending on who runs it &raquo;.
+  Compare the config saved on each <code>LoaderProcess</code> before anything else.</p>
+
+  <h3>What a load does to your workflows</h3>
+  <p>Phase 5 performs upserts, so a load <strong>emits ordinary events</strong>:
+  <code>item|create</code> for new rows, <code>item|update</code> for existing ones, same for
+  <code>project-item</code> and <code>assortment-item</code>. A 20,000-row load = 20,000 trigger
+  evaluations. <strong>Except</strong> that <code>shouldSkipAssortmentPublish</code> suppresses
+  <code>assortment|publish</code>: entity workflows fire, the outbound integration stays
+  silent.</p>
+</section>
+
+<!-- 06 -->
+<section id="integration">
+  <div class="shead"><span class="num">06</span><h2>Integrations — the data going out</h2><span class="wk">Week 5</span></div>
+  <div class="tw"><table>
+    <thead><tr><th>Criterion</th><th>Change History Polling</th><th>Publish Events</th></tr></thead>
+    <tbody>
+      <tr><td>Trigger</td><td>Scheduled (time)</td><td>Event (on publish)</td></tr>
+      <tr><td>Latency</td><td>Minutes to hours</td><td>Near real time</td></tr>
+      <tr><td>Complexity</td><td>Simple</td><td>Requires a webhook endpoint</td></tr>
+      <tr><td>State</td><td>At the consumer (timestamp)</td><td>In the delivery</td></tr>
+      <tr><td><strong>Scope</strong></td><td><strong>Any entity type</strong></td><td><strong>Assortment publishes only</strong></td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>That &laquo; scope &raquo; row decides most architectures.</strong> Events carry
+  publishes only; an item change that never publishes is never carried. Many customers do both:
+  events for latency, polling as a safety net.</p>
+
+  <h3>Authentication</h3>
+  <p>Base <code>https://api.vibeiq.com/prod/api</code>, headers <code>X-Api-Key</code> and
+  <code>X-Api-Org</code>. Keys via <code>contrail app getApiKey</code>, format
+  <code>app:uEL7GCBZ7Xhd4w2z</code>. Errors: <code>401</code> (key, expiry, wrong org slug) ·
+  <code>404</code> (missing <em>or</em> access denied <em>or</em> wrong entity type —
+  <strong>it is not proof of absence</strong>) · <code>429</code> (backoff, batch).</p>
+  <div class="note warn">
+    <span class="lbl">Never promise a throughput</span>
+    <p>The platform is &laquo; rate-limited to ensure system stability &raquo; but the numbers are
+    not published — higher limits go through support. (The &laquo; 15 req/hour &raquo; you find
+    online belongs to vibe.co, a different company.)</p>
+  </div>
+
+  <h3>The event path</h3>
+  <pre><code>{ "assortmentId": "25uDvGNpYhZHw2nt", "assortmentPublishChangeId": "lTuARQLrhgWHNr3k" }</code></pre>
+  <p>The payload is thin, and <strong>the delivery mechanism is an Event Workflow</strong>: so
+  &laquo; the event never arrived &raquo; is a week-7 investigation (Process List, paths, access
+  grants, taskOutputs). Retrieval:
+  <code>GET /assortments/{assortmentId}/history/{changeId}</code>.</p>
+  <p>Baseline structure: <code>baselineData.assortmentItems[]</code> &rarr; <code>.item</code>,
+  <code>.item.itemFamily</code>, <code>.projectItem</code>. <strong>The week-2 layers are literally
+  in the payload</strong>: mapping is a data-model decision, not plumbing.</p>
+
+  <h3>Polling and its seam</h3>
+  <p><code>/api/change-history</code> with <code>createdOn BETWEEN a AND b</code>. <strong>A time
+  filter is not a cursor</strong> — three failure causes:</p>
+  <ul>
+    <li><strong>Boundary exclusivity</strong> — inclusive: double processing; exclusive: records on
+    the same instant are lost.</li>
+    <li><strong>In-flight writes</strong> — committed after the query ran but timestamped before
+    the boundary: lost.</li>
+    <li><strong>Clock drift</strong> — a locally computed <code>now</code> skips windows.</li>
+  </ul>
+  <p>Four guardrails: overlap the window (<code>lastSync − margin</code>) · idempotent processing ·
+  advance the timestamp from the <strong>max <code>createdOn</code> returned</strong>, not the
+  local clock · never advance on partial failure. Symptom: a few missing records, no errors, not
+  reproducible &rarr; go read the window calculation, not the data.</p>
+
+  <h3>A resilient consumer — six risks</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Risk</th><th>Response</th></tr></thead>
+    <tbody>
+      <tr><td>S3 links expiring at 24 h</td><td>Persist the change <strong>ID</strong>, re-fetch</td></tr>
+      <tr><td>Non-cumulative deletes</td><td>Track processed change IDs; on a gap, re-baseline</td></tr>
+      <tr><td>Downtime</td><td>Reconcile against the baseline on restart</td></tr>
+      <tr><td>429</td><td>Exponential backoff with jitter, batch, cache</td></tr>
+      <tr><td>Duplicate delivery</td><td>Idempotent writes keyed on entity + change</td></tr>
+      <tr><td>Partial failure</td><td>Transactional application or a resumable journal</td></tr>
+    </tbody>
+  </table></div>
+  <p>The habit to recommend: <strong>periodic reconciliation against a fresh baseline</strong>,
+  which <em>reports</em> discrepancies instead of silently fixing them.</p>
+
+  <h3>Webhook security — two directions</h3>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>Inbound (external &rarr; VibeIQ)</th><th>Outbound (VibeIQ &rarr; external)</th></tr></thead>
+    <tbody>
+      <tr><td>Endpoint</td><td class="k">POST /api/trigger-webhooks/{ID}</td><td>The customer's URL</td></tr>
+      <tr><td>Verification</td><td><code>X-Verify-Signature</code>, <strong>optional</strong>, shared secret</td><td>API key, <strong>HMAC</strong>, or IP allowlist</td></tr>
+      <tr><td>Setup</td><td>CLI/API; the ID in the URL is a bearer credential</td><td>&laquo; Configuration requires contacting VibeIQ support &raquo;</td></tr>
+    </tbody>
+  </table></div>
+  <p>Recommend HMAC outbound; claim nothing about the robustness of inbound. Outbound setup goes
+  through support &rarr; that is a <strong>lead time</strong> to put in the project plan.</p>
+
+  <div class="note key">
+    <span class="lbl">The artifact that prevents arguments</span>
+    <p>An <strong>attribute ownership map</strong>: for each attribute, the authoritative system,
+    the direction, the VibeIQ entity layer, the property level, and the conflict rule. &laquo; The
+    PLM overwrote our margin target &raquo; is not a bug, it is the absence of that document.</p>
+  </div>
+</section>
+
+<!-- 07 -->
+<section id="workflows">
+  <div class="shead"><span class="num">07</span><h2>Event Workflows</h2><span class="wk">Week 6</span></div>
+  <p class="lead">&laquo; The main engine for reacting to system events and running apps. &raquo;
+  Made of <strong>triggers, conditionals, actions</strong>, declared in <code>app.yml</code> under
+  <code>workflows:</code>. Properties: <code>identifier</code>, <code>name</code>,
+  <code>triggerKey</code>, <code>isActive</code>, <code>public</code>,
+  <code>parallelWorkerCount</code> (1–30, default 5), <code>messageGroupId</code>,
+  <code>messageGroup</code> + <code>dynamicMessageGroupId</code>, <code>crons</code>.</p>
+
+  <h3>Six trigger categories</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Category</th><th>Form</th></tr></thead>
+    <tbody>
+      <tr><td>System events</td><td class="k">{entityType}|{action} — item, project-item, assortment-item, plan-placeholder, custom-entity, comment, content</td></tr>
+      <tr><td>Manual</td><td class="k">triggerKey: manual</td></tr>
+      <tr><td>Custom app event</td><td class="k">'@{publisherOrgSlug}/{appName}:{EventName}'</td></tr>
+      <tr><td>Declared trigger key</td><td><code>external-event</code> entity with <code>details.eventType</code></td></tr>
+      <tr><td>Scheduled</td><td class="k">crons</td></tr>
+      <tr><td>Webhook</td><td class="k">triggerKey: "webhookId:WEBHOOK_ID"</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trap">
+    <span class="lbl">The trigger that does not exist</span>
+    <p><code>assortment</code> has <strong>only</strong> <code>assortment|publish</code>. There is
+    no <code>assortment|update</code>. Any requirement that assumes one has to be redesigned — and
+    it is a frequent cause of &laquo; the workflow never fired &raquo;.</p>
+  </div>
+
+  <h3>Paths and conditionals</h3>
+  <p><code>workflowDefinition.paths</code> is <strong>ordered</strong>: &laquo; only the first path
+  whose conditional evaluates to <code>true</code> is executed; the remaining paths are skipped
+  &raquo;. These are if/else-if, not independent rules — one over-broad conditional at the top of
+  the list turns everything after it into dead code, silently.</p>
+  <ul>
+    <li><code>{newData.&lt;slug&gt;}</code> — the state after</li>
+    <li><code>{oldData.&lt;slug&gt;}</code> — the state before, <strong>absent on creates</strong></li>
+    <li><code>{propertyDiffs.&lt;slug&gt;.&lt;oldValue|newValue&gt;}</code></li>
+    <li><code>{changeObjects}</code> — for bulk-change workflows</li>
+  </ul>
+  <div class="note warn">
+    <span class="lbl">Create vs update</span>
+    <p><code>{newData.x} !== {oldData.x}</code> does not behave the same on create and on update. A
+    bulk load creates thousands of entities at once: the workflow notifies for part of the file and
+    not for the rest. It looks like a bug; it is not.</p>
+  </div>
+
+  <h3>Actions, grants, execution</h3>
+  <p>An action references a key from the app's <code>actions</code>, with an optional
+  <code>config</code> &laquo; merged with runtime context &raquo; — hence the promotion risk: a
+  staging endpoint in a production workflow's <code>config</code>. <code>accessGrants</code> bound
+  what actions can touch: <code>read</code> (get, query) / <code>write</code> (get, query, create,
+  update, delete). <strong>A workflow that runs and does nothing is often a missing grant.</strong></p>
+  <div class="note key">
+    <span class="lbl">One task at a time, in order</span>
+    <p>Each firing creates a <em>process</em>, which contains <em>tasks</em>. &laquo; Only one task
+    runs at a time in a process, and tasks always run in order. If one task fails, none of the
+    subsequent tasks are run. &raquo; Later actions are <strong>never executed</strong>, not
+    &laquo; failed &raquo;. Put the riskiest action last, and never infer that a late action ran
+    just because the process exists.</p>
+  </div>
+
+  <h3>Concurrency and message grouping</h3>
+  <ul>
+    <li><strong>Static</strong>: <code>messageGroupId: X</code> + <code>parallelWorkerCount: 1</code>
+    &rarr; strictly one at a time.</li>
+    <li><strong>Dynamic</strong>: <code>messageGroup</code> + <code>dynamicMessageGroupId:
+    'X-{newData.itemFamilyId}'</code> &rarr; same key serialised, different keys in parallel.</li>
+    <li>Defaults: 25 concurrent processes per workflow, <strong>60 per organisation</strong>,
+    adjustable through the CSM.</li>
+  </ul>
+  <p>Two field lessons: the org ceiling is <em>shared</em>, so one chatty workflow starves the
+  others (&laquo; our other integration got slow on Tuesday &raquo;); and raising
+  <code>parallelWorkerCount</code> without grouping turns a performance complaint into data
+  corruption.</p>
+
+  <h3>Lifecycle and observability</h3>
+  <p><code>app.yml</code> &rarr; <code>contrail app publish</code> &rarr; Workflow Template
+  Definitions &rarr; <code>contrail workflow-template-definitions install</code> in the org. So
+  <strong>changing a workflow is a release, not a setting.</strong></p>
+  <p>Admin Console &rarr; <strong>Process List</strong>, reverse-chronological. UI/API statuses:
+  Pending/<code>PENDING</code>, Processing/<code>ACTIVE</code>, Awaiting/<code>AWAITING</code>,
+  Completed/<code>COMPLETE</code>, Failed/<code>FAILED</code>. Programmatic fields:
+  <code>status</code>, <code>taskOutputs</code>, <code>triggerEvent</code>, <code>startTime</code>,
+  <code>endTime</code>.</p>
+  <div class="note trap">
+    <span class="lbl">The evidence has a shelf life</span>
+    <p>&laquo; After 90 days, workflow logs (including the list of processes and tasks) are
+    permanently deleted. &raquo; And above all: <strong>&laquo; once deleted, the process list,
+    task list, and logs for a workflow is lost &raquo;</strong> — deleting a workflow destroys the
+    audit trail <em>immediately</em>. <strong>Deactivate, do not delete.</strong></p>
+  </div>
+
+  <h3>The &laquo; why didn't it fire? &raquo; ladder</h3>
+  <ol>
+    <li>Is there a process? (none &rarr; the trigger never matched; yes &rarr; jump to 5)</li>
+    <li><code>isActive</code>, installed in this org, from the expected app version?</li>
+    <li>The right <code>triggerKey</code>? (classic: expecting <code>assortment|update</code>)</li>
+    <li>Did the change emit that event? (a bulk load emits <code>create</code>)</li>
+    <li>Which path ran? Read <code>triggerEvent</code>, evaluate top to bottom.</li>
+    <li>Did the actions succeed? <code>taskOutputs</code>. COMPLETE but with no effect = access
+    grant or wrong <code>config</code>.</li>
+    <li>Intermittent and load-correlated? &rarr; concurrency, not logic.</li>
+  </ol>
+</section>
+
+<!-- 08 -->
+<section id="config">
+  <div class="shead"><span class="num">08</span><h2>Configuration, apps, extensions</h2><span class="wk">Week 7</span></div>
+  <p class="lead">A spectrum, not a binary. Cost, time-to-change and skill requirements rise
+  together.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Level</th><th>What</th><th>Who / how</th></tr></thead>
+    <tbody>
+      <tr><td class="k">L0</td><td>Types &amp; properties</td><td>Admin</td></tr>
+      <tr><td class="k">L1</td><td>Formulas, rule sets, validation functions, blueprints</td><td>Config, no deployment</td></tr>
+      <tr><td class="k">L2</td><td>Workflows &amp; actions</td><td>Code, inside an app</td></tr>
+      <tr><td class="k">L3</td><td>Extensions</td><td>Code + hosted UI</td></tr>
+      <tr><td class="k">L4</td><td>External systems</td><td>Off-platform</td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Default question: what is the lowest rung that genuinely solves the problem?</strong>
+  Not the lowest rung in absolute terms — an L1 answer to an L2 problem is a fragile stack of
+  formulas.</p>
+
+  <div class="grid2">
+    <div>
+      <h3>Formulas — three silent failures</h3>
+      <ol>
+        <li><strong>Misspelled slug</strong> &rarr; <code>undefined</code>, no error. Check every
+        slug against the real Type before saving.</li>
+        <li>&laquo; Updates to Reference Data does not cause Formulas to re-run &raquo; &rarr;
+        right at write time, stale forever after.</li>
+        <li>&laquo; On the Frontend, only Formulas in Plans are run &raquo;; a single level of
+        object hydration.</li>
+      </ol>
+      <p>Timing: create + update; ProjectItem formulas replay on Item update; <strong>a Plan
+      publish triggers every Item, ProjectItem and AssortmentItem formula</strong>.</p>
+    </div>
+    <div>
+      <h3>Rule Sets</h3>
+      <p>They control <code>editable</code>, <code>required</code>, <code>optionSetValues</code>,
+      <code>minValue</code>/<code>maxValue</code>, <code>validationFunction</code> per slug
+      according to entity state. Semantics: <strong>outer array = OR</strong>, <strong>inner
+      criteria = AND</strong>, <strong>&laquo; editability is locked wins &raquo;</strong>, and
+      validation constraints accumulate.</p>
+      <div class="note warn">
+        <span class="lbl">To confirm internally</span>
+        <p>They &laquo; evaluate client-side, affecting editor experience for all users &raquo;.
+        Working assumption: <strong>a UX guardrail, not an integrity guarantee</strong> —
+        Loader/API writes probably bypass them. That changes how you design validation for any
+        integrated field.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Configuration Copy — environment promotion</h3>
+  <p><code>contrail types getAll</code> (export) / <code>contrail types loadAll</code> (import).
+  Eleven categories, a YAML tree. Types keyed on <code>typePath</code> (<code>item:footwear</code>),
+  hierarchies and policies on <code>identifier</code>. Three consequences:</p>
+  <ul>
+    <li>Config is text &rarr; <strong>put it under version control</strong>. The cheapest maturity
+    gain available.</li>
+    <li>Whole-org export, no cherry-picking &rarr; promotion is wholesale, and environments drift
+    without discipline.</li>
+    <li><strong>Config and apps are promoted by two different mechanisms</strong>
+    (<code>types loadAll</code> vs app publish/install). A promotion is two things that have to
+    stay in step.</li>
+  </ul>
+
+  <h3>Apps — three settled facts</h3>
+  <div class="note trap">
+    <span class="lbl">The commercial landmine</span>
+    <p>The app identifier is <strong>globally reserved and immutable</strong> after creation
+    (<code>org@domain/app-name</code>). And: <strong>&laquo; the org that first creates an app is
+    the owner… App ownership can not be modified. &raquo;</strong> If an integrator creates the app
+    in <em>their</em> org, the customer can never own it; the only remedy is a rebuild under a new
+    identifier. <strong>Ask the question before anyone runs <code>app create</code>.</strong></p>
+  </div>
+  <p>Visibility in <code>app.yml</code>: <code>private</code> (default) · <code>private</code> +
+  <code>accessGrants[{orgSlug, permissions:[install]}]</code> · <code>public</code>. A public
+  marketplace listing requires VibeIQ validation through the CSM.</p>
+
+  <h3>Extensions</h3>
+  <p>Manifest: <code>identifier</code>, <code>name</code>, <code>userApps: [BOARDS, PLAN]</code>,
+  <code>display</code>, <code>iframeUrl</code>, <code>extensionType</code>. Three types:
+  <code>DOCUMENT_AUTOMATION</code>, <code>CONTEXTUAL_ACTION</code>, <code>ADMIN_UTILITY</code>.
+  Display <strong>modal</strong> (centred dialog, focused tasks) or <strong>side-menu</strong>
+  (right-hand panel, inspection tools).</p>
+  <div class="note warn">
+    <span class="lbl">What it commits you to</span>
+    <p>An extension requires <strong>public HTTPS hosting</strong>: that is a service the customer
+    operates — availability, TLS, deployments, on-call. When it goes down, users report a VibeIQ
+    outage. Settle hosting ownership and monitoring <em>before</em> go-live.</p>
+  </div>
+
+  <h3>Routing table</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Need</th><th>Answer</th></tr></thead>
+    <tbody>
+      <tr><td>Derived value on the same entity</td><td>Formula</td></tr>
+      <tr><td>Field locked / required / constrained by state</td><td>Rule Set</td></tr>
+      <tr><td>&laquo; When X, do Y &raquo;</td><td>Workflow</td></tr>
+      <tr><td>Send it somewhere else</td><td>Workflow action / integration</td></tr>
+      <tr><td>Users need a screen</td><td>Extension + a hosting conversation</td></tr>
+      <tr><td>BOM costing, POs</td><td><strong>Wrong system</strong> (week 1)</td></tr>
+    </tbody>
+  </table></div>
+  <p>The sentence with value in it is not &laquo; yes &raquo; or &laquo; no &raquo;, it is
+  <strong>&laquo; it's possible, and here is what owning it costs &raquo;</strong>.</p>
+</section>
+
+<!-- 09 -->
+<section id="ops">
+  <div class="shead"><span class="num">09</span><h2>Platform, security, operations</h2><span class="wk">Week 8</span></div>
+  <div class="note key">
+    <span class="lbl">The org is the boundary</span>
+    <p>Isolation, ownership, configuration and capacity are all bounded by the org. <strong>An
+    environment is just another org</strong> — there is no environment abstraction above it. So
+    dev/staging/prod is a <em>convention held up by discipline</em>, and promotion (two mechanisms,
+    no reconciliation) drifts silently.</p>
+  </div>
+
+  <div class="grid2">
+    <div>
+      <h3>The permission layers</h3>
+      <div class="tw"><table>
+        <thead><tr><th>Layer</th><th>Controls</th></tr></thead>
+        <tbody>
+          <tr><td>Org membership</td><td>Existence in the tenant</td></tr>
+          <tr><td>App <code>accessGrants</code></td><td>Who can install (only permission: <code>install</code>)</td></tr>
+          <tr><td>Workflow <code>accessGrants</code></td><td>Entity types in read/write</td></tr>
+          <tr><td>Type Policies</td><td>READ, CREATE, UPDATE, DELETE</td></tr>
+          <tr><td>Type Property Policies</td><td>Property-level restrictions</td></tr>
+          <tr><td>API keys</td><td>Machine access, app-scoped</td></tr>
+        </tbody>
+      </table></div>
+      <p>&laquo; VibeIQ has no user permission model &raquo; is <strong>false</strong>: Type
+      Policies exist and are among the 11 Configuration Copy categories. What is missing is the
+      documentation, not the capability. <em>Still unknown</em>: how those policies map onto named
+      roles in the apps.</p>
+    </div>
+    <div>
+      <h3>Credentials</h3>
+      <ul>
+        <li><code>app:…</code> keys, long-lived. Never in the repo; environment variables or a
+        secrets manager; <strong>one key per environment</strong>; rotation and revocation.</li>
+        <li><strong>The CLI caches auth in <code>~/.vibeiq/configs/</code></strong> — a credential
+        store on every laptop that has run it. Offboarding must include a revocation.</li>
+        <li>A webhook's trigger URL contains the ID = a bearer credential.</li>
+      </ul>
+      <h3>Runtime</h3>
+      <p><code>nodeRuntime: "nodejs22.x"</code> in <code>app.yml</code>. Every customer with a
+      custom app carries a <strong>maintenance obligation nobody budgeted for</strong>: track which
+      accounts have apps and on which runtime.</p>
+    </div>
+  </div>
+
+  <h3>Observability — and its limit</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Surface</th><th>Shows</th><th>Horizon</th></tr></thead>
+    <tbody>
+      <tr><td>Event Workflows Dashboard</td><td>Workflows fired / failed</td><td>90 days</td></tr>
+      <tr><td>Process List</td><td>Processes, tasks, statuses, <code>triggerEvent</code>, <code>taskOutputs</code></td><td>90 days</td></tr>
+      <tr><td>Workflow Artifacts</td><td>Files attached to a process</td><td>Deleted with the process</td></tr>
+      <tr><td>LoaderProcess</td><td>Status, config used, per-step artifacts</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>None of this is alerting.</strong> All of it has to be looked at. Recommend that the
+  customer build their monitoring on the process APIs — and institutionalise the failure trend
+  chart: a glance before every call, a screenshot in every QBR.</p>
+
+  <h3>The unknowns we own up to</h3>
+  <ol>
+    <li>User roles and Type Policy mapping</li>
+    <li>Numeric rate limits and SLAs</li>
+    <li>Data residency beyond <code>us-east-1</code></li>
+    <li>Compliance certifications</li>
+    <li>Proactive alerting on the customer side</li>
+    <li>Whether rule sets apply to API/Loader writes; inbound webhook verification</li>
+  </ol>
+  <p>&laquo; I don't know, I'll come back to you Thursday &raquo; — specific and honoured — beats a
+  bluff. Bluffing a compliance answer is unrecoverable.</p>
+</section>
+
+<!-- 10 -->
+<section id="diagnostic">
+  <div class="shead"><span class="num">10</span><h2>The diagnostic method</h2><span class="wk">Weeks 9–10</span></div>
+  <div class="note key">
+    <span class="lbl">The rule</span>
+    <p>The first question is <strong>not</strong> &laquo; why is this happening? &raquo; but
+    <strong>&laquo; which segment of the pipeline am I in? &raquo;</strong>. Locating is cheap —
+    the platform records almost everything — and it eliminates whole categories in one check.</p>
+  </div>
+
+  <h3>Six checkpoints — and where to start</h3>
+  <div class="tw"><table>
+    <thead><tr><th class="num">CP</th><th>Segment</th><th>What you look at</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td>Source</td><td>Is the value correct in the original file?</td></tr>
+      <tr><td class="num">2</td><td>Loader</td><td>LoaderProcess: status, config used, per-step artifacts (diff)</td></tr>
+      <tr><td class="num">3</td><td><strong>Entities</strong></td><td><strong>Which layer, which property level, which federatedId?</strong></td></tr>
+      <tr><td class="num">4</td><td>Workflows / formulas</td><td>Process List: fired? which path? <code>taskOutputs</code>?</td></tr>
+      <tr><td class="num">5</td><td>Publish</td><td>Is there an AssortmentPublishChange? Did the rows reach the assortment?</td></tr>
+      <tr><td class="num">6</td><td>Consumer</td><td>Received? Processed — including the deletes?</td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Bisect: start at CP3.</strong> Correct there &rarr; the problem is downstream. Wrong
+  there &rarr; it is upstream. One look halves the search space.</p>
+
+  <h3>Symptom shape &rarr; cause class</h3>
+  <div class="tw"><table>
+    <thead><tr><th>What the customer describes</th><th>Look for</th></tr></thead>
+    <tbody>
+      <tr><td>Intermittent, load-correlated, never the same records</td><td>Concurrency race</td></tr>
+      <tr><td>Constant, silent, every record</td><td>Configuration</td></tr>
+      <tr><td>Only part of a batch</td><td>Create vs update divergence</td></tr>
+      <tr><td>&laquo; It started on the 12th, we changed nothing &raquo;</td><td>Deployment, config promotion, or an expiry</td></tr>
+      <tr><td>A few missing, not reproducible</td><td>Integration seam (polling window)</td></tr>
+      <tr><td>Right on write, wrong later</td><td>Recalculation or copy-down</td></tr>
+      <tr><td>Only some users</td><td>Permissions or client-side rules</td></tr>
+      <tr><td>Everything is slow</td><td>Shared capacity (org ceiling)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note key">
+    <span class="lbl">The highest-yield question</span>
+    <p><strong>&laquo; If you re-run it, is it the same record that fails? &raquo;</strong>
+    The same one &rarr; logic or configuration. A different one &rarr; timing or concurrency.</p>
+  </div>
+
+  <h3>What a good escalation contains</h3>
+  <ol>
+    <li>The segment, located — not &laquo; X is broken &raquo;</li>
+    <li>The identifiers (process IDs, change IDs, org)</li>
+    <li><strong>What you ruled out, and how</strong> — most often omitted, and the one that saves
+    the most time</li>
+    <li>The shape of the symptom</li>
+    <li>Business impact and deadline</li>
+    <li>Your hypothesis, <em>labelled as a hypothesis</em></li>
+  </ol>
+  <p>With the customer: explicitly separate <strong>known / suspected / unknown</strong>, commit to
+  a time for the <em>next update</em> rather than a time for resolution, give them something to do,
+  and close with the mechanism, not just &laquo; it's fixed &raquo;. Never answer &laquo; whose
+  fault is it? &raquo; — answer &laquo; here is what happened and what we are changing &raquo;.</p>
+</section>
+
+<!-- 11 -->
+<section id="chiffres">
+  <div class="shead"><span class="num">11</span><h2>The numbers to know by heart</h2><span class="wk">All weeks</span></div>
+  <div class="nums">
+    <div><b>5</b><span>Loader phases</span></div>
+    <div><b>6</b><span>preprocessing steps</span></div>
+    <div><b>4</b><span><code>failureArea</code> values</span></div>
+    <div><b>6</b><span><code>issueType</code> values</span></div>
+    <div><b>4</b><span>property levels</span></div>
+    <div><b>3</b><span>entity layers</span></div>
+    <div><b>1–30</b><span><code>parallelWorkerCount</code> (default 5)</span></div>
+    <div><b>25</b><span>concurrent processes per workflow</span></div>
+    <div><b>60</b><span>processes per org — <strong>shared</strong></span></div>
+    <div><b>24 h</b><span>S3 link expiry</span></div>
+    <div><b>90 d</b><span>workflow log retention</span></div>
+    <div><b>11</b><span>Configuration Copy categories</span></div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section id="pieges">
+  <div class="shead"><span class="num">12</span><h2>The silent failures</h2><span class="wk">The list that pays</span></div>
+  <p class="lead">An exam on this platform tests mostly one thing: do you know where the system
+  answers &laquo; success &raquo; while the data is wrong, lost, or never sent? Here are the
+  twelve.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Where</th><th>What happens</th><th>What the customer says</th></tr></thead>
+    <tbody>
+      <tr><td class="k">shouldSkipAssortmentPublish</td><td>No <code>assortment|publish</code> event, no change history</td><td>&laquo; We loaded it, the PLM got nothing &raquo;</td></tr>
+      <tr><td class="k">partialAssortmentUpdate</td><td>Default = replacement: the assortment shrinks to the file</td><td>&laquo; Our products disappeared &raquo;</td></tr>
+      <tr><td class="k">assortmentSplit</td><td>Unmapped values: rows <em>skipped</em>, not errored</td><td>&laquo; Some of it is missing &raquo;</td></tr>
+      <tr><td>Unknown CSV columns</td><td>Ignored without a word</td><td>&laquo; The field never fills in &raquo;</td></tr>
+      <tr><td>Preprocessing 4 &rarr; 5</td><td>Value mangled in 4, overwritten in 5: no warning</td><td>&laquo; The value doesn't match the CSV &raquo;</td></tr>
+      <tr><td class="k">federatedId</td><td>Hand-created entities with no key &rarr; everything is recreated</td><td>&laquo; We have two of everything &raquo;</td></tr>
+      <tr><td>Computed federatedId</td><td>A format change at source changes the upsert key</td><td>&laquo; The duplicates started on Monday &raquo;</td></tr>
+      <tr><td>Family copy-down</td><td>A reload overwrites Option-level entries</td><td>&laquo; Our data was reset &raquo;</td></tr>
+      <tr><td>Formula, wrong slug</td><td><code>undefined</code>, no error</td><td>&laquo; The calculated column is empty &raquo;</td></tr>
+      <tr><td>Reference Data</td><td>Does not re-run formulas &rarr; stale values</td><td>&laquo; It was right at the start &raquo;</td></tr>
+      <tr><td>Over-broad workflow path</td><td>First-match-wins: everything after it is dead code</td><td>&laquo; That rule never applies &raquo;</td></tr>
+      <tr><td>Polling window</td><td>Boundaries, in-flight writes, clock drift</td><td>&laquo; A record goes missing now and then &raquo;</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 13 -->
+<section id="drill">
+  <div class="shead"><span class="num">13</span><h2>Drill — answer before you open</h2><span class="wk">Self-assessment</span></div>
+  <p class="lead">Twelve questions in the shape the exam takes. Say the answer out loud, then
+  unfold. A &laquo; roughly right &raquo; answer counts as wrong: it is the exact terms
+  (<code>failureArea</code>, &laquo; no partial loads occur &raquo;, <code>assortment|publish</code>)
+  that are marked.</p>
+  <div class="drills">
+
+    <details class="drill"><summary>What are the three entity layers, and what question does each answer?</summary>
+      <div class="ans"><p><strong>Item</strong> — org scope, season-independent: &laquo; what is this product, in general? &raquo;. <strong>ProjectItem</strong> — one project &asymp; one season: &laquo; what is this product for SS26? &raquo;. <strong>AssortmentItem</strong> — one assortment: &laquo; is it in, and on what terms? &raquo;. Strict nesting, hence the Loader pairing: <code>PROJECT_ITEM</code> must be paired with <code>ITEM</code>, <code>ASSORTMENT</code> with <code>ITEM</code> and optionally <code>PROJECT_ITEM</code>.</p></div>
+    </details>
+
+    <details class="drill"><summary>Difference between the <code>All</code> and <code>Override</code> property levels?</summary>
+      <div class="ans"><p><code>Override</code> copies the value down to every option <em>but</em> allows a different value on a specific option — it is the level for price or a margin target. <code>All</code> manages the value individually on each entity in the family and <strong>&laquo; no copy down behavior exists &raquo;</strong> — no inheritance at all. Confusing the two produces the &laquo; all our options are empty &raquo; symptom.</p></div>
+    </details>
+
+    <details class="drill"><summary>A customer has two copies of every product. Most likely hypothesis, and the question to ask?</summary>
+      <div class="ans"><p>The entities were created by hand in the apps: <strong>they have no federatedId</strong>. The Loader feed wired up afterwards has nothing to match on and creates everything fresh, with no error. Question: <em>&laquo; were these records created in the UI before the first integration, and were they assigned a federatedId via the API? &raquo;</em> Variant: the federatedId is <em>computed</em> and its source changed format.</p></div>
+    </details>
+
+    <details class="drill"><summary>What exactly does step 4 of the publish lifecycle do, and why does it matter?</summary>
+      <div class="ans"><p>It <strong>persists the Plan rows into the underlying Assortment</strong> — an internal commit. Publish is not &laquo; send to the PLM &raquo;: the <code>AssortmentPublishChange</code> created next is merely a record an external consumer comes to fetch. So a publish can succeed while the downstream sync fails, and those are two different investigations.</p></div>
+    </details>
+
+    <details class="drill"><summary>A consumer missed publish #15. What did it lose, and how do you repair it?</summary>
+      <div class="ans"><p>The <strong>deletions</strong> from that publish, permanently: &laquo; delete data does NOT accumulate across publishes &raquo;, each change carries only its own deletes. Adds and updates will be caught up by a later baseline; deletes will not. The only remedy: <strong>re-baseline</strong> against <code>assortmentBaselineDownloadLink</code> and reconcile. And if the consumer stored the URL instead of the change ID, it cannot even re-download it — the links expire in 24 h.</p></div>
+    </details>
+
+    <details class="drill"><summary>A load reports &laquo; completed &raquo; and the PLM received nothing. What do you check first?</summary>
+      <div class="ans"><p><code>shouldSkipAssortmentPublish</code> in the configuration saved on the <code>LoaderProcess</code>. Set to <code>true</code>, the write bypasses the publish workflow: no change history, no summary recalculation, no composites, <strong>no <code>assortment|publish</code> event</strong>. The load genuinely succeeded, VibeIQ is correct, and nothing signals that downstream is stale. Check the flag <em>before</em> blaming the consumer.</p></div>
+    </details>
+
+    <details class="drill"><summary>The customer sends only the 120 changed styles. What happens, and which field changes the answer?</summary>
+      <div class="ans"><p>The assortment is <strong>reduced to those 120 styles</strong>: <code>partialAssortmentUpdate</code> defaults to <code>false</code>, and full-load semantics say &laquo; assortment items not in CSV &rarr; deleted &raquo;. The load reports success. The field that changes everything is <code>partialAssortmentUpdate: true</code>, with the boolean columns <code>addField</code> / <code>dropField</code> (an &laquo; add &raquo; on an existing item is treated as an update).</p></div>
+    </details>
+
+    <details class="drill"><summary>Why do type transformations run twice, and what can be lost between the two?</summary>
+      <div class="ans"><p>Step 4 normalises <strong>silently</strong> so that step 5's <code>conditionalColumns</code> work on already-clean values; step 6 replays the transformation and <strong>this time reports</strong> the warnings. What gets lost: a value mangled in 4 and then overwritten in 5 <em>never</em> generates a warning. Symptom: the value does not match the CSV, and there is no warning anywhere.</p></div>
+    </details>
+
+    <details class="drill"><summary>A workflow must react to any assortment change. What do you answer?</summary>
+      <div class="ans"><p>That the trigger does not exist: <strong><code>assortment</code> has only <code>assortment|publish</code></strong>. The requirement has to be redesigned — react to entities (<code>assortment-item|update</code>) if the content is what matters, or accept publish granularity. It is also the classic cause of &laquo; our workflow never fired &raquo;: the third rung of the diagnostic ladder.</p></div>
+    </details>
+
+    <details class="drill"><summary>A process is <code>COMPLETE</code> but nothing was written. The two causes?</summary>
+      <div class="ans"><p><strong>A missing <code>accessGrant</code></strong> (the action is not allowed to write that entity type) or <strong>a wrong <code>config</code></strong> (the action did run, but pointed elsewhere — a staging endpoint promoted into production, for instance). Useful reminder along the way: within a process only one task runs at a time, in order, and if one fails the following ones are <em>never executed</em> — not &laquo; failed &raquo;.</p></div>
+    </details>
+
+    <details class="drill"><summary>A customer raises <code>parallelWorkerCount</code> from 5 to 20 to go faster. What happens?</summary>
+      <div class="ans"><p>Without message grouping, you convert <strong>a performance complaint into data corruption</strong>: events touching the same family are now processed in parallel and step on each other. And because the <strong>60-processes-per-org ceiling is shared</strong>, this workflow starves the others — &laquo; our other integration got slow &raquo;. The right answer is <code>messageGroup</code> + <code>dynamicMessageGroupId</code> to serialise by key.</p></div>
+    </details>
+
+    <details class="drill"><summary>Symptom: a few records go missing now and then, no errors, not reproducible. Where do you go?</summary>
+      <div class="ans"><p>Into the <strong>polling window calculation</strong>, not the data. A time filter is not a cursor: boundary exclusivity, writes committed after the query ran but timestamped before the boundary, clock drift. The four guardrails: overlap the window, idempotent processing, advance the timestamp from the <strong>max <code>createdOn</code> returned</strong>, and never advance on partial failure.</p></div>
+    </details>
+
+  </div>
+</section>
+
+<footer>
+  <p>A condensation of the ten modules of the TAM programme (weeks 1 to 10), based on the official
+  Contrail documentation: data loading, integration patterns, workflows, configuration, apps and
+  extensions. Quoted passages are taken verbatim from the documentation; the points marked
+  &laquo; to confirm &raquo; remain acknowledged unknowns, not facts.</p>
+</footer>
+
+</div>
+</body>
+</html>
