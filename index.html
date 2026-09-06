@@ -1914,15 +1914,97 @@
         <h3 id="m2-practical-exercise">Practical exercise</h3>
         <div class="card">
           <p>Take a single real-ish product — a hoodie in 4 colourways, 6 sizes, planned for SS26, appearing in both a Wholesale assortment and a DTC assortment at different price points.</p>
-          <p style="margin-bottom:0">Write out, as a list: which values live on the <strong>Item</strong>, which on the <strong>ProjectItem</strong>, which on the <strong>AssortmentItem</strong>, and for each Item-level property, which <strong>property level</strong> (Family / Option / All / Override) you would configure it as — and one sentence on why. Ten to fifteen properties is plenty.</p>
-        </div>
+          <p>Write out, as a list: which values live on the <strong>Item</strong>, which on the <strong>ProjectItem</strong>, which on the <strong>AssortmentItem</strong>, and for each Item-level property, which <strong>property level</strong> (Family / Option / All / Override) you would configure it as — and one sentence on why. Ten to fifteen properties is plenty.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p>The hoodie: 4 colourways, 6 sizes, SS26, in a Wholesale and a DTC assortment at different prices.</p>
+              <p><strong>Item</strong> — org-wide, season-independent. The product itself.</p>
+              <ul>
+              <li><code>styleNumber</code> — <strong>Family</strong>. The identity of the style; cannot vary by colourway.</li>
+              <li><code>styleName</code> ("Tech Fleece Hoodie") — <strong>Family</strong>. Same reason.</li>
+              <li><code>category</code> / <code>silhouette</code> — <strong>Family</strong>. A hoodie stays a hoodie in every colour.</li>
+              <li><code>gender</code> / <code>division</code> — <strong>Family</strong>.</li>
+              <li><code>colourName</code> ("Black") — <strong>Option</strong>. This is the axis the options exist along.</li>
+              <li><code>colourCode</code> — <strong>Option</strong>.</li>
+              <li><code>sizeRange</code> — <strong>Family</strong> if all colourways share it; <strong>Override</strong> the moment one colourway ships a short size run. Ask, don't assume.</li>
+              <li><code>materialComposition</code> — <strong>Family</strong>, unless one colourway uses a different fabric — then <strong>Override</strong>.</li>
+              <li><code>primaryImage</code> — <strong>Option</strong>. Every colourway needs its own; a family-level image is the classic "why do all four look black?" complaint.</li>
+              <li><code>lifecycleStatus</code> — <strong>Override</strong>. Usually moves for the whole style, but one colourway does sometimes get cut alone.</li>
+              </ul>
+              <p><strong>ProjectItem</strong> — this product, in SS26. Anything that could legitimately differ next season.</p>
+              <ul>
+              <li><code>seasonalStatus</code> (carryover / new / drop) — the definitional ProjectItem value.</li>
+              <li><code>targetRetailPrice</code> — the season's intended price, before any channel decides otherwise.</li>
+              <li><code>targetMargin</code> / <code>plannedVolume</code> — season-scoped commercial targets.</li>
+              <li><code>deliveryDrop</code> ("Drop 2") — phasing is a property of the season, not of the product.</li>
+              </ul>
+              <p><strong>AssortmentItem</strong> — this product, in <em>this</em> assortment. The two assortments disagree here, and that is the whole point.</p>
+              <ul>
+              <li><code>channelRetailPrice</code> — <strong>$89 in DTC, $85 in Wholesale.</strong> This is the value the exercise is built around: it cannot live on the Item or the ProjectItem, because there is no single correct answer for it.</li>
+              <li><code>placement</code> / <code>doorCount</code> / <code>rank</code> — position within that assortment.</li>
+              <li><code>assortmentStatus</code> — kept or cut <em>from this assortment</em>, independent of the style's overall lifecycle.</li>
+              </ul>
+              <p><strong>And the sizes?</strong> Six sizes do not become six entities here. Size is expressed through the size-range template on the style, not as a third hierarchy level — the Family → Option hierarchy in this model is style → colourway. If you wrote out 24 option rows, that is the thing to correct.</p>
+              <h5>How to think about it</h5>
+              <p><strong>Ask one question per property: "could this legitimately differ, and along which axis?"</strong> If it cannot differ at all, it is Family. If it differs by colourway, it is Option. If it usually follows the style but an exception is legitimate, it is Override. If it differs by season, it is not an Item property at all — it is a ProjectItem property. If it differs by channel, it is an AssortmentItem property. That single question resolves almost every row.</p>
+              <p><strong>The Family/Override distinction is where money is lost.</strong> Both copy down. The difference is only whether an option-level value survives the next load. Model a price as Family and every colourway edit a merchandiser makes is silently reverted the next time the style-level value reloads — which is exactly the Week 2 scenario below, and one of the most common escalations in the platform. The test is simple and worth saying out loud: <em>is an exception ever legitimate?</em> If yes, Override.</p>
+              <p><strong>Watch for the value that has no single right answer.</strong> Channel price is the giveaway in this exercise. If a property's correct value depends on <em>which assortment you are looking from</em>, it cannot live above the AssortmentItem — and putting it there is not a modelling preference, it is a correctness requirement. The same logic pushes seasonal status down to ProjectItem.</p>
+              <p><strong>"All" is the level people forget and then misuse.</strong> It manages values individually for every entity in a family with <strong>no copy-down at all</strong>. That is right when each node genuinely owns its value and inheritance would be misleading. It is wrong as a "safe default" — a team expecting inheritance gets none, every option comes up blank, and the customer reports it as "the load didn't work."</p>
+              <p><strong>What a weak answer looks like:</strong> assigning levels without reasons, or putting everything on the Item because that is where a product "is." The reasons are the deliverable — this exercise is rehearsal for the conversation where a customer asks why their data reverted, and the answer is a property level.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/property_type_handling/" target="_blank" rel="noopener">Property Type Handling</a> — the four levels and their copy-down behaviour. For your role this is the single most important page in the documentation — the "All" definition and the "no copy down behavior exists" wording come from here.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/getting_started/" target="_blank" rel="noopener">Data Loading — Getting Started</a> — entity types and the load-type pairing that shows ProjectItem and AssortmentItem are relationships to an Item, not copies of it.</li>
+                <li><a class="link" href="#m2/m2-concept-1-the-three-item-layers" data-view="m2" data-anchor="m2-concept-1-the-three-item-layers">Concept 1 — The three item layers</a> — the scope test behind the Item / ProjectItem / AssortmentItem split.</li>
+                <li><a class="link" href="#m1/m1-concept-1-the-domain-seasonal-product-creati" data-view="m1" data-anchor="m1-concept-1-the-domain-seasonal-product-creati">Week 1 — style, colourway, SKU</a> — the vocabulary this maps onto: Family ≈ style, Option ≈ colourway.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <h3 id="m2-realistic-customer-scenario">Realistic customer scenario</h3>
         <div class="card">
           <p>Back at <strong>Summit Athletic</strong>, six weeks post go-live. A merchandiser messages you:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"Something's broken. On Monday we set custom retail prices on about 30 individual colourways for the outlet channel. This morning they're all back to the standard style price. Nobody touched them. We're presenting to leadership Thursday."</p>
-          <p style="margin-bottom:0">You have their nightly Loader feed, their property configuration, and the publish history available. Give your <strong>first hypothesis</strong>, the <strong>two things you'd check first</strong> to confirm or kill it, and the <strong>configuration change</strong> you'd expect to end up recommending. Then: one sentence on what you'd say to the merchandiser <em>today</em>, before you know the answer.</p>
-        </div>
+          <p>You have their nightly Loader feed, their property configuration, and the publish history available. Give your <strong>first hypothesis</strong>, the <strong>two things you'd check first</strong> to confirm or kill it, and the <strong>configuration change</strong> you'd expect to end up recommending. Then: one sentence on what you'd say to the merchandiser <em>today</em>, before you know the answer.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>First hypothesis:</strong> <code>retailPrice</code> is configured at <strong>Family</strong> level, not Override. The merchandiser's 30 colourway edits were real and were saved. Then the nightly Loader sent the style-level price again, Family-level copy-down ran, and every option was overwritten with the style value. Nobody touched them — a scheduled job did, exactly as configured.</p>
+              <p><strong>The two things I'd check first</strong> — chosen because either one alone can kill the hypothesis:</p>
+              <ol>
+              <li><strong>The property configuration for <code>retailPrice</code>.</strong> One lookup, and it is decisive: if the level is <code>FAMILY</code>, the mechanism is confirmed and the rest is detail. If it is <code>OVERRIDE</code>, my hypothesis is dead and I stop pursuing it rather than trying to rescue it.</li>
+              <li><strong>The overnight <code>LoaderProcess</code> — did it run, when, and did its file carry a <code>retailPrice</code> column?</strong> Timing has to line up with "fine Monday, wrong Tuesday morning," and the column has to be present. A load that did not include the field cannot have clobbered it, however the property is configured.</li>
+              </ol>
+              <p>Together these separate the two candidate causes cleanly: <em>configuration</em> (wrong level) versus <em>payload</em> (the feed newly started sending a column it never sent before). Both produce identical symptoms and have different fixes.</p>
+              <p><strong>The configuration change I'd expect to recommend:</strong> move <code>retailPrice</code> from Family to <strong>Override</strong>. It still copies down — so setting the style price still populates every colourway, which is the behaviour they want — but a deliberate option-level value now wins and survives the next load. That is precisely the case Override exists for.</p>
+              <p>Two things to raise alongside it, because the fix alone is incomplete:</p>
+              <ul>
+              <li><strong>Recovery of the 30 values.</strong> They are gone from the current state; publish history or the pre-load data tells you what they were. Establish that before promising a restore.</li>
+              <li><strong>Which other properties have the same shape?</strong> Anything a merchandiser can edit per colourway that is modelled at Family will do this too. Price is simply the one they noticed. Audit before Thursday, not after the next incident.</li>
+              </ul>
+              <p><strong>What I'd say to the merchandiser today, before knowing:</strong></p>
+              <blockquote>"Nothing you did caused this and the edits weren't lost by accident — this looks like the system doing what it was configured to do, which means it is fixable and preventable. I'm confirming the mechanism now and I'll come back this afternoon with what happened and what it takes to stop it. Thursday is the priority: tell me whether you need those 30 prices restored, or correct in the deck."</blockquote>
+              <h5>How to think about it</h5>
+              <p><strong>"Nobody touched them" is evidence, not an excuse.</strong> Taken literally it is the most useful sentence in the message: no human edited these records, and they still changed. That rules out user error and points straight at an automated writer — a load, a workflow, or a formula. Treat customer statements as data rather than noise and the search space collapses immediately.</p>
+              <p><strong>The symptom shape names the class of cause before any detail does.</strong> This is <em>consistent</em> (all 30), <em>silent</em> (no error anywhere) and it affects <em>every record of a kind</em> (option-level prices). That shape is configuration, not a race and not a bad row. Had it been "some styles, different ones each night," you would be looking at concurrency instead — a Week 6 problem with an entirely different investigation.</p>
+              <p><strong>Pick checks that can disprove you, and cheap ones first.</strong> The property-level lookup is seconds of work and kills the hypothesis outright if it comes back Override. That is what makes it the right first move — not that it confirms what you already believe. A check that can only agree with you is not a check.</p>
+              <p><strong>Family vs. Override is the whole lesson.</strong> Both copy down, so both look identical the day you configure them. They differ only under the next load, which is days or weeks later — by which time nobody connects the two events. This is why property level is the second of the six universal questions in <a class="link" href="#m9" data-view="m9">Week 9</a>, and why it belongs on the data-model health check.</p>
+              <p><strong>The communication is not padding.</strong> A merchandiser presenting to leadership on Thursday is judging you on whether you sound in control, and the temptation is to say either "I don't know yet" or a confident guess. The move is to separate what you know (the edits weren't lost by accident) from what you suspect (the mechanism), commit to a time, and ask the one question that changes what you do next — restore, or work around it for the deck. That habit is <a class="link" href="#m9/m9-concept-7-holding-the-customer-while-it-s-op" data-view="m9" data-anchor="m9-concept-7-holding-the-customer-while-it-s-op">Week 9, Concept 7</a>, arriving early.</p>
+              <p><strong>What a weak answer looks like:</strong> going straight to the Loader logs. The load succeeded — it will tell you nothing is wrong, because from its point of view nothing is. The configuration is what makes a successful load destructive, so read the configuration first.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/property_type_handling/" target="_blank" rel="noopener">Property Type Handling</a> — the Family vs. Override copy-down semantics this scenario turns on.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/getting_started/" target="_blank" rel="noopener">Data Loading — Getting Started</a> — the LoaderProcess record you pull to confirm timing and payload.</li>
+                <li><a class="link" href="#m9/m9-concept-4-symptom-shape-tells-you-the-class" data-view="m9" data-anchor="m9-concept-4-symptom-shape-tells-you-the-class">Week 9 — Symptom shape → class of cause</a> — why "consistent and silent" means configuration rather than concurrency.</li>
+                <li><a class="link" href="#findings/findings-1-symptom-likely-cause" data-view="findings" data-anchor="findings-1-symptom-likely-cause">Key findings — Symptom → likely cause</a> — "Our data reverted overnight" is the first row of that table, and this is why.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <h3 id="m2-quiz">Quiz</h3>
         <div class="q">
@@ -1957,8 +2039,40 @@
 
         <h3 id="m2-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
-          <p style="margin-bottom:0">Draft a <strong>"data model health check"</strong> — the 6–8 questions you'd ask on inheriting any existing account, aimed squarely at the failure modes in this module: property-level mapping, federatedId source and stability, UI-created records, assortment structure, and publish consumption. This becomes a real artefact you'll use in your first weeks on the job, and we'll fold it into the Week 10 capstone.</p>
-        </div>
+          <p>Draft a <strong>"data model health check"</strong> — the 6–8 questions you'd ask on inheriting any existing account, aimed squarely at the failure modes in this module: property-level mapping, federatedId source and stability, UI-created records, assortment structure, and publish consumption. This becomes a real artefact you'll use in your first weeks on the job, and we'll fold it into the Week 10 capstone.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>The data-model health check.</strong> Eight questions, each aimed at a failure mode from this module. Run it on any account you inherit, before forming an opinion about anything.</p>
+              <ol>
+              <li><strong>"Show me the property configuration export. Which properties are Family, which Override, which All?"</strong><br><em>Finds:</em> the copy-down clobber before it happens. Ask specifically for anything a user can edit per colourway that is modelled at Family — those are scheduled incidents. Take the export (<code>contrail types getAll</code>), not anyone's description of it.</li>
+              <li><strong>"What generates your <code>federatedId</code>, and what could ever change it?"</strong><br><em>Finds:</em> duplicate records. "Could ever change" is the operative half — a stable-looking ID that is really a formatted label (or is computed in a <code>conditionalColumn</code>) will change, and the next load duplicates everything.</li>
+              <li><strong>"Was anything created by users in the UI before the integration was switched on?"</strong><br><em>Finds:</em> the classic pilot-data bug. UI-created entities have no <code>federatedId</code> by default, so the first Loader run creates a second copy of every one of them rather than updating it.</li>
+              <li><strong>"For each of your top ten attributes, which layer is it on — Item, ProjectItem or AssortmentItem?"</strong><br><em>Finds:</em> values modelled too high. Anything that varies by season sitting on the Item, or anything that varies by channel sitting above the AssortmentItem, is a correctness bug waiting for someone to notice.</li>
+              <li><strong>"How is your assortment load configured — <code>partialAssortmentUpdate</code> true or false?"</strong><br><em>Finds:</em> the delete-everything default. It defaults to <code>false</code>, meaning replace: a file containing only this week's changes removes everything not in it. Ask what a typical file contains, then ask what the flag is set to, and see whether the two answers are compatible.</li>
+              <li><strong>"Is <code>shouldSkipAssortmentPublish</code> set anywhere, and does anyone remember why?"</strong><br><em>Finds:</em> the silent integration. It has a legitimate use for high-volume backfills; the danger is that it gets set "just for the migration" and stays in a reusable config forever, making every subsequent load invisible downstream.</li>
+              <li><strong>"Who consumes publishes, and what do they do with the delete file?"</strong><br><em>Finds:</em> ghost products in PLM. The delete link is the most-ignored field in the change object, and deletes do not accumulate across publishes — miss one and those removals never reappear.</li>
+              <li><strong>"Where do Projects and Assortments come from — are they created by hand, by load, or by the Project Configurator?"</strong><br><em>Finds:</em> structural drift. It also surfaces <code>workspaceIdentifier</code> problems early, which matter because that property is not editable in the Hub UI and takes an API call to correct.</li>
+              </ol>
+              <p><strong>How to run it:</strong> questions 1 and 2 are the ones that pay; if you get thirty minutes, spend twenty there. Ask for artefacts rather than answers wherever an artefact exists — a config export, a sample file, a LoaderProcess ID. And write down what you were told <em>and</em> what you verified, separately. The gap between those two lists is your risk register for the account.</p>
+              <h5>How to think about it</h5>
+              <p><strong>A health check is not a questionnaire, it is a set of traps you already know about.</strong> Every question above corresponds to a specific documented failure mode in this module. That is what makes it fast — you are not exploring, you are checking eight known places where accounts break. Questions that do not map to a failure mode are conversation, not diagnostics.</p>
+              <p><strong>Ask for ground truth, not recollection.</strong> Half the value here is refusing to accept a verbal answer where an export exists. People describe the configuration they intended, and the configuration that is running is often two years and three staff changes away from that. <code>contrail types getAll</code> settles it in one command, which is also why <a class="link" href="#m10/m10-concept-5-inheriting-an-account-the-first-th" data-view="m10" data-anchor="m10-concept-5-inheriting-an-account-the-first-th">Week 10 puts the config export first</a> in the inheritance sequence.</p>
+              <p><strong>Two questions look like history and are actually the highest-yield ones.</strong> "Was anything created in the UI first?" and "does anyone remember why this flag is set?" both dig at decisions made during implementation by people who have since left. Those decisions are invisible in the current data and are the cause of a disproportionate share of inherited problems.</p>
+              <p><strong>Order matters more than completeness.</strong> Property levels and identifier stability come first because their answers change how you read everything else. If <code>federatedId</code> is unstable, every duplicate you find later is explained; if it is stable, duplicates mean something different entirely.</p>
+              <p><strong>This artefact compounds.</strong> It pairs with the <a class="link" href="#m3/m3-hands-on-challenge" data-view="m3" data-anchor="m3-hands-on-challenge">Week 3 publish review</a> and the <a class="link" href="#m4/m4-hands-on-challenge" data-view="m4" data-anchor="m4-hands-on-challenge">Week 4 pre-load checklist</a>; by Week 9 the eight artefacts become one account-inheritance kit. Write it so a colleague could run it without you — that is the bar for something worth calling a practice artefact rather than notes.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/property_type_handling/" target="_blank" rel="noopener">Property Type Handling</a> — questions 1 and 4 — the property levels and the layer each value belongs on.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/getting_started/" target="_blank" rel="noopener">Data Loading — Getting Started</a> — questions 2 and 3 — federatedId as the upsert key, and the fact that UI-created entities have none by default.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/loader_configuration/" target="_blank" rel="noopener">Loader Configuration Reference</a> — questions 5 and 6 — <code>partialAssortmentUpdate</code> and <code>shouldSkipAssortmentPublish</code>, with their defaults.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/assortment_publish_integration/" target="_blank" rel="noopener">Assortment Publish Integrations</a> — question 7 — the delete file, and the rule that deletes do not accumulate.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/loading_projects/" target="_blank" rel="noopener">Loading Projects</a> — question 8 — project and assortment structure, and workspaceIdentifier.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <div class="outcome">
           <h4>I know this when I can…</h4>
@@ -2163,15 +2277,94 @@
 
         <h3 id="m3-practical-exercise">Practical exercise</h3>
         <div class="card">
-          <p style="margin-bottom:0">Write the <strong>pseudocode for a well-behaved publish consumer</strong> — twenty lines is plenty. It must: record what it has processed, survive being down for 48 hours, apply deletes correctly, and recover without human help after a missed publish. Then annotate the two lines that would be wrong in a naive implementation, and say what each would cost the customer.</p>
-        </div>
+          <p>Write the <strong>pseudocode for a well-behaved publish consumer</strong> — twenty lines is plenty. It must: record what it has processed, survive being down for 48 hours, apply deletes correctly, and recover without human help after a missed publish. Then annotate the two lines that would be wrong in a naive implementation, and say what each would cost the customer.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <pre><code>on_publish_event(assortmentId, changeId):        # 1
+    if store.already_processed(changeId): return       # 2  idempotency
+    enqueue(changeId)                                  # 3  ack fast, work later
+
+process(changeId):
+    last = store.last_processed_change(assortmentId)   # 4
+    change = api.get_change(changeId)                  # 5  fetch fresh — links are 24h
+    if not is_consecutive(last, change):               # 6  a gap = missed publishes
+        reconcile_from_baseline(change); return        # 7  re-baseline, don't resume
+    adds    = fetch(change.detail.adds)
+    updates = fetch(change.detail.updates)
+    deletes = fetch(change.deleteDataDownloadLink)     # 8  the ignored one
+    with transaction():                                # 9
+        apply(adds); apply(updates); remove(deletes)
+        store.mark_processed(changeId)                 # 10 same commit as the work
+
+reconcile_from_baseline(change):
+    baseline = fetch(change.assortmentBaselineDownloadLink)
+    replace_assortment_state(baseline)                 # 11 full truth at publish time
+    store.mark_processed(change.id)
+
+nightly:                                               # 12 catches silent stalling
+    if hours_since_last_event(assortmentId) > 26: alert()</code></pre>
+              <p><strong>The two lines a naive implementation gets wrong:</strong></p>
+              <p><strong>Line 5 — fetching the change object fresh, rather than storing the S3 URL.</strong> A naive consumer persists <code>assortmentBaselineDownloadLink</code> when the event arrives and re-uses it later. Those links <strong>expire after 24 hours</strong>. What it costs the customer: recovery fails at exactly the moment it is needed. The stored URL works in every test, works for a day, and is dead the morning someone actually needs to reconcile. Persist the <em>change ID</em>; re-fetch to get fresh links.</p>
+              <p><strong>Line 6–7 — detecting the gap and re-baselining instead of resuming.</strong> A naive consumer comes back from downtime and processes the newest change, or walks forward applying each missed <code>detail</code> in turn. Both are wrong, because <strong>deletes do not accumulate across publishes</strong> — each change carries only the items dropped in <em>that</em> publish. What it costs: products cut weeks ago stay active in PLM forever, and sourcing starts costing styles nobody is making. Nothing self-heals, because no future publish will ever mention those deletions again. That is the Week 3 scenario in one line of code.</p>
+              <h5>How to think about it</h5>
+              <p><strong>The whole design follows from one asymmetry: adds and updates are self-correcting, deletes are not.</strong> Miss an add and the next publish that touches the item fixes it. Miss a delete and it is gone forever from the event stream. So every recovery decision in a publish consumer is really a decision about deletions, and "just resume where we left off" is the instinct that has to be trained out.</p>
+              <p><strong>Store the ID, never the URL.</strong> This is the single most transferable rule from the module, and it generalises: persist the <em>identifier of the thing</em>, fetch the <em>access to it</em> on demand. Any time an API hands you a pre-signed URL, assume it is perishable.</p>
+              <p><strong>Idempotency is not optional, because at-least-once delivery is the norm.</strong> Line 2 costs almost nothing and removes an entire class of duplicate-application bug. Note it pairs with line 10: marking a change processed must happen in the <em>same</em> transaction as the work, or a crash between the two leaves you having done the work and not recorded it — or worse, recorded it and not done it.</p>
+              <p><strong>Ack fast, work later (line 3).</strong> Doing the whole sync inside the webhook handler means a slow PLM write turns into a delivery timeout, which turns into a retry, which arrives while the first attempt is still running. Now you have concurrency you never designed for. Accept the event, queue it, return.</p>
+              <p><strong>Line 12 is the one people leave out and regret.</strong> Every failure mode above is loud. The dangerous one is silence — a consumer that stopped receiving events and therefore stops doing anything, reporting nothing, because "no errors" and "no work" look identical from the outside. A staleness alarm is the only thing that distinguishes them, and it is three lines.</p>
+              <p><strong>What a weak answer looks like:</strong> pseudocode that processes the event payload directly. The payload is deliberately thin — two IDs — and carries no product data at all. If your twenty lines never call back to the API, you have misread the mechanism.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/assortment_publish_integration/" target="_blank" rel="noopener">Assortment Publish Integrations</a> — the change object's three parts, the 24-hour link expiry, and the rule that delete data does not accumulate across publishes. The spine of this exercise.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/" target="_blank" rel="noopener">Integration Patterns — overview</a> — the push/poll comparison that frames why an event consumer needs its own recovery path.</li>
+                <li><a class="link" href="#m5/m5-concept-5-designing-a-consumer-that-survives" data-view="m5" data-anchor="m5-concept-5-designing-a-consumer-that-survives">Week 5 — Designing a consumer that survives</a> — the same six hazards worked in full, with the design answer for each.</li>
+                <li><a class="link" href="#findings/findings-5-numbers-worth-memorising" data-view="findings" data-anchor="findings-5-numbers-worth-memorising">Key findings — Numbers worth memorising</a> — 24 hours and 90 days: the two horizons that constrain every recovery conversation.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <h3 id="m3-realistic-customer-scenario">Realistic customer scenario</h3>
         <div class="card">
           <p><strong>Summit Athletic</strong>, three months in. Their PLM lead emails:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"Centric has 40 styles that merchandising says were cut from the SS27 line weeks ago. They're showing as active and our sourcing team has started costing two of them. Merch swears they dropped them in VibeIQ. Who's wrong?"</p>
-          <p style="margin-bottom:0">Give your <strong>four checkpoints in order</strong> and what you'd look for at each. Then: your <strong>leading hypothesis</strong>, the <strong>fix for the immediate problem</strong>, and the <strong>change that stops it recurring</strong>. Note that "who's wrong" is the wrong question — say what you'd reply instead.</p>
-        </div>
+          <p>Give your <strong>four checkpoints in order</strong> and what you'd look for at each. Then: your <strong>leading hypothesis</strong>, the <strong>fix for the immediate problem</strong>, and the <strong>change that stops it recurring</strong>. Note that "who's wrong" is the wrong question — say what you'd reply instead.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>The four checkpoints, in order.</strong> Each one splits the problem in half, so you never investigate a segment you have already cleared.</p>
+              <ol>
+              <li><strong>Were the 40 styles actually dropped in VibeIQ?</strong> Look at the assortment's current state. If they are still members, merchandising did the work somewhere that did not reach the assortment — a Plan edit never published, or a cut made in a different assortment. Nothing downstream is at fault and the investigation ends here.</li>
+              <li><strong>Did a publish happen after the cut, and did it record the removals?</strong> Find the <code>AssortmentPublishChange</code> covering that window and read its <code>detail.deletes</code> and <code>familyItemsRemoved</code>. This is the seam between "the user did it" and "the system carried it" — the internal commit from Plan down to Assortment. If the change object contains the 40, VibeIQ has done its job completely.</li>
+              <li><strong>Was the change delivered?</strong> The delivery mechanism is an Event Workflow, so this is a Process List question: did the workflow fire for that change, what was the task output, did it complete or fail? A failed or missing process localises the problem to delivery rather than to data or consumption.</li>
+              <li><strong>Did the consumer fetch and apply the delete file?</strong> If the event was delivered successfully, the remaining possibility is that their integration read <code>detail.adds</code> and <code>detail.updates</code> and ignored <code>deleteDataDownloadLink</code>. Ask what their code does with that field.</li>
+              </ol>
+              <p><strong>Leading hypothesis:</strong> checkpoints 1–3 pass and 4 fails — the consumer never processes deletes. This is the most common publish integration defect, because removals are the easiest field to overlook while building: everything looks correct in testing, since additions and edits flow perfectly and nobody tests a deletion end to end.</p>
+              <p>The likely variant, if their consumer <em>does</em> handle deletes: it missed a publish during an outage. Because <strong>deletes do not accumulate</strong>, those 40 removals appeared in exactly one change object and will never be mentioned again. That version does not self-heal and no amount of waiting fixes it.</p>
+              <p><strong>Fix for the immediate problem:</strong> reconcile from the baseline. Fetch <code>assortmentBaselineDownloadLink</code> from the current change — freshly, because the link expires in 24 hours — and treat it as the full truth for that assortment: anything in Centric and not in the baseline gets deactivated. That corrects all 40 at once and any others nobody has noticed yet. Do this before hunting the root cause; sourcing is spending money right now.</p>
+              <p><strong>The change that stops it recurring:</strong> the consumer must (a) process the delete file on every publish, (b) track processed change IDs so a gap is detectable, (c) re-baseline rather than resume when it detects one, and (d) run a periodic baseline reconciliation regardless — weekly is usually enough — so a missed deletion has a bounded lifetime instead of an unbounded one.</p>
+              <p><strong>On "who's wrong?" — what I'd reply instead:</strong></p>
+              <blockquote>"Nobody is wrong, and I don't think this is a disagreement about facts — merch dropped them and Centric never heard about it, and both of those can be true at once. The publish and the sync are two different steps with two different owners, so let me find out which one didn't complete. Meanwhile, can we get those two styles out of costing today? I'll have the mechanism this afternoon and a permanent fix in the next few days."</blockquote>
+              <h5>How to think about it</h5>
+              <p><strong>The framing is the trap.</strong> "Who's wrong?" invites you to arbitrate between two teams, and any answer you give makes one of them the loser in front of the other. It is also technically wrong: merch <em>did</em> drop them and Centric <em>did</em> not receive them, both facts, no contradiction. Refusing the framing is not diplomacy — it is the accurate reading, and it is what lets you keep both teams cooperating during the investigation.</p>
+              <p><strong>Publish is not "send to PLM."</strong> It is first an <em>internal commit</em> — Plan rows persisting down to the Assortment — and only then a downstream sync. Two steps, two owners, two ways to fail. People skip the internal commit when walking the lifecycle and it produces bad diagnosis: they conclude "publish is broken" when publish worked perfectly and delivery or consumption failed. Separating those is the whole value of checkpoint 2.</p>
+              <p><strong>Order the checkpoints by what they eliminate, not by the pipeline.</strong> Each one clears a segment permanently. This is the Week 9 localisation rule arriving early: establish <em>where</em> before theorising about <em>why</em>. Someone who leads with "their consumer is broken" is usually right here and still working badly — they will spend a day defending the theory if they are wrong.</p>
+              <p><strong>Stabilise before diagnosing.</strong> Sourcing is costing styles that do not exist, and that clock runs while you investigate. Re-baselining fixes the customer's actual problem in minutes and is safe regardless of root cause, because the baseline is authoritative by definition. Root cause still matters — it just does not have to come first. New TAMs routinely invert this and deliver a correct diagnosis to someone who has already spent the money.</p>
+              <p><strong>Note what the delivery checkpoint really is.</strong> The publish event is dispatched <em>by an Event Workflow</em>, which means integration debugging and workflow debugging are the same skill and use the same Process List. That equivalence, more than any single fact, is why <a class="link" href="#m6" data-view="m6">Week 6</a> earns its own module.</p>
+              <p><strong>What a weak answer looks like:</strong> "their consumer has a bug" with no checkpoints. It is probably correct and it is unusable — you cannot say it to the PLM lead without evidence, and if it turns out to be the missed-publish variant instead, the fix is different and you have already committed publicly to the wrong story.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/assortment_publish_integration/" target="_blank" rel="noopener">Assortment Publish Integrations</a> — the delete file, the baseline link, the 24-hour expiry, and the non-accumulation rule that makes a missed publish permanent.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/managing_workflows/observing_workflows/" target="_blank" rel="noopener">Observing Workflows</a> — the Process List used at checkpoint 3 — statuses, task outputs, and the 90-day retention that limits how far back you can look.</li>
+                <li><a class="link" href="#m3/m3-concept-3-the-publish-lifecycle-end-to-end" data-view="m3" data-anchor="m3-concept-3-the-publish-lifecycle-end-to-end">Concept 3 — The publish lifecycle</a> — the six steps, and the internal commit people skip.</li>
+                <li><a class="link" href="#m9/m9-concept-1-localise-before-theorising" data-view="m9" data-anchor="m9-concept-1-localise-before-theorising">Week 9 — Localise before theorising</a> — the discipline the four checkpoints are an instance of.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <h3 id="m3-quiz">Quiz</h3>
         <div class="q">
@@ -2206,8 +2399,66 @@
 
         <h3 id="m3-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
-          <p style="margin-bottom:0">Write a one-page <strong>publish integration review checklist</strong> — the things you'd verify on any account running a publish integration, covering: delete handling, missed-publish recovery, link expiry, baseline reconciliation cadence, and who is alerted when the consumer fails. Pair it with the Week 2 data-model health check; together they become your standard account-inheritance kit.</p>
-        </div>
+          <p>Write a one-page <strong>publish integration review checklist</strong> — the things you'd verify on any account running a publish integration, covering: delete handling, missed-publish recovery, link expiry, baseline reconciliation cadence, and who is alerted when the consumer fails. Pair it with the Week 2 data-model health check; together they become your standard account-inheritance kit.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>Publish integration review checklist.</strong> Run it on any account with a publish integration — at handover, after an incident, and once a quarter.</p>
+              <p><strong>1 · Delete handling</strong></p>
+              <ul>
+              <li>Does the consumer fetch <code>deleteDataDownloadLink</code> on <em>every</em> publish, or only when <code>detail.deletes</code> is non-empty? (Both fields matter; <code>familyItemsRemoved</code> is a separate case people miss.)</li>
+              <li>What does "delete" mean in the target system — hard delete, deactivate, or flag? Get this in writing; it is a business decision that engineers make silently.</li>
+              <li>Has an end-to-end deletion ever been tested in a non-production environment? Almost always the answer is no.</li>
+              </ul>
+              <p><strong>2 · Missed-publish recovery</strong></p>
+              <ul>
+              <li>Does the consumer record which change IDs it has processed — enough to <em>detect a gap</em>, not just to remember the last one?</li>
+              <li>On detecting a gap, does it re-baseline or resume? Resuming is wrong: the deletes in skipped publishes are gone permanently.</li>
+              <li>What happens after 48 hours of downtime? Ask them to describe it, then ask what they have actually observed.</li>
+              </ul>
+              <p><strong>3 · Link expiry</strong></p>
+              <ul>
+              <li>Are S3 URLs ever persisted anywhere — a database column, a queue message, a retry payload, a log used for replay? All four are common and all four break after 24 hours.</li>
+              <li>Is the change object re-fetched by ID at processing time?</li>
+              <li>If a retry queue holds items for longer than a day, does the retry re-fetch or replay the stale payload?</li>
+              </ul>
+              <p><strong>4 · Baseline reconciliation cadence</strong></p>
+              <ul>
+              <li>Is there a scheduled full reconciliation, independent of events? What period, and what does it do with discrepancies — report or correct?</li>
+              <li>When did it last run, and did anyone read the output? An unread reconciliation report is not a control.</li>
+              <li>Does the cadence bound the damage acceptably? Weekly means a missed deletion lives at most a week; none means forever.</li>
+              </ul>
+              <p><strong>5 · Alerting and ownership</strong></p>
+              <ul>
+              <li>Who is paged when the consumer fails — a named person or team, not "the integration team"?</li>
+              <li>Is there a <strong>staleness alarm</strong> — an alert on <em>no publishes processed</em> for longer than normal? This is the one almost nobody has, and silence is the failure mode that survives longest.</li>
+              <li>Is the delivering Event Workflow monitored for <code>FAILED</code> on the VibeIQ side, and does anyone look at that dashboard?</li>
+              <li>Does the customer know that workflow evidence is retained <strong>90 days</strong>, so an unexamined failure becomes unexplainable?</li>
+              </ul>
+              <p><strong>6 · Idempotency and ordering</strong></p>
+              <ul>
+              <li>Is processing idempotent under redelivery?</li>
+              <li>Is the processed-marker committed in the same transaction as the work?</li>
+              <li>Can two publishes for one assortment be processed concurrently, and does that matter?</li>
+              </ul>
+              <p><strong>Scoring it:</strong> failures in sections 1–3 are correctness bugs — data is wrong now and nobody knows. Failures in 4–5 are detection bugs — you will find out late. Section 6 is a resilience bug — it bites under load. Report them in that order; a customer who fixes only section 1 has still bought a lot.</p>
+              <h5>How to think about it</h5>
+              <p><strong>A review checklist should be answerable by observation, not by opinion.</strong> Every item above resolves to a thing you can look at: a line of code, a schedule, a person's name, a config value. "Is the integration robust?" is not a checklist item. If a question can be answered "yes, probably," rewrite it until it cannot.</p>
+              <p><strong>Sections 1–3 are the same underlying fact seen three times.</strong> Deletes do not accumulate, links expire, and gaps do not self-heal all trace back to one property: <em>the event stream is not replayable</em>. Once a consumer team internalises that, most of these items become obvious to them. Leading with the principle and then the checks lands better than a flat list.</p>
+              <p><strong>Section 5 exists because the worst failures are quiet.</strong> Everything in sections 1–4 announces itself eventually. A consumer that has stopped receiving events looks identical to a consumer with nothing to do — same logs, same zero error count. The staleness alarm is the only control that distinguishes them, and it is the cheapest item on the list.</p>
+              <p><strong>Ask what has been observed, not what should happen.</strong> "What happens after 48 hours down?" gets you a design; "what happened the last time it was down?" gets you the truth. Half of integration review is finding the gap between the two, politely.</p>
+              <p><strong>Pair it with the Week 2 health check.</strong> Together they cover the two halves of an inherited account — how the data is modelled, and how it leaves. That pairing is the beginning of the <a class="link" href="#m9/m9-hands-on-challenge" data-view="m9" data-anchor="m9-hands-on-challenge">account-inheritance kit</a>, and it is deliberate that neither is much use without the other: a perfect data model published to a consumer that ignores deletes is still a customer with wrong data in PLM.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/assortment_publish_integration/" target="_blank" rel="noopener">Assortment Publish Integrations</a> — sections 1–4: the change object's fields, the expiry, and the non-accumulation rule.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/change_history_polling/" target="_blank" rel="noopener">Change History Polling</a> — the alternative consumption path, for accounts running both — and the reconciliation source when events are the primary channel.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/managing_workflows/observing_workflows/" target="_blank" rel="noopener">Observing Workflows</a> — section 5: the workflow failure surface and the 90-day evidence horizon.</li>
+                <li><a class="link" href="#m5/m5-concept-5-designing-a-consumer-that-survives" data-view="m5" data-anchor="m5-concept-5-designing-a-consumer-that-survives">Week 5 — Designing a consumer that survives</a> — the six hazards this checklist audits for, each with its design answer.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <div class="outcome">
           <h4>I know this when I can…</h4>
@@ -2601,20 +2852,127 @@ V-Neck Tee,true,false,womens      → added, or updated if already present
         <div class="card">
           <p>You're handed a CSV with headers: <code>style</code>, <code>Style Name</code>, <code>colorName</code>, <code>Active</code> (<code>"true"</code>/<code>"false"</code>), <code>legacy_code</code>, <code>Retail Price</code>, <code>gender</code>.</p>
           <p>Requirements: load items with options into the <code>fall:2025</code> project; drop <code>legacy_code</code>; copy <code>Retail Price</code> to <code>msrp</code>; set <code>typePath</code> to <code>item:product:apparel</code>; derive a <code>region</code> column as <code>"EMEA"</code> when gender is <code>womens</code> and <code>"Global"</code> otherwise; and split rows into a mens and a womens assortment.</p>
-          <ol style="margin-bottom:0">
+          <ol>
             <li>Write the complete configuration JSON.</li>
             <li>Trace one row through all six preprocessing steps, writing what it looks like after each.</li>
             <li>Name the two steps where something could go wrong <em>without</em> a warning.</li>
             <li>Your file contains only the 120 styles that changed this week. What happens with your configuration as written — and what one field changes the answer?</li>
           </ol>
-        </div>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>1 · The configuration</strong></p>
+              <pre><code>{
+  "loadType": ["ITEM", "PROJECT_ITEM", "ASSORTMENT"],
+  "fileLocation": "&lt;file-entity-id&gt;",
+  "workspaceIdentifier": "fall:2025",
+  "federatedMappings": {
+    "name":                   "Style Name",
+    "itemFamilyFederatedId":  "style",
+    "itemOptionFederatedId":  "colorName",
+    "optionName":             "colorName",
+    "msrp":                   "Retail Price"
+  },
+  "propertiesToRemove": ["legacy_code"],
+  "conditionalColumns": [
+    { "toProperty": "typePath",    "default": "item:product:apparel" },
+    { "toProperty": "optionGroup", "default": "color" },
+    { "toProperty": "region",
+      "value": "{gender} === 'womens' ? 'EMEA' : 'Global'" }
+  ],
+  "assortmentSplit": {
+    "fieldToSplitOn": "gender",
+    "splits": [
+      { "value": "mens",   "assortmentName": "FA25 Mens"   },
+      { "value": "womens", "assortmentName": "FA25 Womens" }
+    ]
+  }
+}</code></pre>
+              <p>Two things to notice. <code>workspaceIdentifier</code> is mandatory because <code>loadType</code> includes <code>PROJECT_ITEM</code> — required "even when also loading assortments." And <code>Active</code> needs no configuration at all: step 1 converts <code>"true"</code>/<code>"false"</code> strings to real booleans automatically.</p>
+              <p><strong>2 · One row through the six steps.</strong> Starting row:</p>
+              <pre><code>style=SH-4471 · Style Name=Tech Fleece Hoodie · colorName=Black
+Active="false" · legacy_code=OLD-99 · Retail Price=89 · gender=womens</code></pre>
+              <ul>
+              <li><strong>1 · Boolean conversion</strong> — <code>Active</code> becomes the boolean <code>false</code>, not the string <code>"false"</code>. Everything else unchanged.</li>
+              <li><strong>2 · Federated mappings</strong> — target properties are <em>added</em>; source columns are preserved. Now also carries <code>name=Tech Fleece Hoodie</code>, <code>itemFamilyFederatedId=SH-4471</code>, <code>itemOptionFederatedId=Black</code>, <code>optionName=Black</code>, <code>msrp=89</code>.</li>
+              <li><strong>3 · Remove unwanted properties</strong> — <code>legacy_code</code> is deleted from the row.</li>
+              <li><strong>4 · Type transformations (no warnings)</strong> — header labels resolve to slugs, and any Single/Multi Select display values resolve to their option-set values. If <code>gender</code> is option-set backed, <code>womens</code> is normalised here. <strong>Silently</strong> — this pass reports nothing.</li>
+              <li><strong>5 · Conditional columns</strong> — <code>typePath=item:product:apparel</code> and <code>optionGroup=color</code> are set from defaults; <code>region</code> is evaluated: <code>gender</code> is <code>womens</code>, so <code>region=EMEA</code>.</li>
+              <li><strong>6 · Type transformations (with warnings)</strong> — the same pass re-runs over the now-complete row, including the values step 5 just created, and this time emits warnings. Final row: <code>style</code>, <code>Style Name</code>, <code>colorName</code>, <code>Active=false</code>, <code>Retail Price</code>, <code>gender</code>, <code>name</code>, <code>itemFamilyFederatedId</code>, <code>itemOptionFederatedId</code>, <code>optionName</code>, <code>msrp</code>, <code>typePath</code>, <code>optionGroup</code>, <code>region=EMEA</code>.</li>
+              </ul>
+              <p><strong>3 · The two steps where something goes wrong without a warning</strong></p>
+              <ul>
+              <li><strong>Step 4 — type transformations without warnings.</strong> A display value that does not match its option set is altered or dropped here and reports nothing, by design. This pass exists to normalise silently so step 5 operates on clean data.</li>
+              <li><strong>Step 5 — conditional columns.</strong> These <em>create or overwrite</em> values. A value quietly changed in step 4 and then overwritten in step 5 never surfaces in step 6's warnings either, because step 6 only sees the final state. The 4→5→6 interaction is the blind spot: when a value does not match the CSV and there is no warning anywhere, this is where to look. Diff the step artefacts rather than theorising.</li>
+              </ul>
+              <p><em>Also worth naming, though it is not a step:</em> a CSV column whose header matches nothing on the entity type is ignored entirely, with no warning.</p>
+              <p><strong>4 · The 120-changed-styles file</strong></p>
+              <p>As written, the load <strong>deletes every product not in the file</strong> from both assortments. <code>partialAssortmentUpdate</code> is absent and defaults to <code>false</code>, which means replace: items in the CSV are added or updated, and "assortment items not in CSV → deleted." Membership is defined by the file. The load reports success.</p>
+              <p>The one field that changes the answer is <strong><code>partialAssortmentUpdate: true</code></strong>, which makes it a merge — paired with boolean <code>addField</code>/<code>dropField</code> columns when you need explicit removals.</p>
+              <h5>How to think about it</h5>
+              <p><strong>Read a configuration as an ordered pipeline, not a settings object.</strong> Almost every Loader surprise comes from step order: mappings add before removal runs, conditional columns overwrite whatever preceded them, and the two type-transformation passes bracket step 5 for a reason. If you can say what a row looks like after each step, you can predict the outcome of any config — which is the actual skill this exercise builds.</p>
+              <p><strong>Why type transformations run twice.</strong> Step 4 normalises quietly so that step 5's JavaScript operates on clean, resolved values rather than raw display labels. Step 6 then re-runs the same pass over the finished row and reports. The design is sound; the consequence is a gap where a silent change can be overwritten before anything gets a chance to warn about it.</p>
+              <p><strong>Question 4 is the point of the whole exercise.</strong> Everything above it is mechanics; this is the one that costs a customer their assortment. A partial file plus a default flag is a destructive operation that reports success — no error, no warning, correct-looking status. Ask what a typical file <em>contains</em> before you ever look at what the config <em>says</em>, because the two are only dangerous in combination.</p>
+              <p><strong>The derived <code>region</code> column is safe; a derived identifier would not be.</strong> Deriving a descriptive value in a conditional column is ordinary. Deriving <code>itemFamilyFederatedId</code> the same way makes your upsert key depend on the formatting of a field nobody treats as an identifier — change <code>ABC-123</code> to <code>ABC_123</code> upstream and the next load duplicates everything. Same mechanism, completely different blast radius.</p>
+              <p><strong>Prefer evidence over reconstruction.</strong> When a value is wrong, you do not have to reason about which step did it — every step writes <code>loader-process-step-&lt;name&gt;.json</code> with rows, errors and warnings, and the file IDs sit in <code>preprocessingStepResults</code> on the LoaderProcess. Diff two consecutive steps and the culprit is unambiguous. This converts an argument about what the loader did into an observation.</p>
+              <p><strong>What a weak answer looks like:</strong> a config that works plus "it would only load the 120 changed styles." That is the intuitive answer and it is backwards, and the gap between intuition and the default is exactly why this is on the checklist.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/loader_configuration/" target="_blank" rel="noopener">Loader Configuration Reference</a> — every field used above, with defaults — including <code>partialAssortmentUpdate</code>, <code>assortmentSplit</code> and the <code>workspaceIdentifier</code> requirement. The densest page for this module.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/preprocessing_pipeline/" target="_blank" rel="noopener">Preprocessing Pipeline</a> — the six steps in order, why the type pass runs twice, and the per-step artefacts.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/items/overview/" target="_blank" rel="noopener">Load Items</a> — the family/option CSV mechanics — which columns make a row an option, and automatic family creation.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/validation_and_errors/" target="_blank" rel="noopener">Validation Rules & Error Handling</a> — the error/warning split and the failure areas, for reading the result afterwards.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <h3 id="m4-realistic-customer-scenario">Realistic customer scenario</h3>
         <div class="card">
           <p><strong>Summit Athletic</strong>, mid-season. Their integration engineer writes:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"Last night's load reported completed with no errors. But roughly 400 items now have a blank <code>merchCategory</code>, and about 90 look like duplicates of styles that already existed. Our FlexPLM team says they've had nothing from VibeIQ for three days even though we've loaded every night. And our Slack channel got 1,200 'item approved' messages at 2am, which has never happened before. Nothing changed in our export — we send the same file format we've sent for six months."</p>
-          <p style="margin-bottom:0">Four symptoms, and they are <strong>not</strong> one root cause. For each: a hypothesis, and the <em>exact</em> artefact, field or record you'd pull to confirm it — name them precisely (<code>failureArea</code>, a step file, a config field, a Process List filter). Then: the <strong>one question</strong> to their engineer that could resolve two symptoms at once; which symptom you'd chase <strong>first</strong> and why; and what you'd say about "nothing changed in our export" being simultaneously true and beside the point.</p>
-        </div>
+          <p>Four symptoms, and they are <strong>not</strong> one root cause. For each: a hypothesis, and the <em>exact</em> artefact, field or record you'd pull to confirm it — name them precisely (<code>failureArea</code>, a step file, a config field, a Process List filter). Then: the <strong>one question</strong> to their engineer that could resolve two symptoms at once; which symptom you'd chase <strong>first</strong> and why; and what you'd say about "nothing changed in our export" being simultaneously true and beside the point.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>Symptom 1 — ~400 items with blank <code>merchCategory</code></strong></p>
+              <p><em>Hypothesis:</em> the column stopped matching. Either the header was renamed upstream, or an option-set value no longer resolves, so the value is dropped in step 4 or overwritten in step 5. Unmatched columns are ignored with no warning at all.</p>
+              <p><em>Evidence:</em> the <code>preprocessingStepResults</code> array on the LoaderProcess. Pull the step artefacts and <strong>diff step 3 against step 4, and step 4 against step 6</strong> for one affected item. The step at which <code>merchCategory</code> went empty is then a fact, not a theory. Also compare the CSV header row against the previous night's file.</p>
+              <p><strong>Symptom 2 — ~90 duplicates of existing styles</strong></p>
+              <p><em>Hypothesis:</em> <code>federatedId</code> instability. Either the upstream value changed format for those rows, or it is <em>derived</em> in a <code>conditionalColumn</code> from a field that changed. The 90 are the rows whose key moved; the rest were unaffected because their key did not.</p>
+              <p><em>Evidence:</em> the <code>conditionalColumns</code> block of the configuration recorded on the LoaderProcess, then the <code>itemFamilyFederatedId</code> values in the step 5 artefact for the duplicated styles, compared against the <code>federatedId</code> on the pre-existing records. If those differ by formatting — a dash for an underscore, a case change, a trimmed prefix — that is the whole answer.</p>
+              <p><strong>Symptom 3 — FlexPLM has had nothing for three days</strong></p>
+              <p><em>Hypothesis:</em> <code>shouldSkipAssortmentPublish: true</code> on the loader configuration. Assortment updates are written straight to the database, bypassing the publish workflow — no change history, no <code>AssortmentPublishChange</code>, and no <code>assortment|publish</code> event, so no downstream consumer of any kind learns anything moved.</p>
+              <p><em>Evidence:</em> the flag itself, read from the configuration stored on the LoaderProcess (the config <em>used</em>, not the one someone shows you). Confirm by filtering the Process List for the outbound integration workflow over those three days — expected result is <strong>no processes at all</strong>, which is different from failed ones and is the signature of this flag.</p>
+              <p><strong>Symptom 4 — 1,200 "item approved" Slack messages at 2am</strong></p>
+              <p><em>Hypothesis:</em> an event storm. Phase 5 upserts emit <code>item|create</code>/<code>item|update</code> per row, and a workflow bound to those triggers fires once per row. Either a workflow was newly bound, or a previously-narrow conditional now matches broadly — plausibly because the same field that broke symptom 1 now evaluates differently.</p>
+              <p><em>Evidence:</em> the Process List filtered to that workflow and time window — count the processes and read <code>triggerEvent</code> on a few. Then the workflow's conditional against the step 6 artefact, to see why it matched.</p>
+              <p><strong>The one question that resolves two symptoms at once:</strong></p>
+              <blockquote>"Can you send me last night's CSV and the one from the last night everything was fine — the files themselves, not a description?"</blockquote>
+              <p>A header diff settles symptom 1 (renamed or removed column) and symptom 2 (changed identifier format) in a single comparison, because both are upstream payload changes and both are invisible from inside VibeIQ.</p>
+              <p><strong>Which symptom first: number 3.</strong> The other three are wrong data inside VibeIQ, visible to the customer, bounded and repairable. Symptom 3 means <em>three days of correct decisions have not reached the system that makes product</em>, and every day it continues the gap widens and the reconciliation grows. It is also the cheapest to confirm — one field on a config. Highest consequence, lowest cost, and it is silent, which means nobody else is going to find it.</p>
+              <p><strong>On "nothing changed in our export":</strong></p>
+              <blockquote>"I believe you — and I think it is true about the format and not about the content. The file still has the same shape, so nothing on your side flagged a change. What I need to check is whether a header or a value changed inside that shape, because the loader matches on exact header names and drops what it doesn't recognise without complaining. That is why I'm asking for the two files rather than the spec."</blockquote>
+              <h5>How to think about it</h5>
+              <p><strong>Resist the single-root-cause instinct.</strong> Four symptoms arriving together feel like one cause, and the pull to unify them is strong. Here there are at least three: a payload change (1 and 2), a configuration flag (3), and a workflow binding (4). Forcing them into one story means three of the four go unfixed while you defend it. Enumerate first, connect only where evidence connects them.</p>
+              <p><strong>"Completed with no errors" is information, not reassurance.</strong> Because validation is fail-fast and there are no partial loads, a completed load genuinely applied everything it accepted. So the fault is not a half-finished job — it is in what the load <em>accepted and transformed</em>. That single inference eliminates an entire branch of investigation and is why the rule is worth memorising.</p>
+              <p><strong>Name artefacts, not areas.</strong> "Check the logs" is not a plan. <code>preprocessingStepResults</code>, the config recorded on the LoaderProcess, a Process List filter, <code>failureArea</code> — each is a specific thing you can ask for and read. The discipline matters most when you escalate: a ticket saying "diffed steps 4 and 6, value lost at 4" starts the next person where you stopped.</p>
+              <p><strong>Prioritise by consequence and silence, not by volume.</strong> The 1,200 Slack messages are the loudest symptom and among the least harmful. The stale PLM is invisible and is the one costing money. Loud problems get reported by the customer; quiet ones are your job precisely because nobody else will find them.</p>
+              <p><strong>"Nothing changed" is almost always sincere and almost always incomplete.</strong> It means the export <em>job</em> did not change. It says nothing about the upstream system that feeds it — a renamed field in PLM, a new option value, an ID reformatted by an admin. Arguing with the statement is a mistake; reframing it from "did anything change?" to "let us compare the two files" gets you the answer without making anyone wrong.</p>
+              <p><strong>The connective tissue worth spotting:</strong> symptoms 1 and 4 may share a cause. If a field the workflow conditional depends on stopped resolving, the conditional can start matching rows it used to skip. Two symptoms, one upstream change — but assert it only after the artefacts show it.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/validation_and_errors/" target="_blank" rel="noopener">Validation Rules & Error Handling</a> — <code>failureArea</code>, the error/warning split, and the fail-fast rule that makes "completed" meaningful.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/preprocessing_pipeline/" target="_blank" rel="noopener">Preprocessing Pipeline</a> — the per-step artefacts and <code>preprocessingStepResults</code> — the diffing technique behind symptoms 1 and 2.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/loader_configuration/" target="_blank" rel="noopener">Loader Configuration Reference</a> — <code>shouldSkipAssortmentPublish</code> and exactly what it bypasses.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/managing_workflows/observing_workflows/" target="_blank" rel="noopener">Observing Workflows</a> — the Process List filters used for symptoms 3 and 4, and the 90-day retention that bounds how long this remains investigable.</li>
+                <li><a class="link" href="#findings/findings-2-failures-that-produce-no-error" data-view="findings" data-anchor="findings-2-failures-that-produce-no-error">Key findings — Failures that produce no error</a> — three of these four symptoms are on that list.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <h3 id="m4-quiz">Quiz</h3>
         <div class="q">
@@ -2661,8 +3019,75 @@ V-Neck Tee,true,false,womens      → added, or updated if already present
 
         <h3 id="m4-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
-          <p style="margin-bottom:0">Write a <strong>pre-load checklist</strong> for any customer's first production load or any unusually large one. Cover: <code>federatedId</code> source and stability (including anything computed in <code>conditionalColumns</code>), column-name matching, option-set label alignment, <strong>the four flags in Concept 7 and whether each is still deliberate</strong>, which workflows are bound to the affected entity types and what they do on create, org concurrency headroom, and how you'd verify success afterwards using <code>failureArea</code> and the per-step artefacts rather than trusting a "completed" status. This joins your Week 2 data-model health check, Week 3 publish checklist and Week 6 workflow review.</p>
-        </div>
+          <p>Write a <strong>pre-load checklist</strong> for any customer's first production load or any unusually large one. Cover: <code>federatedId</code> source and stability (including anything computed in <code>conditionalColumns</code>), column-name matching, option-set label alignment, <strong>the four flags in Concept 7 and whether each is still deliberate</strong>, which workflows are bound to the affected entity types and what they do on create, org concurrency headroom, and how you'd verify success afterwards using <code>failureArea</code> and the per-step artefacts rather than trusting a "completed" status. This joins your Week 2 data-model health check, Week 3 publish checklist and Week 6 workflow review.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>Pre-load checklist.</strong> For any first production load, any unusually large one, and any load run with a configuration nobody has read this quarter.</p>
+              <p><strong>A · Identity — get this wrong and nothing else matters</strong></p>
+              <ul>
+              <li>What system generates <code>federatedId</code>, and what could ever change it? Reformatting, re-casing, a trimmed prefix, a recategorisation.</li>
+              <li>Is any identifier <strong>computed</strong> in a <code>conditionalColumn</code>? If so, the upsert key now depends on the formatting of a field nobody treats as an identifier. Read the expression and ask what breaks it.</li>
+              <li>Do records already exist that were created in the UI? They have no <code>federatedId</code> by default, so this load will duplicate rather than update them. Assign IDs first.</li>
+              <li>Have IDs changed since the last successful load? Diff the key column between the two files.</li>
+              </ul>
+              <p><strong>B · The file against the configuration</strong></p>
+              <ul>
+              <li>Diff this file's header row against the last known-good file. Unmatched columns are ignored <strong>with no warning</strong>.</li>
+              <li>Do Single/Multi Select values match their option sets exactly? Mismatches are altered or dropped in step 4, silently.</li>
+              <li>Is <code>typePath</code> present on every row — usually via a conditional column?</li>
+              <li>Is <code>workspaceIdentifier</code> set and correct, if <code>loadType</code> includes <code>PROJECT_ITEM</code>? Remember it is not editable in the Hub UI; fixing it takes a <code>PUT</code>.</li>
+              <li>Does every <code>assortmentSplit</code> value in the data match a configured split? Rows whose split value matches nothing are <strong>skipped silently</strong>.</li>
+              </ul>
+              <p><strong>C · The four flags — is each one still deliberate?</strong></p>
+              <ul>
+              <li><code>partialAssortmentUpdate</code> — defaults to <code>false</code> (replace). <strong>Cross-check against what this file actually contains:</strong> a delta file plus the default deletes everything not in it. This pairing is the single most destructive combination in the reference.</li>
+              <li><code>shouldSkipAssortmentPublish</code> — if <code>true</code>, this load will be invisible downstream: no change history, no <code>AssortmentPublishChange</code>, no <code>assortment|publish</code> event. Ask who set it and when. "For the migration" plus a reusable config is how it becomes permanent.</li>
+              <li>The remaining two flags from Concept 7 — same question for each: who decided this, when, and is the reason still true?</li>
+              <li>If any flag is set for this run only, is there a plan to unset it, and is that plan written down anywhere other than someone's memory?</li>
+              </ul>
+              <p><strong>D · Blast radius — what this load will set off</strong></p>
+              <ul>
+              <li>Which workflows are bound to <code>item</code>, <code>project-item</code> and <code>assortment-item</code> triggers? Every one fires <strong>once per row</strong>.</li>
+              <li>What do they do on <code>create</code> versus <code>update</code>? New rows and existing rows take different paths — a notification workflow that is fine on update can page a channel 20,000 times on create.</li>
+              <li>Do any of them call an external system? Row count is now a load test on someone else's API, and on their rate limits.</li>
+              <li><strong>Concurrency headroom:</strong> the org has 60 concurrent processes shared across everything. What else runs at this hour? A large load at the same time as a nightly integration is how both get slow and one starts timing out.</li>
+              <li>Is anything grouped by <code>messageGroupId</code> in a way this volume will serialise into a queue that takes hours?</li>
+              </ul>
+              <p><strong>E · Verification afterwards — do not trust "completed"</strong></p>
+              <ul>
+              <li>Read <code>failureArea</code> first. <code>NONE</code> means the job finished, not that the data is right.</li>
+              <li>Pull the step artefacts from <code>preprocessingStepResults</code> and <strong>read the warnings</strong> — they accumulate without stopping the job, and nobody goes looking for them by default.</li>
+              <li>Spot-check three rows end to end: one new, one updated, one that exercises a conditional column. Compare the final artefact against the source row.</li>
+              <li>Confirm the count. Rows in the file versus entities created/updated — a silent skip shows up here and nowhere else.</li>
+              <li>If assortments were touched: did an <code>AssortmentPublishChange</code> get created, and did the downstream consumer process it? A successful load with a silent publish is the failure this whole checklist exists to prevent.</li>
+              <li>Check the Process List for the workflows in section D — count and failures.</li>
+              </ul>
+              <p><strong>F · Before you start</strong></p>
+              <ul>
+              <li>Has this configuration run successfully before, on this org? If it came from another environment, what differs — option sets, type paths, workspace identifiers?</li>
+              <li>Is anyone loading from the CLI? The CLI cannot use a stored configuration, so that person is passing a local copy that drifts from production.</li>
+              <li>Is there a rollback story? For a replace-mode assortment load there effectively is not, which is itself the argument for section C.</li>
+              </ul>
+              <h5>How to think about it</h5>
+              <p><strong>The checklist is ordered by cost of being wrong, not by pipeline order.</strong> Identity first, because a bad <code>federatedId</code> produces duplicates that are expensive and awkward to clean up. Flags next, because they are the destructive ones. Verification last, because it only matters if you got here.</p>
+              <p><strong>Section C is the heart of it, and the question is deliberately not "what is this flag set to?"</strong> It is "is it still deliberate?" These flags are almost always set correctly <em>at the time</em> and then outlive their reason. A migration ends; the config gets reused; nobody re-reads it. Asking who and when surfaces that in a way that asking what never does.</p>
+              <p><strong>Section D is the part most pre-load checks omit entirely.</strong> People check the file and the config and forget the load is an <em>event storm</em>. Twenty thousand rows is twenty thousand trigger evaluations, against a shared org-wide concurrency budget, potentially hammering a customer's external endpoint. The load can be flawless and still take down the integration for a day.</p>
+              <p><strong>Section E exists because "completed" is the most misleading word in the platform.</strong> Fail-fast validation means a completed load applied everything it accepted — which is genuinely reassuring about <em>partial application</em> and says nothing about <em>transformation</em>. Warnings accumulate quietly in the step artefacts and nobody reads them unless a checklist says to. Make verification a step with a name, or it does not happen.</p>
+              <p><strong>Cross-checks beat individual checks.</strong> The valuable items above pair two facts: the flag <em>and</em> what the file contains; the row count <em>and</em> the entity count; the workflow binding <em>and</em> its create-path behaviour. Individually each is fine. Neither of the two most damaging Loader outcomes is visible from one fact alone.</p>
+              <p><strong>Write it for someone else to run.</strong> The point of an artefact is that it works without you in the room — a customer's integration engineer should be able to walk it before a Friday load. That constraint is what forces the items to be observable rather than judgement calls, and it is what makes this join the <a class="link" href="#m9/m9-hands-on-challenge" data-view="m9" data-anchor="m9-hands-on-challenge">inheritance kit</a> as a real deliverable.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/loader_configuration/" target="_blank" rel="noopener">Loader Configuration Reference</a> — sections B and C — every field and default, including the four flags.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/preprocessing_pipeline/" target="_blank" rel="noopener">Preprocessing Pipeline</a> — section E — the per-step artefacts and where warnings accumulate.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/validation_and_errors/" target="_blank" rel="noopener">Validation Rules & Error Handling</a> — <code>failureArea</code>, and the fail-fast/no-partial-loads rule behind section E.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/getting_started/" target="_blank" rel="noopener">Data Loading — Getting Started</a> — section A — federatedId as the upsert key, and CLI vs. API for section F.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/002_creating_workflows/" target="_blank" rel="noopener">Creating Workflows</a> — section D — trigger bindings, create-vs-update paths, message grouping and the concurrency settings.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <div class="outcome">
           <h4>I know this when I can…</h4>
@@ -2874,15 +3299,116 @@ for (const assortmentItem of baselineData.assortmentItems) {
 
         <h3 id="m5-practical-exercise">Practical exercise</h3>
         <div class="card">
-          <p style="margin-bottom:0">Write the <strong>attribute ownership map</strong> for a mid-size brand running VibeIQ, Centric PLM and SAP. Fifteen attributes is enough — include at least: style name, category, colourway, target retail price, actual landed cost, margin target, size range, lifecycle status, image, inventory position, supplier. For each: authoritative system, direction, VibeIQ entity layer, property level, and conflict rule. Then mark the <strong>three rows you'd expect to be argued about</strong> and say why.</p>
-        </div>
+          <p>Write the <strong>attribute ownership map</strong> for a mid-size brand running VibeIQ, Centric PLM and SAP. Fifteen attributes is enough — include at least: style name, category, colourway, target retail price, actual landed cost, margin target, size range, lifecycle status, image, inventory position, supplier. For each: authoritative system, direction, VibeIQ entity layer, property level, and conflict rule. Then mark the <strong>three rows you'd expect to be argued about</strong> and say why.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>The attribute ownership map.</strong> Columns: attribute · authoritative system · direction · VibeIQ layer · property level · conflict rule.</p>
+              <table><thead><tr><th>Attribute</th><th>Owner</th><th>Direction</th><th>Layer</th><th>Level</th><th>Conflict rule</th></tr></thead><tbody>
+              <tr><td>Style name</td><td>VibeIQ</td><td>→ PLM, ERP</td><td>Item</td><td>Family</td><td>VibeIQ wins; PLM edits are reported, not merged</td></tr>
+              <tr><td>Style number</td><td>PLM</td><td>← PLM</td><td>Item</td><td>Family</td><td>Immutable once set. <strong>This is the federatedId</strong></td></tr>
+              <tr><td>Category / division</td><td>VibeIQ</td><td>→ PLM</td><td>Item</td><td>Family</td><td>VibeIQ wins</td></tr>
+              <tr><td>Colourway name / code</td><td>VibeIQ</td><td>→ PLM</td><td>Item</td><td>Option</td><td>VibeIQ wins</td></tr>
+              <tr><td>Size range</td><td>VibeIQ</td><td>→ PLM</td><td>Item</td><td>Override</td><td>VibeIQ wins; exceptions per colourway are legitimate</td></tr>
+              <tr><td>Seasonal status</td><td>VibeIQ</td><td>→ PLM</td><td>ProjectItem</td><td>—</td><td>VibeIQ wins. Season-scoped by definition</td></tr>
+              <tr><td>Target retail price</td><td>VibeIQ</td><td>→ PLM</td><td>ProjectItem</td><td>—</td><td>VibeIQ wins</td></tr>
+              <tr><td>Channel retail price</td><td>VibeIQ</td><td>→ ERP</td><td><strong>AssortmentItem</strong></td><td>—</td><td>Per assortment. No single correct value exists</td></tr>
+              <tr><td>Margin target</td><td>VibeIQ</td><td>internal</td><td>ProjectItem</td><td>—</td><td>VibeIQ wins</td></tr>
+              <tr><td>Actual landed cost</td><td><strong>ERP (SAP)</strong></td><td>← SAP</td><td>ProjectItem</td><td>—</td><td>SAP always wins. Read-only in VibeIQ</td></tr>
+              <tr><td>Standard / target cost</td><td>PLM</td><td>← PLM</td><td>ProjectItem</td><td>—</td><td>PLM wins; VibeIQ displays for margin maths</td></tr>
+              <tr><td>Materials / composition</td><td>PLM</td><td>← PLM</td><td>Item</td><td>Override</td><td>PLM wins. Developed downstream, not decided upstream</td></tr>
+              <tr><td>Supplier / vendor</td><td>PLM</td><td>← PLM</td><td>Item</td><td>Override</td><td>PLM wins</td></tr>
+              <tr><td>Lifecycle status</td><td><strong>Split — see below</strong></td><td>both</td><td>Item</td><td>Override</td><td>Distinct value sets per system; never the same field</td></tr>
+              <tr><td>Primary image</td><td>DAM</td><td>← DAM</td><td>Item</td><td>Option</td><td>DAM holds the master; VibeIQ holds the reference</td></tr>
+              <tr><td>Inventory position</td><td>ERP (SAP)</td><td>← SAP</td><td>ProjectItem</td><td>—</td><td>SAP wins. Read-only, and stale by design</td></tr>
+              </tbody></table>
+              <p><strong>The three rows that will cause an argument, and how to settle each before build:</strong></p>
+              <p><strong>1 · Lifecycle status.</strong> Both systems have one, both call it status, and they mean different things — VibeIQ's is a <em>decision</em> state (proposed, approved, cut), PLM's is a <em>development</em> state (in development, sampling, released). Mapping them onto one field guarantees a two-way overwrite loop where each system keeps correcting the other. <em>Settle it:</em> refuse the shared field. Two separate attributes, each owned by one system, each read-only in the other, with an explicit table for any transition that should trigger the other. This is the row that most often gets discovered in production.</p>
+              <p><strong>2 · Cost.</strong> Merchandising needs a cost to compute margin during planning, when no real cost exists yet — so VibeIQ carries an estimate. PLM later produces a standard cost and SAP an actual landed cost. Three numbers, one word. <em>Settle it:</em> three named attributes with different names — <code>plannedCost</code>, <code>standardCost</code>, <code>landedCost</code> — and be explicit about which one margin is computed from at each stage. Never let them collapse into "cost."</p>
+              <p><strong>3 · Channel retail price.</strong> The argument is not about ownership but about <em>shape</em>: ERP models one price per SKU, VibeIQ models a price per assortment, and the same product legitimately carries different prices in Wholesale and DTC. A naive integration flattens this and the last assortment written wins. <em>Settle it:</em> confirm the target system can accept price qualified by channel. If it cannot, the integration must select which assortment is authoritative for the outbound feed — a business decision, made once, in writing.</p>
+              <h5>How to think about it</h5>
+              <p><strong>The artefact exists to make a decision explicit that is otherwise made by accident.</strong> Without the map, both systems write the same field and the last writer wins — intermittently, and differently each time, depending on which nightly job ran last. That produces the worst class of bug: not reproducible, not attributable, and it looks like flakiness rather than design.</p>
+              <p><strong>Direction and ownership are two questions, not one.</strong> A field can flow into VibeIQ and still be owned by VibeIQ (a default that users then override), or flow both ways with one system authoritative. Collapsing them is why maps drawn as arrows on a whiteboard fail — the arrow says nothing about who wins.</p>
+              <p><strong>The layer and level columns are what make this a VibeIQ artefact rather than a generic integration diagram.</strong> "VibeIQ owns retail price" is not actionable until you say <em>which</em> retail price: target price on the ProjectItem is a season-level decision, channel price on the AssortmentItem cannot have a single value at all. Half the integration bugs in <a class="link" href="#m2" data-view="m2">Week 2</a> are really an ownership map that stopped one column short.</p>
+              <p><strong>Look for one word covering several concepts — that is where the arguments live.</strong> Status and cost are the reliable offenders in this industry, and both appear above. The move is always the same: refuse the shared field, name the concepts separately, and let the mapping between them be explicit and one-directional. It feels pedantic in a design meeting and it prevents the loop.</p>
+              <p><strong>Note which rows are read-only, and say so out loud.</strong> Landed cost and inventory flow in from SAP and are stale the moment they arrive. That is fine — they inform a decision, they do not govern one. Problems start when someone builds a workflow that writes back to a field VibeIQ does not own.</p>
+              <p><strong>What a weak answer looks like:</strong> a map with owners but no conflict rules. "PLM owns cost" does not tell an engineer what to do when VibeIQ has a value and PLM sends a different one on the same night. The conflict rule is the column that turns a diagram into a specification.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/" target="_blank" rel="noopener">Integration Patterns — overview</a> — the two-way integration shape this map governs.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/property_type_handling/" target="_blank" rel="noopener">Property Type Handling</a> — the property-level column — why size range is Override and colourway is Option.</li>
+                <li><a class="link" href="#m2/m2-concept-1-the-three-item-layers" data-view="m2" data-anchor="m2-concept-1-the-three-item-layers">Week 2 — The three item layers</a> — the layer column, and why channel price cannot live above the AssortmentItem.</li>
+                <li><a class="link" href="#m5/m5-concept-7-attribute-ownership-the-artefact-t" data-view="m5" data-anchor="m5-concept-7-attribute-ownership-the-artefact-t">Concept 7 — Attribute ownership</a> — the per-attribute fields this table instantiates.</li>
+                <li><span class="ext">External — not official documentation:</span> Vendor documentation for the specific PLM and ERP in play — Centric and SAP model status and cost differently from each other, and the three contested rows can only be settled against what those systems actually store. Read their field definitions rather than assuming.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <h3 id="m5-realistic-customer-scenario-an-architecture">Realistic customer scenario — an architecture review</h3>
         <div class="card">
           <p><strong>Summit Athletic's</strong> integration engineer sends you their design before build. This is the review you'll be doing for real:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"Nightly job at 02:00. We call <code>/api/change-history</code> with <code>createdOn BETWEEN &lt;last_run_time&gt; AND &lt;now&gt;</code>, where <code>last_run_time</code> is what our server recorded when the previous run started. We process each change and update Centric. We store the <code>assortmentBaselineDownloadLink</code> against each assortment so we can re-read it if someone asks questions later. One API key in our config file, same one for dev and prod so testing is realistic. If a call fails we log it and the next night's run picks things up. We're skipping the delete file for now since merch says they rarely drop styles mid-season."</p>
-          <p style="margin-bottom:0">Find <strong>at least six distinct problems</strong>. For each: the failure it causes, the <em>symptom the customer would actually report</em>, and the fix. Then rank them — which one do you insist is fixed before go-live, and which would you accept as a follow-up? Finally, write the two-sentence opening of your reply, given this person is proud of the design and you need them to stay collaborative.</p>
-        </div>
+          <p>Find <strong>at least six distinct problems</strong>. For each: the failure it causes, the <em>symptom the customer would actually report</em>, and the fix. Then rank them — which one do you insist is fixed before go-live, and which would you accept as a follow-up? Finally, write the two-sentence opening of your reply, given this person is proud of the design and you need them to stay collaborative.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>Seven problems.</strong> Each with the failure, what the customer would actually say, and the fix.</p>
+              <p><strong>1 · Skipping the delete file</strong> — the one that must not ship.</p>
+              <ul><li><em>Failure:</em> removals never reach Centric. And because <strong>deletes do not accumulate across publishes</strong>, they are never mentioned again — nothing self-heals.</li>
+              <li><em>Symptom reported:</em> "Centric has styles we cut weeks ago. Sourcing has started costing two of them." (Exactly the Week 3 incident.)</li>
+              <li><em>Fix:</em> process <code>deleteDataDownloadLink</code> on every change. "Merch rarely drops styles mid-season" is also false in the way that matters — line reviews <em>are</em> mass-deletion events, and they are the highest-stakes moment of the season.</li></ul>
+              <p><strong>2 · The polling window starts at <code>last_run_time</code> = when the previous run <em>started</em></strong></p>
+              <ul><li><em>Failure:</em> silent data loss. Changes written while the previous run was executing fall between the windows and are never queried. A 20-minute run drops a 20-minute hole every night. Worse, if a run fails midway, the next window still starts from the failed run's start time and the missed records are gone.</li>
+              <li><em>Symptom reported:</em> "Some styles just never make it across. It's different ones each time and we can't reproduce it."</li>
+              <li><em>Fix:</em> advance the watermark only on <strong>successful completion</strong>, and set it from a value derived from the records processed rather than a wall-clock read. Overlap the window deliberately — re-query a few minutes back — and rely on idempotency to absorb the duplicates.</li></ul>
+              <p><strong>3 · Temporal filtering treated as a cursor</strong> (the deeper form of #2)</p>
+              <ul><li><em>Failure:</em> boundary exclusivity and clock skew. Records landing exactly on a boundary are dropped or double-processed depending on inclusivity, and the customer's server clock is not VibeIQ's clock.</li>
+              <li><em>Symptom reported:</em> the same as #2 — intermittent, unreproducible gaps.</li>
+              <li><em>Fix:</em> accept that this is not a cursor. Overlap windows, make processing idempotent, and reconcile against a baseline periodically so drift is bounded rather than cumulative.</li></ul>
+              <p><strong>4 · Storing <code>assortmentBaselineDownloadLink</code></strong></p>
+              <ul><li><em>Failure:</em> the links <strong>expire after 24 hours</strong>. The stored URL is dead the next day — and it is stored precisely for "if someone asks questions later," which is by definition later than 24 hours.</li>
+              <li><em>Symptom reported:</em> "We tried to check what happened last week and every link is broken."</li>
+              <li><em>Fix:</em> persist the <strong>change ID</strong> and re-fetch the change object on demand to get fresh links. If they want a durable archive, download and store the <em>content</em> at processing time, not the URL.</li></ul>
+              <p><strong>5 · One API key shared across dev and prod</strong></p>
+              <ul><li><em>Failure:</em> no blast-radius containment and no revocation path. A leaked or rotated key takes down both environments; worse, dev code can write to production data. Docs are explicit about keeping separate keys per environment.</li>
+              <li><em>Symptom reported:</em> "Someone's test run overwrote production prices." Or, at contract time: "your security team is asking how keys are scoped and we don't have a good answer."</li>
+              <li><em>Fix:</em> a key per environment, held in secrets management rather than a config file, with a documented rotation and offboarding procedure. Note this is a <strong>credential in a config file</strong> — ask whether that file is in version control.</li></ul>
+              <p><strong>6 · "If a call fails we log it and the next night picks things up"</strong></p>
+              <ul><li><em>Failure:</em> it does not pick things up — see #2, the window has already moved past the failure. There is also no retry, no backoff, and no alert: a log line nobody reads is not error handling.</li>
+              <li><em>Symptom reported:</em> "It's been broken for a week and nobody noticed." The silent stall — the failure mode that survives longest.</li>
+              <li><em>Fix:</em> retry with exponential backoff; do not advance the watermark on failure; alert a <strong>named owner</strong> on repeated failure; and add a <strong>staleness alarm</strong> for "no changes processed in longer than normal," because zero errors and zero work look identical.</li></ul>
+              <p><strong>7 · No idempotency, and polling chosen without stating what it misses</strong></p>
+              <ul><li><em>Failure:</em> once you overlap windows (the fix for #2) duplicate processing becomes routine, and nothing here is idempotent. Separately, nobody has written down why polling was chosen over events — a defensible choice, but its scope and latency consequences should be deliberate.</li>
+              <li><em>Symptom reported:</em> "Centric has duplicate updates / the same change applied twice."</li>
+              <li><em>Fix:</em> track processed change IDs; make application idempotent; record the pattern decision and what it trades away.</li></ul>
+              <p><strong>Ranking</strong></p>
+              <ul>
+              <li><strong>Block go-live:</strong> #1 (deletes), #2 (the window), #6 (failure handling and alerting). These cause <em>wrong data with no notification</em> — the customer finds out from sourcing spend or a line review, which is the most expensive way to learn.</li>
+              <li><strong>Block go-live, cheap:</strong> #4 and #5. Both are small code changes with disproportionate consequences, and #5 becomes a contractual problem the moment InfoSec reads the design.</li>
+              <li><strong>Follow-up:</strong> #7's idempotency should land with the #2 fix, but a formal reconciliation cadence can follow in the first month. The written pattern rationale is documentation debt, not a defect.</li>
+              </ul>
+              <p><strong>The opening two sentences</strong></p>
+              <blockquote>"Thanks for sending this before building it — that is the right instinct and it is going to save us both a lot of time. The overall shape is sound; most of what I have is about failure modes that are specific to how this API behaves, and a couple of them are the kind nobody catches until they bite in production."</blockquote>
+              <h5>How to think about it</h5>
+              <p><strong>The design is competent, which is exactly why it is dangerous.</strong> Nothing here is careless — it is what a good engineer writes when they have not yet learned three platform-specific facts: links expire, deletes do not accumulate, and temporal filtering is not a cursor. Reviewing it as though it were sloppy will lose the engineer, and losing the engineer means the fixes do not get made.</p>
+              <p><strong>Lead with the symptom, not the mechanism.</strong> "Your window has a boundary defect" invites debate. "You will get intermittent missing styles that you cannot reproduce, and here is why" describes a future that engineer does not want. Naming the symptom first is what makes a review land, and it is the same move as citing the report a merchandiser would file rather than the field that caused it.</p>
+              <p><strong>Separate "wrong data, silently" from everything else.</strong> That is the ranking principle, not severity in the abstract. Problems 1, 2 and 6 all produce incorrect downstream data with no signal — the customer's first indication is money already spent. A noisy failure is comparatively cheap because it gets fixed.</p>
+              <p><strong>Challenge the premise behind #1, gently.</strong> "Merch rarely drops styles" is a business assumption smuggled into an architecture. It is also wrong at the worst possible time: the line review, the single moment the platform exists to make good, is a mass-deletion event. Point at the moment, not at the assumption.</p>
+              <p><strong>The two sentences are doing real work.</strong> Credit the behaviour you want repeated (sending it early), affirm the parts that are fine, and frame the findings as platform-specific rather than as competence failures — because they genuinely are. Get this wrong and you win the argument and lose the relationship, which in <a class="link" href="#m10/m10-concept-1-the-four-situations" data-view="m10" data-anchor="m10-concept-1-the-four-situations">Week 10's terms</a> is the defining failure mode of an architecture review: you were right and the engineer stopped listening.</p>
+              <p><strong>What a weak answer looks like:</strong> finding six problems and presenting them as a flat list. An unranked list of seven defects reads as "your design is bad" and gets triaged by the engineer's own judgement, which is what produced the design. Rank them, say which two you insist on, and let them win the follow-ups — that is what keeps a reviewer welcome the next time.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/change_history_polling/" target="_blank" rel="noopener">Change History Polling</a> — the temporal <code>BETWEEN</code> filtering behind problems 2 and 3, and the last-sync-timestamp pattern the design misapplies.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/assortment_publish_integration/" target="_blank" rel="noopener">Assortment Publish Integrations</a> — problems 1 and 4 — the delete file, the non-accumulation rule, and the 24-hour link expiry.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/authentication/" target="_blank" rel="noopener">Authentication & API Access</a> — problem 5 — key scoping per environment, key hygiene, and the error codes retry logic must distinguish.</li>
+                <li><a class="link" href="#m5/m5-concept-5-designing-a-consumer-that-survives" data-view="m5" data-anchor="m5-concept-5-designing-a-consumer-that-survives">Concept 5 — Designing a consumer that survives</a> — the six hazards, each of which this design hits.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <h3 id="m5-quiz">Quiz</h3>
         <div class="q">
@@ -2923,8 +3449,81 @@ for (const assortmentItem of baselineData.assortmentItems) {
 
         <h3 id="m5-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
-          <p style="margin-bottom:0">Write your <strong>integration design review template</strong> — the standard questions you'd put to any customer before they build against VibeIQ. Cover: pattern choice and what it misses, polling window construction, idempotency, change-ID vs. URL persistence, delete handling, downtime recovery and reconciliation cadence, key scoping per environment, backoff, webhook verification in both directions, and the attribute ownership map. This is the last piece of your account-inheritance kit — alongside the Week 2 data-model health check, Week 3 publish checklist, Week 4 pre-load checklist and Week 6 workflow review.</p>
-        </div>
+          <p>Write your <strong>integration design review template</strong> — the standard questions you'd put to any customer before they build against VibeIQ. Cover: pattern choice and what it misses, polling window construction, idempotency, change-ID vs. URL persistence, delete handling, downtime recovery and reconciliation cadence, key scoping per environment, backoff, webhook verification in both directions, and the attribute ownership map. This is the last piece of your account-inheritance kit — alongside the Week 2 data-model health check, Week 3 publish checklist, Week 4 pre-load checklist and Week 6 workflow review.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>Integration design review template.</strong> Put these to any customer or SI <em>before</em> they build. Ten sections; the first two decide most of the rest.</p>
+              <p><strong>1 · Pattern choice — and what it misses</strong></p>
+              <ul><li>Events or polling, and why? Both is legitimate for different entity types.</li>
+              <li>If events: you are subscribed to <strong>assortment publishes only</strong>. What about item changes outside a publish — who needs those, and how do they get them?</li>
+              <li>If polling: what latency is acceptable, and does the business actually agree with that number?</li>
+              <li>What does the chosen pattern <em>not</em> cover, written down? Every design misses something; undocumented gaps become incidents.</li></ul>
+              <p><strong>2 · Polling window construction</strong> (skip if events-only)</p>
+              <ul><li>How is the window built, exactly? Show me the expression.</li>
+              <li>Does the watermark advance on <strong>start</strong> or on <strong>successful completion</strong>? Start is a silent-data-loss bug.</li>
+              <li>Are boundaries inclusive or exclusive, and what happens to a record landing exactly on one?</li>
+              <li>Is there deliberate overlap? Whose clock generates the timestamps?</li>
+              <li>What happens to the window if a run fails halfway?</li></ul>
+              <p><strong>3 · Idempotency</strong></p>
+              <ul><li>Is applying the same change twice safe? Demonstrate it, don't assert it.</li>
+              <li>Are processed change IDs recorded — enough to <strong>detect a gap</strong>, not just remember the last one?</li>
+              <li>Is the processed marker committed in the same transaction as the work?</li></ul>
+              <p><strong>4 · Change ID vs. URL persistence</strong></p>
+              <ul><li>Is any S3 URL stored anywhere — database, queue message, retry payload, log used for replay? All four are common; all four die after <strong>24 hours</strong>.</li>
+              <li>Is the change object re-fetched by ID at processing time?</li>
+              <li>If content must be archived, is the <em>content</em> stored rather than the link?</li></ul>
+              <p><strong>5 · Delete handling</strong></p>
+              <ul><li>Is <code>deleteDataDownloadLink</code> processed on every publish? And <code>familyItemsRemoved</code>?</li>
+              <li>What does "delete" mean in the target system — hard delete, deactivate, flag? Who decided?</li>
+              <li>Has a deletion been tested end to end, in any environment?</li>
+              <li>Does anyone believe deletes are rare? Line reviews are mass-deletion events.</li></ul>
+              <p><strong>6 · Downtime recovery and reconciliation</strong></p>
+              <ul><li>What happens after 48 hours down — described, and then: what happened the last time it went down?</li>
+              <li>On detecting a gap, does it resume or re-baseline? Resuming loses the deletes permanently.</li>
+              <li>Is there a scheduled baseline reconciliation independent of events? How often, and does it report or correct?</li>
+              <li>When did it last run and who read the output? An unread report is not a control.</li></ul>
+              <p><strong>7 · Credentials and environment scoping</strong></p>
+              <ul><li>One key per environment, or one key everywhere?</li>
+              <li>Where does the key live — secrets management, or a config file? Is that file in version control?</li>
+              <li>Who can read it today, what is the rotation procedure, and what happens at offboarding?</li>
+              <li>Does <code>X-Api-Org</code> match the intended org in every environment? A mismatch presents as 401 and gets misdiagnosed as an invalid key.</li>
+              <li>Has anyone run the CLI? Credentials cache to <code>~/.vibeiq/configs/</code> on every laptop that ever did.</li></ul>
+              <p><strong>8 · Failure handling and backoff</strong></p>
+              <ul><li>Retry policy — with exponential backoff, or immediate? Bounded?</li>
+              <li>Which error codes are retryable? A 404 here is <strong>not</strong> proof a record is absent, so it must not be treated as terminal.</li>
+              <li>What are the documented rate limits? There are none published — so the consumer must implement backoff regardless, and must not depend on a specific number.</li>
+              <li>Who is alerted, by name, and on what threshold?</li>
+              <li><strong>Is there a staleness alarm?</strong> Zero errors and zero work are indistinguishable without one.</li></ul>
+              <p><strong>9 · Webhook verification — both directions, separately</strong></p>
+              <ul><li><em>Outbound</em> (VibeIQ → them): is the HMAC signature verified on receipt, or is the endpoint effectively open?</li>
+              <li><em>Inbound</em> (them → VibeIQ): the webhook ID in the trigger URL acts as a <strong>bearer credential</strong> — is it treated as a secret? Where is it stored?</li>
+              <li>Are these two conflated in their security documentation? They have genuinely different postures and conflating them is how a security team gets a wrong answer.</li></ul>
+              <p><strong>10 · The attribute ownership map</strong></p>
+              <ul><li>Does one exist? If not, stop — the rest of the design is premature.</li>
+              <li>Per attribute: authoritative system, direction, VibeIQ layer, property level, conflict rule.</li>
+              <li>Which fields are written by both systems? Those are the future intermittent bugs.</li>
+              <li>Is any single word — "status", "cost" — covering more than one concept?</li></ul>
+              <p><strong>How to run it:</strong> sections 1, 2, 5 and 10 in the first meeting; the rest can be a written exchange. Ask for the design document and the code, not a verbal walkthrough — people describe the system they meant to build. Close by naming what you would block go-live for, separately from what you would like changed, so the customer can plan rather than negotiate.</p>
+              <h5>How to think about it</h5>
+              <p><strong>Section 10 belongs at the end and gets asked first.</strong> Without an ownership map, reviewing retry logic is rearranging furniture — you are validating the mechanics of moving data whose direction nobody has agreed. If the answer is "we'll work that out during build," that is the finding, and it outranks everything else on the list.</p>
+              <p><strong>Ask for the artefact, then the observation, then the design.</strong> "Show me the expression" beats "how do you build the window?"; "what happened last time it went down?" beats "what happens when it goes down?". Every item above is phrased to be answerable by pointing at something. Where it cannot be, that is itself the answer.</p>
+              <p><strong>Most of this list is one property restated: the change stream is not replayable.</strong> Expiring links, non-accumulating deletes, gaps that do not self-heal, watermarks that must not advance on failure — all the same fact from different angles. Teach the property and a good engineer derives half the checklist themselves, which is a far better outcome than them complying with it.</p>
+              <p><strong>Two items exist purely because silence is the worst failure mode.</strong> The staleness alarm (8) and the reconciliation cadence (6) are the only two controls that catch a system which has quietly stopped. Everything else on the list catches something that announces itself.</p>
+              <p><strong>Be honest about rate limits.</strong> The correct answer is that no numeric limits are published, so a consumer must implement backoff regardless and must not tune to a specific number. Do not repeat the "15 requests/hour" figure that circulates online — it belongs to a different company. This is a small thing that quietly establishes whether you are worth believing on the larger ones.</p>
+              <p><strong>Separate blocking from desirable, explicitly.</strong> A review that produces twenty undifferentiated findings gets triaged by the person who wrote the design. Naming the two or three you will not sign off on — and conceding the rest as follow-ups — is what makes the review a decision rather than an opinion, and what gets you invited to the next one.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/" target="_blank" rel="noopener">Integration Patterns — overview</a> — section 1 — the pattern comparison, including the scope row that decides most architectures.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/change_history_polling/" target="_blank" rel="noopener">Change History Polling</a> — section 2 — temporal filtering, the <code>BETWEEN</code> form, and the last-sync-timestamp pattern.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/assortment_publish_integration/" target="_blank" rel="noopener">Assortment Publish Integrations</a> — sections 4–6 — link expiry, the delete file, and baseline reconciliation.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/authentication/" target="_blank" rel="noopener">Authentication & API Access</a> — sections 7–8 — headers, key hygiene per environment, and the error codes retry logic must distinguish.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/running_workflows/002_webhooks/" target="_blank" rel="noopener">Webhooks</a> — section 9 — the inbound trigger-webhook surface and what its ID actually is.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <div class="outcome">
           <h4>I know this when I can…</h4>
@@ -3251,16 +3850,115 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
         <div class="card">
           <p>Write the <code>app.yml</code> workflow block for this requirement, in full:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2)">"When a family-level item's <code>status</code> changes to <code>approved</code>, push it to the PLM endpoint and post to Slack. If a family-level item changes in any other way, just log it. Ignore option-level items entirely. Don't let two events for the same item family process at the same time, but keep throughput up across different families."</p>
-          <p style="margin-bottom:0">Then answer three questions about your own definition: what does it do on a <strong>create</strong>? What happens if the paths are reordered? And what breaks if you drop <code>dynamicMessageGroupId</code> but keep <code>parallelWorkerCount: 30</code>?</p>
-        </div>
+          <p>Then answer three questions about your own definition: what does it do on a <strong>create</strong>? What happens if the paths are reordered? And what breaks if you drop <code>dynamicMessageGroupId</code> but keep <code>parallelWorkerCount: 30</code>?</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <pre><code>workflows:
+  familyStatusRouter:
+    identifier: 'familyStatusRouter'
+    name: 'Family item status router'
+    triggerKey: item|update
+    isActive: true
+    public: true
+    parallelWorkerCount: 10
+    dynamicMessageGroupId: '{newData.itemFamilyId}'
+    workflowDefinition:
+      paths:
+        # 1 — approved, and it actually just changed to approved
+        - conditional: '{newData.roles}.includes("family")
+                       &amp;&amp; {newData.status} === "approved"
+                       &amp;&amp; {oldData.status} !== "approved"'
+          actionDefinitionConfigs:
+            - actionKey: pushToPlm
+            - actionKey: postToSlack
+        # 2 — any other family-level change
+        - conditional: '{newData.roles}.includes("family")'
+          actionDefinitionConfigs:
+            - actionKey: logChange
+        # 3 — options fall through with no path, so nothing runs</code></pre>
+              <p>Options are ignored by having <em>no matching path</em> rather than by an explicit exclusion — simpler, and it fails safe if the roles model ever changes.</p>
+              <p><strong>What does it do on a create?</strong></p>
+              <p>Nothing — the trigger is <code>item|update</code>, so a create does not fire this workflow at all. But the question is really about the trap one step further in: <strong><code>oldData</code> is absent on creates.</strong> If someone later adds <code>item|create</code> to get "new approved styles" working, <code>{oldData.status}</code> is undefined, <code>undefined !== "approved"</code> evaluates true, and path 1 fires for every newly created approved item — including 20,000 of them during a bulk load. Any conditional comparing old to new needs a create-safe form, and this is the single most common authoring bug in workflows.</p>
+              <p><strong>What happens if the paths are reordered?</strong></p>
+              <p>Path 2 becomes a catch-all that swallows everything and <strong>path 1 never runs</strong>. Only the first path whose conditional evaluates true is executed; the rest are skipped. Path 2's condition is a strict superset of path 1's, so with path 2 first, no family item ever reaches PLM or Slack — and nothing errors. The workflow runs successfully, every time, doing the wrong thing. Paths are an if / else-if chain, and ordering them broad-to-narrow is a silent failure.</p>
+              <p><strong>What breaks if you drop <code>dynamicMessageGroupId</code> but keep <code>parallelWorkerCount: 30</code>?</strong></p>
+              <p>Two events for the same item family can now execute concurrently, and a copy-down or read-modify-write action becomes a race: two workers read the family state, both compute from a now-stale snapshot, and the second write clobbers the first. You get lost updates, and — where an action writes several properties — values from one style landing on another.</p>
+              <p>Three properties make this the worst class of bug to inherit:</p>
+              <ul>
+              <li><strong>It is load-dependent.</strong> Low volume never collides. It works in testing and for months in production, then a bulk update triggers it.</li>
+              <li><strong>It is non-deterministic.</strong> A different set of records breaks each run, so it looks like flakiness rather than a defect.</li>
+              <li><strong>Nothing fails.</strong> Every process reports <code>COMPLETE</code>. There is no error to find.</li>
+              </ul>
+              <p>And raising <code>parallelWorkerCount</code> is the standard response to "the workflow is slow" — so the usual fix for a performance complaint converts a slow workflow into a corrupting one. That is the trade the two fields exist to let you make deliberately: grouping gives you correctness within a key, worker count gives you throughput across keys.</p>
+              <h5>How to think about it</h5>
+              <p><strong>Read the requirement for the words that map to fields.</strong> "Don't let two events for the same item family process at the same time" is <code>dynamicMessageGroupId</code> keyed on the family. "But keep throughput up across different families" is <code>parallelWorkerCount</code> above 1. Those two clauses are a precise specification of dynamic grouping, and a requirement written that way is usually written by someone who has already been burned.</p>
+              <p><strong>Order paths narrow-to-broad, always.</strong> First-match-wins makes path order semantically significant, and the natural way to write requirements — general case first, then exceptions — produces exactly the wrong order. When reviewing someone else's workflow, checking for a path whose conditional is a superset of a later one is a thirty-second check that finds real bugs.</p>
+              <p><strong>The <code>oldData.status !== "approved"</code> clause is not defensive padding.</strong> Without it, <em>any</em> update to an already-approved item re-fires the push and the Slack post. Someone fixes a typo in a description and PLM gets another push. "Status changed to approved" and "status is approved" are different conditions, and the requirement says <em>changes to</em>.</p>
+              <p><strong>Concurrency bugs are diagnosed by shape, not by content.</strong> "Different records each time, only under load, no errors" is the signature — you can name the class before looking at a single record. That is why <a class="link" href="#m9/m9-concept-4-symptom-shape-tells-you-the-class" data-view="m9" data-anchor="m9-concept-4-symptom-shape-tells-you-the-class">Week 9 leads with symptom shape</a>, and it is the fastest inference available anywhere in the platform.</p>
+              <p><strong>Remember what a workflow is, before promising a change.</strong> These are versioned artefacts of an app, declared in <code>app.yml</code> and installed as templates — not settings someone edits in a console. "Can you just add a condition?" is a release conversation. Knowing that shapes what you commit to on a call.</p>
+              <p><strong>What a weak answer looks like:</strong> a correct YAML block with the three questions answered thinly. The block is the easy part; the questions are the module. Each one names a failure that produces no error — a create-path storm, an unreachable path, a silent race — and those three account for most workflow escalations you will see.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/002_creating_workflows/" target="_blank" rel="noopener">Creating Workflows</a> — paths and first-match-wins, conditional inputs including <code>newData</code>/<code>oldData</code>/<code>propertyDiffs</code>, and the <code>messageGroupId</code> / <code>dynamicMessageGroupId</code> / <code>parallelWorkerCount</code> fields. The densest page in the docs; most of this answer is on it.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/" target="_blank" rel="noopener">Workflows — introduction</a> — triggers, conditionals and actions, and the <code>{entityType}|{action}</code> trigger form.</li>
+                <li><a class="link" href="#m6/m6-concept-6-concurrency-and-message-grouping" data-view="m6" data-anchor="m6-concept-6-concurrency-and-message-grouping">Concept 6 — Concurrency and message grouping</a> — static vs. dynamic serialization and the org-level ceilings the worker count draws against.</li>
+                <li><a class="link" href="#findings/findings-2-failures-that-produce-no-error" data-view="findings" data-anchor="findings-2-failures-that-produce-no-error">Key findings — Failures that produce no error</a> — the unreachable path and the concurrency race both appear there.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <h3 id="m6-realistic-customer-scenario">Realistic customer scenario</h3>
         <div class="card">
           <p><strong>Summit Athletic.</strong> They have a workflow that copies approved family-level attributes down to linked item copies across regional projects. It has run fine for four months. Last Tuesday they ran a bulk update of 3,000 items ahead of a line review. A merchandiser reports:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"About 60 styles have the wrong regional pricing — it looks like values from a different style. And some are just missing. It was fine on Monday. We re-ran the update this morning and a different set of styles broke."</p>
           <p>Their workflow has <code>parallelWorkerCount: 30</code> and no message grouping of any kind. Two other integrations run in the same org.</p>
-          <p style="margin-bottom:0">Give: your <strong>hypothesis</strong> and why the "different set broke on re-run" detail is the strongest clue; the <strong>two fields you'd check first</strong> in the Process List and what you'd expect to see; the <strong>fix</strong>, written as the actual YAML change; and the <strong>second-order risk</strong> your fix introduces at the org level. Then one sentence to the merchandiser today.</p>
-        </div>
+          <p>Give: your <strong>hypothesis</strong> and why the "different set broke on re-run" detail is the strongest clue; the <strong>two fields you'd check first</strong> in the Process List and what you'd expect to see; the <strong>fix</strong>, written as the actual YAML change; and the <strong>second-order risk</strong> your fix introduces at the org level. Then one sentence to the merchandiser today.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>Hypothesis:</strong> a concurrency race. <code>parallelWorkerCount: 30</code> with no message grouping means up to 30 events for <em>the same item family</em> execute simultaneously. The copy-down action is read-modify-write: each worker reads the family state, computes the regional values, and writes. Under a 3,000-item bulk update, workers interleave — one writes values computed from a snapshot another has already superseded. Hence "values from a different style" (a write landing against the wrong parent) and "some are just missing" (a lost update, overwritten before it was read).</p>
+              <p><strong>Why "a different set broke on re-run" is the strongest clue.</strong> It is the one detail that rules out every deterministic cause at once. A bad conditional, a wrong property level, a malformed row, a broken mapping — all of these are functions of the <em>data</em>, so re-running the same update breaks the same records every time. A different set breaking means the outcome depends on <em>timing</em>, not on content. Only concurrency does that. It also explains "fine for four months": at normal volume, two events for one family rarely overlap, so the defect was always present and never had the opportunity to fire.</p>
+              <p><strong>The two Process List fields I'd check first</strong></p>
+              <ul>
+              <li><strong><code>status</code></strong> — and I expect to see <code>COMPLETE</code>, not <code>FAILED</code>, across the board. That expectation is the point: confirming <em>nothing failed</em> eliminates the entire "an action errored" branch and is strong positive evidence for a race. If I find failures instead, my hypothesis is wrong and I am looking at a different problem.</li>
+              <li><strong><code>startTime</code> / <code>endTime</code></strong> — filtered to one affected item family. I expect <strong>overlapping execution windows for the same family</strong>: two or more processes whose intervals intersect. That is the race, observed directly rather than inferred. <code>triggerEvent</code> confirms they were genuinely events for the same family.</li>
+              </ul>
+              <p>Those two together turn "I think it is concurrency" into "here are two processes for style SH-4471 that ran between 02:14:06 and 02:14:09, both COMPLETE" — which is what makes it arguable with an engineer.</p>
+              <p><strong>The fix, as YAML</strong></p>
+              <pre><code>copyDownToLinkedItemsWorkflow:
+    triggerKey: item|linked-copy-down
+    isActive: true
+-   parallelWorkerCount: 30
++   parallelWorkerCount: 8
++   dynamicMessageGroupId: '{newData.itemFamilyId}'</code></pre>
+              <p>Dynamic grouping serialises events sharing a family key while letting different families run in parallel — correctness within a key, throughput across keys. <code>parallelWorkerCount: 1</code> with a static <code>messageGroupId</code> would also be correct and would serialise everything globally, which for 3,000 items before a line review is likely too slow.</p>
+              <p><strong>The second-order risk at org level</strong></p>
+              <p>Concurrency is a <strong>shared, org-wide budget</strong>: 25 concurrent processes per workflow and <strong>60 per organisation</strong>, and two other integrations run in this org. Grouping does not reduce the number of processes — it changes which may run at once, so events queue behind their group key and processes live <em>longer</em>. A long-running backlog holds capacity, and the org ceiling is what the other two integrations are also drawing against. The realistic failure is that the nightly publish integration starts lagging or timing out during a bulk update, and nobody connects it to this change.</p>
+              <p>So: lower the worker count as part of the same change, look at what else runs at that hour, and get the org's utilisation checked against the ceiling before the next bulk update. Raising the ceiling is possible via the Customer Success Manager — worth opening now rather than during the next line review.</p>
+              <p><strong>One sentence to the merchandiser today</strong></p>
+              <blockquote>"This is a system fault, not anything your team did, and it only shows up on big updates — which is why it looked fine until Tuesday; I know the mechanism, I have the fix, and I'll tell you by the end of the day which styles need re-checking before the review."</blockquote>
+              <h5>How to think about it</h5>
+              <p><strong>Shape before content.</strong> Three facts in the report — intermittent, load-correlated, different records each time — identify the class of cause before you look at a single style. That is the fastest inference in the platform and it comes from distribution, not detail. A TAM who starts by examining the 60 broken styles will spend a day finding nothing, because the records themselves are unremarkable.</p>
+              <p><strong>"It was fine for four months" is not evidence against a defect.</strong> Latent concurrency bugs are defined by needing volume to express. Treating longevity as proof of correctness is how these survive — and it is the argument an engineer will make in the review, sincerely.</p>
+              <p><strong>Design checks that can disprove you.</strong> Expecting <code>COMPLETE</code> rather than <code>FAILED</code> feels backwards, and it is the strongest check available: if processes <em>did</em> fail, the hypothesis dies immediately and cheaply. Overlapping timestamps then confirm it positively. Two fields, one confirming and one falsifying, is a good shape for any first look.</p>
+              <p><strong>Every fix has a blast radius — name it before someone else does.</strong> The grouping change is correct and it consumes org capacity differently. Handing over a fix without its second-order cost is how you cause next month's incident while resolving this one. Saying it up front also demonstrates you understand the platform as a shared resource, which is most of what earns technical credibility.</p>
+              <p><strong>The invisible constraint worth raising separately:</strong> workflow evidence is retained <strong>90 days</strong>. This happened last Tuesday so the evidence exists — but it is worth telling the customer that a concurrency bug reported four months late is not investigable, which is a real argument for the failure-trend monitoring in <a class="link" href="#m8/m8-concept-6-what-you-can-actually-see" data-view="m8" data-anchor="m8-concept-6-what-you-can-actually-see">Week 8</a>.</p>
+              <p><strong>The sentence to the merchandiser does three things.</strong> Removes blame, explains the timing (which is the part that makes them doubt you), and commits to a specific deliverable by a specific time. What it deliberately does not do is explain concurrency. They need to know it is understood and bounded, not how it works.</p>
+              <p><strong>What a weak answer looks like:</strong> "increase parallelWorkerCount so it keeps up," which is the intuitive response to anything described as breaking under load, and here it makes the corruption worse.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/002_creating_workflows/" target="_blank" rel="noopener">Creating Workflows</a> — <code>dynamicMessageGroupId</code>, <code>messageGroupId</code> and <code>parallelWorkerCount</code> — the serialization strategies and their defaults.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/managing_workflows/observing_workflows/" target="_blank" rel="noopener">Observing Workflows</a> — the Process List fields checked above — status, <code>triggerEvent</code>, task outputs, start/end times — and the 90-day retention.</li>
+                <li><a class="link" href="#m6/m6-concept-6-concurrency-and-message-grouping" data-view="m6" data-anchor="m6-concept-6-concurrency-and-message-grouping">Concept 6 — Concurrency and message grouping</a> — the ceilings: 25 per workflow, 60 per org, adjustable via the CSM.</li>
+                <li><a class="link" href="#m9/m9-concept-4-symptom-shape-tells-you-the-class" data-view="m9" data-anchor="m9-concept-4-symptom-shape-tells-you-the-class">Week 9 — Symptom shape → class of cause</a> — "intermittent, load-correlated, different records each time" → concurrency race.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <h3 id="m6-quiz">Quiz</h3>
         <div class="q">
@@ -3301,8 +3999,73 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
 
         <h3 id="m6-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
-          <p style="margin-bottom:0">Build your <strong>workflow review checklist</strong> — the things you'd inspect before signing off any customer workflow going to production. Cover at minimum: unreachable paths, create-vs-update behaviour, access grants, <code>config</code> values pointing at the right environment, message grouping vs. what can collide, org-level concurrency budget, and who is alerted on <code>FAILED</code>. This joins the Week 2 data-model health check and the Week 3 publish checklist to complete your account-inheritance kit.</p>
-        </div>
+          <p>Build your <strong>workflow review checklist</strong> — the things you'd inspect before signing off any customer workflow going to production. Cover at minimum: unreachable paths, create-vs-update behaviour, access grants, <code>config</code> values pointing at the right environment, message grouping vs. what can collide, org-level concurrency budget, and who is alerted on <code>FAILED</code>. This joins the Week 2 data-model health check and the Week 3 publish checklist to complete your account-inheritance kit.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>Workflow review checklist.</strong> Run before any customer workflow goes to production, and on every workflow you inherit.</p>
+              <p><strong>1 · Paths and reachability</strong></p>
+              <ul><li>Read the paths in order. Is any conditional a <strong>superset of a later one</strong>? If so, the later path is dead — first match wins and nothing errors.</li>
+              <li>Are paths ordered narrow-to-broad? Requirements are written broad-to-narrow, so this inverts naturally and wrongly.</li>
+              <li>Is there an intended catch-all, and is it last?</li>
+              <li>What happens when no path matches — is that deliberate, or did someone assume a default?</li></ul>
+              <p><strong>2 · Create vs. update behaviour</strong></p>
+              <ul><li>Does any conditional reference <code>{oldData.…}</code>? On a create <code>oldData</code> is <strong>absent</strong>, so comparisons like <code>{oldData.x} !== "y"</code> evaluate true and the path fires for everything.</li>
+              <li>Is the workflow bound to <code>|create</code>, <code>|update</code>, or both — and was that a decision or a default?</li>
+              <li><strong>What does this do during a 20,000-row load?</strong> Every upsert emits an event; every bound workflow fires once per row. Walk the create path specifically, with that number in mind.</li>
+              <li>Does it distinguish "status <em>is</em> approved" from "status <em>changed to</em> approved"? The first re-fires on every unrelated edit.</li></ul>
+              <p><strong>3 · Access grants</strong></p>
+              <ul><li>Which entity types does the app declare it may read and write? Does that match what the actions actually touch?</li>
+              <li>Is anything granted that is no longer used? Grants accumulate and nobody removes them.</li>
+              <li>A missing grant frequently presents as an action silently doing nothing rather than as an obvious permission error — check the grants before concluding the logic is wrong.</li></ul>
+              <p><strong>4 · Configuration values and environment</strong></p>
+              <ul><li>Every URL, endpoint, channel and key in the workflow config — does it point at the environment this org actually is?</li>
+              <li>A workflow promoted from staging with a staging endpoint <strong>succeeds</strong>: it posts correctly, to the wrong place. No failure anywhere.</li>
+              <li>Are secrets referenced rather than inlined?</li>
+              <li>Remember configuration and apps promote by <em>two different mechanisms</em> — confirm both moved.</li></ul>
+              <p><strong>5 · Concurrency and grouping</strong></p>
+              <ul><li>Does any action read-modify-write, or touch shared parent state (copy-down, rollups, sequence numbers)? If yes, grouping is <strong>required</strong>, not advisable.</li>
+              <li>What is the group key, and does it match the unit that must not collide — usually the family or the parent entity?</li>
+              <li>Is <code>parallelWorkerCount</code> above 1 without any grouping? That is a latent race: works at low volume, corrupts under bulk.</li>
+              <li>Has anyone raised the worker count to fix a speed complaint? That is the standard move and it converts slow into corrupting.</li></ul>
+              <p><strong>6 · Org concurrency budget</strong></p>
+              <ul><li>25 concurrent processes per workflow, <strong>60 per org</strong> — shared with every other integration and load.</li>
+              <li>What else runs at the same hour? Add up the intended worker counts across all workflows and compare to 60.</li>
+              <li>Does grouping create long-lived queued processes that hold capacity?</li>
+              <li>Is a ceiling increase needed, and has anyone asked the CSM? Do it before the season, not during it.</li></ul>
+              <p><strong>7 · Serial task execution</strong></p>
+              <ul><li>Tasks run strictly in order and <strong>fail closed</strong>: if task one fails, tasks two and three never run — not failed, not retried, simply never executed.</li>
+              <li>Is the most failure-prone action (usually the external call) ordered <em>after</em> the ones that must happen regardless?</li>
+              <li>Would a partial execution leave inconsistent state, and is that recoverable?</li></ul>
+              <p><strong>8 · Failure visibility</strong></p>
+              <ul><li>Who is alerted on <code>FAILED</code>, by name? "The team watches the dashboard" means nobody.</li>
+              <li>Is anyone watching the failure <em>trend</em>? A rising line is visible weeks before a ticket.</li>
+              <li>Does the customer know evidence is retained <strong>90 days</strong>, so an unexamined failure eventually becomes unexplainable?</li>
+              <li>Do task outputs contain enough to diagnose from, or just "error"?</li></ul>
+              <p><strong>9 · Change control</strong></p>
+              <ul><li>Workflows are versioned artefacts of an app, not console settings — who can publish a new app version, and what is the path to production?</li>
+              <li>Is the deployed version the one in source control?</li>
+              <li><strong>Never delete a workflow to disable it.</strong> Deletion destroys its processes, tasks and logs immediately — the evidence you would need. Disable instead.</li></ul>
+              <p><strong>Scoring:</strong> sections 1, 2 and 5 produce <em>wrong data with no error</em> and block go-live. Section 4 produces correct behaviour aimed at the wrong environment — also blocking, and the easiest to miss. Sections 6–8 are operational risk. Section 9 is governance, and the one customers thank you for a year later.</p>
+              <h5>How to think about it</h5>
+              <p><strong>Nearly every item here is a failure that produces no error.</strong> An unreachable path, a create-path storm, a staging endpoint in production, a lost update — all report success. That is what makes workflows worth a dedicated checklist: you cannot review them by looking for failures, because the dangerous ones do not generate any.</p>
+              <p><strong>Section 2 is where load and automation meet, and reviewers routinely miss it.</strong> A workflow behaves reasonably in daily use and catastrophically during a bulk load, and the two are reviewed by different people at different times. Ask "what does this do to 20,000 rows?" of every workflow, even ones that look unrelated to loading — that single question would have prevented the 1,200 Slack messages in <a class="link" href="#m4/m4-realistic-customer-scenario" data-view="m4" data-anchor="m4-realistic-customer-scenario">Week 4's scenario</a>.</p>
+              <p><strong>Section 5 asks about the action, not the setting.</strong> "Is grouping configured?" invites a yes/no. "Does any action read-modify-write?" identifies whether grouping is <em>required</em> — and if it is, an ungrouped workflow with a high worker count is a defect regardless of how long it has run without incident.</p>
+              <p><strong>Section 6 is the item that makes this a platform review rather than a code review.</strong> Every workflow looks fine in isolation; capacity is the only thing that can only be assessed across all of them at once. Nobody owns the org budget by default, which is precisely why it should be on a TAM's checklist.</p>
+              <p><strong>The delete-vs-disable rule in section 9 is small and irreversible.</strong> Someone tidying up a customer's workflow list destroys the log history you would need to explain last month's incident — instantly, with no undo. It costs one sentence to say and it is the kind of thing a customer only learns from you.</p>
+              <p><strong>Pair the score with a recommendation, not a count.</strong> Sections 1, 2, 4 and 5 are the blocking set; the rest can be a plan. A twenty-item findings list with no priority gets triaged by the person who wrote the workflow — see the <a class="link" href="#m5/m5-realistic-customer-scenario-an-architecture" data-view="m5" data-anchor="m5-realistic-customer-scenario-an-architecture">Week 5 review</a> for why that matters more than being right.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/002_creating_workflows/" target="_blank" rel="noopener">Creating Workflows</a> — sections 1, 2, 5 and 7 — paths and first-match-wins, conditional inputs, grouping and worker count, and serial task execution.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/managing_workflows/observing_workflows/" target="_blank" rel="noopener">Observing Workflows</a> — section 8 — statuses, task outputs, the Process List, and the 90-day retention.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/" target="_blank" rel="noopener">Workflows — introduction</a> — section 3 — access grants and the app-declared surface a workflow may touch.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/configuration/configurationCopy/" target="_blank" rel="noopener">Configuration Copy</a> — section 4 — why environment promotion is two mechanisms, and what each one moves.</li>
+                <li><a class="link" href="#findings/findings-3-decisions-you-cannot-undo" data-view="findings" data-anchor="findings-3-decisions-you-cannot-undo">Key findings — Decisions you cannot undo</a> — section 9 — deleting a workflow destroys its evidence immediately.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <div class="outcome">
           <h4>I know this when I can…</h4>
