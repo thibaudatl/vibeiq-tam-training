@@ -22,13 +22,14 @@ written to be read *after* attempting, not instead of.
 | Working through them | In progress (Module 1) |
 | Activity solutions | Complete — 31 across all 10 modules |
 | TAM practice charter & KPIs | Drafted — boundary table pending internal confirmation |
+| JD success criteria mapped | Complete — all 14, with a plan and an evidence line each |
 
 ## Contents
 
 | Path | What it is |
 |---|---|
 | `index.html` | The training hub — a single self-contained page, no build step and no external requests. Sidebar navigation across the dashboard, all ten modules, the TAM practice page, and four reference pages. Every module expands in the sidebar to its own sections, and opens with an **On this page** agenda. Every quiz question carries a model answer behind a **Show answer** toggle, with a **Reveal all answers** button per quiz. The practical exercise, customer scenario and hands-on challenge each carry a worked solution behind a **Show the solution** toggle — the answer, how to think about the problem, and cited sources. Sidebar sub-items and the **On this page** agenda rows are prefixed with a section-type glyph (📚 orientation · 🤝 TAM knowledge · ⚙️ tech knowledge · ✅ knowledge testing). The dashboard opens with a **Course map**: every module expands to its sections, and every section expands to a short note on what it covers plus a link straight to it. |
-| `modules/practice-tam-operating-model.md` | Source note for the **Building the TAM practice** page — charter, service catalogue, cadence, KPIs. Not a curriculum week; the practice built on top of the ten. |
+| `modules/practice-tam-operating-model.md` | Source note for the **Building the TAM practice** page — charter, service catalogue, cadence, KPIs, and the job description's fourteen success criteria mapped to a plan each. Not a curriculum week; the practice built on top of the ten. |
 | `dashboard.md` | Progress tracker: week status, confidence by topic, running glossary, and the open questions for VibeIQ colleagues. Carry this between tutoring sessions. |
 | `modules/` | Long-form source notes, one per week. The hub is the study surface; these are the working notes behind it. |
 | `docs/STATE.md` | Living project state — decisions made, what's open, and facts not worth re-deriving. Read this first if picking the project up cold. |
@@ -55,6 +56,17 @@ written to be read *after* attempting, not instead of.
   (outcome, practice, leading, anti-metrics, and a defined health score), the first
   90 days, and what the practice needs to work. The charter card and the KPI section
   are written to be sent to a manager; the rest is the weekly working detail.
+- **Succeeding against the job description** (`#practice`, section 10) — the real TAM
+  job description names fourteen success criteria across **Customer** (7),
+  **Operational** (4) and **Leadership** (3). Each one is mapped to the metric that
+  scores it, the plan that moves it, and the evidence that will exist by the end of
+  year one. It also closes the two gaps section 9 left open on purpose: **time to
+  resolve**, accepted and made ungameable (mechanism-confirmed rather than
+  ticket-closed, containment split from permanent fix, a stop-clock rule agreed in
+  advance, reported beside time-to-localise); and **NPS**, reduced to what a TAM can
+  actually move. Ends with what is not measurable yet and the proxy to use meanwhile
+  — and the honest month-one summary: 9 of 14 measurable now, 3 needing a baseline,
+  2 needing the team to grow.
 
 ## Curriculum
 

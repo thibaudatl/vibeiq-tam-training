@@ -8,6 +8,10 @@ Two layers in one document: the **charter + KPIs** are shareable upward; the res
 is the operating detail. Designed for one post-implementation account with a live
 sync/performance escalation, with an explicit path to a repeatable practice.
 
+Section 10 maps the whole thing onto the **fourteen success criteria named in the
+TAM job description** — metric, plan and evidence per criterion. Read 9 and 10
+together: 9 is derived from the work, 10 from the scorecard.
+
 ---
 
 ## 1 · Charter
@@ -260,7 +264,118 @@ so when presenting it; a score nobody can reproduce is worse than no score.
 
 ---
 
-## 10 · First 90 days
+## 10 · Succeeding against the job description
+
+The JD names **fourteen success criteria** in three groups: Customer (7),
+Operational (4), Leadership (3). Section 9 was derived from the work; this is
+derived from the scorecard, and they must agree. Where the JD asks for something
+section 9 deliberately avoided (**time to resolve**) or omitted entirely (**NPS,
+mentoring, hiring**), the gap is closed here, not argued away.
+
+Each criterion gets: metric · plan · evidence by end of year one. No evidence
+line = an intention.
+
+**Three things the JD changes about this page**
+- **A portfolio, not an account** — "a defined portfolio", "post go-live hypercare
+  through ongoing expansion". Everything written for one account must survive
+  multiplication → section 12 is a first-year deliverable, not an ambition.
+- **The operating model is an essential function** — "help define and establish
+  VibeIQ's TAM operating model", "help establish KPIs and reporting". This page is
+  an output of the job, not preparation for it. Ship it month two, versioned.
+- **Leadership is scored from day one** — mentoring, hiring profiles, team
+  leadership. Three criteria need something to exist that doesn't yet: build the
+  substrate before there is anyone to use it.
+
+### 10a · Customer (7)
+
+| Criterion | Metric | Plan | Evidence by year one |
+|---|---|---|---|
+| Customer technical health | Health score 0–5 per account, quarterly (9e) | Publish criteria before the first score; score every account inside 90 days, coarsely if needed; **snapshot monthly** (90-day evidence horizon) | 4 quarterly scores/account, trend, named reason per movement |
+| Adoption & value realization | Adoption breadth by team · publish cadence vs. their calendar · export-to-Excel counter-signal | Define value **in the customer's words** at the first QBR, then measure that one thing ("line plan sign-off happens in Plan, not a mailed spreadsheet") | One written value statement per account + before/after |
+| Reduction in technical risk & escalations | Escalation rate (P1+P2/qtr) · open-risk score dimension · **risks surfaced proactively** | The weekly indicator review *is* the mechanism. Track proactive finds too, or a falling rate can't be told from a customer who stopped calling | Escalation rate down QoQ **with** proactive finds up |
+| Time to resolve escalations | MTTR by severity + stop-clock (10d) | Accept it, then make it honest: containment vs. permanent fix, stop-clock agreed in advance, reported as a triple | 4 quarters of MTTR by severity, split by detection source, pauses logged |
+| Retention / renewal contribution | Renewal technical risk R/A/G with named reasons | Work backwards from renewal: at **120 days out**, score + open risks become a written technical renewal brief for CSM/AE | A brief per account per cycle; no renewal surprised by a known risk |
+| Expansion opportunities influenced | Qualified signals → CSM that became pipeline, ≥ 2/qtr | Monthly review of section 6 signals; hand over **in writing** (ask, technical need, shape of work). Qualified signal, never a pitch | Signal log with CRM outcome per entry, declines included |
+| NPS tracking and evolution | Relationship NPS + technical-contact pulse (10e) | Run the pulse from Q1 regardless of a company programme; report score beside mechanisms | 4 quarters of pulse, themes routed into the pipeline |
+
+### 10b · Operational (4)
+
+| Criterion | Metric | Plan | Evidence |
+|---|---|---|---|
+| Processes & playbooks established | **Coverage** not count: % of the service catalogue with a playbook someone else could execute | Playbook written the *second* time a service runs. 100% of the eight by month 9 | 8 playbooks + templates, each run once by a non-author |
+| Efficiency & automation | Turnaround per service, first vs. latest · manual steps removed | Automate the **data gathering, never the judgement** — failure chart, metrics pack, release diff. Time the first instance deliberately | Health check 5 days → 2, attributable to a named tool/template |
+| Reusable technical assets | **Reuse count**, not asset count | The 8-artefact inheritance kit is the seed; publish each with a one-page "when to use this, and when not to" | Reuse log; ≥ 3 artefacts used by Support / PS / TAM 2 |
+| Reduction in recurring issues | P1 recurrence rate + **portfolio pattern register** | Seen at two accounts → it is a pattern with a permanent fix (doc, default, product ask, checklist line). One retired per month | Register with a dated fix and named mechanism per entry |
+
+Both metric swaps (coverage over count, reuse over creation) are worth defending
+when the scorecard is agreed: the literal phrasings reward producing artefacts
+nobody uses.
+
+### 10c · Leadership (3)
+
+| Criterion | Metric | Plan | Evidence |
+|---|---|---|---|
+| Onboarding & mentoring new TAMs | Ramp time of TAM 2 to first solo health check · their self-sufficiency at 90 days | The onboarding programme is this training site. Turn it into a 30/60/90 **before** hire 2 exists; pressure-test on someone adjacent | Written onboarding path; if no hire, the path + one non-TAM taken through part of it |
+| Contribution to TAM hiring | Profile + interview kit shipped · interviews run | Write the profile from the actual work — the JD list plus what year one proved mattered, noting where they disagree. Technical exercise from a real anonymised escalation: *which checkpoint would you look at first?* | Profile, scorecard, exercise, interview count |
+| Scalable TAM operating model | Tiering with entry/exit criteria in force · second-TAM threshold agreed in advance · playbook coverage | Scalable = someone else can run it, so 10b's coverage number is also this criterion's measure | Dated version history with ≥ 1 revision from another author |
+
+### 10d · Time to resolve, made honest
+
+Section 9 measured time-to-localise instead, because resolution often runs on
+Engineering's clock. The JD names time-to-resolve anyway, and rightly — it is what
+the customer lives. Make it ungameable rather than arguing it away.
+
+1. **Mechanism in place and confirmed**, not ticket-closed. Closure is admin.
+2. **Split containment from resolution** — time to workaround vs. time to permanent
+   fix are two different promises. One number for both is how "it's fixed" gets
+   said too early (the W9 comms failure).
+3. **Stop-clock rule agreed before it is needed**: pauses while blocked on the
+   customer (access, data, a decision) or a third party, each logged with timestamp
+   and reason. Otherwise every escalation ends in a negotiation about the number.
+4. **Report as a triple**: MTTR beside time-to-localise and update-promises-kept.
+   Long MTTR + 1-day localisation + 100% updates = the job done well. Fast closes
+   with no localisation and missed updates is not, and no single number separates them.
+5. **Split by detection source** (proactive vs. customer-reported), or getting
+   better at early detection makes MTTR look worse.
+
+Provisional targets: **P1** workaround ≤ 1 day, mechanism ≤ 5 days. **P2** mechanism
+≤ 10 days. Present as provisional — provisional numbers get corrected, committed
+ones get missed.
+
+### 10e · NPS and what a TAM can move
+
+1. **Technical-contact pulse** alongside account NPS: the IT/data-engineering
+   contacts worked with weekly, quarterly, one free-text question — *what is the one
+   thing about VibeIQ that still costs you time?* The answer beats the score and
+   feeds the pipeline and the advocacy packet.
+2. **Fixed cadence, never moved.** No surveys during or right after an incident, in
+   either direction. A score that moves with timing measures the survey.
+3. **Attribute with mechanisms** — risks found first, escalations closed with a
+   mechanism, requests that reached the product. A score with no mechanism story is
+   noise, and claiming it turns the metric into a target.
+4. **Every detractor gets a call within 5 working days**; the theme enters the 10b
+   register whether or not it is technical.
+
+### 10f · Not measurable yet — and the proxy
+
+| Blocked | Because | Proxy |
+|---|---|---|
+| True start of the MTTR clock | No customer-facing alerting → the customer *is* the alert | Log detection source; the gap between the two MTTR series is the business case for the alerting |
+| Integration lag as a KPI | No concurrency utilisation vs. 25/workflow, 60/org | Consumer-side ack timestamps — ask for it in the first health check |
+| NPS evolution | No baseline, maybe no programme | The technical-contact pulse, run by the TAM from Q1 |
+| Mentoring / hiring | No second TAM | Onboarding path + hiring kit as dated artefacts; interviews for adjacent roles |
+| Any trend > one quarter | 90-day evidence retention | The monthly snapshot from week one — the most time-sensitive item here |
+
+**The month-one summary for a manager:** of the fourteen, **nine measurable now**,
+**three need a baseline first** (value statement per account, first NPS survey,
+first-instance timings), **two need the team to grow** — and for those the
+deliverable is the artefact, not the number. Saying so before being asked is the
+difference between a scorecard that survives the year and one abandoned in month
+four. It also turns three of section 13's asks into blockers with a consequence.
+
+---
+
+## 11 · First 90 days
 
 **Days 1–30 — inherit and stabilise**
 1. `contrail types getAll` — ground truth, not memory.
@@ -283,7 +398,7 @@ Escalation closed with a mechanism and a post-incident note. Charter revised
 against what the quarter actually demanded, and the revision presented — a role
 defined once and never revisited was defined wrong.
 
-## 11 · From one account to a practice
+## 12 · From one account to a practice
 
 **What becomes a template** — health check, review checklists, escalation
 comms template, intake form, advocacy packet, the KPI pack. Everything done twice
@@ -300,7 +415,7 @@ health-check currency below 100%, time-to-first-update slipping, unknowns aging
 past 30 days, or Tier-1 count above the point where the weekly cadence stops
 fitting. Set that threshold *before* it is crossed.
 
-## 12 · What the practice needs — the asks
+## 13 · What the practice needs — the asks
 
 Ranked; three blockers, not twelve findings.
 

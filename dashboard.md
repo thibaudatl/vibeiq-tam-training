@@ -3,7 +3,7 @@
 **Owner:** Leo
 **Program:** 10-week VibeIQ Technical Account Manager readiness
 **Started:** _[fill in]_
-**Last updated:** 2026-09-04 (TAM practice charter + KPIs added)
+**Last updated:** 2026-09-06 (JD success criteria mapped — practice page section 10)
 
 **How to use this file:** Bring it into each new training conversation. At the end of every module, ask Claude to update it, then save the new version. Status key below.
 
@@ -147,6 +147,32 @@ or the history is gone.
 | Unknowns closed / month | Practice | Section 8 below | ≥ 3 in Q1 | _[ ]_ | _[ ]_ |
 | Self-sufficiency | Practice | Own log | ≥ 70% by month 3 | _[ ]_ | _[ ]_ |
 
+**From the job description's success criteria** (practice page, section 10) — the
+metrics section 9 did not carry. Same rule: unbaselined is a slogan.
+
+| KPI | JD group | Source | Target | Baseline | Measured |
+|---|---|---|---|---|---|
+| MTTR — P1 workaround | Customer | Escalation log | ≤ 1 business day _(provisional)_ | _[ ]_ | _[ ]_ |
+| MTTR — P1 mechanism in place | Customer | Escalation log | ≤ 5 business days _(provisional)_ | _[ ]_ | _[ ]_ |
+| MTTR — P2 mechanism in place | Customer | Escalation log | ≤ 10 business days _(provisional)_ | _[ ]_ | _[ ]_ |
+| Detection source split (proactive vs. reported) | Customer | Escalation log | Proactive share rising | _[ ]_ | _[ ]_ |
+| Risks surfaced proactively | Customer | Own log | Rising while escalation rate falls | _[ ]_ | _[ ]_ |
+| Value statement per account | Customer | QBR record | 1 written per account, with before/after | _[ ]_ | _[ ]_ |
+| Technical renewal brief | Customer | Own records | 1 per account per cycle, 120 days out | _[ ]_ | _[ ]_ |
+| Technical-contact pulse (NPS) | Customer | Own survey | Run from Q1; score + mechanism list | _[ ]_ | _[ ]_ |
+| Playbook coverage of the service catalogue | Operational | Own library | 100% of 8 by month 9 | _[ ]_ | _[ ]_ |
+| Service turnaround, first vs. latest | Operational | Own records | Health check 5 days → 2 | _[ ]_ | _[ ]_ |
+| Artefact reuse count (non-author) | Operational | Reuse log | ≥ 3 artefacts reused | _[ ]_ | _[ ]_ |
+| Portfolio pattern register — patterns retired | Operational | Register | 1 / month | _[ ]_ | _[ ]_ |
+| TAM onboarding path shipped | Leadership | Artefact | Written + tested on one person | _[ ]_ | _[ ]_ |
+| Hiring profile + interview kit shipped | Leadership | Artefact | Profile, scorecard, exercise | _[ ]_ | _[ ]_ |
+| Operating model version history | Leadership | This document set | ≥ 1 revision from another author | _[ ]_ | _[ ]_ |
+
+**Stop-clock rule to agree before the first escalation:** the MTTR clock pauses
+while blocked on the customer (access, data, a decision) or a third-party system;
+every pause logged with a timestamp and a reason. Agree it in advance or the
+number becomes negotiable.
+
 **Leading indicators — reviewed weekly, direction not value:** workflow failure trend
 (90d) · load success rate & volume · publish cadence gaps · integration lag · adoption
 breadth by team · export-to-Excel behaviour · open-unknown age · sponsor engagement.
@@ -175,6 +201,13 @@ _Blocking a KPI in section 7b — chase these first:_
 - [ ] What is the real internal routing — TAM / Support / Engineering / Product / PS / CSM? (The charter's boundary table is a *proposal* until this is confirmed.)
 - [ ] Which config changes may a TAM make directly in a customer org, and which need PS or customer change control?
 - [ ] What retention applies to `LoaderProcess`? (Workflow evidence is 90 days; load history is undocumented.)
+
+_Blocking a job-description success criterion (section 10 of the practice page):_
+- [ ] Is there an existing NPS programme, at what cadence, and is it per-account or company-wide? (Blocks "NPS tracking and evolution"; the technical-contact pulse is the interim proxy.)
+- [ ] How is MTTR defined internally today — ticket-closed, or mechanism confirmed? Is there a stop-clock convention? (Blocks "time to resolve escalations" being a fair number.)
+- [ ] What internal asset library do PS and Support already use, and how is reuse tracked? (Blocks "reusable technical assets created" — reuse count, not asset count.)
+- [ ] Is a second TAM hire planned this year, and on what trigger? (Determines whether the three Leadership criteria are scored on artefacts or on outcomes.)
+- [ ] Who owns the account plan and the renewal brief today — CSM or TAM? (Determines where the 120-day technical renewal brief lands.)
 
 ## 9. Questions I still don't understand
 _(your own running list — add anything unclear)_

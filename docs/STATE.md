@@ -4,7 +4,7 @@ Living status doc. Update at the end of each working session so a fresh
 conversation can pick up cold. (`HANDOFF.md` is the original design-session
 handoff, kept for provenance — this file supersedes it for current status.)
 
-**Last updated:** 2026-09-06 — activity solutions complete for all 10 modules; sidebar glyphs; dashboard course map
+**Last updated:** 2026-09-06 — JD success criteria mapped into the practice page (new section 10); activity solutions complete; sidebar glyphs; dashboard course map
 
 ## What this is
 A self-paced 10-week technical training program for Leo, starting as a
@@ -74,6 +74,57 @@ practice definition is itself a deliverable.
   five KPI-blocking colleague questions.
 - Constraint that shaped the KPIs: workflow evidence lives **90 days**, so any
   trend metric requires a **monthly snapshot** started in week one.
+
+## JD alignment — practice page section 10 (added 2026-09-06)
+Leo supplied the real **VibeIQ TAM job description** (Customer Success dept.,
+hiring manager Quach Hai). It names **fourteen success criteria** in three groups:
+Customer (7), Operational (4), Leadership (3). The practice page was written before
+this was available, so section 9's KPIs were derived from the work; new **section 10
+— "Succeeding against the job description"** comes at it from the scorecard end and
+reconciles the two. Sections 10/11/12 renumbered to **11/12/13** (ids, sidebar, page
+agenda and dashboard course map all updated together).
+
+Structure: 10a Customer · 10b Operational · 10c Leadership (each a four-column table
+— criterion, metric, plan, evidence by end of year one) · **10d time to resolve,
+made honest** · **10e NPS** · 10f what is not measurable yet, with a proxy each.
+
+Decisions taken, and why — do not silently reverse them:
+- **Time to resolve was NOT argued away.** Section 9 deliberately measures
+  time-to-localise instead, because resolution runs on Engineering's clock. The JD
+  names MTTR anyway and it is right to. 10d accepts it and makes it ungameable:
+  mechanism-confirmed not ticket-closed · containment split from permanent fix ·
+  a **stop-clock rule agreed in advance** · reported as a triple with
+  time-to-localise and update-promises-kept · split by detection source (otherwise
+  getting better at proactive detection makes MTTR look worse).
+- **Two criteria were deliberately restated** because the literal phrasing rewards
+  useless output: "playbooks established" → *coverage* of the service catalogue;
+  "reusable assets created" → *reuse count by a non-author*. The page says so out
+  loud, because these are what to negotiate when the scorecard is agreed.
+- **NPS** reduced to what a TAM can move: a quarterly technical-contact pulse with
+  one free-text question, fixed cadence never moved around incidents, score always
+  reported beside the mechanism list, every detractor called within 5 days.
+- **The three Leadership criteria are scored on artefacts** until a second TAM
+  exists (onboarding path, hiring kit, dated model version history). Whether that
+  is how the manager will score them is a new colleague question.
+- Month-one honest summary, stated on the page: **9 of 14 measurable now · 3 need a
+  baseline captured first · 2 need the team to grow.** Recount this if criteria are
+  re-mapped.
+- The JD says **portfolio**, not one account, and "post go-live hypercare through
+  ongoing expansion". The rest of the page still reads single-account by design
+  (that is Leo's actual first assignment); the keystone card in 10 names the tension
+  and points at section 12 rather than rewriting the page.
+
+Knock-ons applied in the same pass:
+- `dashboard.md` §7b gained a second KPI table (15 JD-derived metrics, blank
+  baselines) and five new JD-blocking colleague questions.
+- The **Colleague questions** view gained its first two `<h3>`s — "Platform and
+  process unknowns" and "Blocking a job-description success criterion" — and
+  therefore its first sidebar sub-list. Five new cards, one per blocked criterion.
+- `.tscroll` was **made generic** (was `.solbody .tscroll` only) so the four-column
+  mapping tables scroll in their own box; `.solbody` keeps its narrower `min-width`.
+- Source note `modules/practice-tam-operating-model.md` mirrors all of the above.
+- The JD PDF itself is not in the repo (it lives in Leo's Downloads). If the
+  criteria need re-checking, ask for it again rather than trusting this summary.
 
 ## Open with Leo (blocking nothing, but shapes the work)
 1. **Module 1 quiz + Summit Athletic scenario** — not yet answered. Module 2's
