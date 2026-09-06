@@ -111,7 +111,14 @@ plain link to the twin, so right-click and open-in-new-tab behave normally.
 `locale.js` remembers the choice per browser and re-points the hub's REVISION
 link at the matching file — it never redirects a page you are already reading.
 
-Reachable from the hub sidebar under REVISION, or directly at `cheatsheet.html`.
+**English is the default**: with nothing remembered, the hub's REVISION link
+goes to `cheatsheet.en.html`, because this is the page most likely to be shown
+to an English-speaking colleague. One click on the toggle switches to French
+and that choice then wins everywhere. Opening `cheatsheet.html` directly still
+gives the French page — no redirect, ever.
+
+Reachable from the hub sidebar under REVISION, or directly at
+`cheatsheet.en.html` / `cheatsheet.html`.
 
 ## Day / night theme
 

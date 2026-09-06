@@ -6,11 +6,15 @@
    vers le jumeau — clic droit, nouvel onglet et impression fonctionnent.
 
    Le choix est retenu dans ce navigateur, et les liens sortants du hub vers
-   la fiche (index.html) sont réécrits vers la version retenue. Aucune
-   redirection automatique : on ne déplace jamais le lecteur sous ses pieds.
+   la fiche (index.html) sont réécrits vers la version retenue. À défaut de
+   choix, c'est l'anglais : la fiche est la page la plus susceptible d'être
+   montrée à un collègue anglophone. Aucune redirection automatique : on ne
+   déplace jamais le lecteur sous ses pieds — ouvrir cheatsheet.html
+   directement donne bien le français.
    ========================================================================== */
 (function () {
   var KEY = 'vibeiq-locale';
+  var DEFAULT = 'en';   // langue des liens du hub tant que rien n'est retenu
   var PAGES = { fr: 'cheatsheet.html', en: 'cheatsheet.en.html' };
   var LABELS = { fr: 'Français', en: 'English' };
   var OTHER = { fr: 'en', en: 'fr' };
@@ -55,8 +59,7 @@
 
   /* Le hub : les liens vers la fiche suivent la langue retenue. */
   function retargetHubLinks() {
-    var want = preferred();
-    if (!want) return;
+    var want = preferred() || DEFAULT;
     var links = document.querySelectorAll('a[href$="' + PAGES.fr + '"], a[href$="' + PAGES.en + '"]');
     for (var i = 0; i < links.length; i++) {
       var href = links[i].getAttribute('href');

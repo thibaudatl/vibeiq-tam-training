@@ -4,7 +4,7 @@ Living status doc. Update at the end of each working session so a fresh
 conversation can pick up cold. (`HANDOFF.md` is the original design-session
 handoff, kept for provenance — this file supersedes it for current status.)
 
-**Last updated:** 2026-09-06 — cheat sheet now exists in French and English as twin files with a locale toggle; practice page reorganised behind disclosures and its section ids de-numbered; JD success criteria mapped (section 10); activity solutions complete; sidebar glyphs; dashboard course map
+**Last updated:** 2026-09-06 — cheat sheet now exists in French and English as twin files with a locale toggle, English by default; practice page reorganised behind disclosures and its section ids de-numbered; JD success criteria mapped (section 10); activity solutions complete; sidebar glyphs; dashboard course map
 
 ## What this is
 A self-paced 10-week technical training program for Leo, starting as a
@@ -175,10 +175,18 @@ self-test all line up one-to-one.
 - The **Français / English** control in the masthead is a real `<a href>` to
   the twin, not a button. Right-click, open-in-new-tab, copy-link and print
   therefore all behave the way a reader expects.
-- `locale.js` (89 lines, no dependencies) remembers the choice per browser in
+- `locale.js` (no dependencies) remembers the choice per browser in
   `localStorage` under `vibeiq-locale` and rewrites the hub's REVISION links
   to point at the matching file. It deliberately **never redirects a page you
   are already reading** — the reader is not moved under their feet.
+- **English is the default** (`DEFAULT = 'en'`, changed 2026-09-06): with
+  nothing remembered, the hub link resolves to `cheatsheet.en.html`, and
+  `index.html` now hard-codes that target so the default holds with JavaScript
+  off too. Chosen over renaming the files or redirecting: renaming would move a
+  URL that may already be bookmarked, and redirecting would break this page's
+  own no-redirect rule for a visible flash. The consequence to know is that a
+  bare `cheatsheet.html` URL still serves French — the default governs the
+  links out of the hub, not the French file itself.
 - `theme.js` is shared by both files, so its labels now follow `<html lang>`:
   Auto → Jour → Nuit in French, Auto → Day → Night in English, with the title
   and aria-label strings alongside them.
