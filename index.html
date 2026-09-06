@@ -121,6 +121,31 @@
   .toc a:hover::before{color:#fff}
   .toc a.here{background:var(--accent-soft)}
 
+  /* Prev / next module pager. Repeated top and bottom of every module page:
+     the compact row reads as a breadcrumb above the title, the card pair at
+     the foot is the one you actually click when you finish a module. */
+  .pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:stretch}
+  .pager .pgn{grid-column:2;text-align:right}
+  .pgtop{margin:0 0 18px;gap:16px}
+  .pgtop a{display:flex;align-items:baseline;gap:7px;text-decoration:none;font-size:12.5px;
+    color:var(--ink-2);padding:2px 0;transition:color .12s}
+  .pgtop .pgn{justify-content:flex-end}
+  .pgtop a:hover{color:var(--accent)}
+  .pgtop .pgl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pgbot{margin:34px 0 8px}
+  .pgbot a{display:flex;flex-direction:column;gap:4px;text-decoration:none;
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:13px 16px;transition:border-color .12s,background .12s}
+  .pgbot .pgn{align-items:flex-end}
+  .pgbot a:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .pgbot .pgk{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  .pgbot .pgt{font-size:14.5px;color:var(--ink);font-weight:600;line-height:1.3}
+  @media (max-width:640px){
+    .pager{grid-template-columns:1fr}
+    .pager .pgn{grid-column:1;text-align:left}
+    .pgtop .pgn,.pgbot .pgn{justify-content:flex-start;align-items:flex-start}
+  }
+
   /* Callouts */
   .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin:18px 0}
   .keystone{border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;background:var(--accent-soft)}
@@ -1279,6 +1304,11 @@
 
       <!-- ================= MODULE 1 ================= -->
       <section class="view" id="view-m1">
+        <div class="pager pgtop">
+          <a href="#dashboard" data-view="dashboard"><span>←</span><span class="pgl">Dashboard</span></a>
+          <a class="pgn" href="#m2" data-view="m2"><span class="pgl">W2 · Core data model</span><span>→</span></a>
+        </div>
+
         <p class="eyebrow">Module 1 · Week 1</p>
         <h2 class="title">Business domain &amp; where VibeIQ sits</h2>
         <p class="lede">The foundation week. Light on mechanics by design — you can't reason about integrations until you understand what the platform is for, whose calendar it runs on, and what problem it solves for whom.</p>
@@ -1678,11 +1708,21 @@
           </ul>
         </div>
 
+        <div class="pager pgbot">
+          <a href="#dashboard" data-view="dashboard"><span class="pgk">← Previous</span><span class="pgt">Dashboard</span></a>
+          <a class="pgn" href="#m2" data-view="m2"><span class="pgk">Next →</span><span class="pgt">W2 · Core data model</span></a>
+        </div>
+
         <p class="foot">Module 1 · grounded in official VibeIQ / Contrail documentation. Diagrams reproduced from the training session.</p>
       </section>
 
       <!-- ================= MODULE 2 ================= -->
       <section class="view" id="view-m2">
+        <div class="pager pgtop">
+          <a href="#m1" data-view="m1"><span>←</span><span class="pgl">W1 · Business domain &amp; where VibeIQ sits</span></a>
+          <a class="pgn" href="#m3" data-view="m3"><span class="pgl">W3 · End-user apps &amp; the publish lifecycle</span><span>→</span></a>
+        </div>
+
         <p class="eyebrow">Module 2 · Week 2</p>
         <h2 class="title">Core data model</h2>
         <p class="lede">The keystone module. Almost every escalation you will ever handle resolves to something on this page: <em>which entity</em> is the value on, at <em>which property level</em>, and under <em>which federatedId</em>. Slow down here — Weeks 4, 5 and 9 assume it cold.</p>
@@ -2094,11 +2134,21 @@
           </ul>
         </div>
 
+        <div class="pager pgbot">
+          <a href="#m1" data-view="m1"><span class="pgk">← Previous</span><span class="pgt">W1 · Business domain &amp; where VibeIQ sits</span></a>
+          <a class="pgn" href="#m3" data-view="m3"><span class="pgk">Next →</span><span class="pgt">W3 · End-user apps &amp; the publish lifecycle</span></a>
+        </div>
+
         <p class="foot">Module 2 · grounded in official Contrail documentation: Data Loading (Getting Started, Property Type Handling, Loading Projects) and Integration Patterns (Assortment Publish).</p>
       </section>
 
       <!-- ============ MODULES NOT YET WRITTEN ============ -->
       <section class="view" id="view-m3">
+        <div class="pager pgtop">
+          <a href="#m2" data-view="m2"><span>←</span><span class="pgl">W2 · Core data model</span></a>
+          <a class="pgn" href="#m4" data-view="m4"><span class="pgl">W4 · Data in: the Loader framework</span><span>→</span></a>
+        </div>
+
         <p class="eyebrow">Module 3 · Week 3</p>
         <h2 class="title">End-user apps &amp; the publish lifecycle</h2>
         <p class="lede">What your users actually touch, and what happens the moment one of them hits publish. This is the module that connects Week 2's data model to Weeks 4 and 5's integrations — the publish seam is where "it works in VibeIQ but not in PLM" lives.</p>
@@ -2476,10 +2526,20 @@ nightly:                                               # 12 catches silent stall
           </ul>
         </div>
 
+        <div class="pager pgbot">
+          <a href="#m2" data-view="m2"><span class="pgk">← Previous</span><span class="pgt">W2 · Core data model</span></a>
+          <a class="pgn" href="#m4" data-view="m4"><span class="pgk">Next →</span><span class="pgt">W4 · Data in: the Loader framework</span></a>
+        </div>
+
         <p class="foot">Module 3 · grounded in official Contrail documentation (Integration Patterns) and vibeiq.com/platform.</p>
       </section>
 
       <section class="view" id="view-m4">
+        <div class="pager pgtop">
+          <a href="#m3" data-view="m3"><span>←</span><span class="pgl">W3 · End-user apps &amp; the publish lifecycle</span></a>
+          <a class="pgn" href="#m5" data-view="m5"><span class="pgl">W5 · Data out: integration patterns</span><span>→</span></a>
+        </div>
+
         <p class="eyebrow">Module 4 · Week 4</p>
         <h2 class="title">Data in: the Loader framework</h2>
         <p class="lede">With Week 5, the technical heart of the program. The Loader is where customer data becomes VibeIQ entities — and where a large share of your escalations will originate. The goal this week is to read a failed load the way an engineer reads a stack trace: know the phase, know the artefact, know the field.</p>
@@ -3103,10 +3163,20 @@ Active="false" · legacy_code=OLD-99 · Retail Price=89 · gender=womens</code><
           </ul>
         </div>
 
+        <div class="pager pgbot">
+          <a href="#m3" data-view="m3"><span class="pgk">← Previous</span><span class="pgt">W3 · End-user apps &amp; the publish lifecycle</span></a>
+          <a class="pgn" href="#m5" data-view="m5"><span class="pgk">Next →</span><span class="pgt">W5 · Data out: integration patterns</span></a>
+        </div>
+
         <p class="foot">Module 4 · grounded in official Contrail documentation: Data Loading — Getting Started, Loader Configuration Reference, Validation Rules &amp; Error Handling, Preprocessing Pipeline, Load Items, Property Type Handling, Transform Data.</p>
       </section>
 
       <section class="view" id="view-m5">
+        <div class="pager pgtop">
+          <a href="#m4" data-view="m4"><span>←</span><span class="pgl">W4 · Data in: the Loader framework</span></a>
+          <a class="pgn" href="#m6" data-view="m6"><span class="pgl">W6 · Event Workflows</span><span>→</span></a>
+        </div>
+
         <p class="eyebrow">Module 5 · Week 5</p>
         <h2 class="title">Data out: integration patterns</h2>
         <p class="lede">The other half of the technical heart. Week 4 was data arriving; this is data leaving, and it is the seam customers actually break. By the end you should be able to sit in an architecture review, read someone's integration design, and name what will fail in production before it does.</p>
@@ -3534,10 +3604,20 @@ for (const assortmentItem of baselineData.assortmentItems) {
           </ul>
         </div>
 
+        <div class="pager pgbot">
+          <a href="#m4" data-view="m4"><span class="pgk">← Previous</span><span class="pgt">W4 · Data in: the Loader framework</span></a>
+          <a class="pgn" href="#m6" data-view="m6"><span class="pgk">Next →</span><span class="pgt">W6 · Event Workflows</span></a>
+        </div>
+
         <p class="foot">Module 5 · grounded in official Contrail documentation: Integration Patterns (overview, authentication, assortment publish, change history polling).</p>
       </section>
 
       <section class="view" id="view-m6">
+        <div class="pager pgtop">
+          <a href="#m5" data-view="m5"><span>←</span><span class="pgl">W5 · Data out: integration patterns</span></a>
+          <a class="pgn" href="#m7" data-view="m7"><span class="pgl">W7 · Apps, Extensions &amp; the config boundary</span><span>→</span></a>
+        </div>
+
         <p class="eyebrow">Module 6 · Week 6</p>
         <h2 class="title">Event Workflows</h2>
         <p class="lede">The deepest technical module in the program, and the one closest to your day job. Workflows are "the main engine for reacting to system events and running apps across the VibeIQ infrastructure" — when a customer says "the automation didn't run," this is the entire surface you have to reason about.</p>
@@ -4072,10 +4152,20 @@ conditional: '{newData.status} === "approved" && {newData.roles}.includes("famil
           </ul>
         </div>
 
+        <div class="pager pgbot">
+          <a href="#m5" data-view="m5"><span class="pgk">← Previous</span><span class="pgt">W5 · Data out: integration patterns</span></a>
+          <a class="pgn" href="#m7" data-view="m7"><span class="pgk">Next →</span><span class="pgt">W7 · Apps, Extensions &amp; the config boundary</span></a>
+        </div>
+
         <p class="foot">Module 6 · grounded in official Contrail documentation: Workflows (introduction, creating, observing, webhooks).</p>
       </section>
 
       <section class="view" id="view-m7">
+        <div class="pager pgtop">
+          <a href="#m6" data-view="m6"><span>←</span><span class="pgl">W6 · Event Workflows</span></a>
+          <a class="pgn" href="#m8" data-view="m8"><span class="pgl">W8 · Platform, security &amp; operations</span><span>→</span></a>
+        </div>
+
         <p class="eyebrow">Module 7 · Week 7</p>
         <h2 class="title">Apps, Extensions &amp; the config/customization boundary</h2>
         <p class="lede">How far you can go without code, where the line actually is, and what crossing it costs in money, time and people. This is the judgement call you'll be asked to make on nearly every account — usually phrased as "can the platform just do X?"</p>
@@ -4556,10 +4646,20 @@ visibility: public            # marketplace candidate</code></pre>
           </ul>
         </div>
 
+        <div class="pager pgbot">
+          <a href="#m6" data-view="m6"><span class="pgk">← Previous</span><span class="pgt">W6 · Event Workflows</span></a>
+          <a class="pgn" href="#m8" data-view="m8"><span class="pgk">Next →</span><span class="pgt">W8 · Platform, security &amp; operations</span></a>
+        </div>
+
         <p class="foot">Module 7 · grounded in official Contrail documentation: Configuration (formulas, rule sets, configuration copy), Apps (app lifecycle), Extensions.</p>
       </section>
 
       <section class="view" id="view-m8">
+        <div class="pager pgtop">
+          <a href="#m7" data-view="m7"><span>←</span><span class="pgl">W7 · Apps, Extensions &amp; the config boundary</span></a>
+          <a class="pgn" href="#m9" data-view="m9"><span class="pgl">W9 · Troubleshooting &amp; escalation methodology</span><span>→</span></a>
+        </div>
+
         <p class="eyebrow">Module 8 · Week 8</p>
         <h2 class="title">Platform, security &amp; operations</h2>
         <p class="lede">The conversation you'll have with a customer's IT and security teams — and the one where being honest about what you don't know matters more than sounding complete. This module is deliberately split between what the documentation establishes and what it doesn't, because that boundary <em>is</em> the operational picture.</p>
@@ -4952,10 +5052,20 @@ visibility: public            # marketplace candidate</code></pre>
           </ul>
         </div>
 
+        <div class="pager pgbot">
+          <a href="#m7" data-view="m7"><span class="pgk">← Previous</span><span class="pgt">W7 · Apps, Extensions &amp; the config boundary</span></a>
+          <a class="pgn" href="#m9" data-view="m9"><span class="pgk">Next →</span><span class="pgt">W9 · Troubleshooting &amp; escalation methodology</span></a>
+        </div>
+
         <p class="foot">Module 8 · grounded in official Contrail documentation: Authentication, Configuration Copy, Apps (getting started, lifecycle, Node migration), Release Notes (Admin Console). Gaps are marked explicitly rather than filled.</p>
       </section>
 
       <section class="view" id="view-m9">
+        <div class="pager pgtop">
+          <a href="#m8" data-view="m8"><span>←</span><span class="pgl">W8 · Platform, security &amp; operations</span></a>
+          <a class="pgn" href="#m10" data-view="m10"><span class="pgl">W10 · Applied TAM practice (capstone)</span><span>→</span></a>
+        </div>
+
         <p class="eyebrow">Module 9 · Week 9</p>
         <h2 class="title">Troubleshooting &amp; escalation methodology</h2>
         <p class="lede">Everything from Weeks 2–8, turned into one repeatable method. This module introduces almost no new facts — its value is entirely in sequence and discipline. The goal is that an unfamiliar problem stops being a puzzle and becomes a route you walk.</p>
@@ -5467,10 +5577,20 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
           </ul>
         </div>
 
+        <div class="pager pgbot">
+          <a href="#m8" data-view="m8"><span class="pgk">← Previous</span><span class="pgt">W8 · Platform, security &amp; operations</span></a>
+          <a class="pgn" href="#m10" data-view="m10"><span class="pgk">Next →</span><span class="pgt">W10 · Applied TAM practice (capstone)</span></a>
+        </div>
+
         <p class="foot">Module 9 · a synthesis of Weeks 2–8. Escalation routing is a sensible default built from the platform's own structure; confirm VibeIQ's actual internal process in your first weeks.</p>
       </section>
 
       <section class="view" id="view-m10">
+        <div class="pager pgtop">
+          <a href="#m9" data-view="m9"><span>←</span><span class="pgl">W9 · Troubleshooting &amp; escalation methodology</span></a>
+          <a class="pgn" href="#practice" data-view="practice"><span class="pgl">Building the TAM practice</span><span>→</span></a>
+        </div>
+
         <p class="eyebrow">Module 10 · Week 10 · Capstone</p>
         <h2 class="title">Applied TAM practice</h2>
         <p class="lede">Everything, applied to the four situations that actually make up the job: discovery, architecture review, incident, and quarterly review. Nine weeks built the knowledge; this week turns it into behaviour under real conditions — incomplete information, competing priorities, and someone waiting on an answer.</p>
@@ -5892,6 +6012,11 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
         <div class="card keystone">
           <h4>Keep the kit alive</h4>
           <p style="margin-bottom:0">The eight artefacts you built — health check, publish review, pre-load checklist, integration design review, workflow review, routing guide, security response kit, triage card — are worth more than the modules that produced them, because they're what you actually use. Update them as you learn what the docs don't say. The <a class="link" href="#findings" data-view="findings">Key findings</a> page is the same idea: when you discover a new silent failure or an irreversible decision, it belongs there.</p>
+        </div>
+
+        <div class="pager pgbot">
+          <a href="#m9" data-view="m9"><span class="pgk">← Previous</span><span class="pgt">W9 · Troubleshooting &amp; escalation methodology</span></a>
+          <a class="pgn" href="#practice" data-view="practice"><span class="pgk">Next →</span><span class="pgt">Building the TAM practice</span></a>
         </div>
 
         <p class="foot">Module 10 · capstone. Synthesises Weeks 1–9; introduces no new platform facts by design.</p>
