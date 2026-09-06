@@ -4,7 +4,7 @@ Living status doc. Update at the end of each working session so a fresh
 conversation can pick up cold. (`HANDOFF.md` is the original design-session
 handoff, kept for provenance — this file supersedes it for current status.)
 
-**Last updated:** 2026-09-06 — Module 1 activity solutions added; sidebar section-type glyphs across the whole nav
+**Last updated:** 2026-09-06 — Module 1 activity solutions; sidebar section-type glyphs; dashboard course map
 
 ## What this is
 A self-paced 10-week technical training program for Leo, starting as a
@@ -129,8 +129,10 @@ about it** (the reasoning frame, and what a weak answer looks like), **Sources**
 
 ## Sidebar section-type glyphs (added 2026-09-06)
 Every `a.subitem` in the sidebar carries a leading `<span class="ty">` glyph so the
-menu says what kind of section a link leads to. A legend sits under the `MODULES`
-navlabel.
+menu says what kind of section a link leads to. **There is deliberately no legend**
+— one was added under the `MODULES` navlabel and removed at Leo's request as
+sidebar clutter. The glyphs are meant to be self-evident; the dashboard course map
+is where a section's type and content are actually explained. Don't re-add it.
 
 | Glyph | Type | Applied to |
 |---|---|---|
@@ -152,6 +154,49 @@ judgement rather than platform mechanics. Weeks 1 and 10 and the practice page a
   indistinguishable from ⚙️. 📚 is natively bright. Glyph size is 13px, not the
   11px first tried — emoji need it. Don't "fix" this back.
 - **A new sub-item needs a `.ty` span**, or it reads as broken next to the others.
+
+## Dashboard course map (added 2026-09-06)
+`#dashboard` opens with a **Course map** — a three-level expandable summary of the
+whole program, above Week status.
+
+- **Level 1** (visible by default): one row per module, W1–W10 plus the TAM
+  practice page. Week badge, title, and nothing else — the page opens on the
+  agenda alone.
+- **Level 2** (expand a module): its one-line purpose, an "Open the module" link,
+  and the list of its sections with their type glyphs.
+- **Level 3** (expand a section): two or three sentences on what that section
+  covers, plus "Go to this section" which deep-links to `#view/anchor`.
+
+Nested native `<details>` — no JS. The deep links are plain `a[data-view]` outside
+`<nav>`, so the existing in-content delegated handler routes them; verified with a
+real click, not just programmatically.
+
+**How it was built, and what that means for maintaining it.** The markup was
+emitted once by a throwaway script, not hand-typed: the copy lived in a data
+structure keyed on real `h3` ids, and the script asserted every anchor existed as
+an `<h3>` *and* had a sidebar entry, then reported any sidebar section the map
+failed to cover (none — 128 sections across 11 views). Section titles and type
+glyphs were lifted from the sidebar markup rather than retyped, so the map started
+out unable to disagree with the nav.
+
+The script is **not kept** — this repo has no build step and the generated HTML in
+`index.html` is now the source of truth. The consequence: **adding or renaming an
+`<h3>` will silently orphan its map entry**, exactly like the quiz answers. Update
+the map entry in the same edit, or re-derive the whole block. A cheap check is to
+compare the `data-anchor` values in the sidebar against the `href`s in `.cmap`;
+they should be one-to-one.
+
+Only the ten modules and the practice page are mapped. The reference views
+(Key findings, Priority matrix, Colleague questions, Doc links) are not "classes"
+and are left out.
+
+- CSS gotcha worth keeping: the generic `details[open] summary::before` has
+  specificity (0,1,3) and **leaks the parent module's open marker onto every
+  nested section summary**. `.cmap .csec > summary::before{content:none}` (0,2,2)
+  is what beats it. A plain `.csec > summary::before` does not.
+- The dashboard now has three `<h3>`s, which by the Navigation convention would
+  warrant an "On this page" agenda. Deliberately not added — the course map *is*
+  the agenda for this page, and a second one above it would be noise.
 
 ## Key findings page
 `index.html` carries a **Key findings** reference view collecting the highest-value

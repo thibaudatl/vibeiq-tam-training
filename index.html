@@ -78,10 +78,6 @@
      on-page "On this page" agenda keeps its plain prose. */
   .sub a .ty{flex:0 0 auto;margin-right:6px;font-size:13px;opacity:.95;line-height:1}
   .sub a:hover .ty,.sub a.here .ty{opacity:1}
-  .navlegend{display:flex;flex-wrap:wrap;gap:3px 10px;padding:1px 14px 9px;
-    font-size:10px;color:#7c847c;letter-spacing:.02em}
-  .navlegend span{white-space:nowrap}
-  .navlegend b{font-weight:400;font-size:12px;opacity:.95;margin-right:3px}
   .toc a.here{color:var(--accent-ink);font-weight:600}
   .caret{margin-left:auto;font-size:10px;color:#7c847c;transition:transform .15s;flex:0 0 auto}
   nav a.expanded .caret{transform:rotate(90deg)}
@@ -216,6 +212,38 @@
   .srcs li::before{content:"→";position:absolute;left:0;color:var(--accent)}
   .srcs .ext{font-weight:700;color:var(--amber)}
 
+  /* ---- Course map on the dashboard -------------------------------------
+     Three levels of native <details>: module → section → what it covers.
+     Level 1 is closed by default, so the page opens on the agenda alone. */
+  .cmap{margin:16px 0 26px}
+  .cmod{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);
+    padding:0 18px;margin:8px 0}
+  .cmod[open]{padding-bottom:14px;border-color:var(--line-strong)}
+  .cmod > summary{display:flex;align-items:baseline;gap:12px;padding:14px 0;font-size:15px}
+  .cmod > summary::before{content:"▸";color:var(--accent);font-weight:700;font-size:12px}
+  .cmod[open] > summary::before{content:"▾"}
+  .cwk{flex:0 0 auto;min-width:34px;font-size:11.5px;font-weight:700;letter-spacing:.06em;
+    color:var(--accent-ink);font-variant-numeric:tabular-nums}
+  .cttl{font-weight:600;color:var(--ink)}
+  .csum{margin:0 0 10px 46px;font-size:14px;color:var(--ink-2);max-width:70ch}
+  .cgo{margin:0 0 4px 46px;font-size:13px}
+  .csec .cgo{margin-left:0}
+  .cmod > .cgo{margin-bottom:14px}
+  .csec{border:0;border-left:2px solid var(--line);border-radius:0;background:transparent;
+    padding:0 0 0 16px;margin:0 0 0 46px}
+  .csec[open]{padding-bottom:10px;border-left-color:var(--accent)}
+  .csec > summary{padding:7px 0;font-size:13.5px;font-weight:600;color:var(--ink-2)}
+  /* Beats the generic details[open] summary::before (0,1,3), which otherwise
+     leaks the parent module's open marker onto every nested section summary. */
+  .cmap .csec > summary::before{content:none}
+  .csec[open] > summary{color:var(--accent-ink)}
+  .csec .ty{font-size:12px;margin-right:7px;opacity:.95}
+  .csec p{font-size:13.5px;color:var(--ink-2);margin:2px 0 8px;max-width:68ch}
+  @media (max-width:640px){
+    .csum,.cgo{margin-left:0}
+    .csec{margin-left:0}
+  }
+
   .outcome{background:var(--slab-bg);color:#e8e3d8;border-radius:var(--radius);padding:20px 22px;margin:24px 0}
   .outcome h4{color:#fff;margin-top:0}
   .outcome ul{max-width:none}
@@ -257,13 +285,13 @@
     <nav id="nav">
       <a href="#dashboard" data-view="dashboard"><span class="wk">◆</span> Dashboard<span class="caret">›</span></a>
       <div class="sub" data-for="dashboard">
+        <a class="subitem" href="#dashboard/dashboard-course-map" data-view="dashboard" data-anchor="dashboard-course-map"><span class="ty">📚</span>Course map</a>
         <a class="subitem" href="#dashboard/dashboard-week-status" data-view="dashboard" data-anchor="dashboard-week-status"><span class="ty">📚</span>Week status</a>
         <a class="subitem" href="#dashboard/dashboard-confidence-by-major-topic" data-view="dashboard" data-anchor="dashboard-confidence-by-major-topic"><span class="ty">📚</span>Confidence by major topic</a>
       </div>
     </nav>
 
     <div class="navlabel">MODULES</div>
-    <div class="navlegend"><span><b>📚</b>orientation</span><span><b>🤝</b>TAM</span><span><b>⚙️</b>tech</span><span><b>✅</b>testing</span></div>
     <nav id="nav-modules">
       <a href="#m1" data-view="m1"><span class="wk">W1</span> Domain &amp; where VibeIQ sits <span class="st">🟡</span><span class="caret">›</span></a>
       <div class="sub" data-for="m1">
@@ -484,6 +512,706 @@
           <h4 style="margin-top:6px">Overall progress</h4>
           <div class="bar"><i style="width:8%"></i></div>
           <p class="metric" style="margin-top:6px">All 10 modules written and open to browse · your progress: Module 1 of 10 in progress</p>
+        </div>
+
+        <h3 id="dashboard-course-map">Course map</h3>
+        <p class="metric">Every module and what each section covers. Open a module to see its sections; open a section to read what it is about and jump straight to it.</p>
+        <div class="cmap">
+          <details class="cmod">
+            <summary><span class="cwk">W1</span><span class="cttl">Business domain &amp; where VibeIQ sits</span></summary>
+            <p class="csum">The foundation. What the platform is for, whose calendar it runs on, and the positioning you have to get right before anything technical makes sense.</p>
+            <p class="cgo"><a class="link" href="#m1" data-view="m1">Open the module →</a></p>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>1. The domain: seasonal product creation</summary>
+              <p>The seasonal GTM calendar from trend through production, and the merchant vocabulary customers use constantly — line, assortment, style, colourway, SKU, carryover, OTB, sell-in. Learn these cold; every later conversation assumes them.</p>
+              <p class="cgo"><a class="link" href="#m1/m1-concept-1-the-domain-seasonal-product-creati" data-view="m1" data-anchor="m1-concept-1-the-domain-seasonal-product-creati">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>2. The problem VibeIQ exists to solve</summary>
+              <p>Why line planning is painful: decisions get made months ahead across disconnected spreadsheets, decks and mood boards, and the reasoning behind them is lost by the time products reach development — when mistakes are expensive.</p>
+              <p class="cgo"><a class="link" href="#m1/m1-concept-2-the-problem-vibeiq-exists-to-solve" data-view="m1" data-anchor="m1-concept-2-the-problem-vibeiq-exists-to-solve">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>3. Where VibeIQ sits</summary>
+              <p>The keystone of the module. VibeIQ sits <em>upstream of</em> PLM and <em>alongside</em> PLM/ERP/PIM/DAM rather than replacing them. Both words do work: one sets data direction, the other defuses the overlap objection.</p>
+              <p class="cgo"><a class="link" href="#m1/m1-concept-3-where-vibeiq-sits" data-view="m1" data-anchor="m1-concept-3-where-vibeiq-sits">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>4. Who the users are</summary>
+              <p>The five teams — merchandisers, designers, planners, product development, regional — and what each cares about. The operational point: adoption is never monolithic, so knowing which team lags tells you where account health is actually failing.</p>
+              <p class="cgo"><a class="link" href="#m1/m1-concept-4-who-the-users-are" data-view="m1" data-anchor="m1-concept-4-who-the-users-are">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>5. Contrail vs. the marketing brand</summary>
+              <p>Contrail is the engineering sub-brand behind the docs and the <code>@contrail/*</code> packages; VibeIQ is the commercial brand. Also the caution on AI claims: heavily marketed, thinly documented — confirm GA vs. roadmap before repeating any of it.</p>
+              <p class="cgo"><a class="link" href="#m1/m1-concept-5-contrail-vs-the-marketing-brand" data-view="m1" data-anchor="m1-concept-5-contrail-vs-the-marketing-brand">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>Recommended reading</summary>
+              <p>What to read this week and, just as important, what only to skim. Orient to the docs structure rather than studying it.</p>
+              <p class="cgo"><a class="link" href="#m1/m1-recommended-reading" data-view="m1" data-anchor="m1-recommended-reading">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Practical exercise</summary>
+              <p>Two ~60-second elevator pitches, one for a VP of Merchandising and one for an integration engineer — without using "PLM" as a synonym for VibeIQ.</p>
+              <p class="cgo"><a class="link" href="#m1/m1-practical-exercise" data-view="m1" data-anchor="m1-practical-exercise">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Realistic customer scenario</summary>
+              <p>Summit Athletic's VP of Product, six weeks after a Centric PLM rollout: "Isn't this overlap?" Your response shape plus one discovery question that can honestly come back "no".</p>
+              <p class="cgo"><a class="link" href="#m1/m1-realistic-customer-scenario" data-view="m1" data-anchor="m1-realistic-customer-scenario">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Quiz</summary>
+              <p>Eight questions on positioning, the GTM calendar, vocabulary, the user teams and the AI caution. Model answers behind a toggle.</p>
+              <p class="cgo"><a class="link" href="#m1/m1-quiz" data-view="m1" data-anchor="m1-quiz">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Hands-on challenge</summary>
+              <p>Build the customer-landscape discovery template — 8–12 questions across existing systems, data ownership, seasonal cadence and downstream handoff. First artefact of the account-inheritance kit; Week 10 reuses it.</p>
+              <p class="cgo"><a class="link" href="#m1/m1-hands-on-challenge" data-view="m1" data-anchor="m1-hands-on-challenge">Go to this section →</a></p>
+            </details>
+          </details>
+          <details class="cmod">
+            <summary><span class="cwk">W2</span><span class="cttl">Core data model</span></summary>
+            <p class="csum">The keystone module. Almost every escalation you will ever handle resolves to something on this page — which entity, which property level, which federatedId.</p>
+            <p class="cgo"><a class="link" href="#m2" data-view="m2">Open the module →</a></p>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>1. The three item layers</summary>
+              <p>Item, ProjectItem and AssortmentItem. Not three copies: an Item is the product, and the other two are <em>relationship</em> entities carrying data about that product in a season or an assortment. The most important structural idea in the platform.</p>
+              <p class="cgo"><a class="link" href="#m2/m2-concept-1-the-three-item-layers" data-view="m2" data-anchor="m2-concept-1-the-three-item-layers">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>2. Property levels: Family, Option, All, Override</summary>
+              <p>Family, Option, All and Override, and how each propagates through the Family → Option relationship. Maps directly onto Week 1's style → colourway. Family copies down and wins; Override copies down but can be beaten; All has no copy-down at all.</p>
+              <p class="cgo"><a class="link" href="#m2/m2-concept-2-property-levels-family-option-all" data-view="m2" data-anchor="m2-concept-2-property-levels-family-option-all">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>3. federatedId, and the duplicate-records bug</summary>
+              <p>The ID you supply that drives upsert — create if absent, update if present. Entities created by users in the UI have none by default, which is the root cause of the platform's most common integration bug: duplicates of everything on the first Loader run.</p>
+              <p class="cgo"><a class="link" href="#m2/m2-concept-3-federatedid-and-the-duplicate-reco" data-view="m2" data-anchor="m2-concept-3-federatedid-and-the-duplicate-reco">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>4. Projects, Assortments and their owners</summary>
+              <p>Projects as the season-scale container, assortments as curated selections, and which load type creates a Plan, Board or Showcase alongside. Includes the default that bites: assortment membership is <strong>replaced</strong>, not merged.</p>
+              <p class="cgo"><a class="link" href="#m2/m2-concept-4-projects-assortments-and-their-own" data-view="m2" data-anchor="m2-concept-4-projects-assortments-and-their-own">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>5. Where this is heading: the publish lifecycle</summary>
+              <p>A deliberate preview of Week 3, because it is what the data model is <em>for</em>. Introduces AssortmentPublishChange and two facts worth memorising now: deletes do not accumulate across publishes, and S3 links expire in 24 hours.</p>
+              <p class="cgo"><a class="link" href="#m2/m2-concept-5-where-this-is-heading-the-publish" data-view="m2" data-anchor="m2-concept-5-where-this-is-heading-the-publish">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>Recommended reading</summary>
+              <p>The four doc pages this module rests on — Property Type Handling being, for your role, the single most important page in the documentation.</p>
+              <p class="cgo"><a class="link" href="#m2/m2-recommended-reading" data-view="m2" data-anchor="m2-recommended-reading">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Practical exercise</summary>
+              <p>Take one hoodie in 4 colourways and 6 sizes, in two assortments at different price points, and place 10–15 properties on the right layer at the right property level — with a reason for each.</p>
+              <p class="cgo"><a class="link" href="#m2/m2-practical-exercise" data-view="m2" data-anchor="m2-practical-exercise">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Realistic customer scenario</summary>
+              <p>Summit Athletic's copy-down clobber: 30 outlet colourway prices reverted overnight, nobody touched them, leadership presentation on Thursday. Hypothesis, the two checks that confirm or kill it, and what you say before you know.</p>
+              <p class="cgo"><a class="link" href="#m2/m2-realistic-customer-scenario" data-view="m2" data-anchor="m2-realistic-customer-scenario">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Quiz</summary>
+              <p>Eleven questions on the three layers, property levels, federatedId semantics and assortment structure. Model answers behind a toggle.</p>
+              <p class="cgo"><a class="link" href="#m2/m2-quiz" data-view="m2" data-anchor="m2-quiz">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Hands-on challenge</summary>
+              <p>Draft the data-model health check — the 6–8 questions to ask on inheriting any account, aimed at this module's failure modes. Artefact two of the kit.</p>
+              <p class="cgo"><a class="link" href="#m2/m2-hands-on-challenge" data-view="m2" data-anchor="m2-hands-on-challenge">Go to this section →</a></p>
+            </details>
+          </details>
+          <details class="cmod">
+            <summary><span class="cwk">W3</span><span class="cttl">End-user apps &amp; the publish lifecycle</span></summary>
+            <p class="csum">What your users actually touch, and what happens the moment one of them hits publish. The seam where "it works in VibeIQ but not in PLM" lives.</p>
+            <p class="cgo"><a class="link" href="#m3" data-view="m3">Open the module →</a></p>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>1. The three apps</summary>
+              <p>Board, Plan and Showcase — replacing Miro, Excel and PowerPoint respectively, and each backed by an Assortment. The technically important detail: in Plan, each row <em>is</em> an actual product record, not a spreadsheet cell.</p>
+              <p class="cgo"><a class="link" href="#m3/m3-concept-1-the-three-apps" data-view="m3" data-anchor="m3-concept-1-the-three-apps">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>2. The platform underneath</summary>
+              <p>The four platform layers beneath the apps — product data, the agent layer, the event and workflow engine, and the integration/app platform. Carries forward the Week 1 caution about which agent capabilities are actually verified.</p>
+              <p class="cgo"><a class="link" href="#m3/m3-concept-2-the-platform-underneath" data-view="m3" data-anchor="m3-concept-2-the-platform-underneath">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>3. The publish lifecycle, end to end</summary>
+              <p>The six steps from a user editing Plan rows to an external system processing the change. The step people skip is the internal commit — Plan rows persisting down to the Assortment — and skipping it causes bad diagnosis.</p>
+              <p class="cgo"><a class="link" href="#m3/m3-concept-3-the-publish-lifecycle-end-to-end" data-view="m3" data-anchor="m3-concept-3-the-publish-lifecycle-end-to-end">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>4. Anatomy of an AssortmentPublishChange</summary>
+              <p>The three parts: the baseline link (full state now), the delete link (this publish only), and the detail arrays. Most real consumers need both baseline and detail — one for day-to-day sync, one for recovery.</p>
+              <p class="cgo"><a class="link" href="#m3/m3-concept-4-anatomy-of-an-assortmentpublishcha" data-view="m3" data-anchor="m3-concept-4-anatomy-of-an-assortmentpublishcha">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>5. Two ways to consume it</summary>
+              <p>Event-driven push versus change-history polling, compared on trigger, latency and complexity. The shape only; Week 5 goes deep. Notes that polling is temporal filtering, not cursors — which is where the bug lives.</p>
+              <p class="cgo"><a class="link" href="#m3/m3-concept-5-two-ways-to-consume-it" data-view="m3" data-anchor="m3-concept-5-two-ways-to-consume-it">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>Recommended reading</summary>
+              <p>Four pages, with Assortment Publish Integrations flagged to read properly rather than skim — it is the spine of the module.</p>
+              <p class="cgo"><a class="link" href="#m3/m3-recommended-reading" data-view="m3" data-anchor="m3-recommended-reading">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Practical exercise</summary>
+              <p>Twenty lines of pseudocode for a well-behaved publish consumer that survives 48 hours of downtime and recovers without human help — plus the two lines a naive implementation gets wrong.</p>
+              <p class="cgo"><a class="link" href="#m3/m3-practical-exercise" data-view="m3" data-anchor="m3-practical-exercise">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Realistic customer scenario</summary>
+              <p>Forty styles cut in VibeIQ still active in Centric, with sourcing already costing two of them. Four checkpoints in order, the leading hypothesis, and why "who's wrong?" is the wrong question.</p>
+              <p class="cgo"><a class="link" href="#m3/m3-realistic-customer-scenario" data-view="m3" data-anchor="m3-realistic-customer-scenario">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Quiz</summary>
+              <p>Ten questions on the apps, the lifecycle, the change object's fields and missed-publish recovery. Model answers behind a toggle.</p>
+              <p class="cgo"><a class="link" href="#m3/m3-quiz" data-view="m3" data-anchor="m3-quiz">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Hands-on challenge</summary>
+              <p>Write the publish integration review checklist — delete handling, missed-publish recovery, link expiry, reconciliation cadence, and who gets alerted. Artefact three.</p>
+              <p class="cgo"><a class="link" href="#m3/m3-hands-on-challenge" data-view="m3" data-anchor="m3-hands-on-challenge">Go to this section →</a></p>
+            </details>
+          </details>
+          <details class="cmod">
+            <summary><span class="cwk">W4</span><span class="cttl">Data in: the Loader framework</span></summary>
+            <p class="csum">With Week 5, the technical heart. Where customer data becomes VibeIQ entities — and where a large share of your escalations will originate.</p>
+            <p class="cgo"><a class="link" href="#m4" data-view="m4">Open the module →</a></p>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>1. A load is an entity, not a command</summary>
+              <p>A LoaderProcess is an inspectable entity, not a fire-and-forget command. Two fields make it a diagnostic instrument: <code>failureArea</code>, which localises a failure to one of four segments, and <code>preprocessingStepResults</code>, one artefact per step.</p>
+              <p class="cgo"><a class="link" href="#m4/m4-concept-1-a-load-is-an-entity-not-a-command" data-view="m4" data-anchor="m4-concept-1-a-load-is-an-entity-not-a-command">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>2. The five phases</summary>
+              <p>CSV parsing, validation, preprocessing, entity construction, API upsert — and which <code>failureArea</code> value each phase produces. Learn the mapping and a failed load stops being a mystery.</p>
+              <p class="cgo"><a class="link" href="#m4/m4-concept-2-the-five-phases" data-view="m4" data-anchor="m4-concept-2-the-five-phases">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>3. Validation: fail-fast, and no partial loads</summary>
+              <p>Validation is fail-fast and there are <strong>no partial loads</strong> — you never get half a file applied. Most people assume the opposite, and the assumption changes how a recovery is planned. Errors halt; warnings accumulate and continue.</p>
+              <p class="cgo"><a class="link" href="#m4/m4-concept-3-validation-fail-fast-and-no-partia" data-view="m4" data-anchor="m4-concept-3-validation-fail-fast-and-no-partia">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>4. The six preprocessing steps</summary>
+              <p>Boolean conversion, federated mappings, property removal, type transforms without warnings, conditional columns, then type transforms with warnings. Type transformations run twice on purpose — and a value altered in step 4 then overwritten in step 5 warns nowhere.</p>
+              <p class="cgo"><a class="link" href="#m4/m4-concept-4-the-six-preprocessing-steps" data-view="m4" data-anchor="m4-concept-4-the-six-preprocessing-steps">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>5. The configuration, for real</summary>
+              <p>A complete, real load configuration JSON read field by field, rather than a field list in the abstract.</p>
+              <p class="cgo"><a class="link" href="#m4/m4-concept-5-the-configuration-for-real" data-view="m4" data-anchor="m4-concept-5-the-configuration-for-real">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>6. How Family and Option are expressed in a CSV</summary>
+              <p>Week 2's Family/Option made concrete in a CSV: rows sharing an <code>itemFamilyFederatedId</code> become options of one family, and the loader creates the parent automatically. Simpler than most people expect.</p>
+              <p class="cgo"><a class="link" href="#m4/m4-concept-6-how-family-and-option-are-expresse" data-view="m4" data-anchor="m4-concept-6-how-family-and-option-are-expresse">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>7. The four flags that change what a load is</summary>
+              <p>The four fields that change the <em>nature</em> of the operation, three of them quietly. Includes <code>shouldSkipAssortmentPublish</code>, which makes a successful load completely invisible downstream, and <code>partialAssortmentUpdate</code>, which defaults to replace.</p>
+              <p class="cgo"><a class="link" href="#m4/m4-concept-7-the-four-flags-that-change-what-a" data-view="m4" data-anchor="m4-concept-7-the-four-flags-that-change-what-a">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>8. federatedId, with the mechanics</summary>
+              <p>The mechanics behind Week 2's concept: there is no "which column is my ID?" setting, the value has to arrive under the expected property, and IDs must not change between loads or the Loader creates duplicates.</p>
+              <p class="cgo"><a class="link" href="#m4/m4-concept-8-federatedid-with-the-mechanics" data-view="m4" data-anchor="m4-concept-8-federatedid-with-the-mechanics">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>9. Transformers and images</summary>
+              <p>The documented transformer set for heavier reshaping, and why transformer choice is a maintainability question you should have an opinion on — Morph can do anything, which is exactly the problem.</p>
+              <p class="cgo"><a class="link" href="#m4/m4-concept-9-transformers-and-images" data-view="m4" data-anchor="m4-concept-9-transformers-and-images">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>10. Getting the file in, and CLI vs. API</summary>
+              <p>The two-call upload, and the CLI/API split. The drift risk worth knowing: the CLI cannot use a stored configuration, so anyone loading from it is passing a local copy that diverges from production.</p>
+              <p class="cgo"><a class="link" href="#m4/m4-concept-10-getting-the-file-in-and-cli-vs-ap" data-view="m4" data-anchor="m4-concept-10-getting-the-file-in-and-cli-vs-ap">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>11. What a load does to your workflows</summary>
+              <p>A load is an event storm — 20,000 rows is 20,000 trigger evaluations. Except when it deliberately isn't: one flag silences the publish event while entity workflows still fire.</p>
+              <p class="cgo"><a class="link" href="#m4/m4-concept-11-what-a-load-does-to-your-workflow" data-view="m4" data-anchor="m4-concept-11-what-a-load-does-to-your-workflow">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>Recommended reading</summary>
+              <p>Six doc pages, with the Loader Configuration Reference flagged as the densest page for this module.</p>
+              <p class="cgo"><a class="link" href="#m4/m4-recommended-reading" data-view="m4" data-anchor="m4-recommended-reading">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Practical exercise</summary>
+              <p>Write a complete load configuration for a real CSV, trace one row through all six preprocessing steps, and name the two steps where something can go wrong with no warning.</p>
+              <p class="cgo"><a class="link" href="#m4/m4-practical-exercise" data-view="m4" data-anchor="m4-practical-exercise">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Realistic customer scenario</summary>
+              <p>Four symptoms after a load that reported success — blanks, duplicates, three days of silence at FlexPLM, and 1,200 Slack messages at 2am. They are not one root cause. Name the exact artefact that confirms each.</p>
+              <p class="cgo"><a class="link" href="#m4/m4-realistic-customer-scenario" data-view="m4" data-anchor="m4-realistic-customer-scenario">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Quiz</summary>
+              <p>Twelve questions on phases, failure areas, the preprocessing steps, the dangerous flags and a load's workflow side-effects. Model answers behind a toggle.</p>
+              <p class="cgo"><a class="link" href="#m4/m4-quiz" data-view="m4" data-anchor="m4-quiz">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Hands-on challenge</summary>
+              <p>Write the pre-load checklist for any first production load or unusually large one — including whether each of the four flags is still deliberate. Artefact four.</p>
+              <p class="cgo"><a class="link" href="#m4/m4-hands-on-challenge" data-view="m4" data-anchor="m4-hands-on-challenge">Go to this section →</a></p>
+            </details>
+          </details>
+          <details class="cmod">
+            <summary><span class="cwk">W5</span><span class="cttl">Data out: integration patterns</span></summary>
+            <p class="csum">The other half of the technical heart, and the seam customers actually break. By the end you should be able to read an integration design and name what will fail in production.</p>
+            <p class="cgo"><a class="link" href="#m5" data-view="m5">Open the module →</a></p>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>1. Choosing the pattern</summary>
+              <p>Polling versus events on trigger, latency, complexity, where state lives and — the row that decides most real architectures and is easiest to miss — <strong>scope</strong>. Publish events cover assortment publishes only.</p>
+              <p class="cgo"><a class="link" href="#m5/m5-concept-1-choosing-the-pattern" data-view="m5" data-anchor="m5-concept-1-choosing-the-pattern">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>2. Authentication and the API surface</summary>
+              <p>The base URL, the two required headers, what the <code>app:</code> key prefix signifies, and what each error code actually means. Includes why a 404 here is not proof a record is absent.</p>
+              <p class="cgo"><a class="link" href="#m5/m5-concept-2-authentication-and-the-api-surface" data-view="m5" data-anchor="m5-concept-2-authentication-and-the-api-surface">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>3. The event-driven path, end to end</summary>
+              <p>The thin two-ID payload, and the fact that matters most: the delivery mechanism <em>is</em> an Event Workflow. So "the event never arrived" is a workflow investigation, and Week 6 already taught you how to run it.</p>
+              <p class="cgo"><a class="link" href="#m5/m5-concept-3-the-event-driven-path-end-to-end" data-view="m5" data-anchor="m5-concept-3-the-event-driven-path-end-to-end">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>4. The polling path, and the seam</summary>
+              <p>Change-history polling, and why temporal filtering is not a cursor. Boundary exclusivity, clock skew and in-flight writes each drop or duplicate records at the seam between polls.</p>
+              <p class="cgo"><a class="link" href="#m5/m5-concept-4-the-polling-path-and-the-seam" data-view="m5" data-anchor="m5-concept-4-the-polling-path-and-the-seam">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>5. Designing a consumer that survives contact with reality</summary>
+              <p>Weeks 3–5 pulled together into six hazards a production consumer must handle — expiring links, non-accumulating deletes, downtime, duplicates, partial failure and silent stalling — each with its design answer.</p>
+              <p class="cgo"><a class="link" href="#m5/m5-concept-5-designing-a-consumer-that-survives" data-view="m5" data-anchor="m5-concept-5-designing-a-consumer-that-survives">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>6. Webhook security, in both directions</summary>
+              <p>Inbound and outbound have genuinely different security postures, and conflating them is how you give a security team a wrong answer. Outbound supports HMAC; inbound documents only an optional shared-secret header.</p>
+              <p class="cgo"><a class="link" href="#m5/m5-concept-6-webhook-security-in-both-direction" data-view="m5" data-anchor="m5-concept-6-webhook-security-in-both-direction">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>7. Attribute ownership, the artefact that prevents the arguments</summary>
+              <p>Two-way integration means every attribute needs an owner, or both systems write the same field and the last writer wins — intermittently. The map that prevents the argument, and what belongs in each row.</p>
+              <p class="cgo"><a class="link" href="#m5/m5-concept-7-attribute-ownership-the-artefact-t" data-view="m5" data-anchor="m5-concept-7-attribute-ownership-the-artefact-t">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>Recommended reading</summary>
+              <p>Four pages, with Assortment Publish Integrations flagged to read line by line.</p>
+              <p class="cgo"><a class="link" href="#m5/m5-recommended-reading" data-view="m5" data-anchor="m5-recommended-reading">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Practical exercise</summary>
+              <p>Write the attribute ownership map for a brand running VibeIQ, Centric and SAP — fifteen attributes, each with authoritative system, direction, entity layer, property level and conflict rule.</p>
+              <p class="cgo"><a class="link" href="#m5/m5-practical-exercise" data-view="m5" data-anchor="m5-practical-exercise">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Realistic customer scenario — an architecture review</summary>
+              <p>A real pre-build architecture review: a nightly polling job with a subtly wrong window, stored S3 links, and no delete handling. Find every flaw, rank them, and write the reply.</p>
+              <p class="cgo"><a class="link" href="#m5/m5-realistic-customer-scenario-an-architecture" data-view="m5" data-anchor="m5-realistic-customer-scenario-an-architecture">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Quiz</summary>
+              <p>Eleven questions on pattern choice, auth, the polling seam, consumer resilience and webhook security in both directions. Model answers behind a toggle.</p>
+              <p class="cgo"><a class="link" href="#m5/m5-quiz" data-view="m5" data-anchor="m5-quiz">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Hands-on challenge</summary>
+              <p>Write the integration design review template — the standard questions to put to any customer before they build against VibeIQ. Artefact five.</p>
+              <p class="cgo"><a class="link" href="#m5/m5-hands-on-challenge" data-view="m5" data-anchor="m5-hands-on-challenge">Go to this section →</a></p>
+            </details>
+          </details>
+          <details class="cmod">
+            <summary><span class="cwk">W6</span><span class="cttl">Event Workflows</span></summary>
+            <p class="csum">The deepest technical module, and the one closest to the day job. When a customer says "the automation didn't run," this is the entire surface you have to reason about.</p>
+            <p class="cgo"><a class="link" href="#m6" data-view="m6">Open the module →</a></p>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>1. Anatomy</summary>
+              <p>Triggers, conditionals and actions, declared in an app's <code>app.yml</code>. A trigger says when, conditionals say which branch, actions say what happens.</p>
+              <p class="cgo"><a class="link" href="#m6/m6-concept-1-anatomy" data-view="m6" data-anchor="m6-concept-1-anatomy">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>2. The six trigger categories</summary>
+              <p>System events in <code>{entityType}|{action}</code> form, plus scheduled, webhook, manual, app-completion and bulk-change triggers. Note what is <em>not</em> there: assortment offers only <code>publish</code>.</p>
+              <p class="cgo"><a class="link" href="#m6/m6-concept-2-the-six-trigger-categories" data-view="m6" data-anchor="m6-concept-2-the-six-trigger-categories">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>3. Paths, and the rule that bites</summary>
+              <p>Paths are an ordered if/else-if chain and <strong>only the first matching path runs</strong>. Authors routinely write them as independent rules, which silently strands every later path.</p>
+              <p class="cgo"><a class="link" href="#m6/m6-concept-3-paths-and-the-rule-that-bites" data-view="m6" data-anchor="m6-concept-3-paths-and-the-rule-that-bites">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>4. Conditional expressions</summary>
+              <p>JavaScript evaluated against the event payload, with <code>newData</code>, <code>oldData</code>, <code>propertyDiffs</code> and <code>changeObjects</code> available. <code>oldData</code> is absent on creates — the source of the classic create-versus-update bug.</p>
+              <p class="cgo"><a class="link" href="#m6/m6-concept-4-conditional-expressions" data-view="m6" data-anchor="m6-concept-4-conditional-expressions">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>5. Actions and per-workflow config</summary>
+              <p>Tasks run strictly serially and fail closed: one failed task means every later task in that process never runs — not failed, not retried, simply never executed.</p>
+              <p class="cgo"><a class="link" href="#m6/m6-concept-5-actions-and-per-workflow-config" data-view="m6" data-anchor="m6-concept-5-actions-and-per-workflow-config">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>6. Concurrency and message grouping</summary>
+              <p>Static serialization versus dynamic grouping, and the concurrency ceilings. This produces the hardest bugs you will see, because they are intermittent and load-dependent — raising throughput without grouping converts a slow workflow into a corrupting one.</p>
+              <p class="cgo"><a class="link" href="#m6/m6-concept-6-concurrency-and-message-grouping" data-view="m6" data-anchor="m6-concept-6-concurrency-and-message-grouping">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>7. Webhooks</summary>
+              <p>Creating a webhook, linking it to a workflow by ID, and firing it. Note the webhook ID in the URL functions as a bearer credential.</p>
+              <p class="cgo"><a class="link" href="#m6/m6-concept-7-webhooks" data-view="m6" data-anchor="m6-concept-7-webhooks">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>8. From app to running workflow</summary>
+              <p>Workflows are versioned artefacts of an app, not settings in a console — so "can you just tweak that automation?" is a release conversation, not a five-minute favour.</p>
+              <p class="cgo"><a class="link" href="#m6/m6-concept-8-from-app-to-running-workflow" data-view="m6" data-anchor="m6-concept-8-from-app-to-running-workflow">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>9. Observability, and the "why didn't it fire?" ladder</summary>
+              <p>The Process List, task outputs, the four statuses, and the ordered ladder for "why didn't it fire?". Also the 90-day retention that caps how far back any investigation can reach.</p>
+              <p class="cgo"><a class="link" href="#m6/m6-concept-9-observability-and-the-why-didn-t-i" data-view="m6" data-anchor="m6-concept-9-observability-and-the-why-didn-t-i">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>Recommended reading</summary>
+              <p>Four pages, with Creating Workflows flagged to read twice — most of this module comes from it.</p>
+              <p class="cgo"><a class="link" href="#m6/m6-recommended-reading" data-view="m6" data-anchor="m6-recommended-reading">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Practical exercise</summary>
+              <p>Write a complete <code>app.yml</code> workflow block from a plain-English requirement, including the grouping that keeps one family serial while different families run in parallel.</p>
+              <p class="cgo"><a class="link" href="#m6/m6-practical-exercise" data-view="m6" data-anchor="m6-practical-exercise">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Realistic customer scenario</summary>
+              <p>A copy-down workflow that ran fine for four months, then corrupted 60 styles during a 3,000-item bulk update. A concurrency race — and the symptom shape tells you so before any detail does.</p>
+              <p class="cgo"><a class="link" href="#m6/m6-realistic-customer-scenario" data-view="m6" data-anchor="m6-realistic-customer-scenario">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Quiz</summary>
+              <p>Thirteen questions on anatomy, triggers, first-match-wins, conditionals, serial task execution, concurrency and observability. Model answers behind a toggle.</p>
+              <p class="cgo"><a class="link" href="#m6/m6-quiz" data-view="m6" data-anchor="m6-quiz">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Hands-on challenge</summary>
+              <p>Build the workflow review checklist — unreachable paths, create-vs-update behaviour, access grants, environment config, grouping, concurrency budget and failure alerting. Artefact six.</p>
+              <p class="cgo"><a class="link" href="#m6/m6-hands-on-challenge" data-view="m6" data-anchor="m6-hands-on-challenge">Go to this section →</a></p>
+            </details>
+          </details>
+          <details class="cmod">
+            <summary><span class="cwk">W7</span><span class="cttl">Apps, Extensions &amp; the config boundary</span></summary>
+            <p class="csum">How far you can go without code, where the line is, and what crossing it costs. The judgement call you'll be asked for on nearly every account.</p>
+            <p class="cgo"><a class="link" href="#m7" data-view="m7">Open the module →</a></p>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>1. The spectrum</summary>
+              <p>"Configuration vs. customization" is a false binary — it is a five-rung ladder from types and properties up to external systems, each rung costing more to build, more to change, and involving more people.</p>
+              <p class="cgo"><a class="link" href="#m7/m7-concept-1-the-spectrum" data-view="m7" data-anchor="m7-concept-1-the-spectrum">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>2. Formulas</summary>
+              <p>Programmatic property values, what inputs each entity type gets, and the three silent failure modes — including the one that produces a value correct today and wrong next season.</p>
+              <p class="cgo"><a class="link" href="#m7/m7-concept-2-formulas" data-view="m7" data-anchor="m7-concept-2-formulas">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>3. Rule Sets</summary>
+              <p>Controlling whether a property is editable, required, range-limited or option-restricted, based on entity state. Includes OR/AND evaluation and what "locked wins" means. Note: documented as evaluating client-side.</p>
+              <p class="cgo"><a class="link" href="#m7/m7-concept-3-rule-sets" data-view="m7" data-anchor="m7-concept-3-rule-sets">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>4. The rest of the configuration layer</summary>
+              <p>Validation functions, blueprints, uniqueness and option set hierarchies. Includes the hierarchy trap: configs keyed on TypePropertyIds, where a slug-based config silently fails to load.</p>
+              <p class="cgo"><a class="link" href="#m7/m7-concept-4-the-rest-of-the-configuration-laye" data-view="m7" data-anchor="m7-concept-4-the-rest-of-the-configuration-laye">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>5. Configuration Copy, and how environments actually work</summary>
+              <p>How configuration actually moves between orgs, and the answer to a question open since Week 1: an "environment" is just another org. Configuration promotes one way, apps another — a full promotion is two mechanisms.</p>
+              <p class="cgo"><a class="link" href="#m7/m7-concept-5-configuration-copy-and-how-environ" data-view="m7" data-anchor="m7-concept-5-configuration-copy-and-how-environ">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>6. Apps: identity, ownership, versions</summary>
+              <p>Three permanent decisions you should be in the room for: the app identifier is global and immutable, and app ownership cannot be transferred. An SI's app can never become the customer's.</p>
+              <p class="cgo"><a class="link" href="#m7/m7-concept-6-apps-identity-ownership-versions" data-view="m7" data-anchor="m7-concept-6-apps-identity-ownership-versions">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>7. Extensions</summary>
+              <p>The three extension types, how they are declared, and the hosting implication — extensions run in an iframe from someone's public HTTPS host, which is a security and ownership question, not just a technical one.</p>
+              <p class="cgo"><a class="link" href="#m7/m7-concept-7-extensions" data-view="m7" data-anchor="m7-concept-7-extensions">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>8. Holding the line</summary>
+              <p>A practical routing table for "can it do X?" — request shape on the left, the rung to reach for on the right, including the two "wrong system" boundaries from Week 1.</p>
+              <p class="cgo"><a class="link" href="#m7/m7-concept-8-holding-the-line" data-view="m7" data-anchor="m7-concept-8-holding-the-line">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>Recommended reading</summary>
+              <p>Four areas of the configuration and app-lifecycle docs, with Formulas and Rule Sets to be read properly.</p>
+              <p class="cgo"><a class="link" href="#m7/m7-recommended-reading" data-view="m7" data-anchor="m7-recommended-reading">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Practical exercise</summary>
+              <p>Route seven real customer requests to a rung of the spectrum, each with one sentence on cost of ownership.</p>
+              <p class="cgo"><a class="link" href="#m7/m7-practical-exercise" data-view="m7" data-anchor="m7-practical-exercise">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Realistic customer scenario</summary>
+              <p>An integrator's design note containing two irreversible mistakes — the app created in their own org, and an extension hosted on their infrastructure. Eight weeks from go-live.</p>
+              <p class="cgo"><a class="link" href="#m7/m7-realistic-customer-scenario" data-view="m7" data-anchor="m7-realistic-customer-scenario">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Quiz</summary>
+              <p>Twelve questions on the spectrum, formulas, rule sets, configuration copy, app identity and extensions. Model answers behind a toggle.</p>
+              <p class="cgo"><a class="link" href="#m7/m7-quiz" data-view="m7" data-anchor="m7-quiz">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Hands-on challenge</summary>
+              <p>Write the "can the platform do X?" routing guide — the artefact most likely to be read by someone other than you. Artefact seven.</p>
+              <p class="cgo"><a class="link" href="#m7/m7-hands-on-challenge" data-view="m7" data-anchor="m7-hands-on-challenge">Go to this section →</a></p>
+            </details>
+          </details>
+          <details class="cmod">
+            <summary><span class="cwk">W8</span><span class="cttl">Platform, security &amp; operations</span></summary>
+            <p class="csum">The conversation with a customer's IT and security teams — and the one where being honest about what you don't know matters more than sounding complete.</p>
+            <p class="cgo"><a class="link" href="#m8" data-view="m8">Open the module →</a></p>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>1. Tenancy: the org is the boundary</summary>
+              <p>The org is the unit of isolation, ownership, configuration and capacity. Hold that and most platform questions resolve — including why environments drift.</p>
+              <p class="cgo"><a class="link" href="#m8/m8-concept-1-tenancy-the-org-is-the-boundary" data-view="m8" data-anchor="m8-concept-1-tenancy-the-org-is-the-boundary">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>2. The permission model, layer by layer</summary>
+              <p>Five layers from org membership down to a single property. Corrects a common misconception: VibeIQ <em>does</em> have an end-user permission model. What is missing is documentation, not capability.</p>
+              <p class="cgo"><a class="link" href="#m8/m8-concept-2-the-permission-model-layer-by-laye" data-view="m8" data-anchor="m8-concept-2-the-permission-model-layer-by-laye">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>3. Credentials: where they live and how they leak</summary>
+              <p>Three credential surfaces with different exposures — API keys, CLI credentials cached to <code>~/.vibeiq/configs/</code> on every laptop that ever ran it, and webhook IDs. The CLI cache is an offboarding risk nobody raises.</p>
+              <p class="cgo"><a class="link" href="#m8/m8-concept-3-credentials-where-they-live-and-ho" data-view="m8" data-anchor="m8-concept-3-credentials-where-they-live-and-ho">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>4. Where the data actually goes</summary>
+              <p>Uploads to S3, publish payloads on expiring links, and extension iframes on customer-hosted infrastructure — the honest answer to "where does our data travel?"</p>
+              <p class="cgo"><a class="link" href="#m8/m8-concept-4-where-the-data-actually-goes" data-view="m8" data-anchor="m8-concept-4-where-the-data-actually-goes">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>5. Runtime and platform upgrades</summary>
+              <p>Node runtime declarations and migration obligations — a recurring, schedulable duty customers reliably forget, because the app still works right up until it doesn't.</p>
+              <p class="cgo"><a class="link" href="#m8/m8-concept-5-runtime-and-platform-upgrades" data-view="m8" data-anchor="m8-concept-5-runtime-and-platform-upgrades">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>6. What you can actually see</summary>
+              <p>The real monitoring surface and its horizons — chiefly that workflow evidence lives 90 days. Check the horizon before promising root cause on an old problem.</p>
+              <p class="cgo"><a class="link" href="#m8/m8-concept-6-what-you-can-actually-see" data-view="m8" data-anchor="m8-concept-6-what-you-can-actually-see">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>7. Capacity as a shared, invisible resource</summary>
+              <p>The org's 60 concurrent processes are a budget shared by every integration, workflow and bulk load — with no per-team allocation and no documented way for a customer to see their own utilisation.</p>
+              <p class="cgo"><a class="link" href="#m8/m8-concept-7-capacity-as-a-shared-invisible-res" data-view="m8" data-anchor="m8-concept-7-capacity-as-a-shared-invisible-res">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>8. Answering what you don't know</summary>
+              <p>The standing list of six things a security team will ask that public documentation does not settle, and how to take them away without bluffing or stalling.</p>
+              <p class="cgo"><a class="link" href="#m8/m8-concept-8-answering-what-you-don-t-know" data-view="m8" data-anchor="m8-concept-8-answering-what-you-don-t-know">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>Recommended reading</summary>
+              <p>Four pages covering key hygiene, the configurable/governable surface, monitoring, and the shape of a runtime obligation.</p>
+              <p class="cgo"><a class="link" href="#m8/m8-recommended-reading" data-view="m8" data-anchor="m8-recommended-reading">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Practical exercise</summary>
+              <p>Write the platform section of an implementation runbook — org topology, credential custody and rotation, data paths, monitoring ownership, runtime obligations and the concurrency budget.</p>
+              <p class="cgo"><a class="link" href="#m8/m8-practical-exercise" data-view="m8" data-anchor="m8-practical-exercise">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Realistic customer scenario</summary>
+              <p>A pre-contract security questionnaire with the VP copied and a 48-hour deadline, containing questions you can answer, questions you must qualify, and questions you have to take away.</p>
+              <p class="cgo"><a class="link" href="#m8/m8-realistic-customer-scenario" data-view="m8" data-anchor="m8-realistic-customer-scenario">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Quiz</summary>
+              <p>Twelve questions on tenancy, permission layers, credentials, data paths, monitoring horizons and capacity. Model answers behind a toggle.</p>
+              <p class="cgo"><a class="link" href="#m8/m8-quiz" data-view="m8" data-anchor="m8-quiz">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Hands-on challenge</summary>
+              <p>Build the security questionnaire response kit, split into answer confidently, answer with qualification, and must escalate. Artefact eight.</p>
+              <p class="cgo"><a class="link" href="#m8/m8-hands-on-challenge" data-view="m8" data-anchor="m8-hands-on-challenge">Go to this section →</a></p>
+            </details>
+          </details>
+          <details class="cmod">
+            <summary><span class="cwk">W9</span><span class="cttl">Troubleshooting &amp; escalation</span></summary>
+            <p class="csum">Everything from Weeks 2–8 turned into one repeatable method. Almost no new facts — the value is entirely in sequence and discipline.</p>
+            <p class="cgo"><a class="link" href="#m9" data-view="m9">Open the module →</a></p>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>1. Localise before theorising</summary>
+              <p>The single most common failure in technical support is proposing a cause before establishing <em>where</em> the problem is. The first question is which segment of the pipeline, not why.</p>
+              <p class="cgo"><a class="link" href="#m9/m9-concept-1-localise-before-theorising" data-view="m9" data-anchor="m9-concept-1-localise-before-theorising">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>2. The universal question set</summary>
+              <p>Six questions that apply to almost any data-correctness report, each eliminating whole classes of cause before you touch anything — entity layer, property level, who wrote it, when, how distributed, what changed.</p>
+              <p class="cgo"><a class="link" href="#m9/m9-concept-2-the-universal-question-set" data-view="m9" data-anchor="m9-concept-2-the-universal-question-set">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>3. The three ladders</summary>
+              <p>The consolidated ladders for a bad load, a workflow that didn't fire, and a downstream sync that didn't arrive. Learn them as three routes, not as scattered notes from Weeks 3–6.</p>
+              <p class="cgo"><a class="link" href="#m9/m9-concept-3-the-three-ladders" data-view="m9" data-anchor="m9-concept-3-the-three-ladders">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>4. Symptom shape tells you the class of cause</summary>
+              <p>Before content, look at distribution. How a problem spreads across records and time narrows the cause faster than any detail about the records — intermittent and load-correlated means concurrency, consistent and silent means configuration.</p>
+              <p class="cgo"><a class="link" href="#m9/m9-concept-4-symptom-shape-tells-you-the-class" data-view="m9" data-anchor="m9-concept-4-symptom-shape-tells-you-the-class">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">⚙️</span>5. Read evidence, don't reason from descriptions</summary>
+              <p>Anchor every claim to a named artefact with a known lifetime — LoaderProcess and its step files, the Process List, the workflows dashboard. Descriptions are what people remember; evidence is what happened.</p>
+              <p class="cgo"><a class="link" href="#m9/m9-concept-5-read-evidence-don-t-reason-from-de" data-view="m9" data-anchor="m9-concept-5-read-evidence-don-t-reason-from-de">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>6. Escalating well</summary>
+              <p>Escalation is a handover, not an admission. What a good one contains — the segment, the identifiers, what you ruled out and how — and why that determines whether the next person starts where you stopped or starts again.</p>
+              <p class="cgo"><a class="link" href="#m9/m9-concept-6-escalating-well" data-view="m9" data-anchor="m9-concept-6-escalating-well">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>7. Holding the customer while it's open</summary>
+              <p>The other half of the job: separating what you know from what you suspect, explicitly and every time, for a customer who is anxious and accountable to someone else.</p>
+              <p class="cgo"><a class="link" href="#m9/m9-concept-7-holding-the-customer-while-it-s-op" data-view="m9" data-anchor="m9-concept-7-holding-the-customer-while-it-s-op">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Practical exercise</summary>
+              <p>Write the one-page triage card from memory, then test it against three earlier scenarios and confirm it would have routed each correctly.</p>
+              <p class="cgo"><a class="link" href="#m9/m9-practical-exercise" data-view="m9" data-anchor="m9-practical-exercise">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Realistic customer scenario — a live incident</summary>
+              <p>A live incident: the VP calls you directly, three symptoms, and a line review at 14:00. Localise, sequence, and decide what to say at each check-in.</p>
+              <p class="cgo"><a class="link" href="#m9/m9-realistic-customer-scenario-a-live-incident" data-view="m9" data-anchor="m9-realistic-customer-scenario-a-live-incident">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Quiz</summary>
+              <p>Eleven questions on the localisation rule, the checkpoints, the ladders, symptom shape, evidence horizons and escalation quality. Model answers behind a toggle.</p>
+              <p class="cgo"><a class="link" href="#m9/m9-quiz" data-view="m9" data-anchor="m9-quiz">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>Hands-on challenge</summary>
+              <p>Assemble the full account-inheritance kit — all eight artefacts in one document, with a note on when each gets used.</p>
+              <p class="cgo"><a class="link" href="#m9/m9-hands-on-challenge" data-view="m9" data-anchor="m9-hands-on-challenge">Go to this section →</a></p>
+            </details>
+          </details>
+          <details class="cmod">
+            <summary><span class="cwk">W10</span><span class="cttl">Applied TAM practice</span></summary>
+            <p class="csum">The capstone. Everything applied to the four situations that make up the job, under real conditions — incomplete information and someone waiting on an answer.</p>
+            <p class="cgo"><a class="link" href="#m10" data-view="m10">Open the module →</a></p>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>1. The four situations</summary>
+              <p>Discovery, architecture review, incident and QBR — what you are really doing in each, and the distinct way each one fails.</p>
+              <p class="cgo"><a class="link" href="#m10/m10-concept-1-the-four-situations" data-view="m10" data-anchor="m10-concept-1-the-four-situations">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>2. Discovery that predicts</summary>
+              <p>Week 1's template listed a customer's systems; this sharpens it into questions whose answers <em>predict what will break</em>, each tied to the week that explains the failure.</p>
+              <p class="cgo"><a class="link" href="#m10/m10-concept-2-discovery-that-predicts" data-view="m10" data-anchor="m10-concept-2-discovery-that-predicts">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>3. Architecture and workflow review</summary>
+              <p>The generalised review method: establish the requirement first, trace one record end to end out loud, test the unhappy path. Most flaws surface without any need for cleverness.</p>
+              <p class="cgo"><a class="link" href="#m10/m10-concept-3-architecture-and-workflow-review" data-view="m10" data-anchor="m10-concept-3-architecture-and-workflow-review">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>4. QBRs: reporting risk, not activity</summary>
+              <p>Reporting risk rather than usage statistics nobody acts on. The three questions a QBR must answer, and which signal answers each.</p>
+              <p class="cgo"><a class="link" href="#m10/m10-concept-4-qbrs-reporting-risk-not-activity" data-view="m10" data-anchor="m10-concept-4-qbrs-reporting-risk-not-activity">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>5. Inheriting an account: the first thirty days</summary>
+              <p>The order to run the kit in when you inherit an account, where each step makes the next one cheaper — starting with a config export, because that is ground truth rather than anyone's memory.</p>
+              <p class="cgo"><a class="link" href="#m10/m10-concept-5-inheriting-an-account-the-first-th" data-view="m10" data-anchor="m10-concept-5-inheriting-an-account-the-first-th">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">✅</span>The capstone — Meridian Outdoor, four phases</summary>
+              <p>Meridian Outdoor, run end to end across four phases — discovery, architecture review, incident and QBR — where later phases are shaped by choices you made in earlier ones. Work them in order and don't read ahead.</p>
+              <p class="cgo"><a class="link" href="#m10/m10-the-capstone-meridian-outdoor-four-phases" data-view="m10" data-anchor="m10-the-capstone-meridian-outdoor-four-phases">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>After Week 10</summary>
+              <p>The two pieces of unfinished business the program deliberately leaves open, because neither can be closed from public documentation.</p>
+              <p class="cgo"><a class="link" href="#m10/m10-after-week-10" data-view="m10" data-anchor="m10-after-week-10">Go to this section →</a></p>
+            </details>
+          </details>
+          <details class="cmod">
+            <summary><span class="cwk">TAM</span><span class="cttl">Building the TAM practice</span></summary>
+            <p class="csum">Not a curriculum week — how the job is <em>run</em>. Written because the TAM role isn't defined at VibeIQ yet, which makes the definition itself the first deliverable.</p>
+            <p class="cgo"><a class="link" href="#practice" data-view="practice">Open the page →</a></p>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>1 · Charter: what the role owns</summary>
+              <p>An undefined role is defined by whoever asks first. A written statement of what the job owns, so that every later escalation isn't a negotiation about whose problem it is. <strong>The boundary table is a proposal</strong> pending internal confirmation.</p>
+              <p class="cgo"><a class="link" href="#practice/practice-1-charter-what-the-role-owns" data-view="practice" data-anchor="practice-1-charter-what-the-role-owns">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>2 · The service catalogue</summary>
+              <p>Named, repeatable deliverables rather than availability — each already backed by an artefact from Weeks 1–10, so "that is a design review, here is what it involves" replaces absorbing an unbounded ask.</p>
+              <p class="cgo"><a class="link" href="#practice/practice-2-the-service-catalogue" data-view="practice" data-anchor="practice-2-the-service-catalogue">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>3 · Operating cadence</summary>
+              <p>Daily, weekly, monthly and quarterly rhythms, and what each is for. A standing slot means bad news arrives early and small.</p>
+              <p class="cgo"><a class="link" href="#practice/practice-3-operating-cadence" data-view="practice" data-anchor="practice-3-operating-cadence">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>4 · The escalation you inherit</summary>
+              <p>The live sync-and-performance escalation you are walking into, worked with the Week 9 method — localise before theorising, especially when you are new and under pressure to look decisive.</p>
+              <p class="cgo"><a class="link" href="#practice/practice-4-the-escalation-you-inherit" data-view="practice" data-anchor="practice-4-the-escalation-you-inherit">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>5 · The improvement pipeline</summary>
+              <p>Five fixed intake fields, so informal requests become a visible queue you can defend rather than a private mental list the customer cannot see.</p>
+              <p class="cgo"><a class="link" href="#practice/practice-5-the-improvement-pipeline" data-view="practice" data-anchor="practice-5-the-improvement-pipeline">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>6 · Growth, technically led</summary>
+              <p>Expansion signals a TAM sees months before anyone with a CRM does, and how to pass them on as qualified signal with technical context attached. Noticing, not selling.</p>
+              <p class="cgo"><a class="link" href="#practice/practice-6-growth-technically-led" data-view="practice" data-anchor="practice-6-growth-technically-led">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>7 · Relationship &amp; technical reference</summary>
+              <p>Keeping a people map, and the one habit that separates a technical reference from a well-liked contact: bring one risk you found before they did, every time.</p>
+              <p class="cgo"><a class="link" href="#practice/practice-7-relationship-and-technical-reference" data-view="practice" data-anchor="practice-7-relationship-and-technical-reference">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>8 · Instrumentation</summary>
+              <p>Where each number actually comes from, and its caveat. Where a signal has no source, that is a finding rather than a gap to paper over.</p>
+              <p class="cgo"><a class="link" href="#practice/practice-8-instrumentation" data-view="practice" data-anchor="practice-8-instrumentation">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>9 · KPIs and indicators</summary>
+              <p>Four tiers — outcome, practice, leading, and anti-metrics. A newly defined role gets measured on whatever is easiest to count, so naming the wrong metrics is part of the proposal. Written to be sent upward.</p>
+              <p class="cgo"><a class="link" href="#practice/practice-9-kpis-and-indicators" data-view="practice" data-anchor="practice-9-kpis-and-indicators">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>10 · The first 90 days</summary>
+              <p>Days 1–30, 31–60 and 61–90: inherit and stabilise, then improve, then propose. Starts with a config export rather than anyone's memory of the configuration.</p>
+              <p class="cgo"><a class="link" href="#practice/practice-10-the-first-90-days" data-view="practice" data-anchor="practice-10-the-first-90-days">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>11 · From one account to a practice</summary>
+              <p>What becomes a template, and the tiering proposal. The rule: anything done twice gets templated the second time, while the second time is still fresh.</p>
+              <p class="cgo"><a class="link" href="#practice/practice-11-from-one-account-to-a-practice" data-view="practice" data-anchor="practice-11-from-one-account-to-a-practice">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>12 · What the practice needs</summary>
+              <p>The asks, ranked — because a flat list of twelve gets ignored and three blockers get resolved.</p>
+              <p class="cgo"><a class="link" href="#practice/practice-12-what-the-practice-needs" data-view="practice" data-anchor="practice-12-what-the-practice-needs">Go to this section →</a></p>
+            </details>
+          </details>
         </div>
 
         <h3 id="dashboard-week-status">Week status</h3>
