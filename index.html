@@ -358,6 +358,8 @@
       <a href="#dashboard" data-view="dashboard"><span class="wk">◆</span> Dashboard<span class="caret">›</span></a>
       <div class="sub" data-for="dashboard">
         <a class="subitem" href="#dashboard/dashboard-course-map" data-view="dashboard" data-anchor="dashboard-course-map"><span class="ty">📚</span>Course map</a>
+        <a class="subitem" href="#dashboard/dashboard-practice-map" data-view="dashboard" data-anchor="dashboard-practice-map"><span class="ty">🤝</span>Practice map</a>
+        <a class="subitem" href="#dashboard/dashboard-reference-map" data-view="dashboard" data-anchor="dashboard-reference-map"><span class="ty">📚</span>Reference map</a>
         <a class="subitem" href="#dashboard/dashboard-week-status" data-view="dashboard" data-anchor="dashboard-week-status"><span class="ty">📚</span>Week status</a>
         <a class="subitem" href="#dashboard/dashboard-confidence-by-major-topic" data-view="dashboard" data-anchor="dashboard-confidence-by-major-topic"><span class="ty">📚</span>Confidence by major topic</a>
       </div>
@@ -592,7 +594,7 @@
         </div>
 
         <h3 id="dashboard-course-map">Course map</h3>
-        <p class="metric">Every module and what each section covers. Open a module to see its sections; open a section to read what it is about and jump straight to it.</p>
+        <p class="metric">The ten curriculum weeks and what each section covers. Open a module to see its sections; open a section to read what it is about and jump straight to it. The TAM practice page and the reference pages have their own maps below.</p>
         <div class="cmap">
           <details class="cmod">
             <summary><span class="cwk">W1</span><span class="cttl">Business domain &amp; where VibeIQ sits</span></summary>
@@ -1224,6 +1226,11 @@
               <p class="cgo"><a class="link" href="#m10/m10-after-week-10" data-view="m10" data-anchor="m10-after-week-10">Go to this section →</a></p>
             </details>
           </details>
+        </div>
+
+        <h3 id="dashboard-practice-map">Practice map</h3>
+        <p class="metric">How the job is <em>run</em>, once the curriculum is done. Thirteen sections, from the charter through the KPIs to the first 90 days &mdash; same shape as the course map: open a section to read what it covers and jump straight to it.</p>
+        <div class="cmap">
           <details class="cmod">
             <summary><span class="cwk">TAM</span><span class="cttl">Building the TAM practice</span></summary>
             <p class="csum">Not a curriculum week — how the job is <em>run</em>. Written because the TAM role isn't defined at VibeIQ yet, which makes the definition itself the first deliverable.</p>
@@ -1294,6 +1301,101 @@
               <p>The asks, ranked — because a flat list of twelve gets ignored and three blockers get resolved.</p>
               <p class="cgo"><a class="link" href="#practice/practice-what-the-practice-needs" data-view="practice" data-anchor="practice-what-the-practice-needs">Go to this section →</a></p>
             </details>
+          </details>
+        </div>
+
+        <h3 id="dashboard-reference-map">Reference map</h3>
+        <p class="metric">The four lookup pages and the revision sheet &mdash; what to reach for during a customer conversation rather than before one.</p>
+        <div class="cmap">
+          <details class="cmod">
+            <summary><span class="cwk">★</span><span class="cttl">Key findings</span></summary>
+            <p class="csum">The non-obvious, high-consequence material pulled out of all ten modules and collected in one place: the findings that change a diagnosis, cost money if missed, or fail without producing an error.</p>
+            <p class="cgo"><a class="link" href="#findings" data-view="findings">Open the page →</a></p>
+            <details class="csec">
+              <summary><span class="ty">📚</span>1 · Symptom → likely cause</summary>
+              <p>Twenty-seven things a customer actually says, each mapped to where to look first and the week that explains it. The fastest route from a vague report to a hypothesis — usable live, mid-call.</p>
+              <p class="cgo"><a class="link" href="#findings/findings-1-symptom-likely-cause" data-view="findings" data-anchor="findings-1-symptom-likely-cause">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>1b · Symptom <em>shape</em> → class of cause</summary>
+              <p>Before looking at content, look at distribution: how a problem spreads across records and time narrows the cause faster than any detail about the records. Ends on the highest-yield question in troubleshooting — "if you retry, does the <em>same</em> record fail?"</p>
+              <p class="cgo"><a class="link" href="#findings/findings-1b-symptom-shape-class-of-cause" data-view="findings" data-anchor="findings-1b-symptom-shape-class-of-cause">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>2 · Failures that produce no error</summary>
+              <p>The dangerous class, grouped across data model and loading, publish and integrations, workflows and configuration, and platform operations. Every status says success and the damage surfaces weeks later, usually in front of someone senior.</p>
+              <p class="cgo"><a class="link" href="#findings/findings-2-failures-that-produce-no-error" data-view="findings" data-anchor="findings-2-failures-that-produce-no-error">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>3 · Decisions you cannot undo</summary>
+              <p>Seven irreversible choices — app ownership and identifier, property level, federatedId source, workflow identifier, deleting a workflow, cached CLI credentials — each with why it is permanent and the question that raises it in time.</p>
+              <p class="cgo"><a class="link" href="#findings/findings-3-decisions-you-cannot-undo" data-view="findings" data-anchor="findings-3-decisions-you-cannot-undo">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>4 · Claims to verify before asserting</summary>
+              <p>Where the docs are suggestive but not conclusive: rule set enforcement, webhook verification, the AI layer, customer-facing alerting, end-user roles. Plus one correction to make rather than repeat, and the rate-limit figure that belongs to a different company.</p>
+              <p class="cgo"><a class="link" href="#findings/findings-4-claims-to-verify-before-asserting" data-view="findings" data-anchor="findings-4-claims-to-verify-before-asserting">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>5 · Numbers worth memorising</summary>
+              <p>Six values and what each one costs you: 24-hour S3 link expiry, 90-day log retention, <code>parallelWorkerCount</code> 1–30, 25 processes per workflow, 60 per org (shared), and the 90-day dashboard horizon.</p>
+              <p class="cgo"><a class="link" href="#findings/findings-5-numbers-worth-memorising" data-view="findings" data-anchor="findings-5-numbers-worth-memorising">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>6 · The reframes that change how you think</summary>
+              <p>Ten sentences worth carrying — the ones that reframe a whole conversation, starting with "VibeIQ displaces Miro, Excel and PowerPoint, not PLM" and "publish is not send to PLM".</p>
+              <p class="cgo"><a class="link" href="#findings/findings-6-the-reframes-that-change-how-you-think" data-view="findings" data-anchor="findings-6-the-reframes-that-change-how-you-think">Go to this section →</a></p>
+            </details>
+          </details>
+          <details class="cmod">
+            <summary><span class="cwk">§</span><span class="cttl">Priority matrix</span></summary>
+            <p class="csum">What to learn first when there is not time for everything. The 20% that delivers 80% is everything marked Critical.</p>
+            <p class="cgo"><a class="link" href="#priority" data-view="priority">Open the page →</a></p>
+            <details class="csec">
+              <summary><span class="ty">📚</span>Critical — must know</summary>
+              <p>Eight items: the core data model and property levels, project/assortment structure, the publish lifecycle end to end, the "alongside, not replacing PLM" positioning, event-driven vs. polling, the config/customization boundary, escalation routing, and technical discovery.</p>
+              <p class="cgo"><a class="link" href="#priority/priority-critical-must-know" data-view="priority" data-anchor="priority-critical-must-know">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>Important</summary>
+              <p>The Loader pipeline and its failure modes, AssortmentPublishChange internals, Event Workflows, auth and webhook security, formulas and rule sets, the end-user apps, the troubleshooting method, and what is shipped vs. roadmap in AI.</p>
+              <p class="cgo"><a class="link" href="#priority/priority-important" data-view="priority" data-anchor="priority-important">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>Useful</summary>
+              <p>SDK and CLI mechanics, the app manifest and lifecycle, the three extension types, custom entities and option set hierarchy, configuration copy, and transformers in depth.</p>
+              <p class="cgo"><a class="link" href="#priority/priority-useful" data-view="priority" data-anchor="priority-useful">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>Nice to know</summary>
+              <p>Deep SDK internals and app-framework decorators, concurrency tuning, Node runtime management, Java SDK specifics and CLI CI/CD automation. Know they exist; look them up when they matter.</p>
+              <p class="cgo"><a class="link" href="#priority/priority-nice-to-know" data-view="priority" data-anchor="priority-nice-to-know">Go to this section →</a></p>
+            </details>
+          </details>
+          <details class="cmod">
+            <summary><span class="cwk">§</span><span class="cttl">Colleague questions</span></summary>
+            <p class="csum">The standing unknowns to close in the first weeks on the job — the docs are strong on the developer layer and thin on operations. A work item with owners and dates, not a reading list.</p>
+            <p class="cgo"><a class="link" href="#questions" data-view="questions">Open the page →</a></p>
+            <details class="csec">
+              <summary><span class="ty">📚</span>Platform and process unknowns</summary>
+              <p>Ten questions across environments and tenancy, RBAC, SLAs and rate limits, customer-facing monitoring, the AI layer, rule set enforcement, webhook verification, workflow concurrency ceilings, the support and escalation model, and data residency.</p>
+              <p class="cgo"><a class="link" href="#questions/questions-platform-and-process-unknowns" data-view="questions" data-anchor="questions-platform-and-process-unknowns">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">📚</span>Blocking a success criterion</summary>
+              <p>Five questions that each block one of the job description's fourteen criteria from being measurable: the NPS programme, how MTTR is defined internally, whether asset reuse is tracked, whether a second TAM is planned, and who owns the account plan today.</p>
+              <p class="cgo"><a class="link" href="#questions/questions-blocking-a-success-criterion" data-view="questions" data-anchor="questions-blocking-a-success-criterion">Go to this section →</a></p>
+            </details>
+          </details>
+          <details class="cmod">
+            <summary><span class="cwk">§</span><span class="cttl">Doc links</span></summary>
+            <p class="csum">The official sources every module is anchored to, grouped by domain — docs home, data loading, integration patterns and authentication, assortment publish, change history polling, workflows, apps, extensions, configuration, and the SDK reference. No sections; it is one table.</p>
+            <p class="cgo"><a class="link" href="#links" data-view="links">Open the page →</a></p>
+          </details>
+          <details class="cmod">
+            <summary><span class="cwk">✱</span><span class="cttl">Exam Kit — cheat sheet</span></summary>
+            <p class="csum">A standalone one-page revision sheet condensing all ten modules: entity layers, property levels, the Loader pipeline and its four dangerous flags, publish, workflows, the config spectrum, the six diagnostic checkpoints, the numbers, twelve silent-failure patterns and a twelve-question self-test. Prints with the drill answers expanded. Opens outside the hub, in English or French.</p>
+            <p class="cgo"><a class="link" href="cheatsheet.en.html">Open the cheat sheet →</a></p>
           </details>
         </div>
 
