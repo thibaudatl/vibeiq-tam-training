@@ -4,7 +4,7 @@ Living status doc. Update at the end of each working session so a fresh
 conversation can pick up cold. (`HANDOFF.md` is the original design-session
 handoff, kept for provenance — this file supersedes it for current status.)
 
-**Last updated:** 2026-09-06 — JD success criteria mapped into the practice page (new section 10); activity solutions complete; sidebar glyphs; dashboard course map
+**Last updated:** 2026-09-06 — practice page reorganised behind disclosures and its section ids de-numbered; JD success criteria mapped (section 10); activity solutions complete; sidebar glyphs; dashboard course map
 
 ## What this is
 A self-paced 10-week technical training program for Leo, starting as a
@@ -125,6 +125,43 @@ Knock-ons applied in the same pass:
 - Source note `modules/practice-tam-operating-model.md` mirrors all of the above.
 - The JD PDF itself is not in the repo (it lives in Leo's Downloads). If the
   criteria need re-checking, ask for it again rather than trusting this summary.
+
+## Practice page — organisation (changed 2026-09-06, after the JD pass)
+Section 10 took the page to ~6,700 words in one continuous scroll. Measured
+against the rest of the hub, the page was **not** the longest (m4 8,583w,
+m10 8,694w) — it was the only long view with **zero** collapsibles, where every
+module hides 11–15 blocks behind `<details>`. So the fix was progressive
+disclosure, not a split.
+
+- **14 `<details class="pdis">`** now wrap the reference-dense blocks only:
+  9a–9e, 10a–10f, and three of section 4's sub-blocks. Rendered length with
+  everything closed is **3,604 words, down from 6,725** — the prose that
+  carries the argument stays open; tables and checklists fold away.
+- Every summary carries a **peek line** (`.ppeek`) listing what is inside, so
+  the block can be skipped without opening it. Cards (`.keystone`, `.warn`)
+  were deliberately left open — they are the page's assertions.
+- An **Expand all sections** button (`.expandall`, scoped to the view) exists
+  because the charter and KPI sections are meant to be printed and sent to a
+  manager.
+- **Section numbers were removed from the h3 ids**: `practice-9-kpis-and-indicators`
+  → `practice-kpis-and-indicators`, and so on for all 13. The numbers still show
+  in the headings. Reason: 52 internal links plus 11 prose references hang off
+  these ids, and the JD pass had just renumbered 10/11/12 → 11/12/13, breaking
+  every one of them. **Ids are now insertion-proof — do not put numbers back.**
+- `show()` in the router now **opens every ancestor `<details>` before
+  scrolling**. Without this a deep link to an anchor inside a closed disclosure
+  silently does nothing, because the target has no layout.
+- Considered and rejected for now: splitting sections 9+10 into their own
+  "measurement" view. It is a real seam (both are "how the practice is
+  measured", together 45% of the page, and the README already distinguishes
+  manager-facing from working detail) — but it would force a second renumbering
+  in two commits. Revisit only if the page still reads long; the ids are now
+  stable, so the split has become cheap.
+
+Verified in-browser: 14 disclosures, all 52 practice links resolve, all 13
+anchors reachable, expand/collapse-all works, the quiz **Reveal all answers**
+and the 31 `.sol` toggles are unaffected, tables legible in both themes, and
+the whole 887 KB document parses with no unbalanced tags.
 
 ## Open with Leo (blocking nothing, but shapes the work)
 1. **Module 1 quiz + Summit Athletic scenario** — not yet answered. Module 2's

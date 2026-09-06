@@ -35,7 +35,6 @@
     --radius:10px;
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
   body{
     margin:0;color:var(--ink);background:var(--paper);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -254,6 +253,35 @@
   .tscroll table{margin:0;min-width:620px}
   .solbody .tscroll{margin:12px 0}
   .solbody .tscroll table{min-width:520px}
+
+  /* ---- Progressive disclosure on the practice page ----------------------
+     The practice page is the only long view with no collapsibles: modules
+     hide 11-15 blocks behind <details>, so their rendered scroll is far
+     shorter than their word count. Same native idiom as .cmod/.csec, but
+     each summary carries a peek line so the reader can see what is inside
+     a block without opening it. Reference-dense blocks only (tables and
+     checklists) - the prose that carries the argument stays open. */
+  .pdis{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);
+    padding:0 18px;margin:10px 0}
+  .pdis[open]{padding-bottom:16px;border-color:var(--line-strong)}
+  .pdis > summary{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;padding:13px 0;font-size:15px}
+  .pdis > summary::before{content:"\25B8";color:var(--accent);font-weight:700;font-size:12px}
+  .pdis[open] > summary::before{content:"\25BE"}
+  .plabel{font-weight:600;color:var(--ink)}
+  .ppeek{font-size:13px;font-weight:400;color:var(--ink-3);letter-spacing:.01em}
+  .pdis[open] .ppeek{color:var(--ink-2)}
+  .pdis > *:last-child{margin-bottom:0}
+  /* The first table/list inside sits directly under the summary, so it needs
+     less top margin than it would after a heading. */
+  .pdis > .tscroll:first-of-type{margin-top:4px}
+  .expandall{background:none;color:var(--accent-ink);border:1px solid var(--line-strong);
+    border-radius:7px;padding:6px 12px;font-size:12.5px;font-weight:600;cursor:pointer;
+    font-family:inherit;margin:4px 0 18px}
+  .expandall:hover{background:var(--accent-soft);border-color:var(--accent)}
+  @media (max-width:640px){
+    .pdis > summary{gap:2px 10px}
+    .ppeek{flex-basis:100%}
+  }
 
   /* ---- Course map on the dashboard -------------------------------------
      Three levels of native <details>: module → section → what it covers.
@@ -488,19 +516,19 @@
     <nav>
       <a href="#practice" data-view="practice"><span class="wk">◈</span> Building the TAM practice<span class="caret">›</span></a>
       <div class="sub" data-for="practice">
-        <a class="subitem" href="#practice/practice-1-charter-what-the-role-owns" data-view="practice" data-anchor="practice-1-charter-what-the-role-owns"><span class="ty">🤝</span>1 · Charter: what the role owns</a>
-        <a class="subitem" href="#practice/practice-2-the-service-catalogue" data-view="practice" data-anchor="practice-2-the-service-catalogue"><span class="ty">🤝</span>2 · The service catalogue</a>
-        <a class="subitem" href="#practice/practice-3-operating-cadence" data-view="practice" data-anchor="practice-3-operating-cadence"><span class="ty">🤝</span>3 · Operating cadence</a>
-        <a class="subitem" href="#practice/practice-4-the-escalation-you-inherit" data-view="practice" data-anchor="practice-4-the-escalation-you-inherit"><span class="ty">🤝</span>4 · The escalation you inherit</a>
-        <a class="subitem" href="#practice/practice-5-the-improvement-pipeline" data-view="practice" data-anchor="practice-5-the-improvement-pipeline"><span class="ty">🤝</span>5 · The improvement pipeline</a>
-        <a class="subitem" href="#practice/practice-6-growth-technically-led" data-view="practice" data-anchor="practice-6-growth-technically-led"><span class="ty">🤝</span>6 · Growth, technically led</a>
-        <a class="subitem" href="#practice/practice-7-relationship-and-technical-reference" data-view="practice" data-anchor="practice-7-relationship-and-technical-reference"><span class="ty">🤝</span>7 · Relationship &amp; technical reference</a>
-        <a class="subitem" href="#practice/practice-8-instrumentation" data-view="practice" data-anchor="practice-8-instrumentation"><span class="ty">🤝</span>8 · Instrumentation</a>
-        <a class="subitem" href="#practice/practice-9-kpis-and-indicators" data-view="practice" data-anchor="practice-9-kpis-and-indicators"><span class="ty">🤝</span>9 · KPIs and indicators</a>
-        <a class="subitem" href="#practice/practice-10-succeeding-against-the-job-description" data-view="practice" data-anchor="practice-10-succeeding-against-the-job-description"><span class="ty">🤝</span>10 · Succeeding against the JD</a>
-        <a class="subitem" href="#practice/practice-11-the-first-90-days" data-view="practice" data-anchor="practice-11-the-first-90-days"><span class="ty">🤝</span>11 · The first 90 days</a>
-        <a class="subitem" href="#practice/practice-12-from-one-account-to-a-practice" data-view="practice" data-anchor="practice-12-from-one-account-to-a-practice"><span class="ty">🤝</span>12 · From one account to a practice</a>
-        <a class="subitem" href="#practice/practice-13-what-the-practice-needs" data-view="practice" data-anchor="practice-13-what-the-practice-needs"><span class="ty">🤝</span>13 · What the practice needs</a>
+        <a class="subitem" href="#practice/practice-charter-what-the-role-owns" data-view="practice" data-anchor="practice-charter-what-the-role-owns"><span class="ty">🤝</span>1 · Charter: what the role owns</a>
+        <a class="subitem" href="#practice/practice-the-service-catalogue" data-view="practice" data-anchor="practice-the-service-catalogue"><span class="ty">🤝</span>2 · The service catalogue</a>
+        <a class="subitem" href="#practice/practice-operating-cadence" data-view="practice" data-anchor="practice-operating-cadence"><span class="ty">🤝</span>3 · Operating cadence</a>
+        <a class="subitem" href="#practice/practice-the-escalation-you-inherit" data-view="practice" data-anchor="practice-the-escalation-you-inherit"><span class="ty">🤝</span>4 · The escalation you inherit</a>
+        <a class="subitem" href="#practice/practice-the-improvement-pipeline" data-view="practice" data-anchor="practice-the-improvement-pipeline"><span class="ty">🤝</span>5 · The improvement pipeline</a>
+        <a class="subitem" href="#practice/practice-growth-technically-led" data-view="practice" data-anchor="practice-growth-technically-led"><span class="ty">🤝</span>6 · Growth, technically led</a>
+        <a class="subitem" href="#practice/practice-relationship-and-technical-reference" data-view="practice" data-anchor="practice-relationship-and-technical-reference"><span class="ty">🤝</span>7 · Relationship &amp; technical reference</a>
+        <a class="subitem" href="#practice/practice-instrumentation" data-view="practice" data-anchor="practice-instrumentation"><span class="ty">🤝</span>8 · Instrumentation</a>
+        <a class="subitem" href="#practice/practice-kpis-and-indicators" data-view="practice" data-anchor="practice-kpis-and-indicators"><span class="ty">🤝</span>9 · KPIs and indicators</a>
+        <a class="subitem" href="#practice/practice-succeeding-against-the-job-description" data-view="practice" data-anchor="practice-succeeding-against-the-job-description"><span class="ty">🤝</span>10 · Succeeding against the JD</a>
+        <a class="subitem" href="#practice/practice-the-first-90-days" data-view="practice" data-anchor="practice-the-first-90-days"><span class="ty">🤝</span>11 · The first 90 days</a>
+        <a class="subitem" href="#practice/practice-from-one-account-to-a-practice" data-view="practice" data-anchor="practice-from-one-account-to-a-practice"><span class="ty">🤝</span>12 · From one account to a practice</a>
+        <a class="subitem" href="#practice/practice-what-the-practice-needs" data-view="practice" data-anchor="practice-what-the-practice-needs"><span class="ty">🤝</span>13 · What the practice needs</a>
       </div>
     </nav>
 
@@ -1202,68 +1230,68 @@
             <details class="csec">
               <summary><span class="ty">🤝</span>1 · Charter: what the role owns</summary>
               <p>An undefined role is defined by whoever asks first. A written statement of what the job owns, so that every later escalation isn't a negotiation about whose problem it is. <strong>The boundary table is a proposal</strong> pending internal confirmation.</p>
-              <p class="cgo"><a class="link" href="#practice/practice-1-charter-what-the-role-owns" data-view="practice" data-anchor="practice-1-charter-what-the-role-owns">Go to this section →</a></p>
+              <p class="cgo"><a class="link" href="#practice/practice-charter-what-the-role-owns" data-view="practice" data-anchor="practice-charter-what-the-role-owns">Go to this section →</a></p>
             </details>
             <details class="csec">
               <summary><span class="ty">🤝</span>2 · The service catalogue</summary>
               <p>Named, repeatable deliverables rather than availability — each already backed by an artefact from Weeks 1–10, so "that is a design review, here is what it involves" replaces absorbing an unbounded ask.</p>
-              <p class="cgo"><a class="link" href="#practice/practice-2-the-service-catalogue" data-view="practice" data-anchor="practice-2-the-service-catalogue">Go to this section →</a></p>
+              <p class="cgo"><a class="link" href="#practice/practice-the-service-catalogue" data-view="practice" data-anchor="practice-the-service-catalogue">Go to this section →</a></p>
             </details>
             <details class="csec">
               <summary><span class="ty">🤝</span>3 · Operating cadence</summary>
               <p>Daily, weekly, monthly and quarterly rhythms, and what each is for. A standing slot means bad news arrives early and small.</p>
-              <p class="cgo"><a class="link" href="#practice/practice-3-operating-cadence" data-view="practice" data-anchor="practice-3-operating-cadence">Go to this section →</a></p>
+              <p class="cgo"><a class="link" href="#practice/practice-operating-cadence" data-view="practice" data-anchor="practice-operating-cadence">Go to this section →</a></p>
             </details>
             <details class="csec">
               <summary><span class="ty">🤝</span>4 · The escalation you inherit</summary>
               <p>The live sync-and-performance escalation you are walking into, worked with the Week 9 method — localise before theorising, especially when you are new and under pressure to look decisive.</p>
-              <p class="cgo"><a class="link" href="#practice/practice-4-the-escalation-you-inherit" data-view="practice" data-anchor="practice-4-the-escalation-you-inherit">Go to this section →</a></p>
+              <p class="cgo"><a class="link" href="#practice/practice-the-escalation-you-inherit" data-view="practice" data-anchor="practice-the-escalation-you-inherit">Go to this section →</a></p>
             </details>
             <details class="csec">
               <summary><span class="ty">🤝</span>5 · The improvement pipeline</summary>
               <p>Five fixed intake fields, so informal requests become a visible queue you can defend rather than a private mental list the customer cannot see.</p>
-              <p class="cgo"><a class="link" href="#practice/practice-5-the-improvement-pipeline" data-view="practice" data-anchor="practice-5-the-improvement-pipeline">Go to this section →</a></p>
+              <p class="cgo"><a class="link" href="#practice/practice-the-improvement-pipeline" data-view="practice" data-anchor="practice-the-improvement-pipeline">Go to this section →</a></p>
             </details>
             <details class="csec">
               <summary><span class="ty">🤝</span>6 · Growth, technically led</summary>
               <p>Expansion signals a TAM sees months before anyone with a CRM does, and how to pass them on as qualified signal with technical context attached. Noticing, not selling.</p>
-              <p class="cgo"><a class="link" href="#practice/practice-6-growth-technically-led" data-view="practice" data-anchor="practice-6-growth-technically-led">Go to this section →</a></p>
+              <p class="cgo"><a class="link" href="#practice/practice-growth-technically-led" data-view="practice" data-anchor="practice-growth-technically-led">Go to this section →</a></p>
             </details>
             <details class="csec">
               <summary><span class="ty">🤝</span>7 · Relationship &amp; technical reference</summary>
               <p>Keeping a people map, and the one habit that separates a technical reference from a well-liked contact: bring one risk you found before they did, every time.</p>
-              <p class="cgo"><a class="link" href="#practice/practice-7-relationship-and-technical-reference" data-view="practice" data-anchor="practice-7-relationship-and-technical-reference">Go to this section →</a></p>
+              <p class="cgo"><a class="link" href="#practice/practice-relationship-and-technical-reference" data-view="practice" data-anchor="practice-relationship-and-technical-reference">Go to this section →</a></p>
             </details>
             <details class="csec">
               <summary><span class="ty">🤝</span>8 · Instrumentation</summary>
               <p>Where each number actually comes from, and its caveat. Where a signal has no source, that is a finding rather than a gap to paper over.</p>
-              <p class="cgo"><a class="link" href="#practice/practice-8-instrumentation" data-view="practice" data-anchor="practice-8-instrumentation">Go to this section →</a></p>
+              <p class="cgo"><a class="link" href="#practice/practice-instrumentation" data-view="practice" data-anchor="practice-instrumentation">Go to this section →</a></p>
             </details>
             <details class="csec">
               <summary><span class="ty">🤝</span>9 · KPIs and indicators</summary>
               <p>Four tiers — outcome, practice, leading, and anti-metrics. A newly defined role gets measured on whatever is easiest to count, so naming the wrong metrics is part of the proposal. Written to be sent upward.</p>
-              <p class="cgo"><a class="link" href="#practice/practice-9-kpis-and-indicators" data-view="practice" data-anchor="practice-9-kpis-and-indicators">Go to this section →</a></p>
+              <p class="cgo"><a class="link" href="#practice/practice-kpis-and-indicators" data-view="practice" data-anchor="practice-kpis-and-indicators">Go to this section →</a></p>
             </details>
             <details class="csec">
               <summary><span class="ty">🤝</span>10 · Succeeding against the job description</summary>
               <p>The fourteen success criteria the job description names — Customer, Operational, Leadership — each mapped to the metric that scores it, the plan that moves it, and the evidence that will exist by the end of year one.</p>
               <p>Includes the two the page deliberately avoided: time to resolve, made honest with a stop-clock rule and a containment/permanent-fix split; and NPS, reduced to what a TAM can actually move.</p>
-              <p class="cgo"><a class="link" href="#practice/practice-10-succeeding-against-the-job-description" data-view="practice" data-anchor="practice-10-succeeding-against-the-job-description">Go to this section →</a></p>
+              <p class="cgo"><a class="link" href="#practice/practice-succeeding-against-the-job-description" data-view="practice" data-anchor="practice-succeeding-against-the-job-description">Go to this section →</a></p>
             </details>
             <details class="csec">
               <summary><span class="ty">🤝</span>11 · The first 90 days</summary>
               <p>Days 1–30, 31–60 and 61–90: inherit and stabilise, then improve, then propose. Starts with a config export rather than anyone's memory of the configuration.</p>
-              <p class="cgo"><a class="link" href="#practice/practice-11-the-first-90-days" data-view="practice" data-anchor="practice-11-the-first-90-days">Go to this section →</a></p>
+              <p class="cgo"><a class="link" href="#practice/practice-the-first-90-days" data-view="practice" data-anchor="practice-the-first-90-days">Go to this section →</a></p>
             </details>
             <details class="csec">
               <summary><span class="ty">🤝</span>12 · From one account to a practice</summary>
               <p>What becomes a template, and the tiering proposal. The rule: anything done twice gets templated the second time, while the second time is still fresh.</p>
-              <p class="cgo"><a class="link" href="#practice/practice-12-from-one-account-to-a-practice" data-view="practice" data-anchor="practice-12-from-one-account-to-a-practice">Go to this section →</a></p>
+              <p class="cgo"><a class="link" href="#practice/practice-from-one-account-to-a-practice" data-view="practice" data-anchor="practice-from-one-account-to-a-practice">Go to this section →</a></p>
             </details>
             <details class="csec">
               <summary><span class="ty">🤝</span>13 · What the practice needs</summary>
               <p>The asks, ranked — because a flat list of twelve gets ignored and three blockers get resolved.</p>
-              <p class="cgo"><a class="link" href="#practice/practice-13-what-the-practice-needs" data-view="practice" data-anchor="practice-13-what-the-practice-needs">Go to this section →</a></p>
+              <p class="cgo"><a class="link" href="#practice/practice-what-the-practice-needs" data-view="practice" data-anchor="practice-what-the-practice-needs">Go to this section →</a></p>
             </details>
           </details>
         </div>
@@ -5573,7 +5601,7 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
               <ul class="srcs">
                 <li><a class="link" href="#m2/m2-hands-on-challenge" data-view="m2" data-anchor="m2-hands-on-challenge">Week 2 — data-model health check</a> — artefact 2, and the pattern all the checklists follow: known failure modes, not general questions.</li>
                 <li><a class="link" href="#findings" data-view="findings">Key findings</a> — the cross-cutting page is a condensed form of this reference view — silent failures, irreversible decisions, numbers to memorise.</li>
-                <li><a class="link" href="#practice/practice-2-the-service-catalogue" data-view="practice" data-anchor="practice-2-the-service-catalogue">TAM practice — the service catalogue</a> — where these artefacts become named, repeatable services with turnaround times.</li>
+                <li><a class="link" href="#practice/practice-the-service-catalogue" data-view="practice" data-anchor="practice-the-service-catalogue">TAM practice — the service catalogue</a> — where these artefacts become named, repeatable services with turnaround times.</li>
                 <li><a class="link" href="https://docs.vibeiq.com/configuration/configurationCopy/" target="_blank" rel="noopener">Configuration Copy</a> — the config export that precedes artefact 2 on any inherited account.</li>
               </ul>
             </div>
@@ -5995,7 +6023,7 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
                 <li><a class="link" href="#m10/m10-concept-4-qbrs-reporting-risk-not-activity" data-view="m10" data-anchor="m10-concept-4-qbrs-reporting-risk-not-activity">Concept 4 — QBRs: reporting risk, not activity</a> — the three questions a QBR must answer, and which signal answers each.</li>
                 <li><a class="link" href="#m1/m1-concept-2-the-problem-vibeiq-exists-to-solve" data-view="m1" data-anchor="m1-concept-2-the-problem-vibeiq-exists-to-solve">Week 1 — The problem VibeIQ exists to solve</a> — the value definition the health verdict is stated against.</li>
                 <li><a class="link" href="https://docs.vibeiq.com/release_notes/004_admin_console_2024_12_12/" target="_blank" rel="noopener">Event Workflows Dashboard & Workflow Artifacts</a> — the 90-day failure trend on slide 3, and the retention horizon that makes it urgent.</li>
-                <li><a class="link" href="#practice/practice-9-kpis-and-indicators" data-view="practice" data-anchor="practice-9-kpis-and-indicators">TAM practice — KPIs and indicators</a> — outcome vs. practice vs. leading indicators, and the anti-metrics that keep slide 1 off login counts.</li>
+                <li><a class="link" href="#practice/practice-kpis-and-indicators" data-view="practice" data-anchor="practice-kpis-and-indicators">TAM practice — KPIs and indicators</a> — outcome vs. practice vs. leading indicators, and the anti-metrics that keep slide 1 off login counts.</li>
                 <li><a class="link" href="#m8/m8-concept-8-answering-what-you-don-t-know" data-view="m8" data-anchor="m8-concept-8-answering-what-you-don-t-know">Week 8 — Answering what you don't know</a> — the standing-unknowns discipline behind part 5.</li>
               </ul>
             </div>
@@ -6046,32 +6074,34 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
         <nav class="toc">
           <h4>On this page</h4>
           <ol>
-            <li><a href="#practice/practice-1-charter-what-the-role-owns" class="subitem" data-view="practice" data-anchor="practice-1-charter-what-the-role-owns"><span class="ty">🤝</span>Charter: what the role owns</a></li>
-            <li><a href="#practice/practice-2-the-service-catalogue" class="subitem" data-view="practice" data-anchor="practice-2-the-service-catalogue"><span class="ty">🤝</span>The service catalogue</a></li>
-            <li><a href="#practice/practice-3-operating-cadence" class="subitem" data-view="practice" data-anchor="practice-3-operating-cadence"><span class="ty">🤝</span>Operating cadence</a></li>
-            <li><a href="#practice/practice-4-the-escalation-you-inherit" class="subitem" data-view="practice" data-anchor="practice-4-the-escalation-you-inherit"><span class="ty">🤝</span>The escalation you inherit</a></li>
-            <li><a href="#practice/practice-5-the-improvement-pipeline" class="subitem" data-view="practice" data-anchor="practice-5-the-improvement-pipeline"><span class="ty">🤝</span>The improvement pipeline</a></li>
-            <li><a href="#practice/practice-6-growth-technically-led" class="subitem" data-view="practice" data-anchor="practice-6-growth-technically-led"><span class="ty">🤝</span>Growth, technically led</a></li>
-            <li><a href="#practice/practice-7-relationship-and-technical-reference" class="subitem" data-view="practice" data-anchor="practice-7-relationship-and-technical-reference"><span class="ty">🤝</span>Relationship &amp; technical reference</a></li>
-            <li><a href="#practice/practice-8-instrumentation" class="subitem" data-view="practice" data-anchor="practice-8-instrumentation"><span class="ty">🤝</span>Instrumentation: where numbers come from</a></li>
-            <li><a href="#practice/practice-9-kpis-and-indicators" class="subitem" data-view="practice" data-anchor="practice-9-kpis-and-indicators"><span class="ty">🤝</span>KPIs and indicators</a></li>
-            <li><a href="#practice/practice-10-succeeding-against-the-job-description" class="subitem" data-view="practice" data-anchor="practice-10-succeeding-against-the-job-description"><span class="ty">🤝</span>Succeeding against the job description</a></li>
-            <li><a href="#practice/practice-11-the-first-90-days" class="subitem" data-view="practice" data-anchor="practice-11-the-first-90-days"><span class="ty">🤝</span>The first 90 days</a></li>
-            <li><a href="#practice/practice-12-from-one-account-to-a-practice" class="subitem" data-view="practice" data-anchor="practice-12-from-one-account-to-a-practice"><span class="ty">🤝</span>From one account to a practice</a></li>
-            <li><a href="#practice/practice-13-what-the-practice-needs" class="subitem" data-view="practice" data-anchor="practice-13-what-the-practice-needs"><span class="ty">🤝</span>What the practice needs</a></li>
+            <li><a href="#practice/practice-charter-what-the-role-owns" class="subitem" data-view="practice" data-anchor="practice-charter-what-the-role-owns"><span class="ty">🤝</span>Charter: what the role owns</a></li>
+            <li><a href="#practice/practice-the-service-catalogue" class="subitem" data-view="practice" data-anchor="practice-the-service-catalogue"><span class="ty">🤝</span>The service catalogue</a></li>
+            <li><a href="#practice/practice-operating-cadence" class="subitem" data-view="practice" data-anchor="practice-operating-cadence"><span class="ty">🤝</span>Operating cadence</a></li>
+            <li><a href="#practice/practice-the-escalation-you-inherit" class="subitem" data-view="practice" data-anchor="practice-the-escalation-you-inherit"><span class="ty">🤝</span>The escalation you inherit</a></li>
+            <li><a href="#practice/practice-the-improvement-pipeline" class="subitem" data-view="practice" data-anchor="practice-the-improvement-pipeline"><span class="ty">🤝</span>The improvement pipeline</a></li>
+            <li><a href="#practice/practice-growth-technically-led" class="subitem" data-view="practice" data-anchor="practice-growth-technically-led"><span class="ty">🤝</span>Growth, technically led</a></li>
+            <li><a href="#practice/practice-relationship-and-technical-reference" class="subitem" data-view="practice" data-anchor="practice-relationship-and-technical-reference"><span class="ty">🤝</span>Relationship &amp; technical reference</a></li>
+            <li><a href="#practice/practice-instrumentation" class="subitem" data-view="practice" data-anchor="practice-instrumentation"><span class="ty">🤝</span>Instrumentation: where numbers come from</a></li>
+            <li><a href="#practice/practice-kpis-and-indicators" class="subitem" data-view="practice" data-anchor="practice-kpis-and-indicators"><span class="ty">🤝</span>KPIs and indicators</a></li>
+            <li><a href="#practice/practice-succeeding-against-the-job-description" class="subitem" data-view="practice" data-anchor="practice-succeeding-against-the-job-description"><span class="ty">🤝</span>Succeeding against the job description</a></li>
+            <li><a href="#practice/practice-the-first-90-days" class="subitem" data-view="practice" data-anchor="practice-the-first-90-days"><span class="ty">🤝</span>The first 90 days</a></li>
+            <li><a href="#practice/practice-from-one-account-to-a-practice" class="subitem" data-view="practice" data-anchor="practice-from-one-account-to-a-practice"><span class="ty">🤝</span>From one account to a practice</a></li>
+            <li><a href="#practice/practice-what-the-practice-needs" class="subitem" data-view="practice" data-anchor="practice-what-the-practice-needs"><span class="ty">🤝</span>What the practice needs</a></li>
           </ol>
         </nav>
+
+        <button class="expandall">Expand all sections</button>
 
         <div class="card keystone">
           <h4>The charter on one screen</h4>
           <p><strong>The role, in one sentence.</strong> The TAM is accountable for whether the customer's VibeIQ implementation keeps producing the outcome it was bought for: <em>decisions get made in VibeIQ, and the context behind them survives downstream.</em></p>
           <p><strong>Four accountabilities.</strong> Technical health of the account &middot; ownership of escalations &middot; the improvement pipeline &middot; being the technical reference, to the customer and internally.</p>
           <p><strong>The line.</strong> TAM owns configuration, data model, integration design, adoption and the technical relationship. Support owns reproducible defects; Engineering owns confirmed ones; Product owns capability gaps; PS owns build work; CSM owns the commercial relationship.</p>
-          <p><strong>Six headline numbers.</strong> Account technical health score &middot; escalation rate &middot; P1 recurrence rate &middot; time to first meaningful update &middot; improvement-request cycle time &middot; expansion signals sourced. Definitions, sources and targets in <a class="link" href="#practice/practice-9-kpis-and-indicators" data-view="practice" data-anchor="practice-9-kpis-and-indicators">section 9</a>.</p>
-          <p style="margin-bottom:0"><strong>Measured against the job description.</strong> The role's own scorecard names fourteen success criteria across Customer, Operational and Leadership. Each one is mapped to a metric, a plan and an evidence line in <a class="link" href="#practice/practice-10-succeeding-against-the-job-description" data-view="practice" data-anchor="practice-10-succeeding-against-the-job-description">section 10</a> — including the two this page had deliberately left out, time to resolve and NPS.</p>
+          <p><strong>Six headline numbers.</strong> Account technical health score &middot; escalation rate &middot; P1 recurrence rate &middot; time to first meaningful update &middot; improvement-request cycle time &middot; expansion signals sourced. Definitions, sources and targets in <a class="link" href="#practice/practice-kpis-and-indicators" data-view="practice" data-anchor="practice-kpis-and-indicators">section 9</a>.</p>
+          <p style="margin-bottom:0"><strong>Measured against the job description.</strong> The role's own scorecard names fourteen success criteria across Customer, Operational and Leadership. Each one is mapped to a metric, a plan and an evidence line in <a class="link" href="#practice/practice-succeeding-against-the-job-description" data-view="practice" data-anchor="practice-succeeding-against-the-job-description">section 10</a> — including the two this page had deliberately left out, time to resolve and NPS.</p>
         </div>
 
-        <h3 id="practice-1-charter-what-the-role-owns">1 &mdash; Charter: what the role owns</h3>
+        <h3 id="practice-charter-what-the-role-owns">1 &mdash; Charter: what the role owns</h3>
         <p>An undefined role is defined by whoever asks first. The single most valuable thing to produce in the first month is not a fix — it is a written statement of what this job is, circulated and agreed, so that every subsequent escalation is not a negotiation about whose problem it is.</p>
         <p>The definition below is deliberately anchored to the Week 1 value statement rather than to a list of activities. Activities change; the outcome the customer bought does not. It also makes the job measurable: <strong>are decisions being made in VibeIQ, and is context surviving downstream?</strong> is a question you can answer with evidence the platform actually produces.</p>
 
@@ -6102,7 +6132,7 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
           <p style="margin-bottom:0">This is the fastest way an undefined role gets eaten. Not in scope: building and owning the customer's integrations &middot; acting as their level-one helpdesk &middot; owning the commercial relationship &middot; approving their internal releases &middot; being on call for code you did not write. Each of these will be asked for, in a friendly way, within the first quarter. Declining them later is much harder than declining them in the charter.</p>
         </div>
 
-        <h3 id="practice-2-the-service-catalogue">2 &mdash; The service catalogue</h3>
+        <h3 id="practice-the-service-catalogue">2 &mdash; The service catalogue</h3>
         <p>A practice is a set of named, repeatable deliverables — not availability. Naming them lets you say "that is a design review, here is what it involves and when you get it" instead of absorbing an unbounded ask. Every one of these already has an artefact produced in Weeks 1&ndash;10; reuse those rather than inventing new formats.</p>
         <table>
           <thead><tr><th>Service</th><th>Trigger</th><th>Output</th><th>Turnaround</th></tr></thead>
@@ -6119,7 +6149,7 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
         </table>
         <p>The last one is easy to skip and disproportionately valuable: a customer who hears about a platform change from you rather than discovering it treats you as the technical reference by default.</p>
 
-        <h3 id="practice-3-operating-cadence">3 &mdash; Operating cadence</h3>
+        <h3 id="practice-operating-cadence">3 &mdash; Operating cadence</h3>
         <table>
           <thead><tr><th>Rhythm</th><th>What happens</th><th>Why</th></tr></thead>
           <tbody>
@@ -6131,13 +6161,14 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
         </table>
         <p>The weekly sync agenda is fixed on purpose. A meeting whose agenda is "how are things going" degrades into status; one whose agenda is <em>escalations, backlog, one risk</em> produces a decision every week.</p>
 
-        <h3 id="practice-4-the-escalation-you-inherit">4 &mdash; The escalation you inherit</h3>
+        <h3 id="practice-the-escalation-you-inherit">4 &mdash; The escalation you inherit</h3>
         <p>A live synchronisation and performance escalation is the situation you are walking into, so it deserves method rather than energy. Week 9 applies directly and its first rule is the one people break under pressure: <strong>the first question is not "why is this happening?" but "which segment of the pipeline is this in?"</strong> Localisation is cheap; theorising is expensive and, when you are new, expensive in credibility too.</p>
 
         <h4>Localise first, and bisect at CP3</h4>
         <p>Six checkpoints — source, loader, entities, workflows and formulas, publish, consumer. Start at the entities (CP3): if the value is correct there, the problem is downstream; if it is wrong, it is upstream. One look halves the search space, and you can do it before you understand the customer's business.</p>
 
-        <h4>Separate three words the customer uses interchangeably</h4>
+        <details class="pdis">
+          <summary><span class="plabel">Separate three words the customer uses interchangeably</span><span class="ppeek">slow · late · lossy — different causes, different owners, different fixes</span></summary>
         <table>
           <thead><tr><th>They say</th><th>It means</th><th>Look at</th></tr></thead>
           <tbody>
@@ -6147,8 +6178,9 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
           </tbody>
         </table>
         <p>Different causes, different owners, different fixes — and "the sync is slow" is used for all three. Ask which one they mean before anything else. Very often the honest answer is "two of them, and we have been treating it as one problem."</p>
-
-        <h4>The synchronisation checks worth running first</h4>
+        </details>
+        <details class="pdis">
+          <summary><span class="plabel">The synchronisation checks worth running first</span><span class="ppeek">eight checks that fail silently — publish, deletes, partial loads, concurrency</span></summary>
         <p>These are the ones that fail <em>silently</em>, which is exactly why a post-implementation escalation reaches a TAM rather than being caught by an alert:</p>
         <ul>
           <li><strong>Event-driven or polled?</strong> Polling has a seam. The fix is overlap, idempotency and data-derived timestamps — not "last successful run time".</li>
@@ -6160,6 +6192,7 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
           <li><strong>Intermittent, load-correlated, different records each time</strong> is a concurrency race. <code>messageGroupId</code> / <code>dynamicMessageGroupId</code> is the fix.</li>
           <li><strong>Duplicates</strong> point at <code>federatedId</code> generation, and at records created by hand in the UI that never had one.</li>
         </ul>
+        </details>
         <div class="card keystone">
           <h4>The highest-yield question in the whole method</h4>
           <p style="margin-bottom:0">"If you retry, does the <em>same</em> record fail?" Same record &rarr; logic or configuration. Different record &rarr; timing or concurrency. One question, asked in the first five minutes, eliminates half the possibility space — and it is a question the customer can answer without you.</p>
@@ -6170,7 +6203,8 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
           <p style="margin-bottom:0">Process List, the Workflows Dashboard and Workflow Artifacts retain <strong>90 days</strong>. Baseline links expire in <strong>24 hours</strong>. Establish what still exists <em>before</em> promising root cause on a problem that started months ago — and if the trail is gone, say that plainly rather than producing a theory that cannot be tested.</p>
         </div>
 
-        <h4>The communication protocol</h4>
+        <details class="pdis">
+          <summary><span class="plabel">The communication protocol</span><span class="ppeek">six rules — and why running the escalation well outranks fixing it fast</span></summary>
         <p>How an escalation is run matters more to the relationship than how fast it is fixed, and it is the part entirely within your control:</p>
         <ul>
           <li>State <strong>known / suspected / unknown</strong> separately, every single time. Blurring them is how trust is lost.</li>
@@ -6180,9 +6214,9 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
           <li><strong>Never answer "who's wrong?"</strong> Answer "here is what happened and here is what we change."</li>
           <li>Close with the <em>mechanism</em>, not "fixed", then write a short post-incident note naming the decision that made the incident possible.</li>
         </ul>
+        </details>
         <p>That last note is not ceremony. Recurrence is a KPI in section 9, and a post-incident note is the only thing that reliably moves it.</p>
-
-        <h3 id="practice-5-the-improvement-pipeline">5 &mdash; The improvement pipeline</h3>
+        <h3 id="practice-the-improvement-pipeline">5 &mdash; The improvement pipeline</h3>
         <p>Post-implementation, improvement requests arrive constantly and informally — in meetings, in chat, at the end of unrelated calls. Without a pipeline they become a private mental list that the customer cannot see and you cannot defend.</p>
         <h4>Intake — five fixed fields</h4>
         <p>What outcome is wanted &middot; who is blocked &middot; how often it happens &middot; the current workaround and what it costs &middot; what breaks if nothing is done. Refuse to log a request without them; the discipline itself resolves perhaps a fifth of requests, because the answer to "what breaks if we do nothing" is sometimes "nothing".</p>
@@ -6204,7 +6238,7 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
         <h4>The advocacy packet</h4>
         <p>What actually makes Product act, in order: the requirement in one sentence &middot; frequency &middot; how many users and accounts are affected &middot; revenue exposure &middot; the workaround and its annual cost &middot; what the customer does if the answer is no. A request without the last two is a wish; with them it is a business case.</p>
 
-        <h3 id="practice-6-growth-technically-led">6 &mdash; Growth, technically led</h3>
+        <h3 id="practice-growth-technically-led">6 &mdash; Growth, technically led</h3>
         <p>Account growth is a legitimate part of this role and it does not require selling. It requires noticing — a TAM sees expansion signals months before anyone with a CRM does, and the contribution is passing them on as qualified signal with the technical context attached.</p>
         <table>
           <thead><tr><th>Signal</th><th>What it usually means</th></tr></thead>
@@ -6223,7 +6257,7 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
           <p style="margin-bottom:0">The credibility that makes growth possible comes from <em>not</em> selling during escalations. Hand signals to CSM with context and let them run the commercial conversation. A TAM who becomes a second account executive stops being told the truth about what is broken, and the truth about what is broken is the entire asset.</p>
         </div>
 
-        <h3 id="practice-7-relationship-and-technical-reference">7 &mdash; Relationship &amp; the technical reference role</h3>
+        <h3 id="practice-relationship-and-technical-reference">7 &mdash; Relationship &amp; the technical reference role</h3>
         <ul>
           <li><strong>Keep a people map.</strong> Who lags, who is sceptical, who has been burned by a previous system. Adoption problems are almost never distributed evenly, and the weak link is a person, not a feature.</li>
           <li><strong>Bring one risk you found before they did, every time.</strong> This single habit is what separates a technical reference from a well-liked contact, and it is the whole basis of being believed during an incident.</li>
@@ -6232,7 +6266,7 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
         </ul>
         <p>The <a class="link" href="#questions" data-view="questions">colleague questions</a> page is the working list for the internal half of this: each answer you close makes you faster, and several of them block KPIs in section 9 outright.</p>
 
-        <h3 id="practice-8-instrumentation">8 &mdash; Instrumentation: where the numbers come from</h3>
+        <h3 id="practice-instrumentation">8 &mdash; Instrumentation: where the numbers come from</h3>
         <p>Every KPI in the next section has to come from somewhere real. Where it does not, that is a finding, not a gap to paper over.</p>
         <table>
           <thead><tr><th>Signal</th><th>Source</th><th>Caveat</th></tr></thead>
@@ -6252,11 +6286,12 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
           <p style="margin-bottom:0">Customer-facing alerting on load, publish and workflow failure &middot; numeric rate limits and SLAs &middot; workflow concurrency utilisation against the 25-per-workflow and 60-per-org ceilings &middot; whether rule sets are enforced on API and Loader writes. Each of these is already a colleague question; attach the KPI it blocks to the question so it is a work item with a consequence, not a curiosity. And note the structural constraint: with a 90-day evidence lifetime, <strong>no trend can look further back than a quarter unless you snapshot monthly</strong>. Start snapshotting in week one — the history you do not capture is simply gone.</p>
         </div>
 
-        <h3 id="practice-9-kpis-and-indicators">9 &mdash; KPIs and indicators</h3>
+        <h3 id="practice-kpis-and-indicators">9 &mdash; KPIs and indicators</h3>
         <p>Four tiers, because they answer four different questions. <strong>Outcome</strong> KPIs are what the business is buying. <strong>Practice</strong> KPIs say whether the job is being run well. <strong>Leading</strong> indicators warn you early. <strong>Anti-metrics</strong> are the ones to argue against being measured on — a newly defined role gets measured on whatever is easiest to count, so naming the wrong metrics is part of the proposal.</p>
-        <p>These were derived from the work rather than from the job description. <a class="link" href="#practice/practice-10-succeeding-against-the-job-description" data-view="practice" data-anchor="practice-10-succeeding-against-the-job-description">Section 10</a> comes at the same question from the other end and reconciles the two — read it next if the audience is a manager rather than yourself.</p>
+        <p>These were derived from the work rather than from the job description. <a class="link" href="#practice/practice-succeeding-against-the-job-description" data-view="practice" data-anchor="practice-succeeding-against-the-job-description">Section 10</a> comes at the same question from the other end and reconciles the two — read it next if the audience is a manager rather than yourself.</p>
 
-        <h4>9a &middot; Outcome KPIs — quarterly, shareable</h4>
+        <details class="pdis">
+          <summary><span class="plabel">9a &middot; Outcome KPIs — quarterly, shareable</span><span class="ppeek">health score · escalation rate · P1 recurrence · renewal risk · expansion · reference-ability</span></summary>
         <table>
           <thead><tr><th>KPI</th><th>Definition</th><th>Source</th><th>Starting target</th><th>How it can lie</th></tr></thead>
           <tbody>
@@ -6268,8 +6303,9 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
             <tr><td><strong>Reference-ability</strong></td><td>Would they take a prospect call?</td><td>Ask them directly</td><td>Yes by quarter 3</td><td>Measures one relationship, not the account</td></tr>
           </tbody>
         </table>
-
-        <h4>9b &middot; Practice KPIs — monthly</h4>
+        </details>
+        <details class="pdis">
+          <summary><span class="plabel">9b &middot; Practice KPIs — monthly</span><span class="ppeek">eight numbers, and why time-to-localise is the distinctive one</span></summary>
         <table>
           <thead><tr><th>KPI</th><th>Definition</th><th>Target</th></tr></thead>
           <tbody>
@@ -6284,8 +6320,9 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
           </tbody>
         </table>
         <p>Time to localise is the distinctive one. It measures the thing the whole Week 9 method exists to produce, it is entirely within your control, and it improves fast with practice — which makes it a good number to be judged on while everything else is still being baselined.</p>
-
-        <h4>9c &middot; Leading indicators — weekly, ten minutes</h4>
+        </details>
+        <details class="pdis">
+          <summary><span class="plabel">9c &middot; Leading indicators — weekly, ten minutes</span><span class="ppeek">eight signals — watch the direction, not the value</span></summary>
         <p>Watch the <em>direction</em>, not the value. None of these is a target; each is a prompt to go and look.</p>
         <table>
           <thead><tr><th>Indicator</th><th>Watch for</th><th>What it means</th></tr></thead>
@@ -6300,8 +6337,9 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
             <tr><td>Sponsor engagement</td><td>Declining attendance</td><td>Political risk — the earliest signal of all</td></tr>
           </tbody>
         </table>
-
-        <h4>9d &middot; Anti-metrics — argue against these</h4>
+        </details>
+        <details class="pdis">
+          <summary><span class="plabel">9d &middot; Anti-metrics — argue against these</span><span class="ppeek">five metrics to refuse, and the behaviour each one produces</span></summary>
         <table>
           <thead><tr><th>Metric</th><th>The behaviour it produces</th></tr></thead>
           <tbody>
@@ -6312,8 +6350,9 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
             <tr><td>CSAT on individual tickets</td><td>Largely measures politeness during an outage</td></tr>
           </tbody>
         </table>
-
-        <h4>9e &middot; The health score, defined</h4>
+        </details>
+        <details class="pdis">
+          <summary><span class="plabel">9e &middot; The health score, defined</span><span class="ppeek">five weighted dimensions, 0–5, with what a 5 and a 1 look like</span></summary>
         <p>Score each dimension 0&ndash;5 against stated criteria, take the weighted mean, report to one decimal.</p>
         <table>
           <thead><tr><th>Dimension</th><th>Weight</th><th>A 5 looks like</th><th>A 1 looks like</th></tr></thead>
@@ -6325,30 +6364,32 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
             <tr><td>Open risk</td><td>10%</td><td>No unaddressed blockers</td><td>Known irreversible risks with no owner</td></tr>
           </tbody>
         </table>
+        </details>
         <div class="card keystone">
           <h4>Present it as version one</h4>
           <p style="margin-bottom:0">Say out loud that the weighting is a first attempt to be recalibrated after a quarter of real data. A score whose criteria are published and whose limits are admitted survives scrutiny; one presented as objective does not, and losing the score means losing the only quantitative story the practice has.</p>
         </div>
 
-        <h3 id="practice-10-succeeding-against-the-job-description">10 &mdash; Succeeding against the job description</h3>
+        <h3 id="practice-succeeding-against-the-job-description">10 &mdash; Succeeding against the job description</h3>
         <p>Section 9 was written from the work. This section is written from the scorecard &mdash; the fourteen success criteria the job description names, in three groups: <strong>Customer</strong> (seven), <strong>Operational</strong> (four), <strong>Leadership</strong> (three). The two have to agree. Where they already do, the mapping below is direct. Where the job description asks for something section 9 deliberately avoids &mdash; <em>time to resolve escalations</em> &mdash; or does not measure at all &mdash; NPS, mentoring, hiring &mdash; the gap is named and closed here rather than argued away.</p>
         <p>Each criterion gets four things: what it means concretely, the metric that scores it, the plan that moves it, and the evidence that will exist by the end of year one. A criterion with no evidence line is an intention.</p>
 
         <div class="card keystone">
           <h4>Three things the job description changes about this page</h4>
-          <p><strong>A portfolio, not an account.</strong> The role covers "a defined portfolio of accounts", "from post go-live hypercare through ongoing expansion". Everything above, written for one inherited account, has to survive being multiplied &mdash; which makes <a class="link" href="#practice/practice-12-from-one-account-to-a-practice" data-view="practice" data-anchor="practice-12-from-one-account-to-a-practice">section 12</a> a first-year deliverable rather than a someday ambition.</p>
+          <p><strong>A portfolio, not an account.</strong> The role covers "a defined portfolio of accounts", "from post go-live hypercare through ongoing expansion". Everything above, written for one inherited account, has to survive being multiplied &mdash; which makes <a class="link" href="#practice/practice-from-one-account-to-a-practice" data-view="practice" data-anchor="practice-from-one-account-to-a-practice">section 12</a> a first-year deliverable rather than a someday ambition.</p>
           <p><strong>The operating model is itself an essential function.</strong> "Help define and establish VibeIQ's Technical Account Management operating model" and "help establish KPIs and reporting to measure TAM effectiveness and customer technical health" are listed duties, not initiative. This page is therefore not preparation for the job &mdash; it is one of the job's outputs. Ship it in month two, versioned, and invite correction.</p>
           <p style="margin-bottom:0"><strong>Leadership is scored from day one.</strong> Mentoring future TAMs, contributing to hiring profiles, growing into team leadership. Three of the fourteen criteria cannot be earned by excellent solo work &mdash; they require something to exist that does not exist yet, which means building the substrate before there is anyone to use it.</p>
         </div>
 
-        <h4>10a &middot; Customer criteria &mdash; the seven</h4>
+        <details class="pdis">
+          <summary><span class="plabel">10a &middot; Customer criteria &mdash; the seven</span><span class="ppeek">health · adoption · risk &amp; escalations · time to resolve · retention · expansion · NPS</span></summary>
         <div class="tscroll">
         <table>
           <thead><tr><th>Criterion (JD)</th><th>Metric that scores it</th><th>Plan to succeed</th><th>Evidence by end of year one</th></tr></thead>
           <tbody>
             <tr>
               <td><strong>Customer technical health</strong></td>
-              <td>Health score 0&ndash;5 per account, quarterly (<a class="link" href="#practice/practice-9-kpis-and-indicators" data-view="practice" data-anchor="practice-9-kpis-and-indicators">9e</a>)</td>
+              <td>Health score 0&ndash;5 per account, quarterly (<a class="link" href="#practice/practice-kpis-and-indicators" data-view="practice" data-anchor="practice-kpis-and-indicators">9e</a>)</td>
               <td>Publish the criteria before publishing the first score. Score <em>every</em> account in the portfolio inside 90 days &mdash; coarsely if necessary &mdash; because a single score is an opinion and two are a trend. Snapshot monthly: workflow evidence expires at 90 days, so history not captured is history lost.</td>
               <td>Four quarterly scores per account, a trend line, and a named reason for every movement in either direction</td>
             </tr>
@@ -6366,7 +6407,7 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
             </tr>
             <tr>
               <td><strong>Time to resolve escalations</strong></td>
-              <td>MTTR by severity, with a stated stop-clock rule &mdash; see <a class="link" href="#practice/practice-10-succeeding-against-the-job-description" data-view="practice" data-anchor="practice-10-succeeding-against-the-job-description">10d</a></td>
+              <td>MTTR by severity, with a stated stop-clock rule &mdash; see <a class="link" href="#practice/practice-succeeding-against-the-job-description" data-view="practice" data-anchor="practice-succeeding-against-the-job-description">10d</a></td>
               <td>Accept the metric, then make it honest: separate containment from permanent fix, agree the stop-clock before it is needed, and always report it beside the two numbers that are wholly within your control.</td>
               <td>MTTR reported by severity for four quarters, split by detection source, with pauses logged</td>
             </tr>
@@ -6379,27 +6420,28 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
             <tr>
               <td><strong>Expansion opportunities influenced</strong></td>
               <td>Qualified technical signals passed to CSM that became pipeline &mdash; target &ge; 2 per quarter</td>
-              <td>Review the <a class="link" href="#practice/practice-6-growth-technically-led" data-view="practice" data-anchor="practice-6-growth-technically-led">section 6</a> signals monthly and hand each over <em>in writing</em>: what they asked for, what it would take technically, the rough shape of the work. Qualified signal, not a pitch &mdash; the credibility of the channel is the asset.</td>
+              <td>Review the <a class="link" href="#practice/practice-growth-technically-led" data-view="practice" data-anchor="practice-growth-technically-led">section 6</a> signals monthly and hand each over <em>in writing</em>: what they asked for, what it would take technically, the rough shape of the work. Qualified signal, not a pitch &mdash; the credibility of the channel is the asset.</td>
               <td>A signal log with the CRM outcome against every entry, including the declined ones &mdash; which is what makes the log believable</td>
             </tr>
             <tr>
               <td><strong>Customer happiness &mdash; NPS tracking and evolution</strong></td>
-              <td>Relationship NPS plus a technical-contact pulse &mdash; see <a class="link" href="#practice/practice-10-succeeding-against-the-job-description" data-view="practice" data-anchor="practice-10-succeeding-against-the-job-description">10e</a></td>
+              <td>Relationship NPS plus a technical-contact pulse &mdash; see <a class="link" href="#practice/practice-succeeding-against-the-job-description" data-view="practice" data-anchor="practice-succeeding-against-the-job-description">10e</a></td>
               <td>Run the technical-contact pulse from quarter one whether or not a company-wide programme exists, and report the score beside the mechanisms that moved it.</td>
               <td>Four quarters of pulse responses with themes routed into the improvement pipeline</td>
             </tr>
           </tbody>
         </table>
         </div>
-
-        <h4>10b &middot; Operational criteria &mdash; the four</h4>
+        </details>
+        <details class="pdis">
+          <summary><span class="plabel">10b &middot; Operational criteria &mdash; the four</span><span class="ppeek">playbooks · efficiency &amp; automation · reusable assets · recurring issues</span></summary>
         <div class="tscroll">
         <table>
           <thead><tr><th>Criterion (JD)</th><th>Metric that scores it</th><th>Plan to succeed</th><th>Evidence by end of year one</th></tr></thead>
           <tbody>
             <tr>
               <td><strong>TAM processes and playbooks established</strong></td>
-              <td><strong>Coverage</strong>, not count: % of the <a class="link" href="#practice/practice-2-the-service-catalogue" data-view="practice" data-anchor="practice-2-the-service-catalogue">service catalogue</a> with a playbook another person could execute</td>
+              <td><strong>Coverage</strong>, not count: % of the <a class="link" href="#practice/practice-the-service-catalogue" data-view="practice" data-anchor="practice-the-service-catalogue">service catalogue</a> with a playbook another person could execute</td>
               <td>Each of the eight services gets its playbook the <em>second</em> time it is run, while the second time is still fresh. Target 100% of the eight by month nine.</td>
               <td>Eight playbooks, each with its artefact template attached, each executed at least once by someone who did not write it &mdash; the only real test of a playbook</td>
             </tr>
@@ -6425,8 +6467,9 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
         </table>
         </div>
         <p>The two swaps in this table &mdash; coverage instead of playbook count, reuse instead of asset count &mdash; are worth defending explicitly when the scorecard is agreed. Both original phrasings are countable, and both reward producing artefacts nobody uses. The versions here are harder to inflate and measure the thing the criterion is actually after.</p>
-
-        <h4>10c &middot; Leadership criteria &mdash; the three</h4>
+        </details>
+        <details class="pdis">
+          <summary><span class="plabel">10c &middot; Leadership criteria &mdash; the three</span><span class="ppeek">onboarding &amp; mentoring · hiring contribution · a scalable operating model</span></summary>
         <p>None of these can be scored by working alone, and waiting for a team before starting on them guarantees a first year with three blank criteria. Build the substrate before there is anyone to use it; the artefact is the evidence until the person arrives.</p>
         <div class="tscroll">
         <table>
@@ -6453,8 +6496,9 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
           </tbody>
         </table>
         </div>
-
-        <h4>10d &middot; Time to resolve, made honest</h4>
+        </details>
+        <details class="pdis">
+          <summary><span class="plabel">10d &middot; Time to resolve, made honest</span><span class="ppeek">five rules that make MTTR ungameable, and provisional targets</span></summary>
         <p>Section 9 deliberately measures time to <em>localise</em> and time to first meaningful update instead of time to resolve, because resolution frequently depends on Engineering's schedule. The job description names time to resolve anyway, and it is right to &mdash; it is what the customer experiences. The answer is not to argue it away but to make it a number that cannot be gamed and cannot be unfairly held against the role.</p>
         <ol class="steps">
           <li><strong>Define it as mechanism-in-place, not ticket-closed.</strong> Opened &rarr; the mechanism is in place and the customer has confirmed the symptom is gone. Closure is administrative and always lags.</li>
@@ -6464,8 +6508,9 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
           <li><strong>Split by detection source.</strong> Proactively found versus customer-reported. Without the split, getting better at finding problems early makes MTTR look worse, which punishes the exact behaviour the "reduction in technical risk" criterion is asking for.</li>
         </ol>
         <p><strong>Starting targets, explicitly provisional:</strong> P1 &mdash; workaround &le; 1 business day, mechanism &le; 5 business days. P2 &mdash; mechanism &le; 10 business days. Say when presenting them that they are set before a single data point exists and will be recalibrated after one quarter. Numbers offered as provisional get corrected; numbers offered as commitments get missed.</p>
-
-        <h4>10e &middot; NPS, and what a TAM can actually move</h4>
+        </details>
+        <details class="pdis">
+          <summary><span class="plabel">10e &middot; NPS, and what a TAM can actually move</span><span class="ppeek">the technical-contact pulse, a fixed cadence, and honest attribution</span></summary>
         <p>NPS appears in the criteria as "customer happiness with VibeIQ &mdash; NPS tracking and evolution". Taken naively it is the least controllable number on the list: account-level NPS is dominated by end users whose experience is mostly the product. Four rules make it usable.</p>
         <ol class="steps">
           <li><strong>Add a technical-contact pulse.</strong> The IT and data-engineering contacts worked with weekly, surveyed quarterly, with one free-text question: <em>what is the one thing about VibeIQ that still costs you time?</em> That answer is worth more than the score, and it feeds the improvement pipeline and the product advocacy packet directly.</li>
@@ -6473,8 +6518,9 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
           <li><strong>Attribute honestly, with mechanisms.</strong> The TAM moves this through things that can be named: risks found before the customer found them, escalations closed with a mechanism, requests that reached the product. Report the score with the mechanism list beside it; a score with no mechanism story is noise, and claiming it is how a metric becomes a target and stops measuring anything.</li>
           <li><strong>Every detractor gets a call within five working days</strong>, and the theme goes into the pattern register in 10b whether or not it turns out to be technical. The follow-up is the part that changes the next score.</li>
         </ol>
-
-        <h4>10f &middot; What cannot be measured yet, and the proxy meanwhile</h4>
+        </details>
+        <details class="pdis">
+          <summary><span class="plabel">10f &middot; What cannot be measured yet, and the proxy meanwhile</span><span class="ppeek">five blocked metrics, each with the proxy to use until it unblocks</span></summary>
         <div class="tscroll">
         <table>
           <thead><tr><th>Criterion or metric</th><th>Blocked on</th><th>Proxy to use in the meantime</th></tr></thead>
@@ -6487,14 +6533,14 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
           </tbody>
         </table>
         </div>
-
+        </details>
         <div class="card warn">
           <h4>The honest summary to give a manager in month one</h4>
           <p>Of the fourteen criteria: <strong>nine can be measured from month one</strong> with what exists today; <strong>three need a baseline captured first</strong> &mdash; adoption and value realization needs the value statement written per account, NPS needs a first survey, efficiency needs the first instance of each service deliberately timed; <strong>two cannot be scored until the team grows</strong>, and for those the deliverable is the artefact, not the number.</p>
-          <p style="margin-bottom:0">Saying that out loud in month one, before anyone asks, is the difference between a scorecard that survives the year and one quietly abandoned in month four when the first unmeasurable criterion comes due. It also converts three of the <a class="link" href="#practice/practice-13-what-the-practice-needs" data-view="practice" data-anchor="practice-13-what-the-practice-needs">asks in section 13</a> from requests into blockers with a named consequence.</p>
+          <p style="margin-bottom:0">Saying that out loud in month one, before anyone asks, is the difference between a scorecard that survives the year and one quietly abandoned in month four when the first unmeasurable criterion comes due. It also converts three of the <a class="link" href="#practice/practice-what-the-practice-needs" data-view="practice" data-anchor="practice-what-the-practice-needs">asks in section 13</a> from requests into blockers with a named consequence.</p>
         </div>
 
-        <h3 id="practice-11-the-first-90-days">11 &mdash; The first 90 days</h3>
+        <h3 id="practice-the-first-90-days">11 &mdash; The first 90 days</h3>
         <h4>Days 1&ndash;30 — inherit and stabilise</h4>
         <ol class="steps">
           <li><code>contrail types getAll</code> — ground truth about the configuration, rather than anyone's memory of it.</li>
@@ -6512,7 +6558,7 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
         <h4>Days 61&ndash;90 — prove and adjust</h4>
         <p>Full cadence running. First QBR delivered, containing one risk the customer did not know about. The inherited escalation closed with a mechanism and a written post-incident note. Then revise the charter against what the quarter actually demanded and present the revision — a role defined once and never revisited was defined wrong, and revising it publicly is how the practice earns the right to keep defining itself.</p>
 
-        <h3 id="practice-12-from-one-account-to-a-practice">12 &mdash; From one account to a practice</h3>
+        <h3 id="practice-from-one-account-to-a-practice">12 &mdash; From one account to a practice</h3>
         <p><strong>What becomes a template.</strong> The health check, the review checklists, the escalation communication template, the intake form, the advocacy packet, the KPI pack. The rule is simple: anything done twice gets templated the second time, while the second time is still fresh.</p>
         <p><strong>A tiering proposal.</strong> Tier 1 — strategic accounts, custom integrations, a named TAM, the full cadence. Tier 2 — standard integrations, pooled coverage, quarterly health check and reactive escalation. Tier 3 — self-serve, no named TAM, playbooks and enablement only. Write entry and exit criteria and review them quarterly, so tiering stays a decision rather than becoming a habit.</p>
         <div class="card keystone">
@@ -6520,7 +6566,7 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
           <p style="margin-bottom:0">Argue from the KPIs, never from feeling busy: health-check currency below 100% &middot; time to first meaningful update slipping &middot; open unknowns aging past 30 days &middot; Tier-1 account count above the point where the weekly cadence stops fitting in a week. Set that threshold <em>before</em> it is crossed — a threshold agreed in advance is a plan; the same argument made after the fact is a complaint.</p>
         </div>
 
-        <h3 id="practice-13-what-the-practice-needs">13 &mdash; What the practice needs</h3>
+        <h3 id="practice-what-the-practice-needs">13 &mdash; What the practice needs</h3>
         <p>Ranked, because a flat list of twelve asks gets ignored and three blockers get resolved.</p>
         <ol class="steps">
           <li><strong>Confirmation of the boundary</strong> in section 1. Without it, every escalation reopens the question of whose problem it is, in the worst possible moment to be asking.</li>
@@ -6797,7 +6843,7 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
         <div class="card"><h4>Data residency &amp; compliance</h4><p style="margin-bottom:0">File uploads route through AWS S3 (us-east-1 in examples). Residency options? Compliance certs (SOC 2, etc.) you can represent to a security team?</p></div>
 
         <h3 id="questions-blocking-a-success-criterion">Blocking a job-description success criterion</h3>
-        <p>These five are different in kind from the ones above: each one blocks a criterion the role is formally measured on (<a class="link" href="#practice/practice-10-succeeding-against-the-job-description" data-view="practice" data-anchor="practice-10-succeeding-against-the-job-description">practice page, section 10</a>). Answer them in the first month, while asking basic questions is still free.</p>
+        <p>These five are different in kind from the ones above: each one blocks a criterion the role is formally measured on (<a class="link" href="#practice/practice-succeeding-against-the-job-description" data-view="practice" data-anchor="practice-succeeding-against-the-job-description">practice page, section 10</a>). Answer them in the first month, while asking basic questions is still free.</p>
         <div class="card"><h4>Is there an existing NPS programme?</h4><p style="margin-bottom:0">At what cadence, and is it per-account or company-wide? Blocks <em>"customer happiness &mdash; NPS tracking and evolution"</em>. The technical-contact pulse in 10e is the interim proxy, but it should be handed over intact rather than run in parallel with a real programme.</p></div>
         <div class="card"><h4>How is MTTR defined internally today?</h4><p style="margin-bottom:0">Ticket-closed, or mechanism confirmed by the customer? Is there a stop-clock convention for time blocked on the customer or a third party? Blocks <em>"time to resolve escalations"</em> being a number that can be reported fairly. Agree it before the first escalation, not during one.</p></div>
         <div class="card"><h4>What internal asset library exists, and how is reuse tracked?</h4><p style="margin-bottom:0">Blocks <em>"reusable technical assets created"</em> &mdash; specifically the reuse count, which is the version of that criterion worth being measured on. If nothing tracks reuse, that is the first thing to build, not the artefacts.</p></div>
@@ -6857,7 +6903,14 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
     document.body.classList.remove('nav-open');
     let target = null;
     if(anchor) target = document.getElementById(anchor);
-    if(target){ target.scrollIntoView({behavior:'smooth', block:'start'}); }
+    if(target){
+      // A target inside a closed <details> has no layout, so scrollIntoView
+      // would silently do nothing. Open every ancestor first (closest() on the
+      // element itself matches a <details> the target is the summary of, so
+      // step up via parentElement each time).
+      for(let d=target.closest('details'); d; d=d.parentElement&&d.parentElement.closest('details')) d.open=true;
+      target.scrollIntoView({behavior:'instant', block:'start'});
+    }
     else { window.scrollTo({top:0}); }
     if(history.replaceState) history.replaceState(null,'','#'+id+(anchor?'/'+anchor:''));
   }
@@ -6891,6 +6944,16 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
     if(!a || a.closest('nav')) return;
     e.preventDefault();
     show(a.getAttribute('data-view'), a.getAttribute('data-anchor'));
+  });
+  // Expand/collapse every disclosure in a view — the practice page is meant to
+  // be printed and sent to a manager, which needs everything open at once.
+  document.addEventListener('click',e=>{
+    const btn = e.target.closest('.expandall');
+    if(!btn) return;
+    const all = btn.closest('.view').querySelectorAll('details.pdis');
+    const open = [...all].every(d=>d.open);
+    all.forEach(d=>{ d.open = !open; });
+    btn.textContent = open ? 'Expand all sections' : 'Collapse all sections';
   });
   document.getElementById('menuBtn').addEventListener('click',()=>document.body.classList.toggle('nav-open'));
   document.getElementById('scrim').addEventListener('click',()=>document.body.classList.remove('nav-open'));
