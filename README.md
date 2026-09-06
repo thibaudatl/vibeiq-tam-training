@@ -9,18 +9,18 @@ Manager. Grounded in official VibeIQ / Contrail documentation (docs.vibeiq.com).
 
 **All ten modules are written and live.** Nothing is gated — read in any order.
 
-Quizzes carry model answers throughout. **Module 1's exercise, scenario and
-challenge now carry full worked solutions too** — the answer, the reasoning behind
-it, and sources — behind a **Show the solution** button; Modules 2–10 follow. They
-are written to be read *after* attempting, not instead of. The four-phase capstone
-is still worked through in conversation with a tutor.
+Quizzes carry model answers throughout, and **every exercise, customer scenario
+and hands-on challenge now carries a full worked solution** — the answer, the
+reasoning behind it, and cited sources — behind a **Show the solution** button.
+That includes each of the capstone's four phases: 31 solutions in all. They are
+written to be read *after* attempting, not instead of.
 
 | Phase | State |
 |---|---|
 | Curriculum design | Complete |
 | Module authoring | Complete — all 10 written |
 | Working through them | In progress (Module 1) |
-| Activity solutions | Module 1 written; Modules 2–10 pending |
+| Activity solutions | Complete — 31 across all 10 modules |
 | TAM practice charter & KPIs | Drafted — boundary table pending internal confirmation |
 
 ## Contents

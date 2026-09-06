@@ -211,6 +211,18 @@
   .srcs li{font-size:13px;color:var(--ink-2);margin-bottom:6px;padding-left:15px;position:relative}
   .srcs li::before{content:"→";position:absolute;left:0;color:var(--accent)}
   .srcs .ext{font-weight:700;color:var(--amber)}
+  /* Code blocks in solutions: same look as the modules' inline-styled <pre>,
+     expressed once. These two literals match those inline styles — note that
+     --code-bg/--code-ink are the INLINE code colours (light beige) and are not
+     what a block wants. Module <pre> stays dark in both themes by design.
+     overflow-x keeps long JSON/YAML lines off the page. */
+  .solbody pre{background:#1e262d;color:#dfe6df;
+    border-radius:10px;padding:14px 18px;overflow-x:auto;font-size:13px;
+    line-height:1.55;margin:12px 0}
+  .solbody pre code{background:none;color:inherit;padding:0;font-size:inherit}
+  /* Wide tables scroll in their own box rather than pushing the page sideways. */
+  .solbody .tscroll{overflow-x:auto;margin:12px 0}
+  .solbody .tscroll table{margin:0;min-width:520px}
 
   /* ---- Course map on the dashboard -------------------------------------
      Three levels of native <details>: module → section → what it covers.
@@ -3305,7 +3317,7 @@ for (const assortmentItem of baselineData.assortmentItems) {
             <div class="solbody">
               <h5>The answer</h5>
               <p><strong>The attribute ownership map.</strong> Columns: attribute · authoritative system · direction · VibeIQ layer · property level · conflict rule.</p>
-              <table><thead><tr><th>Attribute</th><th>Owner</th><th>Direction</th><th>Layer</th><th>Level</th><th>Conflict rule</th></tr></thead><tbody>
+              <div class="tscroll"><table><thead><tr><th>Attribute</th><th>Owner</th><th>Direction</th><th>Layer</th><th>Level</th><th>Conflict rule</th></tr></thead><tbody>
               <tr><td>Style name</td><td>VibeIQ</td><td>→ PLM, ERP</td><td>Item</td><td>Family</td><td>VibeIQ wins; PLM edits are reported, not merged</td></tr>
               <tr><td>Style number</td><td>PLM</td><td>← PLM</td><td>Item</td><td>Family</td><td>Immutable once set. <strong>This is the federatedId</strong></td></tr>
               <tr><td>Category / division</td><td>VibeIQ</td><td>→ PLM</td><td>Item</td><td>Family</td><td>VibeIQ wins</td></tr>
@@ -3322,7 +3334,7 @@ for (const assortmentItem of baselineData.assortmentItems) {
               <tr><td>Lifecycle status</td><td><strong>Split — see below</strong></td><td>both</td><td>Item</td><td>Override</td><td>Distinct value sets per system; never the same field</td></tr>
               <tr><td>Primary image</td><td>DAM</td><td>← DAM</td><td>Item</td><td>Option</td><td>DAM holds the master; VibeIQ holds the reference</td></tr>
               <tr><td>Inventory position</td><td>ERP (SAP)</td><td>← SAP</td><td>ProjectItem</td><td>—</td><td>SAP wins. Read-only, and stale by design</td></tr>
-              </tbody></table>
+              </tbody></table></div>
               <p><strong>The three rows that will cause an argument, and how to settle each before build:</strong></p>
               <p><strong>1 · Lifecycle status.</strong> Both systems have one, both call it status, and they mean different things — VibeIQ's is a <em>decision</em> state (proposed, approved, cut), PLM's is a <em>development</em> state (in development, sampling, released). Mapping them onto one field guarantees a two-way overwrite loop where each system keeps correcting the other. <em>Settle it:</em> refuse the shared field. Two separate attributes, each owned by one system, each read-only in the other, with an explicit table for any transition that should trigger the other. This is the row that most often gets discovered in production.</p>
               <p><strong>2 · Cost.</strong> Merchandising needs a cost to compute margin during planning, when no real cost exists yet — so VibeIQ carries an estimate. PLM later produces a standard cost and SAP an actual landed cost. Three numbers, one word. <em>Settle it:</em> three named attributes with different names — <code>plannedCost</code>, <code>standardCost</code>, <code>landedCost</code> — and be explicit about which one margin is computed from at each stage. Never let them collapse into "cost."</p>
@@ -4353,7 +4365,7 @@ visibility: public            # marketplace candidate</code></pre>
         <h3 id="m7-practical-exercise">Practical exercise</h3>
         <div class="card">
           <p>Route these seven requests to a rung, and for each write one sentence on cost of ownership:</p>
-          <ol style="margin-bottom:0">
+          <ol>
             <li>"Margin % should calculate automatically from cost and retail price."</li>
             <li>"Once a style is approved, nobody should be able to change its category."</li>
             <li>"When a style is approved, create a record in our PLM."</li>
@@ -4363,14 +4375,89 @@ visibility: public            # marketplace candidate</code></pre>
             <li>"We want to manage supplier purchase orders in VibeIQ."</li>
           </ol>
           <p style="margin-top:14px;margin-bottom:0">Number 6 is the interesting one. Explain precisely why the obvious answer fails, and what you'd propose instead.</p>
-        </div>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>1 · "Margin % should calculate automatically from cost and retail price."</strong><br><strong>Level 1 — Formula.</strong> A derived value from data on the same entity, which is the definition of a formula.<br><em>Cost of ownership:</em> minutes to change, an admin can do it, no deploy — but it is a silent-failure surface: if an input is null the output is quietly wrong rather than erroring, and nobody notices until a margin looks odd.</p>
+              <p><strong>2 · "Once a style is approved, nobody should be able to change its category."</strong><br><strong>Level 1 — Rule Set.</strong> Conditional editability based on current entity state is precisely what rule sets control.<br><em>Cost of ownership:</em> cheap and admin-editable — but rule sets are documented as evaluating <strong>client-side</strong>, so this constrains the editor, not the API or the Loader. If the requirement is really "this value must never change after approval, by any means," a rule set alone does not deliver it.</p>
+              <p><strong>3 · "When a style is approved, create a record in our PLM."</strong><br><strong>Level 2 — Workflow.</strong> "When X happens, do Y" reacting to a change, with an action calling out.<br><em>Cost of ownership:</em> lives in an app, so changes are a release cycle, not a console edit — and it inherits everything from <a class="link" href="#m6" data-view="m6">Week 6</a>: create-vs-update behaviour, grouping, org concurrency budget, and someone to alert on <code>FAILED</code>.</p>
+              <p><strong>4 · "A panel showing last season's sell-through next to each row while they plan."</strong><br><strong>Level 3 — Extension</strong> (Document Automation, reading document context in Plan).<br><em>Cost of ownership:</em> the expensive one. It is code <em>plus</em> a hosted UI on someone's public HTTPS host — so hosting, TLS, uptime, on-call, and a security review, forever. Ask who operates it in three years before agreeing to build it.</p>
+              <p><strong>5 · "Only these six colours should be selectable for the outlet channel."</strong><br><strong>Level 1 — Rule Set</strong> restricting allowed option values conditionally.<br><em>Cost of ownership:</em> cheap, but the same client-side caveat as #2 — and worth checking whether "outlet channel" is knowable from the entity being edited, since a rule set evaluates against current entity state.</p>
+              <p><strong>6 · "Recalculate landed cost whenever the FX rate table changes."</strong> — see below.</p>
+              <p><strong>7 · "Manage supplier purchase orders in VibeIQ."</strong><br><strong>Not a rung — wrong system.</strong> POs are transactional ERP territory, downstream of the decision phase entirely. This is the Week 1 boundary, and the answer is a redirect, not an estimate.<br><em>Cost of ownership:</em> building it would mean owning a second system of record for transactions, permanently, against a platform not designed for it — and it does not become cheaper by being built at a lower rung.</p>
+              <p><strong>6 · Why the obvious answer fails</strong></p>
+              <p>The obvious answer is a <strong>formula</strong>: landed cost = base cost × FX rate. It fails for a reason that is easy to miss and expensive to discover.</p>
+              <p><strong>A formula computes from the entity's own state, and it runs when that entity changes.</strong> The FX rate table is not part of the item. When the rate changes, <em>nothing happens to any item</em> — no item was written, so no formula re-evaluates. Ten thousand products keep their old landed cost indefinitely, and the values are not obviously wrong; they are stale. They will silently update, one at a time, whenever someone happens to edit an unrelated field on a style — which produces a data set where landed cost was computed at a dozen different exchange rates, with no way to tell which.</p>
+              <p>That is the deeper trap: this is the <strong>silent formula failure mode that produces a value correct today and wrong next season</strong>. A formula referencing anything that changes independently of the entity bakes in a snapshot and never revisits it.</p>
+              <p><strong>What I'd propose instead</strong></p>
+              <p><strong>Level 2 — a workflow triggered by the change to the rate table</strong>, which recalculates the affected items. The trigger has to be the thing that actually changed. Concretely: model the FX rates as a <strong>Custom Entity</strong> so that updating them emits <code>custom-entity|update</code>, and bind a workflow to it that walks the affected items and writes the new landed cost. Alternatively, if rates arrive on a schedule, a <strong>scheduled workflow</strong> that recalculates nightly — simpler, and it makes staleness bounded and predictable rather than unbounded.</p>
+              <p>Two things to settle with the customer before building either: <strong>volume</strong> (recalculating 10,000 items is an event storm against a 60-process org budget — grouping and worker count matter), and <strong>whether recalculation should be retroactive</strong>. Re-pricing a season that has already been costed and committed may be actively wrong; "recalculate whenever the FX rate changes" is usually shorthand for "for the season currently being planned," and nobody says so out loud.</p>
+              <h5>How to think about it</h5>
+              <p><strong>The question is "what is the lowest rung that <em>actually solves</em> this?" — with the emphasis on actually.</strong> The skill is naming the right rung, not the lowest one. Forcing a Level 1 answer onto a Level 2 problem produces a pile of formulas nobody can maintain, which is exactly what request 6 tempts you into.</p>
+              <p><strong>Test every candidate against its trigger, not just its logic.</strong> Formula logic for landed cost is trivially correct; the mechanism never fires. When routing a request, ask two separate questions — <em>can this rung express the calculation?</em> and <em>will this rung run at the right moment?</em> Requests phrased "whenever X changes" are a reliable signal that the answer is a workflow, because they name a trigger explicitly and formulas do not have one.</p>
+              <p><strong>Cost of ownership is a headcount and latency question, not a build estimate.</strong> The honest comparison for #4 is not "two weeks of work" but "who runs this server in three years, and what happens when it is down during a line review?" Every rung you avoid climbing is change latency the customer keeps and support surface you do not inherit. Customers and SIs both drift upward — engineers reach for code because code is what they do.</p>
+              <p><strong>Two requests here have a caveat you must state rather than assume away.</strong> Rule sets evaluate client-side, so #2 and #5 constrain the editor and — on the documented evidence — not the API or Loader. Whether they are enforced on write paths is genuinely unconfirmed, so the correct move is "let me confirm," not a confident answer in either direction. Saying it that way is what makes you believable on everything else.</p>
+              <p><strong>Request 7 is a category error, and answering it as an estimate is the failure.</strong> The reflex to be helpful turns "we want POs in VibeIQ" into a scoping conversation. It is a wrong-system conversation, and the redirect is cheaper for everyone now than after someone has half-built it.</p>
+              <p><strong>What a weak answer looks like:</strong> routing all seven correctly with no cost-of-ownership sentences. The rung is the easy half. The sentence about who maintains it, how long a change takes, and what fails silently is what turns this into an artefact a customer's product owner can use — which is the point of the <a class="link" href="#m7/m7-hands-on-challenge" data-view="m7" data-anchor="m7-hands-on-challenge">routing guide</a>.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/configuration/formulas/" target="_blank" rel="noopener">Formulas</a> — what inputs a formula receives and when it evaluates — the mechanism behind why request 6 fails.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/configuration/ruleSets/" target="_blank" rel="noopener">Rule Sets</a> — editability, required, allowed values and ranges based on entity state — requests 2 and 5, and the client-side evaluation note.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/002_creating_workflows/" target="_blank" rel="noopener">Creating Workflows</a> — the trigger categories behind the request-6 alternative, including custom-entity and scheduled triggers.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/extensions/" target="_blank" rel="noopener">Extensions</a> — request 4 — the three extension types, and the hosted-iframe requirement that drives its cost of ownership.</li>
+                <li><a class="link" href="#m1/m1-concept-3-where-vibeiq-sits" data-view="m1" data-anchor="m1-concept-3-where-vibeiq-sits">Week 1 — Where VibeIQ sits</a> — request 7 — the boundary that makes purchase orders a wrong-system conversation.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <h3 id="m7-realistic-customer-scenario">Realistic customer scenario</h3>
         <div class="card">
           <p><strong>Summit Athletic</strong> is 8 weeks from go-live. Their systems integrator sends a design note:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"For the pricing rules we'll build a Document Automation extension — a modal where merchants enter the price and our service validates it against the margin floor before writing back. We've already run <code>contrail app create</code> under our integrator org so we can iterate fast; we'll transfer it to Summit at handover. We're hosting the extension on our own Vercel account for now. Also, we noticed rule sets can enforce the min value, but our load overwrites those prices anyway, so the extension is the safer place for the rule."</p>
-          <p style="margin-bottom:0">There are <strong>at least four problems</strong> here, of very different kinds — one permanent, one operational, one architectural, and one that is actually a correct observation pointing at the wrong conclusion. Identify each; say which is <strong>unfixable after go-live</strong> and why; give the alternative design; and note which of their claims you would <em>verify internally</em> before responding rather than accepting or disputing on the spot.</p>
-        </div>
+          <p>There are <strong>at least four problems</strong> here, of very different kinds — one permanent, one operational, one architectural, and one that is actually a correct observation pointing at the wrong conclusion. Identify each; say which is <strong>unfixable after go-live</strong> and why; give the alternative design; and note which of their claims you would <em>verify internally</em> before responding rather than accepting or disputing on the spot.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>Problem 1 — permanent: the app was created in the integrator's org.</strong></p>
+              <p>"We'll transfer it to Summit at handover" is not possible. The org that first creates an app is the owner, and <strong>app ownership cannot be modified</strong>. On top of that the app identifier is reserved <strong>globally and immutably</strong> at creation, so it cannot even be recreated under the same name. Summit's pricing capability would be permanently owned by a vendor they may not be working with in two years — with no technical route to reclaim it.</p>
+              <p><strong>Problem 2 — operational: the extension is hosted on the integrator's Vercel account.</strong></p>
+              <p>Extensions run in an iframe from a public HTTPS host. That host is on Summit's critical path during line reviews, and it belongs to a third party — their uptime, their TLS certificate, their billing, their staff. Summit's InfoSec will also want to know that document context crosses into it. "For now" is doing a lot of work in that sentence; "for now" arrangements survive go-live routinely.</p>
+              <p><strong>Problem 3 — architectural: a Level 3 extension for a Level 1 problem.</strong></p>
+              <p>A margin floor on a price field is a rule set — conditional validation on entity state, admin-editable, no deploy, nothing to host. They are proposing code plus a hosted UI plus a service, which the customer must then own forever, to enforce a minimum value. Every rung climbed is change latency Summit keeps and support surface they inherit.</p>
+              <p><strong>Problem 4 — the correct observation, wrong conclusion.</strong></p>
+              <p>"Rule sets can enforce the min value, but our load overwrites those prices anyway" is <strong>probably right about the mechanism</strong> — rule sets are documented as evaluating client-side, affecting the editor experience, which implies the Loader is not bound by them. The conclusion is what fails: <em>an extension does not fix that either.</em> An extension is also a UI-layer control. If the Loader can write a below-floor price past a rule set, it can write one past the extension too — because the load never goes through either. They have correctly identified that the UI cannot govern the write path, then proposed a different UI.</p>
+              <p><strong>Which is unfixable after go-live:</strong> problem 1. Every other item is a refactor — annoying, scoped, doable. App ownership and the global identifier are decided once, at <code>contrail app create</code>, and there is no later remedy. This is why it has to be raised now, at eight weeks, and why it outranks the architectural objection even though the architecture is the more interesting problem.</p>
+              <p><strong>The alternative design</strong></p>
+              <ol>
+              <li><strong>Create the app under Summit's org, today.</strong> The integrator gets developer access and can iterate exactly as fast. This is the one item I would not leave the meeting without.</li>
+              <li><strong>Enforce the margin floor with a rule set</strong> (min value, conditional on channel or status), optionally with a <strong>validation function</strong> if the logic exceeds what a rule can express. No hosting, no deploy, admin-editable.</li>
+              <li><strong>Fix the real problem — the load — at the load.</strong> If below-floor prices arrive via the Loader, the control belongs in the pipeline: correct the source, or use a conditional column, or validate before the file is submitted. UI controls cannot govern a write path that does not touch the UI.</li>
+              <li><strong>Drop the extension</strong> unless a genuine UI need survives — a panel showing something merchants cannot otherwise see. If one does, host it on infrastructure Summit owns, and agree who is on call.</li>
+              </ol>
+              <p><strong>What I would verify internally before responding</strong></p>
+              <p><strong>Whether rule sets are enforced on the API and Loader write paths.</strong> The docs say client-side, which implies not — but "implies" is not good enough to build a design on, and the integrator has effectively asked the question. If rule sets <em>are</em> enforced server-side, item 2 above solves the whole problem and the load argument evaporates. If they are not, item 3 is mandatory. I would say "that is a good question and I want to give you a definite answer rather than a guess" and come back within a day — rather than agreeing on the call, or disputing it.</p>
+              <p>I would also confirm current guidance on developer access to an app owned by another org, so that recommendation 1 comes with a workable process attached rather than as an obstacle.</p>
+              <h5>How to think about it</h5>
+              <p><strong>Sort the findings by reversibility before saying any of them.</strong> Three of these four can be fixed next quarter. One cannot be fixed at all after someone runs a single CLI command. That ordering — not severity, not how wrong the architecture is — decides what you lead with and what you are willing to be unpopular about.</p>
+              <p><strong>Problem 4 is the one that separates a good reviewer from a checklist.</strong> It is tempting to mark the whole note wrong, but the integrator has noticed something real and important: the UI is not the write path. Rejecting the observation along with the conclusion loses you the person and the insight. The move is to say "you are right about the mechanism, and it argues against your fix as well" — which is both accurate and disarming.</p>
+              <p><strong>Notice where each proposed control sits relative to the data path.</strong> A rule set and an extension are both UI-layer. A load bypasses the UI entirely. Once you draw that line, the design error is obvious and does not require any argument about extensions being expensive. Ask "which write paths does this control actually intercept?" of every validation proposal.</p>
+              <p><strong>Say "let me confirm" and mean it.</strong> This is the single most valuable habit in the module. The rule-set enforcement boundary is genuinely unsettled in the public documentation, and you are eight weeks from go-live with a decision resting on it. Guessing right still teaches the customer that you guess. Coming back in a day with a definite answer is what makes your other assertions worth trusting — and this one is on the standing colleague-questions list precisely because it keeps mattering.</p>
+              <p><strong>"For now" is a review flag, not a qualifier.</strong> "Under our org for now", "on our Vercel for now" — temporary arrangements made under delivery pressure become permanent by default, because nothing forces revisiting them. The question that surfaces this is "what is the event that would change this, and who owns it?" Usually there is no answer.</p>
+              <p><strong>What a weak answer looks like:</strong> leading with the architectural objection because it is the most intellectually satisfying finding. The extension being over-engineered is real and fixable. The app ownership is a single command away from being permanent, and if the meeting runs short and you covered architecture, you have failed the customer in the one way that cannot be undone.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/apps/002_app_lifecycle/" target="_blank" rel="noopener">App Lifecycle</a> — problem 1 — the global immutable identifier and the rule that app ownership cannot be modified.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/extensions/" target="_blank" rel="noopener">Extensions</a> — problems 2 and 3 — extension types, the hosted-iframe model, and what the customer takes on by running one.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/configuration/ruleSets/" target="_blank" rel="noopener">Rule Sets</a> — problems 3 and 4 — what a rule set can enforce, and the client-side evaluation wording the verification question turns on.</li>
+                <li><a class="link" href="#questions" data-view="questions">Questions for VibeIQ colleagues</a> — the rule-set enforcement boundary is on the standing list — this scenario is why it matters commercially, not just technically.</li>
+                <li><a class="link" href="#findings/findings-3-decisions-you-cannot-undo" data-view="findings" data-anchor="findings-3-decisions-you-cannot-undo">Key findings — Decisions you cannot undo</a> — app ownership and app identifier both appear there.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <h3 id="m7-quiz">Quiz</h3>
         <div class="q">
@@ -4411,8 +4498,74 @@ visibility: public            # marketplace candidate</code></pre>
 
         <h3 id="m7-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
-          <p style="margin-bottom:0">Write your <strong>"can the platform do X?" routing guide</strong> — a one-page decision aid you could hand a customer's product owner. For each rung: what it's for, who can change it, how long a change takes, what it costs to own, and one worked example. Include the two "wrong system" boundaries from Week 1. This is the last artefact in your account-inheritance kit, and the one most likely to be read by someone other than you.</p>
-        </div>
+          <p>Write your <strong>"can the platform do X?" routing guide</strong> — a one-page decision aid you could hand a customer's product owner. For each rung: what it's for, who can change it, how long a change takes, what it costs to own, and one worked example. Include the two "wrong system" boundaries from Week 1. This is the last artefact in your account-inheritance kit, and the one most likely to be read by someone other than you.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>"Can the platform do X?" — a routing guide.</strong> Written for a customer's product owner, not for an engineer. One page, five rungs plus two boundaries.</p>
+              <p><strong>Level 0 — Types &amp; properties</strong></p>
+              <ul><li><em>For:</em> new fields, new entity types, changing what data exists at all.</li>
+              <li><em>Who changes it:</em> an admin, in the console.</li>
+              <li><em>How long:</em> minutes.</li>
+              <li><em>Cost to own:</em> near zero, but property-level choices here are load-bearing — get Family vs. Override wrong and you get overwritten data later.</li>
+              <li><em>Example:</em> "We need a sustainability rating on every style."</li></ul>
+              <p><strong>Level 1 — Formulas, rule sets, validation functions</strong></p>
+              <ul><li><em>For:</em> derived values, and constraints on what may be entered, based on the entity's own state.</li>
+              <li><em>Who:</em> an admin. No deploy.</li>
+              <li><em>How long:</em> minutes to hours.</li>
+              <li><em>Cost to own:</em> low — with two caveats worth stating out loud. Formulas <strong>fail silently</strong> (a null input yields a quietly wrong value, not an error), and they only run when the entity changes, so anything depending on an external table goes stale. Rule sets are documented as evaluating <strong>client-side</strong>: they shape the editor, and on current evidence do not govern API or Loader writes.</li>
+              <li><em>Example:</em> "Margin % should calculate itself." · "Category locks once approved."</li></ul>
+              <p><strong>Level 2 — Workflows &amp; actions</strong></p>
+              <ul><li><em>For:</em> "when X happens, do Y" — reacting to change, and sending things to other systems.</li>
+              <li><em>Who:</em> engineers. It lives in an app.</li>
+              <li><em>How long:</em> a release cycle. Not a console edit — "can you just tweak that automation?" is a versioned app change.</li>
+              <li><em>Cost to own:</em> moderate and ongoing — someone must watch failures, and every workflow draws on the org's shared concurrency budget. A bulk load fires them once per row.</li>
+              <li><em>Example:</em> "Push approved styles to PLM." · "Recalculate when the FX table changes."</li></ul>
+              <p><strong>Level 3 — Extensions</strong></p>
+              <ul><li><em>For:</em> a screen or panel that does not exist — new UI inside Board, Plan or Showcase.</li>
+              <li><em>Who:</em> engineers, plus whoever runs the hosting.</li>
+              <li><em>How long:</em> a project, then a release cycle per change.</li>
+              <li><em>Cost to own:</em> <strong>the big step up.</strong> Code plus a public HTTPS host: uptime, TLS, on-call, a security review, and a bill — permanently. Ask who operates this in three years before agreeing to build it.</li>
+              <li><em>Example:</em> "Show last season's sell-through beside each row while planning."</li></ul>
+              <p><strong>Level 4 — External systems</strong></p>
+              <ul><li><em>For:</em> capability that belongs in someone else's estate and integrates back.</li>
+              <li><em>Who:</em> their teams, their roadmap.</li>
+              <li><em>How long:</em> their release cycle.</li>
+              <li><em>Cost to own:</em> highest, and mostly not yours — which is the point. The integration seam becomes the thing to design well.</li>
+              <li><em>Example:</em> "Financial planning scenarios across the whole business."</li></ul>
+              <p><strong>The two boundaries — requests that are not a rung at all</strong></p>
+              <ul>
+              <li><strong>"How do we make it?"</strong> Tech packs, BOMs, materials, costing, sourcing, samples. That is PLM. VibeIQ decides <em>what</em> to make, not <em>how</em>.</li>
+              <li><strong>"What did we transact?"</strong> Purchase orders, inventory, invoices, receipts. That is ERP.</li>
+              </ul>
+              <p>Both answers are a redirect, not an estimate. Scoping them as build work is how a platform ends up as a second, worse system of record.</p>
+              <p><strong>How to use this in a conversation</strong></p>
+              <ol>
+              <li><strong>Restate the request as an outcome</strong>, not a solution. People arrive with "we need an extension"; the underlying need is usually two rungs lower.</li>
+              <li><strong>Ask what the lowest rung that actually solves it is</strong> — with the emphasis on <em>actually</em>. Check both that the rung can express the logic and that it will <em>run at the right moment</em>.</li>
+              <li><strong>Ask which write paths need to be governed.</strong> If data arrives by Loader or API, a UI-layer control does not cover it, whatever rung it sits on.</li>
+              <li><strong>State the cost of ownership before agreeing.</strong> Change latency and who maintains it, not build effort.</li>
+              <li><strong>Name it as a boundary if it is one</strong>, early and plainly.</li>
+              </ol>
+              <h5>How to think about it</h5>
+              <p><strong>This artefact is written for someone else to read without you — which changes how it must be written.</strong> It is the one most likely to be forwarded to a product owner or an SI lead. That means no internal shorthand, no unexplained jargon, and honest caveats: if you overstate what rule sets enforce, someone builds on it and the error is yours.</p>
+              <p><strong>The columns are chosen to answer the question a product owner is actually asking.</strong> Not "how hard is this to build?" but "how fast can we change it later, and who has to be involved?" Change latency and headcount are what they feel every quarter; build effort is felt once.</p>
+              <p><strong>Say the drift out loud.</strong> Customers and implementation partners both climb the ladder unprompted — engineers reach for code because code is what they do, and an SI billing for a build has no incentive to propose a rule set. Naming that dynamic in the guide makes it discussable rather than adversarial.</p>
+              <p><strong>The lowest rung is not automatically the right one.</strong> Forcing a Level 1 answer onto a Level 2 problem produces a fragile pile of formulas nobody can maintain — and the <a class="link" href="#m7/m7-practical-exercise" data-view="m7" data-anchor="m7-practical-exercise">FX-rate request</a> is the clean example: a perfectly correct formula that never fires. The guide must therefore teach a test, not a preference.</p>
+              <p><strong>Including the two boundaries is what makes it a routing guide rather than a capability list.</strong> The most valuable answer this document gives is sometimes "no, and here is where that belongs" — delivered early, once, kindly. A guide that only routes to rungs implies everything is buildable somewhere on the ladder.</p>
+              <p><strong>Keep the caveats current.</strong> The client-side rule-set note is honest today and is on the <a class="link" href="#questions" data-view="questions">colleague questions</a> list. If it gets confirmed either way, this document changes — and an artefact that circulates outside your team needs a date and an owner, or it becomes a source of confidently wrong answers after you have moved on.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/configuration/" target="_blank" rel="noopener">Configuration — getting started</a> — Levels 0 and 1: the configurable surface and what an admin can change without a deploy.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/configuration/formulas/" target="_blank" rel="noopener">Formulas</a> — the Level 1 caveats — inputs, evaluation timing, and the silent failure modes.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/configuration/ruleSets/" target="_blank" rel="noopener">Rule Sets</a> — what a rule set can control, and the client-side evaluation wording behind the write-path caveat.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/" target="_blank" rel="noopener">Workflows — introduction</a> — Level 2: what belongs in a workflow, and why it is an app artefact rather than a setting.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/extensions/" target="_blank" rel="noopener">Extensions</a> — Level 3: extension types and the hosting model that drives the cost step.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <div class="outcome">
           <h4>I know this when I can…</h4>
@@ -4591,8 +4744,78 @@ visibility: public            # marketplace candidate</code></pre>
 
         <h3 id="m8-practical-exercise">Practical exercise</h3>
         <div class="card">
-          <p style="margin-bottom:0">Write the <strong>platform section of an implementation runbook</strong> for a new customer: environment/org topology and how promotion happens; who holds which credentials and how they're rotated and revoked at offboarding; where data travels; what monitoring exists and who looks at it, how often; the runtime obligations of any custom app; and the org's concurrency budget with what runs when. Keep it to two pages — it should be handed to a customer's IT lead, not read only by you.</p>
-        </div>
+          <p>Write the <strong>platform section of an implementation runbook</strong> for a new customer: environment/org topology and how promotion happens; who holds which credentials and how they're rotated and revoked at offboarding; where data travels; what monitoring exists and who looks at it, how often; the runtime obligations of any custom app; and the org's concurrency budget with what runs when. Keep it to two pages — it should be handed to a customer's IT lead, not read only by you.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>Platform runbook — Summit Athletic.</strong> Owner: [TAM name]. Reviewed quarterly. Written for Summit's IT lead.</p>
+              <p><strong>1 · Environments and promotion</strong></p>
+              <p>An "environment" in VibeIQ is <strong>another org</strong> — there is no separate environment abstraction. Every authenticated request carries <code>X-Api-Org</code>, and the org is the unit of isolation, ownership, configuration and capacity.</p>
+              <div class="tscroll"><table><thead><tr><th>Org</th><th>Purpose</th><th>Who has access</th></tr></thead><tbody>
+              <tr><td><code>summit-dev</code></td><td>Integration development and testing</td><td>SI engineers, TAM</td></tr>
+              <tr><td><code>summit-prod</code></td><td>Production</td><td>Named admins only</td></tr>
+              </tbody></table></div>
+              <p><strong>Promotion is two mechanisms, and both must run:</strong></p>
+              <ul><li><strong>Configuration</strong> — <code>contrail types getAll</code> in the source org, <code>contrail types loadAll</code> in the target. Eleven categories move, including types, option sets, rule sets, and type/property policies.</li>
+              <li><strong>Apps</strong> (and therefore workflows and extensions) — publish the app version, then install it in the target org.</li></ul>
+              <p><em>Failure mode to watch:</em> promoting one and not the other. Environments then drift silently and a workflow behaves differently in production for reasons nobody can see. Record the config export date and app version live in each org, in this document.</p>
+              <p><strong>2 · Credentials</strong></p>
+              <div class="tscroll"><table><thead><tr><th>Credential</th><th>Held by</th><th>Stored in</th><th>Rotation</th><th>Revoke on offboarding</th></tr></thead><tbody>
+              <tr><td>API key — dev</td><td>SI integration team</td><td>Secrets manager</td><td>Quarterly</td><td>Reissue</td></tr>
+              <tr><td>API key — prod</td><td>Summit integration owner</td><td>Secrets manager</td><td>Quarterly</td><td>Reissue</td></tr>
+              <tr><td>Webhook IDs (inbound)</td><td>Integration owner</td><td>Secrets manager</td><td>On suspicion</td><td>Recreate webhook</td></tr>
+              <tr><td>CLI credentials</td><td><strong>Every laptop that ever ran the CLI</strong></td><td><code>~/.vibeiq/configs/</code></td><td>n/a</td><td><strong>Must be wiped — see below</strong></td></tr>
+              </tbody></table></div>
+              <p><strong>Rules:</strong> one key per environment, never shared; app-scoped keys (<code>app:</code> prefix) rather than user keys; never committed to version control; environment variables or a secrets manager only.</p>
+              <p><strong>The offboarding gap nobody raises:</strong> CLI authentication caches to <code>~/.vibeiq/configs/</code> on the local machine. Anyone who has ever run the CLI has a credential on their laptop that survives them leaving. Maintain a list of who has run it, and include cache removal in the offboarding checklist. Inbound webhook IDs are also effectively bearer credentials — the ID in the trigger URL is what authorises the call — so treat them as secrets, not as configuration.</p>
+              <p><strong>3 · Where data travels</strong></p>
+              <ul><li><strong>Uploads:</strong> creating a File entity returns an S3 <code>uploadPost</code>; the binary goes directly to S3 (<code>us-east-1</code> in the documented examples).</li>
+              <li><strong>Publish payloads:</strong> baseline and delete data are JSON files on S3, reached by links that <strong>expire after 24 hours</strong>.</li>
+              <li><strong>Extensions:</strong> run in an iframe served from a public HTTPS host. Document context crosses into that host — so if a third party operates it, customer data reaches a third party. List every extension and its host here, by name.</li>
+              <li><strong>Outbound webhooks:</strong> to endpoints Summit specifies. List them.</li></ul>
+              <p><em>Open:</em> residency options beyond <code>us-east-1</code> are not established in public documentation. If EU residency is a requirement, it is a question for VibeIQ before contract, not an assumption.</p>
+              <p><strong>4 · Monitoring — what exists, who looks, how often</strong></p>
+              <div class="tscroll"><table><thead><tr><th>Surface</th><th>Shows</th><th>Horizon</th><th>Owner</th><th>Cadence</th></tr></thead><tbody>
+              <tr><td>Event Workflows Dashboard</td><td>Workflows triggered and failed, as trend charts</td><td><strong>90 days</strong></td><td>TAM</td><td>Daily, 20 min</td></tr>
+              <tr><td>Process List</td><td>Individual processes, tasks, statuses, task outputs</td><td><strong>90 days</strong></td><td>TAM / SI</td><td>On incident</td></tr>
+              <tr><td>LoaderProcess records</td><td>Load status, <code>failureArea</code>, step artefacts</td><td>Not documented</td><td>Integration owner</td><td>Daily after nightly load</td></tr>
+              <tr><td>Consumer-side alerting</td><td>Summit's own integration health</td><td>Summit's</td><td>Summit</td><td>Continuous</td></tr>
+              </tbody></table></div>
+              <p><strong>Two things to state plainly.</strong> Monitoring is <em>pull</em>: someone must look. There is no established proactive customer alerting on load, publish or workflow failure, so absence of a report is not evidence of health — which is why the daily check has a named owner. And the <strong>90-day horizon is hard</strong>: evidence is permanently deleted, so a problem reported four months late cannot be root-caused. If any metric needs a longer trend, snapshot it monthly starting in week one.</p>
+              <p><strong>5 · Runtime obligations</strong></p>
+              <ul><li>Custom app runtime is declared in the manifest (e.g. <code>nodeRuntime: "nodejs22.x"</code>).</li>
+              <li>Runtime deprecations are recurring and schedulable. Migration means updating the field, auditing deprecated APIs, testing on the new runtime, and rebuilding native modules.</li>
+              <li><strong>Named owner and a calendar reminder.</strong> Customers reliably forget this because the app keeps working right up until it does not.</li>
+              <li>Record here: current runtime, app version, who can publish a new version.</li></ul>
+              <p><strong>6 · Concurrency budget</strong></p>
+              <p>Ceilings: <code>parallelWorkerCount</code> 1–30 (default 5) · <strong>25 concurrent processes per workflow</strong> · <strong>60 per organisation</strong>, adjustable via the Customer Success Manager.</p>
+              <p>The org's 60 is a <strong>single budget shared by every workflow, integration and bulk load</strong>. There is no per-team allocation, and no documented way for a customer to see their own utilisation. So it must be managed on paper:</p>
+              <div class="tscroll"><table><thead><tr><th>Time</th><th>What runs</th><th>Intended workers</th></tr></thead><tbody>
+              <tr><td>02:00</td><td>Nightly PLM load</td><td>—</td></tr>
+              <tr><td>02:00–03:00</td><td>Entity workflows fired by that load</td><td>Once per row</td></tr>
+              <tr><td>On publish</td><td>Outbound integration workflow</td><td>5</td></tr>
+              <tr><td>Ad hoc</td><td>Copy-down workflow</td><td>8</td></tr>
+              </tbody></table></div>
+              <p><em>Rule:</em> before any bulk load, check what else runs in that window. A large load and the nightly integration competing for the same 60 is how both get slow and one starts timing out. Request a ceiling increase before a season, not during one.</p>
+              <h5>How to think about it</h5>
+              <p><strong>Write it for the IT lead, which means the honest gaps have to be in it.</strong> A runbook that quietly omits residency, proactive alerting and rate limits will be read as complete — and the first incident teaches them it was not. Marking something "open, and here is who is asking" is a stronger document than one that reads seamlessly, because it tells the reader which parts they can rely on.</p>
+              <p><strong>Everything here resolves to the org.</strong> Isolation, ownership, configuration, capacity, and the fact that environments are just more orgs. Leading with that makes the rest of the document derivable rather than a list of facts to memorise — and it explains drift, promotion and the shared budget in one idea.</p>
+              <p><strong>Two mechanisms for promotion is the detail that causes silent production differences.</strong> Someone runs the config export, sees it succeed, and believes the environment is promoted. The app — and therefore every workflow — did not move. Recording the config date <em>and</em> app version per org in the runbook is what makes drift visible without an investigation.</p>
+              <p><strong>Every monitoring row needs an owner and a cadence, or it is decorative.</strong> Because monitoring is pull-based with no proactive alerting, an unwatched dashboard is identical to no dashboard. "The team watches it" means nobody. This is also where the 90-day horizon belongs — it converts "we should look at this" into "if we do not look within 90 days the evidence is gone."</p>
+              <p><strong>The CLI credential cache is the item that earns the document its credibility.</strong> It is a genuine offboarding gap that customers do not raise because they do not know it exists, and no vendor volunteers it. Putting it in a runbook — with a wipe step — is the kind of thing that makes an IT lead treat you as their technical reference rather than as an account contact.</p>
+              <p><strong>Two pages is a constraint, not a suggestion.</strong> A runbook nobody finishes is not a control. Everything above is tables and short rules for that reason; narrative belongs in the modules, not here.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/authentication/" target="_blank" rel="noopener">Authentication & API Access</a> — section 2 — the <code>app:</code> key format, the two required headers, key hygiene and per-environment scoping.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/configuration/configurationCopy/" target="_blank" rel="noopener">Configuration Copy</a> — section 1 — the export/import commands and the eleven categories that move.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/release_notes/004_admin_console_2024_12_12/" target="_blank" rel="noopener">Event Workflows Dashboard & Workflow Artifacts</a> — section 4 — the monitoring surfaces and their 90-day horizon.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/apps/migrate_from_node18_to_node22/" target="_blank" rel="noopener">Node 18 → 22 migration</a> — section 5 — the shape of a runtime obligation and what a migration involves.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/002_creating_workflows/" target="_blank" rel="noopener">Creating Workflows</a> — section 6 — worker counts and the per-workflow and per-org concurrency ceilings.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <h3 id="m8-realistic-customer-scenario">Realistic customer scenario</h3>
         <div class="card">
@@ -4606,8 +4829,43 @@ visibility: public            # marketplace candidate</code></pre>
             <li>"Are webhook payloads signed?"</li>
             <li>"What happens to our data on a third-party extension?"</li>
           </ol>
-          <p style="margin-bottom:0">For each: answer it, or say exactly what you'd take away and who you'd ask. Then — <strong>sort them</strong>: which can you answer confidently today, which are partially answerable (say what you'd commit to and what you'd qualify), and which must you not answer at all? Finally, write the <strong>covering note to the VP</strong> in three sentences, given you cannot fully answer inside 48 hours and they are trying to close a deal.</p>
-        </div>
+          <p>For each: answer it, or say exactly what you'd take away and who you'd ask. Then — <strong>sort them</strong>: which can you answer confidently today, which are partially answerable (say what you'd commit to and what you'd qualify), and which must you not answer at all? Finally, write the <strong>covering note to the VP</strong> in three sentences, given you cannot fully answer inside 48 hours and they are trying to close a deal.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>Question by question</strong></p>
+              <p><strong>1 · "Where is our product data stored geographically, and can it be kept in the EU?"</strong><br><em>Partially answerable.</em> I can describe the data paths accurately: file uploads go directly to S3 (<code>us-east-1</code> in the documented examples), publish payloads are JSON on S3 behind 24-hour links, and extension content reaches whatever host runs the extension. What I <strong>cannot</strong> say is whether EU residency is available. <em>Take away:</em> residency options and any EU region — to VibeIQ product/infrastructure via the CSM. This one is likely a deal gate, so it goes first.</p>
+              <p><strong>2 · "Provide your SOC 2 Type II report."</strong><br><em>Must not answer.</em> I do not confirm, deny or characterise compliance certifications. Not "I believe we have one." <em>Take away:</em> to whoever owns compliance/trust — via the CSM or account exec — and route the actual report through the proper channel, under NDA if required.</p>
+              <p><strong>3 · "Describe the role-based access model. Can we restrict a merchandiser to their own division?"</strong><br><em>Partially answerable, and the trap question.</em> The wrong answer is "VibeIQ has no end-user permission model" — that is false. Access control is layered: org membership, app <code>accessGrants</code>, workflow <code>accessGrants</code>, <strong>Type Policies</strong> (READ/CREATE/UPDATE/DELETE) and <strong>Type Property Policies</strong>, the last two both being exported categories in Configuration Copy. So the capability exists. What is not documented is how those policies map to named roles in Boards/Plan/Showcase, which is exactly what the division question asks. <em>Take away:</em> the end-user role model and whether policies can scope by a data attribute such as division.</p>
+              <p><strong>4 · "How are API credentials issued, rotated and revoked?"</strong><br><em>Answer confidently.</em> Keys are app-scoped (<code>app:</code> prefix), obtained via <code>contrail app getApiKey</code>, and sent with <code>X-Api-Key</code> plus <code>X-Api-Org</code> on every request. Documented practice: never commit them, use environment variables or secrets management, separate keys per environment, prefer app keys over user keys, rotate regularly. I would proactively add the <strong>CLI credential cache</strong> at <code>~/.vibeiq/configs/</code> and its offboarding implication — they have not asked, and it is the honest answer to "revoked."</p>
+              <p><strong>5 · "What is your API rate limit and uptime SLA?"</strong><br><em>Must not answer.</em> No numeric rate limits or SLA commitments are established publicly. I will not quote a number — in particular not the "15 requests/hour" figure that circulates online, which belongs to <strong>a different company</strong>. What I can say is that a consumer should implement exponential backoff regardless and not tune to a specific limit. <em>Take away:</em> real limits and contractual SLA — CSM and the contract, since the SLA is a commercial commitment, not a technical fact.</p>
+              <p><strong>6 · "Are webhook payloads signed?"</strong><br><em>Partially answerable — and the two directions must be kept apart.</em> <strong>Outbound</strong> (VibeIQ → Summit) supports HMAC signing, which is what this question most likely means. <strong>Inbound</strong> (Summit → VibeIQ) documents an optional <code>X-Verify-Signature</code> header compared as a shared secret rather than an HMAC over the body, and the webhook ID in the trigger URL functions as a bearer credential. Conflating these gives a security team a wrong answer. <em>Take away:</em> what inbound verification is actually enforced server-side, and whether request signing is available.</p>
+              <p><strong>7 · "What happens to our data on a third-party extension?"</strong><br><em>Answer confidently, and it is worth their attention.</em> Extensions render in an iframe from a public HTTPS host and receive document context — so data reaches whoever operates that host. If a systems integrator hosts it, that is a third-party processor and belongs in their vendor assessment. Concretely: list every extension in scope, name its host, and decide who should own that hosting. This connects directly to the <a class="link" href="#m7/m7-realistic-customer-scenario" data-view="m7" data-anchor="m7-realistic-customer-scenario">Week 7 design note</a>.</p>
+              <p><strong>The sort</strong></p>
+              <div class="tscroll"><table><thead><tr><th>Confident</th><th>Partial — commit and qualify</th><th>Do not answer</th></tr></thead><tbody>
+              <tr><td>4 · Credential issuance and hygiene<br>7 · Extension data exposure</td><td>1 · Data paths yes, residency no<br>3 · Layers yes, role mapping no<br>6 · Outbound yes, inbound qualified</td><td>2 · SOC 2<br>5 · Rate limits and SLA</td></tr>
+              </tbody></table></div>
+              <p><strong>The covering note to the VP — three sentences</strong></p>
+              <blockquote>"I can answer four of these seven properly today and I have sent those to [InfoSec lead] already — credentials, extension data handling, the data paths, and the access-control model as far as it is documented. Three need a definitive answer rather than my best reading: EU data residency, the SOC 2 report, and contractual rate limits and SLA — I have them with the right owners internally and I will not guess at a compliance answer your team is going to verify. You will have those three by [specific date]; if residency in the EU is a hard requirement rather than a preference, tell me now and I will push that one ahead of the others."</blockquote>
+              <h5>How to think about it</h5>
+              <p><strong>Sorting is the actual skill, not answering.</strong> Seven questions with a 48-hour clock and a VP watching is a triage problem. Answering four fully and naming three with owners and a date is a <em>complete</em> response; a document that hedges all seven reads as evasive and helps nobody.</p>
+              <p><strong>Bluffing a compliance answer is unrecoverable.</strong> Security teams verify — that is the job. One wrong answer means every other statement you have made gets checked, and you have converted a technical relationship into an audit. This is why SOC 2 and SLA are "do not answer" rather than "answer carefully": there is no careful version of a certification claim you are not authorised to make.</p>
+              <p><strong>Question 3 is where a new TAM most often loses credibility, in both directions.</strong> The tempting answers are "yes, full RBAC" (unsupported) and "no real permission model" (false, and it can lose a deal). The accurate answer is that a layered model exists including type and property policies, and that the <em>mapping to named end-user roles</em> is undocumented. Precision here is worth more than confidence.</p>
+              <p><strong>Volunteer the CLI cache under question 4.</strong> They asked about revocation and the honest answer includes a gap they do not know to ask about. Raising it costs you nothing — it is an operational practice, not a product flaw — and it is the single fastest way to be read as candid rather than as a vendor managing a questionnaire.</p>
+              <p><strong>Give the VP a decision, not just a status.</strong> The last sentence asks whether EU residency is a hard requirement, because that single answer changes what you chase first and may change whether the deal is viable at all. A covering note that only reports progress leaves the commercial owner with nothing to do; one that surfaces the gating question makes them a participant.</p>
+              <p><strong>Be specific about dates, and then keep them.</strong> "I'll find out" is worth nothing; "you will have those three by Thursday" is a commitment that builds the trust the whole role runs on. Write the question down, name a date, come back with a documented answer — do that three times and you become the person they route questions to.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/authentication/" target="_blank" rel="noopener">Authentication & API Access</a> — question 4 — key format, headers, and documented key hygiene.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/configuration/configurationCopy/" target="_blank" rel="noopener">Configuration Copy</a> — question 3 — Type Policies and Type Property Policies appear among the exported categories, which is the evidence that an end-user permission model exists.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/running_workflows/002_webhooks/" target="_blank" rel="noopener">Webhooks</a> — question 6 — the inbound trigger-webhook surface and its optional verification header.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/extensions/" target="_blank" rel="noopener">Extensions</a> — question 7 — the hosted-iframe model and the context passed into it.</li>
+                <li><a class="link" href="#questions" data-view="questions">Questions for VibeIQ colleagues</a> — four of these seven map directly onto the standing colleague-questions list — this scenario is why that page is a work item rather than a reading list.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <h3 id="m8-quiz">Quiz</h3>
         <div class="q">
@@ -4648,8 +4906,66 @@ visibility: public            # marketplace candidate</code></pre>
 
         <h3 id="m8-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
-          <p style="margin-bottom:0">Build your <strong>security questionnaire response kit</strong>: the standard enterprise security questions, split into <em>answer confidently</em>, <em>answer with qualification</em>, and <em>must escalate</em> — with your actual wording for each in the first two groups, and the named internal owner for the third. Keep the escalate list short and current; every item you move out of it is a deal cycle shortened. This joins the account-inheritance kit from Weeks 2–7.</p>
-        </div>
+          <p>Build your <strong>security questionnaire response kit</strong>: the standard enterprise security questions, split into <em>answer confidently</em>, <em>answer with qualification</em>, and <em>must escalate</em> — with your actual wording for each in the first two groups, and the named internal owner for the third. Keep the escalate list short and current; every item you move out of it is a deal cycle shortened. This joins the account-inheritance kit from Weeks 2–7.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>Security questionnaire response kit.</strong> Three groups. Group A and B carry wording you can send; group C carries an owner and a date, never an improvised answer.</p>
+              <p><strong>A · Answer confidently</strong></p>
+              <p><em>"How is API access authenticated?"</em></p>
+              <blockquote>"Every REST request carries two headers: <code>X-Api-Key</code> and <code>X-Api-Org</code>. Keys are application-scoped — they carry an <code>app:</code> prefix and are issued per app rather than tied to a user account — and are obtained through the Contrail CLI. The org header scopes the request to a single tenant; a key is only valid for the org it belongs to."</blockquote>
+              <p><em>"How are credentials stored, rotated and revoked?"</em></p>
+              <blockquote>"Documented practice is: never commit keys to source control, hold them in environment variables or a secrets manager, use a separate key per environment, prefer app-scoped keys over user keys, and rotate on a schedule. Revocation is by reissuing the key. One item we raise proactively: the Contrail CLI caches authentication to <code>~/.vibeiq/configs/</code> on the local machine, so any workstation that has ever run the CLI holds a credential. We recommend tracking who has run it and including cache removal in your offboarding checklist."</blockquote>
+              <p><em>"What is the tenancy model?"</em></p>
+              <blockquote>"The organisation is the isolation boundary. Every authenticated request is scoped to one org; apps are owned by an org; configuration is exported and imported per org; and concurrency limits are per org. Separate environments are implemented as separate orgs."</blockquote>
+              <p><em>"Where does file and payload data travel?"</em></p>
+              <blockquote>"File uploads go directly to Amazon S3 — the client requests an upload target and posts the binary to S3. Assortment publish payloads are JSON files on S3, accessed through links that expire after 24 hours. Documented examples use <code>us-east-1</code>."</blockquote>
+              <p><em>"What happens to our data in a third-party extension?"</em></p>
+              <blockquote>"Extensions render in an iframe served from a public HTTPS host and receive document context from the surrounding app. That host is therefore a data processor and belongs in your vendor assessment. We can list every extension in scope with the party operating it; where an implementation partner is hosting one, we recommend deciding deliberately whether that should move to infrastructure you control."</blockquote>
+              <p><em>"What audit trail exists for automation?"</em></p>
+              <blockquote>"Workflow executions are recorded as processes with per-task status and outputs, viewable in the Admin Console, with failure trend charts. Retention is <strong>90 days</strong>, after which records are permanently deleted — so if you need a longer audit horizon, it has to be exported on a schedule."</blockquote>
+              <p><strong>B · Answer with qualification</strong> — say the documented part, name the boundary</p>
+              <p><em>"Describe the role-based access model."</em></p>
+              <blockquote>"Access control is layered: org membership determines tenancy; app access grants control which orgs may install an app; workflow access grants control which entity types an app's actions may read or write; and Type Policies and Type Property Policies control create, read, update and delete at entity-type and individual-property level. Those policy categories are first-class configuration — they are among the categories exported by Configuration Copy. What I want to confirm rather than assert is how those policies map onto named end-user roles in Boards, Plan and Showcase, and whether they can be scoped by a data attribute such as division. I will come back with a definitive answer rather than a reading."</blockquote>
+              <p><em>"Are webhook payloads signed?"</em></p>
+              <blockquote>"These are two different questions and we keep them apart. Outbound — VibeIQ notifying your endpoint — supports HMAC signing, which is what you would verify on receipt. Inbound — your system triggering a workflow in VibeIQ — documents an optional verification header compared as a shared secret, and the webhook identifier in the trigger URL functions as a bearer credential and should be handled as a secret. What is enforced server-side on the inbound path is the part I am confirming."</blockquote>
+              <p><em>"Where is data stored geographically?"</em></p>
+              <blockquote>"I can describe the paths precisely — S3 for uploads and publish payloads, <code>us-east-1</code> in documented examples, plus whatever host runs an extension. What I will not do is state residency options or an EU region from inference; that is a question for VibeIQ directly and I have it with them."</blockquote>
+              <p><em>"What monitoring and alerting do we get?"</em></p>
+              <blockquote>"You get a workflow dashboard, a process list with task-level outputs, and loader process records with a failure area field — all pull-based, 90-day retention on the workflow surfaces. I am confirming what proactive alerting is available to customers on load, publish and workflow failure; today we cover it with a named owner checking daily rather than assuming a notification will arrive."</blockquote>
+              <p><strong>C · Must escalate — never improvise</strong></p>
+              <div class="tscroll"><table><thead><tr><th>Question</th><th>Owner</th><th>Why it is here</th></tr></thead><tbody>
+              <tr><td>SOC 2 Type II and other certifications</td><td>Compliance / trust, via CSM</td><td>Not mine to confirm, deny or characterise. Route the report through the proper channel.</td></tr>
+              <tr><td>Uptime SLA and contractual commitments</td><td>CSM / account exec</td><td>Commercial commitment, not a technical fact.</td></tr>
+              <tr><td>Numeric API rate limits</td><td>CSM / product</td><td>None published. <strong>Never quote the "15 requests/hour" figure</strong> — it belongs to a different company.</td></tr>
+              <tr><td>Data residency options / EU region</td><td>Product / infrastructure via CSM</td><td>Frequently a deal gate. Chase first.</td></tr>
+              <tr><td>DPA, sub-processor list, breach notification</td><td>Legal / compliance</td><td>Contractual.</td></tr>
+              <tr><td>Pen-test results, vulnerability disclosure</td><td>Security, via CSM</td><td>Not public.</td></tr>
+              <tr><td>End-user role model in the apps</td><td>Product</td><td>Capability exists; the mapping is undocumented. <em>Strong candidate to move to group B once answered.</em></td></tr>
+              <tr><td>Rule-set enforcement on API / Loader writes</td><td>Engineering</td><td>Changes how validation must be designed. <em>Candidate to move.</em></td></tr>
+              <tr><td>Inbound webhook verification actually enforced</td><td>Engineering</td><td><em>Candidate to move.</em></td></tr>
+              <tr><td>Customer-facing proactive alerting</td><td>Product</td><td><em>Candidate to move.</em></td></tr>
+              </tbody></table></div>
+              <p><strong>How to run the kit:</strong> keep group C <strong>short and dated</strong>. Every item that moves from C to B is a deal cycle shortened, so review it monthly and chase the four marked as candidates — those are answerable internally and are currently costing you time on every questionnaire. Record the date each answer was confirmed and by whom; a security answer with no provenance decays into folklore within a year.</p>
+              <h5>How to think about it</h5>
+              <p><strong>The kit exists to make the answer automatic under pressure.</strong> Security questionnaires arrive with deadlines and a VP watching, which is exactly the condition under which people improvise. Pre-writing the wording means the decision about what you may claim was made calmly, in advance, rather than in the moment.</p>
+              <p><strong>Group C is a work backlog, not a permanent list.</strong> That reframing is the point of the artefact. Four of the ten items are answerable by asking a colleague — they sit in C because nobody has asked, and each one costs you days on every deal. Treating the list as static is the failure; a shrinking C is the measure of the kit working.</p>
+              <p><strong>Qualification is a technique, not a hedge.</strong> The pattern in group B is consistent: state the documented part precisely, name the exact boundary, commit to closing it. That reads as expertise. "I think so" reads as guessing, and "yes" that turns out to be wrong reads as either incompetence or misrepresentation — a security team cannot tell the difference and will assume the worse one.</p>
+              <p><strong>Volunteer the uncomfortable facts.</strong> The CLI credential cache, the 90-day retention limit, extension hosting as third-party processing. None of these is asked in the standard questionnaire and all three are material. Raising them costs nothing, is the correct thing to do, and is what converts you from a vendor contact into the person their security team routes questions to.</p>
+              <p><strong>The rate-limit row is a discipline test.</strong> There is a number available online and it is wrong — it belongs to another company entirely. The temptation to fill an awkward silence with a plausible figure is real, and quoting it once means every other number you give gets checked. Write the prohibition into the artefact so it does not depend on remembering.</p>
+              <p><strong>Date and attribute every answer.</strong> Platform facts change — a residency option ships, a certification lands, a limit gets published. A kit without provenance quietly becomes a source of confidently wrong answers after you have moved to another account, which is worse than having no kit at all.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/authentication/" target="_blank" rel="noopener">Authentication & API Access</a> — group A — key format, the two headers, and documented key hygiene.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/configuration/configurationCopy/" target="_blank" rel="noopener">Configuration Copy</a> — group B — Type Policies and Type Property Policies among the exported categories, the evidence behind the permission-model answer.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/running_workflows/002_webhooks/" target="_blank" rel="noopener">Webhooks</a> — group B — the inbound trigger-webhook surface and its optional verification header.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/extensions/" target="_blank" rel="noopener">Extensions</a> — group A — the hosted-iframe model behind the third-party processing answer.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/release_notes/004_admin_console_2024_12_12/" target="_blank" rel="noopener">Event Workflows Dashboard & Workflow Artifacts</a> — group A — the audit surfaces and the 90-day retention.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <div class="outcome">
           <h4>I know this when I can…</h4>
@@ -4920,16 +5236,167 @@ visibility: public            # marketplace candidate</code></pre>
 
         <h3 id="m9-practical-exercise">Practical exercise</h3>
         <div class="card">
-          <p style="margin-bottom:0">Write your <strong>one-page triage card</strong>, from memory first and then checked: the six checkpoints, the universal question set, the three ladders in outline, and the symptom-shape table. Then test it — take three scenarios from earlier modules (Week 2's copy-down clobber, Week 4's three-symptom load, Week 6's concurrency race) and confirm your card would have routed each correctly without you already knowing the answer. Fix whatever it misses.</p>
-        </div>
+          <p>Write your <strong>one-page triage card</strong>, from memory first and then checked: the six checkpoints, the universal question set, the three ladders in outline, and the symptom-shape table. Then test it — take three scenarios from earlier modules (Week 2's copy-down clobber, Week 4's three-symptom load, Week 6's concurrency race) and confirm your card would have routed each correctly without you already knowing the answer. Fix whatever it misses.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>The triage card — one page.</strong></p>
+              <p><strong>0 · Before anything: bisect at CP3.</strong> Open the record. Is the value correct on the entity itself? Correct → the problem is downstream (CP4–CP6). Wrong → upstream (CP1–CP2). One look halves the search space.</p>
+              <p><strong>1 · The six checkpoints</strong></p>
+              <div class="tscroll"><table><thead><tr><th></th><th>Segment</th><th>What you look at</th></tr></thead><tbody>
+              <tr><td>CP1</td><td>Source / CSV</td><td>Is the value right in the file at all?</td></tr>
+              <tr><td>CP2</td><td>Loader</td><td><code>failureArea</code>, config used, per-step artefacts</td></tr>
+              <tr><td>CP3</td><td>Entities</td><td>Which layer, which property level, expected <code>federatedId</code>?</td></tr>
+              <tr><td>CP4</td><td>Workflows / formulas</td><td>Process List: did it fire, which path, <code>taskOutputs</code>?</td></tr>
+              <tr><td>CP5</td><td>Publish</td><td>Is there an <code>AssortmentPublishChange</code>? Did Plan rows reach the Assortment?</td></tr>
+              <tr><td>CP6</td><td>Consumer</td><td>Received, processed — <em>including the deletes</em>?</td></tr>
+              </tbody></table></div>
+              <p><strong>2 · Universal question set</strong> — ask before touching anything</p>
+              <ol>
+              <li>Which <strong>entity layer</strong> — Item, ProjectItem, AssortmentItem? <span class="metric">(W2)</span></li>
+              <li>Which <strong>property level</strong> — Family, Option, All, Override? <span class="metric">(W2)</span></li>
+              <li><strong>Who wrote it</strong> — user, load, workflow, formula? <span class="metric">(W4/6/7)</span></li>
+              <li><strong>When</strong>, and what else happened at that time? <span class="metric">(W4/6)</span></li>
+              <li><strong>How is it distributed</strong> across records and time? <span class="metric">(W9)</span></li>
+              <li><strong>What changed</strong> — config, app version, file, volume? <span class="metric">(W7/8)</span></li>
+              </ol>
+              <p><strong>3 · The three ladders, in outline</strong></p>
+              <p><strong>A — a load went wrong (CP2).</strong> <code>failureArea</code> first → config recorded on the process, diffed against last known-good → per-step artefacts, diff consecutive steps → column matching (unmatched columns ignored silently) → option-set alignment → <code>federatedId</code> presence and stability, including anything computed → the four flags. <em>Values right in the artefacts but wrong in the app → load exonerated, go to CP3/CP4.</em></p>
+              <p><strong>B — automation didn't happen (CP4).</strong> Is there a process at all? → none: <code>isActive</code>, installed in this org, expected app version, right <code>triggerKey</code>, did the change emit that event (a load emits <code>create</code>, not <code>update</code>) → some: which path ran, first match wins, <code>oldData</code> absent on creates → did actions succeed, read <code>taskOutputs</code>; COMPLETE-but-no-op means access grant or config pointing somewhere harmless. <em>Intermittent and load-correlated → concurrency, not logic.</em></p>
+              <p><strong>C — it didn't reach downstream (CP5/CP6).</strong> Did a publish happen — is there an <code>AssortmentPublishChange</code>? If the change came from a load, check <code>shouldSkipAssortmentPublish</code> — when true, no publish event is emitted at all → was the event delivered (it is a workflow, so run Ladder B on it) → did the consumer process it, including the delete file → is this a gap from a missed publish, which does not self-heal?</p>
+              <p><strong>4 · Symptom shape → class of cause</strong></p>
+              <div class="tscroll"><table><thead><tr><th>Shape</th><th>Class</th><th>Go to</th></tr></thead><tbody>
+              <tr><td>Intermittent, load-correlated, different records each time</td><td>Concurrency race</td><td><code>parallelWorkerCount</code>, message grouping</td></tr>
+              <tr><td>Consistent, silent, every record of a kind</td><td>Configuration</td><td>Property level, mapping, flags</td></tr>
+              <tr><td>Started on a date, nothing before</td><td>A change</td><td>App version, config, file format</td></tr>
+              <tr><td>One record, no pattern</td><td>Data</td><td>That row, that entity</td></tr>
+              <tr><td>Everything downstream, nothing upstream</td><td>Delivery / consumption</td><td>CP5, CP6</td></tr>
+              </tbody></table></div>
+              <p><strong>5 · Evidence and its lifetime</strong> — LoaderProcess + step artefacts · Process List (<strong>90 days</strong>) · Workflows Dashboard (<strong>90 days</strong>) · publish change objects (<strong>S3 links 24h</strong>) · config export. <em>Check the horizon before promising root cause on an old problem.</em></p>
+              <p><strong>Testing the card against three known scenarios</strong></p>
+              <p><strong>W2 — copy-down clobber.</strong> Shape row 2: consistent, silent, every option-level price. → configuration. Question 2 asks the property level; CP3 confirms the value is wrong on the entity, so upstream. Ladder A reaches the config and the four flags. <strong>Routed correctly</strong> — and note the card gets there via <em>shape</em> before any ladder runs.</p>
+              <p><strong>W4 — the three-symptom load.</strong> Here the card <em>partially fails</em>, usefully. Ladder A handles the blanks and the duplicates. The stale FlexPLM is Ladder C, and the Slack storm is Ladder B. A card that assumes one ladder per incident routes you into A and leaves two symptoms unexamined. <strong>Fix:</strong> add a rule at the top — <em>"Enumerate symptoms first. Assume separate causes until evidence connects them. Run one ladder per symptom."</em> That is the single most valuable line on the card and only appeared under test.</p>
+              <p><strong>W6 — the concurrency race.</strong> Shape row 1 fires immediately: intermittent, load-correlated, different records on re-run. Straight to grouping and worker count without a ladder at all. <strong>Routed correctly</strong>, and fastest of the three — which is the argument for putting the shape table before the ladders on the page.</p>
+              <p><strong>What the test changed:</strong> the multi-symptom rule, and reordering the card so <em>shape</em> sits above <em>ladders</em>. Both were invisible until the card was run against problems whose answers were already known.</p>
+              <h5>How to think about it</h5>
+              <p><strong>Writing it from memory first is the whole exercise.</strong> Copying the module produces a document you have transcribed, not one you have internalised — and during a live incident you use the version in your head, not the PDF. What you fail to recall is the diagnostic result: those are the parts to rehearse.</p>
+              <p><strong>Bisecting is the discipline; walking the pipeline is the instinct.</strong> CP3 first is not arbitrary — opening the record is usually the cheapest look available and it eliminates half the pipeline in one action. Under pressure people start at CP1 because it feels orderly, and spend twenty minutes proving the file was fine.</p>
+              <p><strong>Shape belongs above the ladders, and the test proved it.</strong> Two of the three scenarios were classified correctly from distribution alone, before any checkpoint was opened. Distribution is cheap information the customer has already given you for free in how they phrase the report — "different ones each time," "it was fine Monday," "all of them."</p>
+              <p><strong>The multi-symptom rule is the one a card will not have unless it is tested.</strong> Every module teaches one problem at a time; real incidents arrive as three at once, and the instinct to unify them into a single elegant cause is strong and wrong. Week 4's scenario exists precisely to break that instinct, and it broke the card too — which is how you know the test was worth running.</p>
+              <p><strong>Test with problems whose answers you already know.</strong> The point is not to solve them again; it is to check that the <em>card</em> routes correctly without you supplying the answer. Be honest about where you shortcut using knowledge the card does not contain — that gap is the missing item.</p>
+              <p><strong>Include the evidence horizons on the card itself.</strong> 90 days and 24 hours are not background facts; they change what you can promise a customer in the first five minutes. A card that routes you perfectly to evidence that was deleted last month has still failed.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/validation_and_errors/" target="_blank" rel="noopener">Validation Rules & Error Handling</a> — Ladder A — <code>failureArea</code> and the error taxonomy.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/preprocessing_pipeline/" target="_blank" rel="noopener">Preprocessing Pipeline</a> — Ladder A — the per-step artefacts and the diffing technique.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/managing_workflows/observing_workflows/" target="_blank" rel="noopener">Observing Workflows</a> — Ladder B — the Process List, statuses, <code>taskOutputs</code>, and the 90-day retention on the card.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/assortment_publish_integration/" target="_blank" rel="noopener">Assortment Publish Integrations</a> — Ladder C — the change object, the delete file, and the 24-hour link expiry.</li>
+                <li><a class="link" href="#findings/findings-1b-symptom-shape-class-of-cause" data-view="findings" data-anchor="findings-1b-symptom-shape-class-of-cause">Key findings — Symptom shape → class of cause</a> — the table in section 4, and the argument for putting it first.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <h3 id="m9-realistic-customer-scenario-a-live-incident">Realistic customer scenario — a live incident</h3>
         <div class="card">
           <p><strong>Summit Athletic.</strong> Thursday 09:40. The VP of Product calls you directly — not the usual channel — and you have a line review at 14:00 that this affects.</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"The SS27 outlet assortment is a mess. Some styles show last season's pricing. A few styles the team definitely cut are back. And two of our merchandisers say they can't edit the margin field at all now, which they could on Monday. We did do a big data load Tuesday night, and I think IT installed something last week. I need this right for 2pm."</p>
           <p>You have: Admin Console access, the customer's Loader configs, their app version history, and their integration engineer available on Slack.</p>
-          <p style="margin-bottom:0">Produce: (1) your <strong>first three actions in the first ten minutes</strong>, and why those three; (2) which checkpoint each of the three symptoms most likely sits at, and the evidence you'd pull for each; (3) which symptoms are plausibly <strong>one</strong> root cause and which are certainly separate, with reasoning; (4) what you tell the VP at <strong>10:00</strong>, given you will not know the answer yet; (5) what you would do to make the 14:00 review survivable even if the root cause isn't fixed; and (6) the escalation you'd file if you're not converging by 11:30 — written out, with the fields from Concept 6.</p>
-        </div>
+          <p>Produce: (1) your <strong>first three actions in the first ten minutes</strong>, and why those three; (2) which checkpoint each of the three symptoms most likely sits at, and the evidence you'd pull for each; (3) which symptoms are plausibly <strong>one</strong> root cause and which are certainly separate, with reasoning; (4) what you tell the VP at <strong>10:00</strong>, given you will not know the answer yet; (5) what you would do to make the 14:00 review survivable even if the root cause isn't fixed; and (6) the escalation you'd file if you're not converging by 11:30 — written out, with the fields from Concept 6.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>1 · First three actions, first ten minutes</strong></p>
+              <ol>
+              <li><strong>Open one affected record and look at it (CP3).</strong> One outlet style showing last season's price: which layer holds the price, what is the value, at what property level. This bisects the pipeline in a single look — right on the entity means the problem is downstream, wrong means upstream — and it costs a minute.</li>
+              <li><strong>Get the two change events pinned to a timeline.</strong> The <code>LoaderProcess</code> ID and finish time for Tuesday night, and the app version history for "IT installed something last week" — what was installed, when, by whom. Two candidate causes are already named in the report; establishing exactly when each landed is what lets me attribute symptoms to them or rule them out.</li>
+              <li><strong>Message the integration engineer on Slack now, not later.</strong> "Anything change your end since Monday — file format, app version, config? And can you send me Tuesday's file and the last known-good one?" This runs in parallel while I work; it is the longest-latency dependency I have and the answer resolves several branches at once.</li>
+              </ol>
+              <p><em>Why these three:</em> one bisects, one builds the timeline, one starts the slowest thread. None of them is "form a theory."</p>
+              <p><strong>2 · Checkpoint and evidence per symptom</strong></p>
+              <div class="tscroll"><table><thead><tr><th>Symptom</th><th>Likely checkpoint</th><th>Evidence to pull</th></tr></thead><tbody>
+              <tr><td>Styles show last season's pricing</td><td><strong>CP2/CP3</strong></td><td>Property level for the price field; whether Tuesday's file carried a price column; the per-step artefacts around it. Copy-down over option-level values, or a stale source column.</td></tr>
+              <tr><td>Cut styles are back in the assortment</td><td><strong>CP2 → CP5</strong></td><td><code>partialAssortmentUpdate</code> and the assortment load config; whether the file re-asserted membership. Then whether an <code>AssortmentPublishChange</code> exists for Tuesday.</td></tr>
+              <tr><td>Merchandisers cannot edit margin</td><td><strong>CP4 / configuration</strong></td><td>App version history and what the install changed — a <strong>rule set</strong> making the field non-editable conditionally, or a type property policy. Configuration Copy categories, not the Process List.</td></tr>
+              </tbody></table></div>
+              <p><strong>3 · One cause or several</strong></p>
+              <p><strong>Symptoms 1 and 2 are plausibly one cause.</strong> Both are assortment-content symptoms, both consistent with Tuesday's load: a load that re-asserted membership and re-applied style-level prices produces exactly this pair. A wrong <code>partialAssortmentUpdate</code> plus Family-level copy-down is one file behaving as configured.</p>
+              <p><strong>Symptom 3 is certainly separate.</strong> A data load cannot change field editability. Editability is a configuration concern — rule sets, type property policies — and arrives via an app install or a configuration change, not via a CSV. It also matches the other reported event ("IT installed something last week") and a different timeline. Treating all three as one root cause would send me hunting a loader explanation for a permissions symptom and I would not find one.</p>
+              <p><em>The reasoning that matters:</em> ask what mechanism could produce each symptom. Two share a plausible mechanism; the third has none in common with them.</p>
+              <p><strong>4 · What I tell the VP at 10:00</strong></p>
+              <blockquote>"Here is where I am. <strong>Confirmed:</strong> there are at least two separate problems, not one — the pricing and the missing styles look like they came from Tuesday night's load, and the editing problem is a configuration change, almost certainly from what was installed last week. <strong>Suspected:</strong> the load re-applied style-level prices over your team's outlet-specific ones and re-added styles that had been cut. <strong>Unknown:</strong> exactly which setting, and whether the old prices are recoverable. I am not going to guess at those.<br><br>What I need from you: for 2pm, is it more important that the pricing is right, or that the cut styles are out? If I can only fix one before the review, I want to fix the one that matters. I will come back at 11:30 either way."</blockquote>
+              <p><strong>5 · Making 14:00 survivable</strong></p>
+              <ul>
+              <li><strong>Get the correct numbers, even if the system is still wrong.</strong> Publish history and the pre-load state tell you what the outlet prices were on Monday. A correct list in the reviewer's hand beats a broken system every time.</li>
+              <li><strong>Fix the smaller, safer thing.</strong> Removing the wrongly re-added styles from the assortment is a bounded, reversible correction. Bulk-restoring 30 prices under time pressure with an unconfirmed root cause is not — and if the nightly load runs again it undoes the work anyway.</li>
+              <li><strong>Stop the recurrence before the review, not after.</strong> If Tuesday's load is implicated, disable tonight's run until the config is confirmed. This is the highest-value action available and it takes one conversation.</li>
+              <li><strong>Tell the merchandisers the margin field is a known issue with a workaround</strong> (someone with rights makes the edit), so it does not surface as a surprise in the room.</li>
+              <li><strong>Give the VP a one-paragraph brief for the review</strong> — what is wrong, what is correct in the deck, what is being fixed. Their credibility in that room is the thing actually at stake.</li>
+              </ul>
+              <p><strong>6 · The escalation, filed at 11:30</strong></p>
+              <pre><code>SUMMARY   Summit Athletic — SS27 outlet assortment: option-level prices
+          reverted and cut styles restored after Tue 02:00 load.
+          Separate: margin field became non-editable after app install.
+          Customer line review 14:00 today.
+
+SEGMENT   Two issues.
+          A) CP2/CP3 — loader config + property level. Values wrong on
+             the entity, so upstream of the apps.
+          B) CP4/config — field editability. Not load-related.
+
+IDENTIFIERS
+          Org: summit-prod
+          LoaderProcess: &lt;id&gt;  (Tue 02:03–02:41, status COMPLETE,
+                                failureArea NONE)
+          Assortment: &lt;id&gt;  · Affected federatedIds: &lt;list, 30&gt;
+          App version installed &lt;date&gt;: &lt;app&gt;@&lt;version&gt;
+          AssortmentPublishChange: &lt;id or "none found for window"&gt;
+
+RULED OUT and how
+          - Load failure: failureArea NONE, no errors, all rows applied.
+          - Concurrency: symptoms are consistent across all 30 records
+            and reproduce identically; not intermittent, not load-varying.
+          - User error: merchandisers report no edits since Monday;
+            change timing matches the load window, not working hours.
+          - Single root cause: a load cannot alter field editability.
+
+EVIDENCE PULLED
+          - Property level for &lt;priceField&gt;: &lt;value&gt;
+          - partialAssortmentUpdate on config used: &lt;value&gt;
+          - Step artefacts &lt;n&gt; and &lt;n+1&gt; diffed: &lt;finding&gt;
+          - Config export diffed against last known-good: &lt;finding&gt;
+
+OPEN QUESTION
+          Which of the installed app version's rule sets or type property
+          policies governs margin editability, and was that intended?
+
+ASK       Confirm whether &lt;flag/level&gt; produces the observed behaviour,
+          and whether the pre-load values are recoverable from publish
+          history for &lt;assortment&gt;.
+
+IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
+          Workaround in place for cut styles.</code></pre>
+              <h5>How to think about it</h5>
+              <p><strong>The VP calling you directly is information about the incident's politics, not its technology.</strong> It means normal channels are considered too slow and someone senior is personally exposed. Nothing about your diagnosis should change; a great deal about your communication cadence should. Commit to a time and hit it — that is what buys you the room to work.</p>
+              <p><strong>The strongest move in the first ten minutes is refusing to theorise.</strong> Three symptoms and two named recent changes make it very tempting to construct a story immediately. A theory that arrives before evidence gets tested by everyone for two days. Bisect at CP3, build the timeline, start the slow thread — none of those requires knowing the answer, and all three constrain it.</p>
+              <p><strong>Symptom 3 is the discipline test.</strong> "We did a big load Tuesday" is a gift the customer hands you, and it explains two of three symptoms beautifully. The pull to make it explain the third is strong — and a load cannot alter field editability, so any theory that tries is wrong before it starts. Asking <em>what mechanism could produce this?</em> separates them in seconds.</p>
+              <p><strong>Separate confirmed / suspected / unknown, explicitly and every time.</strong> Under pressure the two failure modes are stonewalling ("I don't know yet") and over-committing (a confident guess). Naming the three tiers gives the VP something real to act on while protecting you from a claim you cannot support, and it is the habit that makes you believable when the news is bad.</p>
+              <p><strong>Ask the VP to prioritise — do not decide for them.</strong> "Pricing or cut styles, if I can only fix one" turns a passive escalation into a shared decision and gets you the business context you lack. It also means whatever you fix is the thing that mattered, which is the difference between a good outcome and a correct one.</p>
+              <p><strong>Stabilise, contain, then diagnose.</strong> Disabling tonight's load is the single highest-value action in the whole scenario and requires no root cause at all — it stops the problem from re-occurring and from undoing any manual fix. New TAMs consistently under-value containment because it feels like avoidance rather than engineering.</p>
+              <p><strong>The escalation is a handover, and "ruled out and how" is the field that makes it one.</strong> Anyone can list symptoms; what saves the next person a day is knowing which four branches are already closed and on what evidence. Filing at 11:30 rather than at 16:00 is itself a judgement — escalate while there is still time for the answer to be useful.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/loader_configuration/" target="_blank" rel="noopener">Loader Configuration Reference</a> — <code>partialAssortmentUpdate</code> and the flags behind symptoms 1 and 2.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/property_type_handling/" target="_blank" rel="noopener">Property Type Handling</a> — the property level that determines whether option-level prices survive a load.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/configuration/ruleSets/" target="_blank" rel="noopener">Rule Sets</a> — symptom 3 — conditional editability, and why an app install can remove a field's editability.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/managing_workflows/observing_workflows/" target="_blank" rel="noopener">Observing Workflows</a> — the Process List evidence, and the 90-day horizon worth stating while the incident is fresh.</li>
+                <li><a class="link" href="#m9/m9-concept-6-escalating-well" data-view="m9" data-anchor="m9-concept-6-escalating-well">Concept 6 — Escalating well</a> — the fields the escalation above is built from.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <h3 id="m9-quiz">Quiz</h3>
         <div class="q">
@@ -4970,8 +5437,54 @@ visibility: public            # marketplace candidate</code></pre>
 
         <h3 id="m9-hands-on-challenge">Hands-on challenge</h3>
         <div class="card">
-          <p style="margin-bottom:0">Assemble the <strong>full account-inheritance kit</strong> — the artefacts built across this program: the Week 2 data-model health check, Week 3 publish integration review, Week 4 pre-load checklist, Week 5 integration design review, Week 6 workflow review, Week 7 routing guide, Week 8 security response kit, and this module's triage card. Put them in one document with a one-paragraph note on when each is used. This is the thing you actually carry into the job, and the capstone assumes you have it.</p>
-        </div>
+          <p>Assemble the <strong>full account-inheritance kit</strong> — the artefacts built across this program: the Week 2 data-model health check, Week 3 publish integration review, Week 4 pre-load checklist, Week 5 integration design review, Week 6 workflow review, Week 7 routing guide, Week 8 security response kit, and this module's triage card. Put them in one document with a one-paragraph note on when each is used. This is the thing you actually carry into the job, and the capstone assumes you have it.</p>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>The account-inheritance kit.</strong> One document, eight artefacts, ordered by when you use them rather than by the week that produced them.</p>
+              <p><strong>Front matter — one page</strong></p>
+              <blockquote>"This kit is what I run on an account, in this order. Sections 1–4 are for inheriting or reviewing an account. Sections 5–7 are for a request or a design. Section 8 is for an incident. Everything here is a checklist of known failure modes, not a general questionnaire — every item exists because it has gone wrong somewhere. Owner: [name]. Last reviewed: [date]."</blockquote>
+              <p><strong>When to use what</strong></p>
+              <div class="tscroll"><table><thead><tr><th>#</th><th>Artefact</th><th>Wk</th><th>Trigger</th><th>Output</th></tr></thead><tbody>
+              <tr><td>1</td><td>Customer landscape discovery</td><td>1</td><td>New account, first substantive call</td><td>System map + attribute ownership starting point</td></tr>
+              <tr><td>2</td><td>Data-model health check</td><td>2</td><td>Inheriting any account, before forming opinions</td><td>Property-level risks, federatedId stability, UI-created records</td></tr>
+              <tr><td>3</td><td>Publish integration review</td><td>3</td><td>Any account with a publish consumer</td><td>Delete handling, recovery, reconciliation gaps</td></tr>
+              <tr><td>4</td><td>Workflow review</td><td>6</td><td>Inheriting, and before any workflow ships</td><td>Unreachable paths, create-path storms, concurrency, org budget</td></tr>
+              <tr><td>5</td><td>Pre-load checklist</td><td>4</td><td>First production load, or any unusually large one</td><td>Go / no-go on a load</td></tr>
+              <tr><td>6</td><td>Integration design review</td><td>5</td><td>Before anyone builds against the API</td><td>Ranked findings: blocking vs. follow-up</td></tr>
+              <tr><td>7</td><td>"Can it do X?" routing guide</td><td>7</td><td>Any capability request</td><td>The right rung + cost of ownership</td></tr>
+              <tr><td>8</td><td>Security questionnaire kit</td><td>8</td><td>InfoSec involvement, usually pre-contract</td><td>Confident / qualified / escalate, with owners</td></tr>
+              <tr><td>9</td><td>Triage card</td><td>9</td><td>Any incident</td><td>A checkpoint, then a ladder</td></tr>
+              </tbody></table></div>
+              <p><strong>The paragraph on when each gets used</strong></p>
+              <blockquote>"Order matters more than completeness. On a new account I run <strong>1</strong> before anything else, because the system landscape decides which of the rest are even relevant. On an inherited account I start with <strong>2</strong> — and before that, a config export, because that is ground truth rather than anyone's memory — then <strong>3</strong> and <strong>4</strong> to find what is already broken but not yet reported. Those three tell me more in a week than three months of tickets.<br><br>After that the kit is reactive: <strong>5</strong> before a load, <strong>6</strong> before a build, <strong>7</strong> when someone asks for a feature, <strong>8</strong> when security appears, <strong>9</strong> when something breaks. The reviews (3, 4, 6) share one property worth stating: they are cheapest before go-live and most valuable after an incident, so if I inherit an account mid-flight I run them anyway and expect to find things nobody has reported yet.<br><br>Two of these are written for people other than me — <strong>7</strong> goes to a product owner and <strong>8</strong> to a security team — so they carry no internal shorthand and must be dated. The rest are working instruments and can be terse."</blockquote>
+              <p><strong>The cross-cutting page — what every artefact is really checking</strong></p>
+              <p>Worth putting at the front, because it is what makes the kit learnable rather than nine lists:</p>
+              <ul>
+              <li><strong>Failures that produce no error.</strong> Unmatched columns ignored, step-4 silent transforms, unreachable workflow paths, <code>shouldSkipAssortmentPublish</code>, formulas returning quietly wrong values, staging endpoints in production. Almost every item across the kit is looking for one of these.</li>
+              <li><strong>Decisions you cannot undo.</strong> App ownership and identifier, deleting a workflow, a replace-mode assortment load. These belong in the first conversation, not the review.</li>
+              <li><strong>Evidence horizons.</strong> Workflow evidence 90 days, S3 links 24 hours. They bound what you can ever explain — so any trend you care about needs a monthly snapshot started now.</li>
+              <li><strong>Shared, invisible capacity.</strong> 60 concurrent processes per org, no per-team allocation, no utilisation view. Nobody owns this by default, which is why it is on your checklist.</li>
+              <li><strong>Claims to verify, not assert.</strong> Rule-set enforcement on write paths, inbound webhook verification, end-user role mapping. Keep this list short and dated; every item you close is a deal cycle shortened.</li>
+              </ul>
+              <h5>How to think about it</h5>
+              <p><strong>Assembling is not collating.</strong> The value added by this step is the <em>ordering and the triggers</em> — nine documents in a folder is not a kit. The question each artefact answers is easy; knowing which one to reach for, and in what sequence, is the thing that makes someone effective in their first month.</p>
+              <p><strong>The cross-cutting page is the real deliverable.</strong> Once you see that most items across all nine artefacts are hunting the same five underlying properties — silent failures, irreversible decisions, evidence horizons, shared capacity, unverified claims — the kit stops being a memory exercise. You can derive a missing check rather than remembering it, which is what lets you handle a problem no artefact anticipated.</p>
+              <p><strong>Distinguish the artefacts written for others.</strong> The routing guide and the security kit circulate outside your team, which changes their constraints: no shorthand, honest caveats, a date and an owner. An internal checklist that goes stale costs you time; an external one that goes stale becomes a source of confidently wrong answers with your name on it.</p>
+              <p><strong>Note that reviews are cheapest before go-live and most valuable after an incident.</strong> That asymmetry is why an inherited account gets all three reviews run immediately even though nothing is on fire. Every finding is something the customer is currently living with and has not reported — and finding those before they surface is the entire basis of being treated as a technical reference rather than a support contact.</p>
+              <p><strong>Keep it thin enough to actually run.</strong> A kit that takes three weeks to execute does not get executed. Each artefact should be runnable in an hour or two; if one has grown past that, the excess is probably documentation rather than diagnosis.</p>
+              <p><strong>This is the bridge to <a class="link" href="#practice" data-view="practice">the TAM practice page</a>.</strong> The service catalogue there is built on exactly these artefacts — naming them as repeatable deliverables is what lets you say "that is a design review, here is what it involves and when you get it" instead of absorbing an unbounded ask. The kit is the raw material; the catalogue is the operating model.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="#m2/m2-hands-on-challenge" data-view="m2" data-anchor="m2-hands-on-challenge">Week 2 — data-model health check</a> — artefact 2, and the pattern all the checklists follow: known failure modes, not general questions.</li>
+                <li><a class="link" href="#findings" data-view="findings">Key findings</a> — the cross-cutting page is a condensed form of this reference view — silent failures, irreversible decisions, numbers to memorise.</li>
+                <li><a class="link" href="#practice/practice-2-the-service-catalogue" data-view="practice" data-anchor="practice-2-the-service-catalogue">TAM practice — the service catalogue</a> — where these artefacts become named, repeatable services with turnaround times.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/configuration/configurationCopy/" target="_blank" rel="noopener">Configuration Copy</a> — the config export that precedes artefact 2 on any inherited account.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <div class="outcome">
           <h4>I know this when I can…</h4>
@@ -5133,13 +5646,57 @@ visibility: public            # marketplace candidate</code></pre>
         <div class="card">
           <h4 style="margin-top:6px">Phase 1 · Discovery <span class="pill p-crit">before any decision is made</span></h4>
           <p>You have <strong>one 90-minute call</strong> with their VP of Merchandising, a merchandising systems manager, and an integration architect.</p>
-          <ol style="margin-bottom:0">
+          <ol>
             <li>Write the <strong>twelve questions</strong> you will actually ask, ordered, with the reason each is on the list — specifically, what each answer would change.</li>
             <li>Mark the <strong>three whose value expires</strong> if not asked before implementation starts, and say what it costs to miss each.</li>
             <li>They will ask "so what does VibeIQ replace?" Write your answer in under sixty seconds of speech.</li>
             <li>The integration architect says: "We'll just point our nightly PLM export at it, same as we did for Anaplan." Write your reply — you disagree, but it's minute six of the relationship.</li>
           </ol>
-        </div>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>1 · Twelve questions, ordered, with what each answer changes</strong></p>
+              <ol>
+              <li><strong>"Walk me through your last line review — who was in the room, what were they looking at, how long did someone spend building it?"</strong> → <em>Whether VibeIQ makes good on the moment it exists for.</em> Opens with them talking about their work rather than their systems, and everything after is calibrated by the answer.</li>
+              <li><strong>"What generates your style number, and what could ever change it?"</strong> → <em>The <code>federatedId</code> strategy.</em> The integrator plans to key on FlexPLM's internal style ID; this establishes whether that ID is stable and business-meaningful or an internal surrogate.</li>
+              <li><strong>"For cost, margin, price, image, lifecycle status — which system is authoritative for each, and who edits it there?"</strong> → <em>The entire integration design.</em> With FlexPLM, SAP, Bynder and Anaplan in play, this is four-way and nobody has written it down.</li>
+              <li><strong>"Does a product record ever exist before it's real enough for FlexPLM?"</strong> → <em>Whether VibeIQ is a source or a sink.</em> If placeholders have nowhere to live today, that is the strongest fit signal available.</li>
+              <li><strong>"Which attributes need to flow back <em>into</em> the decision — cost, sell-through, inventory?"</strong> → <em>One-way publish vs. two-way integration.</em> Routinely scoped one-way because nobody asked.</li>
+              <li><strong>"Does the same style ever carry different terms in different channels or regions?"</strong> → <em>Whether values must live on the AssortmentItem.</em> Gets modelled too high and discovered in production.</li>
+              <li><strong>"What does Anaplan own that VibeIQ will need, and how does it get there today?"</strong> → <em>Whether there is a fifth integration nobody has scoped.</em> Planning tools are consistently forgotten in the first architecture.</li>
+              <li><strong>"Walk me through your GTM calendar. What are the fixed dates for the next two seasons?"</strong> → <em>The implementation timeline.</em> Seasonal deadlines do not move; the calendar decides what "late" means, not the project plan.</li>
+              <li><strong>"How many assortments does one line become, and who owns each?"</strong> → <em>Project/assortment structure and the scale of the publish surface.</em></li>
+              <li><strong>"Once the line is approved, how does it reach FlexPLM today — who does it, how long does it take?"</strong> → <em>Integration priority and the quantified business case.</em> Usually a person re-keying for a week.</li>
+              <li><strong>"Who else is going live in the next six months, and how did the last rollout go?"</strong> → <em>Your political map and realistic pace.</em></li>
+              <li><strong>"When a decision gets reversed downstream, how does anyone find out why it was made?"</strong> → <em>Whether they feel the problem VibeIQ actually solves.</em> Closes on the reason they bought it.</li>
+              </ol>
+              <p><strong>2 · The three whose value expires</strong></p>
+              <p><strong>Q2 — the identifier.</strong> Once the integrator builds and runs a nightly feed keyed on FlexPLM's internal ID, the key is embedded in every record created. Asking later does not undo it. <em>Cost of missing it:</em> if that ID ever changes format, the next load duplicates the catalogue — and the remedy is a data migration, not a config change.</p>
+              <p><strong>Q3 — attribute ownership.</strong> The integrator writes their design in four weeks. Without the map, they will infer ownership from whatever is convenient, and both systems will end up writing the same fields. <em>Cost:</em> intermittent last-writer-wins bugs that present as flakiness and take weeks to attribute.</p>
+              <p><strong>Q6 — channel/region variance.</strong> This determines which values must sit on the AssortmentItem. Discovered after go-live, it is a re-modelling exercise touching every integration that reads those fields. <em>Cost:</em> the highest of the three, because it invalidates work already built and tested.</p>
+              <p><em>Why these three and not the calendar or the political map:</em> those stay answerable all year. These three become <strong>expensive</strong> rather than merely late, because the integrator's build makes them structural.</p>
+              <p><strong>3 · "So what does VibeIQ replace?" — under sixty seconds</strong></p>
+              <blockquote>"Not FlexPLM and not SAP — those stay exactly where they are. What it replaces is the way the line actually gets decided today: the Excel file with images pasted in, the deck someone rebuilds before every review, and the mood board from concept that nobody can find by March. Those three become one live workspace, with cost and margin sitting next to the picture at the moment you cut the line. Then the decisions carry forward into FlexPLM with the reasoning attached, instead of being re-keyed. So it is upstream of your PLM, alongside it — it is the decision layer, not another product system."</blockquote>
+              <p><strong>4 · Replying to "we'll just point our nightly PLM export at it, same as Anaplan"</strong></p>
+              <blockquote>"That is the right instinct and it will probably be most of the answer — a nightly Loader feed is exactly how this normally works. The one thing I would want to pressure-test before we commit is that Anaplan consumes numbers, and VibeIQ is going to be creating and editing product records that flow back to you. So it is less like a feed and more like a two-way sync, which mostly changes two things: which system wins on each attribute, and what identifier we key on. Can we spend twenty minutes on those two before you finalise the design? If they land where you expect, you have lost nothing and your design is unchanged."</blockquote>
+              <h5>How to think about it</h5>
+              <p><strong>The instruction is "questions you will <em>actually</em> ask."</strong> Ninety minutes with three people is roughly twelve real questions if you let them talk — and you must let them talk, because the useful material is in the digressions. A list of thirty is a fantasy; the discipline of exactly twelve forces you to drop everything you could look up later.</p>
+              <p><strong>Order for the room, not for the taxonomy.</strong> Opening with the line review gets the VP describing their own work and establishes you understand their job. Opening with "what generates your style number" makes you an integration consultant and loses the two business people for the rest of the call.</p>
+              <p><strong>The expiry question is really about who is building.</strong> An SI writes a design in week four and starts creating production records shortly after. Every decision that gets embedded in that build is expensive to revisit — so the questions that expire are precisely the ones whose answers become <em>structural</em>. Reversibility, not importance, is the sorting criterion.</p>
+              <p><strong>Question 4 is minute six of the relationship and that constraint dominates.</strong> The architect is not wrong — a nightly feed <em>is</em> most of the answer — and telling them they have misunderstood the platform six minutes in costs you the person who will implement everything you recommend for the next year. Agree with the true part, name the one real difference (bidirectionality), and ask for twenty minutes rather than demanding a redesign. Being right and being listened to are different achievements, and only one of them changes the outcome.</p>
+              <p><strong>The Anaplan comparison is the tell worth catching.</strong> It reveals they are modelling VibeIQ as a reporting sink. That single assumption, left uncorrected, produces a one-way integration and no ownership map — which is Phase 2's design almost exactly.</p>
+              <p><strong>What a weak answer looks like:</strong> a systems inventory. "Which systems do you have?" you already know from the brief. Discovery that only catalogues produces a diagram; discovery that predicts produces a risk list, and that is the difference Week 10 is testing.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="#m1/m1-hands-on-challenge" data-view="m1" data-anchor="m1-hands-on-challenge">Week 1 — customer landscape discovery template</a> — the template these twelve sharpen; the grouping and the "what does the answer change" discipline come from there.</li>
+                <li><a class="link" href="#m10/m10-concept-2-discovery-that-predicts" data-view="m10" data-anchor="m10-concept-2-discovery-that-predicts">Concept 2 — Discovery that predicts</a> — the property a good question has: the answer changes what you expect to go wrong.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/getting_started/" target="_blank" rel="noopener">Data Loading — Getting Started</a> — question 2 — <code>federatedId</code> as the upsert key and why stability is the operative property.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/" target="_blank" rel="noopener">Integration Patterns — overview</a> — questions 5 and 10 — the two-way shape behind the reply in part 4.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <div class="card">
           <h4 style="margin-top:6px">Phase 2 · Architecture review <span class="pill p-imp">week 4 of implementation</span></h4>
@@ -5153,39 +5710,197 @@ visibility: public            # marketplace candidate</code></pre>
             <li>Assortment publishes consumed by polling <code>/api/change-history</code> hourly, from the last successful run time.</li>
             <li>One API key, stored in their pipeline config, used for dev and prod.</li>
           </ul>
-          <ol style="margin-bottom:0">
+          <ol>
             <li>Find <strong>every problem</strong>. For each: the failure, the symptom Meridian would report, and the fix.</li>
             <li>Identify the <strong>two that become unfixable</strong> after go-live.</li>
             <li>Rank: what blocks go-live, what's a follow-up, what you'd let go.</li>
             <li>One item requires you to <strong>say you don't know and find out</strong>. Which, and who do you ask?</li>
             <li>Write the opening two paragraphs of your response.</li>
           </ol>
-        </div>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>1 · Every problem — failure, symptom, fix</strong></p>
+              <p><strong>A · Keyed on FlexPLM's internal style ID</strong><br><em>Failure:</em> the upsert key is a surrogate nobody governs. If it is ever reformatted, re-issued, or if a style is recreated in FlexPLM, the key moves and the next load creates duplicates.<br><em>Symptom:</em> "We have two of everything." <br><em>Fix:</em> key on a stable business identifier, or contractually freeze the FlexPLM ID and document that it is now an integration key.</p>
+              <p><strong>B · All pricing modelled at Family level "since price is a style-level concept"</strong><br><em>Failure:</em> Family copies down and wins. Any colourway-specific price a merchant sets is silently reverted by the next nightly load.<br><em>Symptom:</em> "We set outlet prices on Monday and they were gone Tuesday. Nobody touched them."<br><em>Fix:</em> <strong>Override</strong>, not Family — still copies down, but a deliberate option-level value survives. And channel price belongs on the AssortmentItem entirely, not on the Item at any level.</p>
+              <p><strong>C · Workflow on <code>item|update</code>, <code>parallelWorkerCount: 20</code>, no message grouping</strong><br><em>Failure:</em> two problems. (i) A concurrency race — 20 workers on the same item family, read-modify-write, lost updates and cross-contaminated values. (ii) <code>item|update</code> fires once per row on every nightly load: 1,200 styles is 1,200 pushes to FlexPLM whether or not anything was approved.<br><em>Symptom:</em> "Some styles have the wrong data, different ones each time" and "FlexPLM gets thousands of updates for styles nobody touched."<br><em>Fix:</em> add <code>dynamicMessageGroupId</code> keyed on the item family, lower the worker count, and add a conditional so it only fires on an actual transition to approved (with a create-safe form, since <code>oldData</code> is absent on creates).</p>
+              <p><strong>D · Document Automation extension hosted on the integrator's Vercel account</strong><br><em>Failure:</em> Meridian's margin approval depends on a third party's hosting, uptime, TLS and billing — and document context crosses into it, making the SI a data processor.<br><em>Symptom:</em> "Margin approval is down and we cannot reach anyone," during a line review. Or InfoSec blocking at contract.<br><em>Fix:</em> host on infrastructure Meridian owns; put the SI in their vendor assessment until then. Also ask whether this needs to be an extension at all — a margin floor is a rule set.</p>
+              <p><strong>E · App created in the integrator's org "for now"</strong><br><em>Failure:</em> the org that first creates an app is the owner, and <strong>ownership cannot be modified</strong>. The identifier is reserved globally and immutably, so it cannot be recreated under the same name either.<br><em>Symptom:</em> two years later, changing integrator, and discovering their automation belongs to the old one.<br><em>Fix:</em> create the app under Meridian's org <em>now</em>, with the SI given developer access.</p>
+              <p><strong>F · Polling <code>/api/change-history</code> hourly from the last successful run time</strong><br><em>Failure:</em> temporal filtering is not a cursor. Changes written <em>during</em> a run fall between windows; boundary exclusivity and clock skew drop or duplicate records at the seam.<br><em>Symptom:</em> "Some styles just never make it across, different ones each time, we cannot reproduce it."<br><em>Fix:</em> advance the watermark only on successful completion, overlap the window deliberately, make processing idempotent, and add a periodic baseline reconciliation.</p>
+              <p><strong>G · Polling chosen at all, given the assortment publish requirement</strong><br><em>Failure:</em> defensible, but nobody has written down what it misses — latency, and the fact that <strong>deletes need explicit handling</strong> regardless of pattern. There is no mention of the delete file anywhere in this design.<br><em>Symptom:</em> "Styles we cut are still active in FlexPLM and sourcing has started costing them."<br><em>Fix:</em> confirm delete handling explicitly; document the pattern choice and its trade-offs.</p>
+              <p><strong>H · One API key for dev and prod, in the pipeline config</strong><br><em>Failure:</em> no blast-radius containment, no revocation path, and dev code can write production data. A credential in a config file is probably in version control.<br><em>Symptom:</em> "A test run overwrote production prices." Or InfoSec blocking at contract.<br><em>Fix:</em> a key per environment, in secrets management, with documented rotation and offboarding.</p>
+              <p><strong>I · The load runs from the CLI by their consultant</strong><br><em>Failure:</em> the CLI cannot use a stored configuration, so the consultant is passing a local copy that drifts from anything reviewed. It also caches credentials to <code>~/.vibeiq/configs/</code> on their laptop, permanently.<br><em>Symptom:</em> "The load behaved differently last night and nobody changed anything." Plus an offboarding gap.<br><em>Fix:</em> move production loads to the API with a stored configuration; treat the CLI as a local tool.</p>
+              <p><strong>2 · The two that become unfixable after go-live</strong></p>
+              <p><strong>E — app ownership.</strong> Genuinely irreversible. Ownership cannot be transferred and the identifier cannot be reused. Everything else on this list is a refactor; this one has no technical remedy at any price.</p>
+              <p><strong>A — the identifier</strong>, practically rather than technically. Once a nightly feed has created every record keyed on the FlexPLM ID, changing the key means re-keying the entire catalogue and reconciling every downstream system that has stored those IDs. Possible; nobody will authorise it.</p>
+              <p><em>Honourable mention:</em> <strong>B</strong> — property level is changeable, but the data destroyed by copy-down between now and then is not recoverable.</p>
+              <p><strong>3 · Ranking</strong></p>
+              <ul>
+              <li><strong>Blocks go-live:</strong> E (irreversible, fix today), A (structural), B (silent data destruction), C (wrong data plus a load storm), H (security and blast radius).</li>
+              <li><strong>Blocks go-live, cheap:</strong> F and G — both are consumer-side code changes, and both produce silently wrong data downstream.</li>
+              <li><strong>Follow-up:</strong> D — the hosting must move, but a plan with a date is acceptable if the extension survives the "should this be a rule set?" question. I — move production loads off the CLI in the first month.</li>
+              <li><strong>Would let go:</strong> nothing here, honestly. But if forced, the formal pattern-choice documentation in G is debt, not a defect.</li>
+              </ul>
+              <p><strong>4 · The item where I say I don't know</strong></p>
+              <p>Whether <strong>rule sets are enforced on the API and Loader write paths</strong>. It matters here because the margin-floor control (D) and any pricing validation depend on it: if rule sets bind only the editor, then a nightly load can write a below-floor price regardless, and the control has to live in the pipeline instead. The documentation says they evaluate client-side, which <em>implies</em> the answer but does not settle it.</p>
+              <p>I would ask <strong>VibeIQ engineering, via the CSM</strong> — and say to the integrator: "Good question, and I want to give you a definite answer rather than a guess. Thursday." It is on the standing colleague-questions list for exactly this reason.</p>
+              <p><strong>5 · The opening two paragraphs of my response</strong></p>
+              <blockquote>"Thanks for sending this at week four rather than week ten — most of what I have below is much cheaper to act on now, and a couple of items are genuinely time-limited. The overall shape is right: a nightly Loader feed with an outbound sync is how this normally works, and I am not proposing you redesign it.<br><br>One item I would like to resolve today, before anything else, because it is the only thing on the list that cannot be fixed later: the app needs to be created under Meridian's org rather than yours. App ownership cannot be transferred after creation and the identifier is reserved globally, so 'transfer at handover' is not available as an option — it is not a policy question, there is no mechanism. You keep exactly the same development access and iterate exactly as fast. Everything else in this note can be scheduled; this one is a five-minute change today and an unsolvable problem in six weeks."</blockquote>
+              <h5>How to think about it</h5>
+              <p><strong>Sort by reversibility before severity.</strong> Nine findings is a lot to land in one message, and the natural instinct is to lead with the most technically interesting — the concurrency race, or the polling seam. But those stay fixable indefinitely. App ownership becomes permanent the moment go-live pressure makes "we'll sort it at handover" sound reasonable. Lead with what expires.</p>
+              <p><strong>Notice that this design is competent.</strong> Nothing here is careless; it is what a good engineer writes without three platform-specific facts (links expire, deletes do not accumulate, ownership is permanent) and one data-modelling fact (Family copies down and wins). Reviewing it as sloppy loses the person who has to implement every fix.</p>
+              <p><strong>Item B is the one an engineer will defend, and they are half right.</strong> "Price is a style-level concept" is true as a business statement and wrong as a modelling decision, because the exception — one colourway priced differently — is legitimate and routine. The Family/Override test is exactly this: <em>is an exception ever legitimate?</em> Framing it as "you are right that it usually follows the style, which is why Override is the correct level" concedes the true part and still gets the change.</p>
+              <p><strong>Item C is two problems wearing one costume.</strong> The concurrency race and the trigger breadth are independent, and fixing only the grouping leaves 1,200 spurious pushes a night. When a single design line produces two symptoms, say so — otherwise half the fix ships and everyone believes it is done.</p>
+              <p><strong>The "I don't know" item is a strength, deployed deliberately.</strong> Nine confident findings followed by one honest "let me confirm by Thursday" makes the nine more credible, not less. It also models the behaviour you want from them at go-live, when guessing gets expensive.</p>
+              <p><strong>The opening paragraphs do specific work.</strong> Credit the timing (behaviour you want repeated), affirm the shape (so the list does not read as a rejection), then isolate the one irreversible item and give it its own paragraph with a plain mechanical reason — "there is no mechanism" is not a negotiating position, and framing it as fact rather than preference is what stops it becoming a debate. Ending with the cost asymmetry — five minutes today, unsolvable in six weeks — is what makes it happen today.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/apps/002_app_lifecycle/" target="_blank" rel="noopener">App Lifecycle</a> — item E — the global immutable identifier and the rule that ownership cannot be modified.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/property_type_handling/" target="_blank" rel="noopener">Property Type Handling</a> — item B — Family vs. Override copy-down semantics.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/002_creating_workflows/" target="_blank" rel="noopener">Creating Workflows</a> — item C — grouping, worker count, trigger keys, and <code>oldData</code> on creates.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/change_history_polling/" target="_blank" rel="noopener">Change History Polling</a> — items F and G — temporal filtering and the last-sync-timestamp pattern.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/authentication/" target="_blank" rel="noopener">Authentication & API Access</a> — item H — per-environment key scoping and key hygiene.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <div class="card">
           <h4 style="margin-top:6px">Phase 3 · Incident <span class="pill p-crit">week 3 after go-live</span></h4>
           <p>Tuesday 08:15. The merchandising systems manager messages:</p>
           <p style="border-left:3px solid var(--line-strong);padding-left:14px;color:var(--ink-2);font-style:italic">"Something's wrong with FW27. A lot of styles have the wrong price — it looks like the style price, not the colour-specific ones we set last week. Also our FlexPLM team says they got about 900 update messages overnight for styles nobody touched. And three styles we dropped are still showing in the outlet assortment. Big review Thursday."</p>
-          <ol style="margin-bottom:0">
+          <ol>
             <li>Which <strong>checkpoint</strong> does each of the three symptoms sit at?</li>
             <li>Which are <strong>one root cause</strong> and which are separate? Justify it.</li>
             <li>Your <strong>first three actions</strong>, and the exact evidence you'd pull.</li>
             <li>Trace it back to <strong>Phase 2</strong>: which design decisions you reviewed produced this? If you flagged them and were overruled, how does that change what you say now — and what you say to nobody?</li>
             <li>What you tell them at <strong>09:00</strong>, and how you make Thursday survivable.</li>
           </ol>
-        </div>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>1 · Checkpoint per symptom</strong></p>
+              <div class="tscroll"><table><thead><tr><th>Symptom</th><th>CP</th><th>Why there</th></tr></thead><tbody>
+              <tr><td>Style price showing instead of the colour-specific prices set last week</td><td><strong>CP3</strong> (→ CP2)</td><td>Entity layer and property level. The value is wrong on the record itself, so upstream of the apps.</td></tr>
+              <tr><td>~900 update messages overnight for untouched styles</td><td><strong>CP4</strong></td><td>Workflow behaviour — trigger breadth, once per row.</td></tr>
+              <tr><td>Three dropped styles still in the outlet assortment</td><td><strong>CP5 / CP6</strong></td><td>Publish and consumption — did the removal reach the change object, and did the consumer apply the delete file.</td></tr>
+              </tbody></table></div>
+              <p><strong>2 · One root cause, or several</strong></p>
+              <p><strong>Symptoms 1 and 2 are one root cause</strong> — the nightly load. Phase 2 item B modelled pricing at <strong>Family</strong> level, so the nightly feed copies the style price down over the colour-specific values merchandisers set last week. That same load upserts 1,200 items, each emitting <code>item|update</code>, and the Phase 2 item C workflow is bound to <code>item|update</code> with no transition condition — so it pushes every touched style to FlexPLM. One load, one mechanism, two symptoms. The timing confirms it: both appeared overnight, together.</p>
+              <p><strong>Symptom 3 is separate</strong>, and near-certainly so. Deletions are not produced by a load re-asserting prices; they are a publish/consumption concern. The most likely explanation is that the polling consumer (item F/G) never handles deletes at all — nothing in that design mentioned the delete file. A secondary possibility is that the polling window dropped the publish containing those removals, which is the same F defect in a different costume.</p>
+              <p><em>The reasoning:</em> ask what mechanism could produce each symptom. Copy-down and event volume share one; a missing deletion shares nothing with them. Two of three is not "mostly one cause" — the third needs its own investigation or it does not get fixed.</p>
+              <p><strong>3 · First three actions and the exact evidence</strong></p>
+              <ol>
+              <li><strong>Open one affected style (CP3) and read the property level for the price field.</strong> Evidence: the property configuration — <code>FAMILY</code> or <code>OVERRIDE</code>. This is seconds of work and it either confirms the mechanism outright or kills my hypothesis before I invest in it.</li>
+              <li><strong>Pull the overnight <code>LoaderProcess</code>.</strong> Evidence: <code>failureArea</code> (expect <code>NONE</code>), the configuration <em>recorded on it</em>, and whether the file carried a price column. A load with no price column cannot have clobbered prices however the property is levelled — this separates configuration from payload.</li>
+              <li><strong>Filter the Process List to the FlexPLM push workflow for the overnight window.</strong> Evidence: process count (expect ~900–1,200), <code>triggerEvent</code> on a sample, and status (expect <code>COMPLETE</code>). Confirms symptom 2 is trigger breadth rather than a fault, and rules out a failure-driven explanation.</li>
+              </ol>
+              <p>Then, on a second pass for symptom 3: is there an <code>AssortmentPublishChange</code> containing those three <code>federatedId</code>s in its <code>detail.deletes</code>, and did the consumer's polling window cover that publish?</p>
+              <p><strong>4 · Tracing it back to Phase 2</strong></p>
+              <p>Three decisions I reviewed produced this incident:</p>
+              <ul>
+              <li><strong>Item B</strong> — pricing at Family level → symptom 1, exactly as predicted, in the predicted words ("we set them last week and they are gone").</li>
+              <li><strong>Item C</strong> — <code>item|update</code> with no transition condition → symptom 2, at the predicted volume.</li>
+              <li><strong>Items F/G</strong> — polling design with no delete handling → symptom 3.</li>
+              </ul>
+              <p><strong>If I flagged them and was overruled, what changes:</strong> almost nothing about what I say now, and everything about what I do afterwards.</p>
+              <p>What I say <em>today</em> is unchanged: the symptoms, the mechanism, the fix, the timeline. Being able to say "I predicted this" is worth nothing to a merchandising systems manager at 08:15 and it costs the trust I need to get the fix approved this week. Volunteering it would read as blame-shifting even if delivered gently, and it invites everyone to relitigate week four instead of fixing FW27.</p>
+              <p><strong>What I say to nobody:</strong> "I told you so," in any of its forms — including the passive ones ("as we discussed in the design review…"). Not in the incident channel, not to the integrator, not to my own management as a way of pre-allocating blame.</p>
+              <p><strong>What I do instead:</strong> the written record exists — the Phase 2 review is dated and specific. I do not need to invoke it now, and it is there if the account ever needs it. Once FW27 is stable, I raise it deliberately and unemotionally in the next review: "three of the four items from the week-four review produced production incidents in the first three weeks. I would like to change how we handle review findings." That is a process conversation, held at a time when nobody is defending themselves, and it is the only version that actually changes anything.</p>
+              <p><strong>5 · What I tell them at 09:00, and making Thursday survivable</strong></p>
+              <blockquote>"Three separate things are happening and I know the mechanism for two of them. <strong>Confirmed:</strong> last night's load overwrote your colour-level prices with the style price — that is a configuration setting on how price inherits, it is fixable, and your team did nothing wrong. The 900 FlexPLM messages are the same load; noisy but harmless. <strong>Separate issue:</strong> the three styles still showing are a sync problem, not a load problem, and I am checking that now. <strong>Unknown:</strong> whether last week's prices are recoverable automatically or need re-entering.<br><br>Two things from you: I want to <strong>stop tonight's load</strong> until the setting is changed, so this does not happen again before Thursday — can you confirm that is acceptable? And can someone send me the list of the colour-level prices they set last week, in case we need to restore them by hand?"</blockquote>
+              <p><strong>Making Thursday survivable</strong></p>
+              <ul>
+              <li><strong>Disable tonight's load.</strong> Highest-value action available, needs no root cause confirmation, and prevents a second clobber before the review.</li>
+              <li><strong>Change the property level to Override.</strong> The actual fix, and small.</li>
+              <li><strong>Restore the prices</strong> — from publish history if available, from the merchandisers' list if not. Prioritise the styles in Thursday's review over the whole set.</li>
+              <li><strong>Remove the three ghost styles from FlexPLM manually</strong> and re-baseline the outlet assortment. Bounded, safe, fixes the visible problem while the consumer defect is scheduled.</li>
+              <li><strong>Say nothing about the 900 messages to the wider group</strong> beyond "known, harmless, being fixed" — it is the loudest symptom and the least consequential, and it will otherwise consume the meeting.</li>
+              <li><strong>Give the systems manager a three-line brief</strong> for Thursday: what was wrong, what is corrected, what is still being fixed. Their standing in that room is what is actually at stake.</li>
+              </ul>
+              <h5>How to think about it</h5>
+              <p><strong>This is the phase where the capstone's structure pays off.</strong> The incident is not random — it is the predictable consequence of three specific design decisions from Phase 2, and it arrives in week three of go-live because that is when the first full nightly cycle meets real merchandiser edits. Reviews are cheapest before go-live and most valuable after an incident, and this is that sentence made concrete.</p>
+              <p><strong>Do not let the shared cause absorb the third symptom.</strong> Two of three have one mechanism, which makes it tempting to call the whole thing "the load." Symptom 3 has no mechanism in common with the others, and if it gets folded in, it is never investigated — the ghost styles stay in FlexPLM and sourcing keeps costing them. Enumerate, then connect only what evidence connects.</p>
+              <p><strong>Part 4 is the real examination, and it is a character question wearing a technical costume.</strong> You were right in week four and were overruled, and now the thing you predicted has happened in front of the person who overruled you. The instinct to establish that on the record is strong and completely counterproductive: it converts an incident into a blame conversation, at the exact moment you need cooperation to ship the fix.</p>
+              <p><strong>The discipline is separating the moment from the mechanism.</strong> The point of the written Phase 2 review is not vindication — it is that you do not <em>need</em> to say anything today, because the record exists. That lets you be entirely constructive in the incident and still raise it properly a week later, in a process conversation where nobody is defending themselves and something can actually change. The people who say it during the incident get the satisfaction and lose the change.</p>
+              <p><strong>Containment before diagnosis, again.</strong> Disabling tonight's load requires no confirmed root cause and prevents the problem recurring before Thursday — including undoing any manual price restoration, which is the trap in fixing data before stopping the cause.</p>
+              <p><strong>Manage attention deliberately.</strong> The 900 messages are the loudest symptom and the least harmful; the three ghost styles are nearly silent and are costing money downstream. Left alone, a room will spend forty minutes on the noisy one. Explicitly naming it "known, harmless, being fixed" is how you spend the meeting on what matters.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="https://docs.vibeiq.com/data_loading/property_type_handling/" target="_blank" rel="noopener">Property Type Handling</a> — symptom 1 — Family copy-down, and why Override is the fix.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/workflows/002_creating_workflows/" target="_blank" rel="noopener">Creating Workflows</a> — symptom 2 — trigger breadth on <code>item|update</code> and firing once per row.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/integration_patterns/assortment_publish_integration/" target="_blank" rel="noopener">Assortment Publish Integrations</a> — symptom 3 — the delete file and the non-accumulation rule.</li>
+                <li><a class="link" href="#m9/m9-concept-1-localise-before-theorising" data-view="m9" data-anchor="m9-concept-1-localise-before-theorising">Week 9 — Localise before theorising</a> — the six checkpoints used in part 1, and the bisect-at-CP3 rule behind the first action.</li>
+                <li><a class="link" href="#m9/m9-concept-7-holding-the-customer-while-it-s-op" data-view="m9" data-anchor="m9-concept-7-holding-the-customer-while-it-s-op">Week 9 — Holding the customer</a> — the confirmed / suspected / unknown split used in the 09:00 message.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <div class="card">
           <h4 style="margin-top:6px">Phase 4 · QBR <span class="pill p-use">end of first quarter</span></h4>
           <p>Ninety days live. Merchandising is fully on Plan. Design still works mostly in their own tools and uploads images at the end. Publish volume is healthy. The workflow failure chart shows a slow rise over six weeks. Two of your original unknowns are still unanswered.</p>
-          <ol style="margin-bottom:0">
+          <ol>
             <li>Structure the <strong>QBR in five slides</strong> — title each and say what's on it.</li>
             <li>State the <strong>health verdict</strong> in one sentence, using the Week 1 value definition rather than usage.</li>
             <li>Name the <strong>risk you found before they did</strong>, and how you present it without alarming the room.</li>
             <li>Design lagging: is that a technical problem, an adoption problem, or both? What do you propose?</li>
             <li>How do you handle the <strong>two unanswered unknowns</strong> in front of their exec — having now owed them for a quarter?</li>
           </ol>
-        </div>
+                  <details class="sol">
+            <summary></summary>
+            <div class="solbody">
+              <h5>The answer</h5>
+              <p><strong>1 · The QBR in five slides</strong></p>
+              <p><strong>Slide 1 — "Where FW27 was decided"</strong><br>The quarter in one line: the first full season planned in VibeIQ. Line review dates hit, number of styles taken to review and cut, the handoff to FlexPLM that used to take a week. One number the VP of Merchandising would repeat to their own boss. <em>Not</em> logins.</p>
+              <p><strong>Slide 2 — "Adoption, honestly"</strong><br>Merchandising fully on Plan. Design still working in their own tools and uploading at the end. Stated as a fact with a consequence attached, not as a complaint: creative context is entering VibeIQ late, which is the specific value they bought that they are not yet getting.</p>
+              <p><strong>Slide 3 — "Operational health"</strong><br>The workflow failure trend over 90 days, with the rise visible. Load success rate and volume. Publish volume. One line: the platform is doing the work; one indicator is moving the wrong way and here is what we are doing about it.</p>
+              <p><strong>Slide 4 — "Risks and what we are doing"</strong><br>Three items, each with an owner and a date: the failure trend, the design lag, and the two unanswered unknowns. This is the slide the QBR exists for.</p>
+              <p><strong>Slide 5 — "Next quarter"</strong><br>Three commitments — one from me, one from Meridian, one joint. Specific and few. Ending on a shared plan rather than a summary.</p>
+              <p><strong>2 · The health verdict, in one sentence</strong></p>
+              <blockquote>"Meridian is healthy on the thing they bought — FW27 was decided in one place, on time, and reached FlexPLM without a week of re-keying — and the risk to that is not usage, it is that design is still outside the workspace, so the reasoning behind decisions is still being reconstructed rather than captured."</blockquote>
+              <p>Using the Week 1 value definition rather than usage: the platform exists so the line is decided in one place with the reasoning preserved. Merchandising logging in daily is not the outcome; a decided line with its context intact is.</p>
+              <p><strong>3 · The risk I found before they did</strong></p>
+              <p><strong>The workflow failure rate has been rising for six weeks.</strong> Nobody has reported it, because each individual failure is invisible — a task fails, later tasks in that process never run, and the effect is a style that quietly did not sync. It is currently noise; the trend says it will be an incident during FW28 planning, when volume roughly doubles.</p>
+              <p>How I present it without alarming the room:</p>
+              <blockquote>"One thing I want to flag while it is still small. Workflow failures have been trending up for about six weeks — they are not causing visible problems yet, and nothing on your side needs to change today. I am raising it now because the pattern is the kind that stays invisible until volume rises, and FW28 planning roughly doubles the load. I would rather find the cause in a quiet week than during your line review. I have time booked with [engineer] on Thursday and I will bring you a cause and a fix at the next monthly."</blockquote>
+              <p>Three things make that land: it is <strong>quantified and bounded</strong> ("not causing visible problems yet"), it <strong>asks nothing of them</strong>, and it arrives with a <strong>date and an owner</strong>. A risk presented without a plan is just anxiety transferred to the customer.</p>
+              <p>Two facts to have ready if asked: workflow evidence lives <strong>90 days</strong>, so this window is closing — investigating in FW28 would mean the early weeks of the trend are already deleted. And the org's concurrency ceiling is a shared budget, which is one plausible cause worth checking against what else runs at that hour.</p>
+              <p><strong>4 · Design lagging — technical, adoption, or both?</strong></p>
+              <p><strong>Both, and the sequence matters:</strong> it is an adoption problem <em>caused</em> by a technical gap. Designers are not resisting the tool; the tool does not yet fit the start of their workflow. They work in Adobe and 3D tools, and Bynder holds the assets — so "work in VibeIQ" currently means "stop what you are doing and re-upload." Uploading at the end is the rational response to that.</p>
+              <p>Treating it as pure adoption produces training nobody needs. Treating it as pure technical produces an integration nobody asked for. What I propose:</p>
+              <ul>
+              <li><strong>Ask three designers what happens in their first two hours on a new concept</strong> — before proposing anything. Sit with them; do not survey.</li>
+              <li><strong>Look hard at Bynder.</strong> If assets flow automatically from the DAM into Boards, most of the manual upload disappears and the cost of participating drops to near zero. This is the likeliest single fix and it was in the original system landscape from Phase 1.</li>
+              <li><strong>Find one moment worth showing up for.</strong> Adoption follows a meeting, not a feature — if concept review happens in Board and the decision is captured there, attendance follows.</li>
+              <li><strong>Name an owner on their side.</strong> A design lead who wants this, not a mandate from merchandising — which is what makes it their initiative rather than a system being imposed on them.</li>
+              <li><strong>Measure the outcome, not the activity:</strong> is creative context present at line review, or still being explained verbally?</li>
+              </ul>
+              <p><strong>5 · The two unanswered unknowns, in front of their exec</strong></p>
+              <blockquote>"Two things I owe you from the start of the quarter and still do not have definitive answers on: [the end-user permission model and division-level scoping], and [data residency options]. I am not going to dress that up — I have chased both, I have them with named owners internally, and I have not got you answers in ninety days. That is on me, not on you chasing me.<br><br>Here is what I am doing differently: both are now on the standing agenda for our monthly with a date against them, and you will see them on that slide every month until they close, whether or not there is news. If either becomes a blocker for something you are planning, tell me and I will escalate it commercially rather than technically — that is a faster path and I should have offered it sooner."</blockquote>
+              <p><strong>What makes this survivable:</strong> own it in one sentence without over-apologising, then move immediately to mechanism. What loses the room is either minimising ("still working on those") or an extended apology — both signal that the pattern will continue. Offering the commercial escalation path is the part that shows you understand the customer's position rather than your own process.</p>
+              <p><strong>What I would not do:</strong> hide them. They are on slide 4, in writing, with the same treatment as every other risk. An exec who discovers a ninety-day-old open item that was not on the risk slide stops believing the risk slide — and that slide is the only reason the QBR is worth holding.</p>
+              <h5>How to think about it</h5>
+              <p><strong>The failure mode of a QBR is presenting activity nobody acts on.</strong> Login counts, publishes, tickets closed. A QBR answers three questions — is this working, what is at risk, what do we do next — and every slide should serve one. Slide 4 is the point of the meeting; the other four exist to make it credible.</p>
+              <p><strong>Report health against the value definition, not usage.</strong> "Merchandising uses it daily" is compatible with the platform failing at its purpose. The Week 1 definition — the line decided in one place with the reasoning preserved — is what lets you say a customer is healthy <em>and</em> name the real risk in the same sentence, which is a far stronger position than either alone.</p>
+              <p><strong>Bringing a risk they have not seen is the whole basis of being a technical reference.</strong> The rising failure trend is invisible from their side and visible from yours, and surfacing it while it is still small is the single habit that separates a technical reference from a well-liked contact. It also has to be done in a way that does not read as alarm — quantified, bounded, no ask, with a date.</p>
+              <p><strong>The 90-day horizon converts "we should look into that" into a deadline.</strong> Evidence for the early weeks of the trend is already being deleted. That is worth saying out loud, because it is the difference between a risk that can be investigated and one that becomes permanently unexplainable — and it is exactly the argument for the monthly snapshot habit.</p>
+              <p><strong>Diagnose adoption problems as workflow problems first.</strong> "Design is lagging" invites a training answer, which fails, because designers are behaving rationally given a tool that does not fit the start of their process. Asking what happens in their first two hours — before proposing anything — is the move; the Bynder integration was sitting in the Phase 1 landscape the whole time.</p>
+              <p><strong>The unknowns question is the hardest thing in the capstone and it is not technical.</strong> You have owed a customer answers for a quarter, in front of their exec. Minimising destroys credibility; over-apologising signals it will recur. Own it in one sentence, then spend the rest on mechanism — a standing agenda item with a date, visible every month until it closes. And offering the commercial escalation route is the detail that shows you are optimising for their outcome rather than for your own comfort.</p>
+              <p><strong>Putting them on the risk slide is the real test.</strong> Everything in you wants to leave a ninety-day-old failure off a slide the exec is reading. But a risk slide that omits your own misses is not a risk slide, and the moment they discover one, nothing else on it is believed.</p>
+              <h5>Sources</h5>
+              <ul class="srcs">
+                <li><a class="link" href="#m10/m10-concept-4-qbrs-reporting-risk-not-activity" data-view="m10" data-anchor="m10-concept-4-qbrs-reporting-risk-not-activity">Concept 4 — QBRs: reporting risk, not activity</a> — the three questions a QBR must answer, and which signal answers each.</li>
+                <li><a class="link" href="#m1/m1-concept-2-the-problem-vibeiq-exists-to-solve" data-view="m1" data-anchor="m1-concept-2-the-problem-vibeiq-exists-to-solve">Week 1 — The problem VibeIQ exists to solve</a> — the value definition the health verdict is stated against.</li>
+                <li><a class="link" href="https://docs.vibeiq.com/release_notes/004_admin_console_2024_12_12/" target="_blank" rel="noopener">Event Workflows Dashboard & Workflow Artifacts</a> — the 90-day failure trend on slide 3, and the retention horizon that makes it urgent.</li>
+                <li><a class="link" href="#practice/practice-9-kpis-and-indicators" data-view="practice" data-anchor="practice-9-kpis-and-indicators">TAM practice — KPIs and indicators</a> — outcome vs. practice vs. leading indicators, and the anti-metrics that keep slide 1 off login counts.</li>
+                <li><a class="link" href="#m8/m8-concept-8-answering-what-you-don-t-know" data-view="m8" data-anchor="m8-concept-8-answering-what-you-don-t-know">Week 8 — Answering what you don't know</a> — the standing-unknowns discipline behind part 5.</li>
+              </ul>
+            </div>
+          </details>
+</div>
 
         <div class="outcome">
           <h4>The program's final outcome — you're ready when you can…</h4>

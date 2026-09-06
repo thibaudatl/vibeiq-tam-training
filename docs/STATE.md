@@ -4,7 +4,7 @@ Living status doc. Update at the end of each working session so a fresh
 conversation can pick up cold. (`HANDOFF.md` is the original design-session
 handoff, kept for provenance — this file supersedes it for current status.)
 
-**Last updated:** 2026-09-06 — Module 1 activity solutions; sidebar section-type glyphs; dashboard course map
+**Last updated:** 2026-09-06 — activity solutions complete for all 10 modules; sidebar glyphs; dashboard course map
 
 ## What this is
 A self-paced 10-week technical training program for Leo, starting as a
@@ -123,9 +123,21 @@ about it** (the reasoning frame, and what a weak answer looks like), **Sources**
   all. Those entries are prefixed `<span class="ext">External — not official
   documentation:</span>` and must stay labelled. All URLs are verified live before
   being cited; see the loader URL trap under "Facts worth not re-deriving".
-- **Status: Module 1 done. Modules 2–10 pending** (27 more solutions, plus Module
-  10's four capstone phases). Leo is reviewing M1's shape and depth first.
+- **Status: COMPLETE — 31 solutions.** Modules 1–9 have three each (practical
+  exercise, realistic customer scenario, hands-on challenge); Module 10 has one
+  per capstone phase, inserted into each phase `.card` rather than at the `<h3>`.
 - **When an activity prompt is reworded, update its solution in the same edit.**
+- `.solbody pre` and `.solbody .tscroll` were added when the deep modules brought
+  code blocks and wide tables into solutions. Note the trap: `--code-bg` /
+  `--code-ink` are the **inline code** colours (light beige), *not* block colours.
+  The modules' `<pre>` blocks hard-code `#1e262d` / `#dfe6df` inline and stay dark
+  in both themes deliberately; `.solbody pre` matches those literals. Don't
+  "fix" it to use the tokens — it renders beige-on-beige.
+- Every table inside a solution is wrapped in `<div class="tscroll">` so wide
+  tables scroll in their own box instead of pushing the page sideways.
+- All 25 cited external URLs were verified live (HTTP 200) and every internal
+  cross-link was checked to resolve to a real view and `<h3>` id. Re-run those
+  two checks if sources are added.
 
 ## Sidebar section-type glyphs (added 2026-09-06)
 Every `a.subitem` in the sidebar carries a leading `<span class="ty">` glyph so the
