@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TAM Practice Charter — VibeIQ</title>
+<link rel="stylesheet" href="practice.css">
+<link rel="stylesheet" href="../theme.css">
+<script src="../theme.js"></script>
+<body>
+<div class="wrap">
+
+<aside class="sidebar">
+  <div class="brand">
+    <div class="dot">V</div>
+    <h1>VibeIQ TAM practice</h1>
+    <p>Documents A · B · C</p>
+  </div>
+
+  <div class="navlabel">DOCUMENTS</div>
+  <nav>
+    <a href="index.html"><span class="wk">·</span> Overview and how to read</a>
+    <a href="charter.html" class="active"><span class="wk">A</span> Practice Charter</a>
+    <div class="sub">
+      <a href="#ask">What is being asked for</a>
+      <a href="#mission">1 · Mission and value</a>
+      <a href="#boundary">2 · The boundary model</a>
+      <a href="#not-tam">3 · What the TAM does not do</a>
+      <a href="#cross">4 · Cross-functional ownership</a>
+      <a href="#portfolio">5 · Portfolio and capacity</a>
+      <a href="#kpi">6 · KPI charter and scorecard</a>
+      <a href="#decisions">7 · Open decisions log</a>
+    </div>
+    <a href="operating-model.html"><span class="wk">B</span> Operating Model</a>
+    <a href="first-90-days.html"><span class="wk">C</span> First 90 Days &amp; examples</a>
+  </nav>
+
+  <div class="navlabel">CONTEXT</div>
+  <nav>
+    <a href="../index.html">↩ Training hub (Weeks 1–10)</a>
+    <a href="../index.html#practice">↩ Original practice draft</a>
+  </nav>
+
+  <div class="navlabel">DISPLAY</div>
+  <button class="themectl" data-theme-toggle type="button"></button>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <button data-nav-toggle type="button">☰</button>
+    <span>Document A · Charter</span>
+  </div>
+
+  <div class="col">
+
+    <p class="eyebrow">Document A · proposal to leadership</p>
+    <h2 class="title">TAM Practice Charter</h2>
+    <p class="lede">The decisions that need sign-off before the Technical Account Management practice
+      can operate: what the role owns, what it refuses, how the portfolio is sized, how it is
+      measured, and the twenty-one questions only VibeIQ can answer. Everything here is extracted
+      from <a class="link" href="operating-model.html">Document B</a>, restated as a decision.</p>
+
+    <div class="card keystone">
+      <h4>How to read this, in one paragraph</h4>
+      <p><span class="er">ER</span> marks an <strong>expert recommendation</strong> — a proposal, not
+        an existing VibeIQ decision. <span class="ni">NEEDS INPUT</span> marks a fact this document
+        does not have and will not invent; every one of them appears in
+        <a class="link" href="#decisions">the decisions log</a> with a proposed answer and an owner.
+        Anything unmarked comes from the job description or from the existing practice draft.</p>
+      <p style="margin-bottom:0"><strong>An undefined role is defined by whoever asks first.</strong>
+        That is the whole reason this document exists and the reason it asks for signatures rather
+        than feedback. Sections 1–6 are what is being proposed; section 7 is what is being asked.</p>
+    </div>
+
+    <h3 id="ask">What is being asked for</h3>
+    <ol class="steps">
+      <li><strong>Answer decision zero</strong> — does the TAM report into Customer Success or into
+        Delivery &amp; Support? The job description says both. Every row of the boundary model depends
+        on the answer.</li>
+      <li><strong>Approve or correct the boundary model</strong> in section 2, and sign it with a name
+        and a date. Getting it corrected is the point; being right about it first is not.</li>
+      <li><strong>Agree the portfolio and capacity model</strong> in section 5 — in particular the
+        50 / 25 / 25 split, which is the only thing protecting proactive work from inbound.</li>
+      <li><strong>Agree the scorecard</strong> in section 6, including the two restated criteria and
+        the anti-metrics.</li>
+      <li><strong>Assign an owner and a date to every row</strong> of the decisions log in section 7.</li>
+    </ol>
+
+<!-- ==================================================================== -->
+    <h3 id="mission">1 · Mission and value proposition</h3>
+
+    <div class="card keystone">
+      <h4>The mission</h4>
+      <p style="margin-bottom:0">The TAM is accountable for whether each customer's VibeIQ
+        implementation keeps producing the outcome it was bought for: <strong>decisions get made in
+        VibeIQ, and the context behind them survives downstream.</strong></p>
+    </div>
+
+    <div class="tscroll">
+      <table>
+        <thead><tr><th style="width:50%">Value to the customer</th><th>Value to VibeIQ</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Their implementation is <strong>known in writing before it breaks</strong> — the
+              difference between a TAM and a very responsive support engineer.</td>
+            <td><strong>Renewal risk is dated and written down at T-90</strong>, before the renewal
+              window opens. No renewal is surprised by a technical risk the TAM already knew about.</td>
+          </tr>
+          <tr>
+            <td><strong>One technical owner across a seam nobody else spans.</strong> PLM, VibeIQ and
+              the downstream consumer each have an owner; the path between them has none.</td>
+            <td><strong>Field reality reaches Product in a fixed format</strong> rather than as
+              anecdote, and repeat failures become problem records with named owners.</td>
+          </tr>
+          <tr>
+            <td><strong>Their own team gets more capable each quarter.</strong> Technical enablement is
+              the only mechanism that reduces inbound at the source.</td>
+            <td><strong>Escalation load falls at the source</strong> — enablement, the pre-load
+              checklist and the attribute-ownership map remove classes of failure, not instances.</td>
+          </tr>
+          <tr>
+            <td><strong>Escalations are narrated, not managed.</strong> Known, suspected and unknown
+              stated separately; the next update time committed to, never a resolution time.</td>
+            <td><strong>Expansion is sourced from technical signal</strong> months before it reaches a
+              CRM — and a practice that is a reusable asset rather than one person's memory.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+<!-- ==================================================================== -->
+    <h3 id="boundary">2 · The boundary model</h3>
+
+    <p>One row per <strong>contested</strong> activity — the ones that will otherwise be renegotiated
+      in the middle of an escalation. Uncontested work is not listed. Five verbs, and everything that
+      is not <em>owns</em> names an accountable party.</p>
+
+    <div class="tscroll">
+      <table>
+        <thead><tr><th>Verb</th><th>Means</th></tr></thead>
+        <tbody>
+          <tr><td><span class="v v-owns">owns</span></td><td>Accountable for the outcome</td></tr>
+          <tr><td><span class="v v-contributes">contributes</span></td><td>A named input; someone else decides</td></tr>
+          <tr><td><span class="v v-advises">advises</span></td><td>Reviews and recommends; does not execute</td></tr>
+          <tr><td><span class="v v-escalates">escalates</span></td><td>Routes with context; does not attempt</td></tr>
+          <tr><td><span class="v v-not">not TAM</span></td><td>Explicit exclusion, with a named owner elsewhere</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card warn">
+      <h4>Approval block — unsigned</h4>
+      <p style="margin-bottom:0"><strong>Approved by:</strong>
+        <span class="ni">NEEDS INPUT — <em>the approver depends on decision zero</em></span> ·
+        <strong>Date:</strong> __________ · <strong>Version:</strong> 1.0 (draft) ·
+        <strong>Review:</strong> quarterly, at the charter review.<br>
+        Until this is signed, every row below is a proposal.</p>
+    </div>
+
+    <div class="tscroll wide">
+      <table>
+        <thead><tr><th>Contested activity</th><th>TAM</th><th>Accountable if not TAM</th></tr></thead>
+        <tbody>
+          <tr><td colspan="3"><strong>Architecture, integration and data</strong></td></tr>
+          <tr><td>Discovery of the technical landscape and integration inventory</td><td><span class="v v-owns">owns</span></td><td>—</td></tr>
+          <tr><td>Integration <em>design</em> — VibeIQ ↔ ERP / PLM / PIM / DAM / BI</td><td><span class="v v-owns">owns</span></td><td>—</td></tr>
+          <tr><td>Integration <em>build</em></td><td><span class="v v-advises">advises</span></td><td>Implementation / PS, or the customer's SI</td></tr>
+          <tr><td>Data mapping <em>specification</em></td><td><span class="v v-owns">owns</span></td><td>—</td></tr>
+          <tr><td>Data transformation and load <em>execution</em></td><td><span class="v v-advises">advises</span></td><td>Implementation / PS, or the customer's data team</td></tr>
+          <tr><td>Pre-load checklist sign-off</td><td><span class="v v-owns">owns</span></td><td>—</td></tr>
+          <tr><td>Migration programme</td><td><span class="v v-contributes">contributes</span></td><td>Implementation / PS</td></tr>
+          <tr><td>Production configuration changes in a customer org</td><td><span class="v v-advises">advises</span></td><td><span class="ni">NEEDS INPUT — <em>decision rights</em></span></td></tr>
+          <tr><td>Attribute-ownership map and configuration baseline / drift audit</td><td><span class="v v-owns">owns</span></td><td>—</td></tr>
+          <tr><td>Security questionnaire response — technical sections</td><td><span class="v v-owns">owns</span></td><td>—</td></tr>
+          <tr><td>Custom development — extensions, custom apps, bespoke runtimes</td><td><span class="v v-escalates">escalates</span></td><td>PS or the customer's developers</td></tr>
+          <tr><td>Platform performance tuning</td><td><span class="v v-escalates">escalates</span></td><td>Engineering</td></tr>
+          <tr><td><strong>Pre-sales architecture and prospect scoping</strong></td><td><span class="v v-not">not TAM</span></td><td><span class="ni">NEEDS INPUT — <em>Sales Engineering / Solutions</em></span></td></tr>
+
+          <tr><td colspan="3"><strong>Escalation, support and problems</strong></td></tr>
+          <tr><td>The support queue, L1 / L2, known issues, anything inside SLA</td><td><span class="v v-not">not TAM</span></td><td>Support</td></tr>
+          <tr><td>Escalated issues through to resolution, once a pull-in trigger fires</td><td><span class="v v-owns">owns</span></td><td>—</td></tr>
+          <tr><td>Root cause analysis and the code fix</td><td><span class="v v-contributes">contributes</span></td><td>Engineering</td></tr>
+          <tr><td>The customer-facing technical narrative during an incident</td><td><span class="v v-owns">owns</span></td><td>—</td></tr>
+          <tr><td>Problem records — third occurrence of a failure signature</td><td><span class="v v-owns">owns</span> the record</td><td>Engineering or Product owns the fix</td></tr>
+          <tr><td>Knowledge base and known-issue articles</td><td><span class="v v-contributes">contributes</span></td><td>Support</td></tr>
+          <tr><td>Out-of-hours and on-call cover</td><td><span class="v v-not">not TAM</span></td><td>Support</td></tr>
+
+          <tr><td colspan="3"><strong>Customer Success, renewal and growth</strong></td></tr>
+          <tr><td>Business outcomes and the success plan</td><td><span class="v v-contributes">contributes</span></td><td>CSM</td></tr>
+          <tr><td>Technical outcomes and the technical health rating</td><td><span class="v v-owns">owns</span></td><td>— <em>not overwritable by the CSM</em></td></tr>
+          <tr><td>The account plan</td><td><span class="v v-owns">owns</span> the technical sections</td><td>CSM owns the plan. <strong>One plan, two owners.</strong></td></tr>
+          <tr><td>Relationship primacy — customer IT, data engineering, platform admins</td><td><span class="v v-owns">owns</span></td><td>—</td></tr>
+          <tr><td>Relationship primacy — sponsor, business leads, end users</td><td><span class="v v-contributes">contributes</span></td><td>CSM</td></tr>
+          <tr><td>End-user functional training</td><td><span class="v v-not">not TAM</span></td><td>CSM</td></tr>
+          <tr><td>Technical enablement of customer IT and platform admins</td><td><span class="v v-owns">owns</span></td><td>—</td></tr>
+          <tr><td>The QBR</td><td><span class="v v-owns">owns</span> the technical block</td><td>CSM chairs</td></tr>
+          <tr><td>Renewal</td><td><span class="v v-contributes">contributes</span> the T-90 verdict</td><td>CSM and AE — <em>an input, not a veto</em></td></tr>
+          <tr><td>Expansion — sourcing and qualifying the technical signal</td><td><span class="v v-owns">owns</span></td><td>—</td></tr>
+          <tr><td>Expansion — the opportunity and the deal</td><td><span class="v v-not">not TAM</span></td><td>Sales / AE</td></tr>
+          <tr><td>Commercial terms, pricing, licence ceilings, marketplace approval</td><td><span class="v v-not">not TAM</span></td><td>CSM / AE</td></tr>
+
+          <tr><td colspan="3"><strong>Product, Engineering and the practice</strong></td></tr>
+          <tr><td>Structured field feedback to Product</td><td><span class="v v-owns">owns</span></td><td>—</td></tr>
+          <tr><td>Roadmap and prioritisation decisions</td><td><span class="v v-contributes">contributes</span></td><td>Product</td></tr>
+          <tr><td>Reference architectures and reusable technical assets</td><td><span class="v v-owns">owns</span></td><td>—</td></tr>
+          <tr><td>Tooling and automation improvements across Delivery &amp; Support</td><td><span class="v v-contributes">contributes</span></td><td><span class="ni">NEEDS INPUT</span></td></tr>
+          <tr><td>The TAM operating model, KPIs and playbooks</td><td><span class="v v-owns">owns</span></td><td>—</td></tr>
+          <tr><td>Mentoring, hiring profiles, onboarding</td><td><span class="v v-owns">owns</span></td><td>The hiring <em>decision</em> is the hiring manager's</td></tr>
+          <tr><td>Approving the customer's own internal releases</td><td><span class="v v-not">not TAM</span></td><td>The customer</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card note">
+      <h4>Four contradictions this model resolves</h4>
+      <p><strong>C1 · Escalation.</strong> The JD wins over the draft: the TAM <em>owns</em> escalated
+        issues through to resolution — diagnosis, narrative, cadence, RCA acceptance, follow-through —
+        not "routing". Engineering owns root cause and fix.</p>
+      <p><strong>C2 · Training.</strong> Split by audience: TAM owns technical enablement of customer
+        IT, data engineering and platform admins; CS owns end-user functional training.</p>
+      <p><strong>C3 · Expansion.</strong> TAM sources and qualifies the technical <em>signal</em>,
+        recorded in the CRM at creation; Sales owns the opportunity and the deal.</p>
+      <p style="margin-bottom:0"><strong>C4 · Reporting line.</strong> Unresolvable here — it is
+        <a class="link" href="#decisions">decision zero</a>.</p>
+    </div>
+
+<!-- ==================================================================== -->
+    <h3 id="not-tam">3 · What the TAM does not do</h3>
+
+    <div class="card stop">
+      <h4>Nine explicit exclusions</h4>
+      <ol>
+        <li><strong>Pre-sales architecture and solution scoping for prospects.</strong> The line most
+          worth protecting: a TAM in a pre-sales conversation promises on behalf of a system they will
+          later operate, with no discovery and no ability to decline — and every hour there comes out
+          of the proactive capacity that justifies the role.</li>
+        <li><strong>Building and owning the customer's integrations.</strong></li>
+        <li><strong>Acting as the customer's level-one helpdesk.</strong></li>
+        <li><strong>End-user functional training.</strong></li>
+        <li><strong>Owning the commercial relationship</strong> — pricing, contract, ceilings.</li>
+        <li><strong>Carrying an expansion quota or running the deal.</strong></li>
+        <li><strong>Approving the customer's internal releases.</strong></li>
+        <li><strong>Being on call</strong>, or on call for code the TAM did not write.</li>
+        <li><strong>Custom development.</strong></li>
+      </ol>
+      <p style="margin-bottom:0"><strong>The exception rule.</strong> Any of these done once, under
+        pressure, for a real reason is an <em>exception</em> — logged with account, reason and date in
+        the monthly practice review. Three exceptions of the same shape in a quarter is not bad luck;
+        it is a boundary that has moved, and it comes back to this table as a decision.
+        <span class="er">ER</span></p>
+    </div>
+
+<!-- ==================================================================== -->
+    <h3 id="cross">4 · Cross-functional ownership summary</h3>
+
+    <div class="tscroll wide">
+      <table>
+        <thead><tr><th>Counterparty</th><th>They own</th><th>The TAM owns</th><th>The interface</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Customer Success</strong></td>
+            <td>Business outcomes and the success plan · functional adoption · the sponsor and end-user relationships · the account plan · the renewal · chairing the QBR</td>
+            <td>Technical outcomes and the health rating · technical adoption barriers · the IT and data-engineering relationships · named technical sections of the plan · the T-90 verdict · the QBR technical block</td>
+            <td><strong>One account plan, two owners, named sections.</strong> Tie-break: the technical health rating is not overwritable by the CSM.</td>
+          </tr>
+          <tr>
+            <td><strong>Support</strong></td>
+            <td>The queue, the ticket, the SLA clock · L1 and L2 · known issues and the KB · anything inside SLA · out-of-hours</td>
+            <td>Escalations once a pull-in trigger fires: diagnosis, the customer narrative, the status cadence, RCA acceptance, the follow-through that stops recurrence</td>
+            <td><strong>Five pull-in triggers</strong> — Sev 1 on a portfolio account · second occurrence of the same failure signature · anything crossing the integration seam · open past 2× SLA · customer-declared impact against a dated seasonal milestone. Any trigger may be waived by the TAM in writing.</td>
+          </tr>
+          <tr>
+            <td><strong>Product &amp; Engineering</strong></td>
+            <td>Root cause and fix · platform behaviour · roadmap and prioritisation · the capability gaps</td>
+            <td>The monthly field-feedback pack · problem records · RCA acceptance on the customer's behalf</td>
+            <td>Monthly field-feedback pack (pattern · accounts affected · business impact · workaround cost) · quarterly roadmap-alignment session · <strong>problem record at the third occurrence of a signature</strong>, with a named owner and a target date</td>
+          </tr>
+          <tr>
+            <td><strong>Implementation</strong></td>
+            <td>The implementation, the build, load execution, the migration programme, the handoff decision</td>
+            <td>The pre-handoff shadow, the design, the mapping specification, the pre-load checklist signature, the technical hypercare exit criteria</td>
+            <td>The handoff is a <strong>two-way document</strong>: an inventory of open defects accepted in writing, never inherited silently. Hypercare exit is a joint minuted decision.</td>
+          </tr>
+          <tr>
+            <td><strong>Sales</strong></td>
+            <td>Pre-sales architecture · the opportunity · the deal · commercial scope and price</td>
+            <td>Sourcing and qualifying the technical signal · the design review on an accepted expansion · technical answers on reference calls</td>
+            <td>Signal handed over <strong>in writing, in the CRM, at creation</strong> — which is what makes "expansion opportunities influenced" countable without an argument after the deal lands. Declines stay in the log.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+<!-- ==================================================================== -->
+    <h3 id="portfolio">5 · Portfolio, tiers and capacity</h3>
+
+    <div class="tscroll wide">
+      <table>
+        <thead><tr><th>Tier</th><th>Entry criteria</th><th>Coverage</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Tier 1 · Strategic</strong></td><td>Top ACV band <span class="ni">NEEDS INPUT</span> · 3+ live integrations · custom workflows or extensions in production · multi-brand, multi-region or multi-season data model</td><td>Named TAM, full cadence, every catalogue service</td></tr>
+          <tr><td><strong>Tier 2 · Standard</strong></td><td>Mid ACV band · 1–2 integrations on standard loader and publish patterns · no extensions</td><td>Named TAM, reduced cadence; escalation on Sev 1 and seam-crossing only</td></tr>
+          <tr><td><strong>Tier 3 · Pooled</strong></td><td>Below threshold, or standard configuration with no integration beyond the default publish path</td><td>No named TAM. Playbooks, enablement library, published templates. Support owns everything reactive.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Tier is a function of <strong>ACV × technical complexity × integration count</strong>, with
+      written entry and exit criteria reviewed quarterly, so tiering stays a decision rather than
+      becoming a habit. The honest promotion trigger for Tier 3 is <strong>the first integration
+      crossing an external seam</strong> — the point at which nobody owns the path.</p>
+
+    <div class="card keystone">
+      <h4>Four capacity rules — the ones that need approving</h4>
+      <ol>
+        <li><strong>Accounts per TAM:</strong> 5–8 Tier 1 at steady state; <strong>3–4 while the
+          practice is being built</strong>. <span class="er">ER</span></li>
+        <li><strong>Capacity split: 50 % proactive · 25 % reactive · 25 % practice-building.</strong>
+          <span class="er">ER</span> This is the single most important number in the document. It is
+          the answer to "why can't you just take this one", and it is what makes the four
+          practice-building duties in the job description achievable rather than aspirational. Without
+          it written down, reactive expands to fill the week.</li>
+        <li><strong>No TAM carries more than one account in hypercare at a time.</strong> Two is not
+          twice the load; it is the end of proactive work across the whole portfolio.</li>
+        <li><strong>When two accounts escalate at once:</strong> customer-declared impact against a
+          dated seasonal milestone first (a line review or assortment lock outranks a severity label,
+          because the date cannot move), then irreversibility, then blast radius, then first-in. The
+          de-prioritised account gets a <strong>named alternative owner and a committed update time
+          within the hour</strong>, never silence. Repeated collisions are a capacity signal, logged
+          and taken to the quarterly portfolio review.</li>
+      </ol>
+    </div>
+
+<!-- ==================================================================== -->
+    <h3 id="kpi">6 · The KPI charter and scorecard</h3>
+
+    <h4>The reporting hierarchy</h4>
+    <div class="card keystone">
+      <h4>technical health → risk → adoption → value → retention / expansion</h4>
+      <p style="margin-bottom:0"><strong>One rule governs the whole scorecard: a level cannot be
+        reported green while the level below it is red.</strong> A green renewal forecast sitting on a
+        red integration error rate is not optimism, it is an unreported dependency.
+        <span class="er">ER</span></p>
+    </div>
+
+    <div class="tscroll">
+      <table>
+        <thead><tr><th>Audience</th><th>Sees</th><th>Cadence</th></tr></thead>
+        <tbody>
+          <tr><td><strong>The customer</strong></td><td>Value and adoption</td><td>Quarterly, in the QBR</td></tr>
+          <tr><td><strong>Leadership</strong> (CS and Delivery)</td><td>Health, risk and practice metrics</td><td>Monthly practice review; quarterly portfolio review</td></tr>
+          <tr><td><strong>The board</strong></td><td>Retention and expansion</td><td>Quarterly</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>The scorecard — the job description's fourteen success measures</h4>
+    <div class="tscroll wide">
+      <table>
+        <thead><tr><th>Criterion</th><th>Metric proposed</th><th>Source</th><th>Cadence</th></tr></thead>
+        <tbody>
+          <tr><td colspan="4"><strong>Customer (7)</strong></td></tr>
+          <tr><td>Customer technical health</td><td>Technical health index 0–5, six weighted platform signals</td><td>Platform + manual inputs</td><td>Monthly snapshot, quarterly recompute</td></tr>
+          <tr><td>Adoption and value realisation</td><td>Movement against the account's own written value statement · adoption breadth · export-to-Excel counter-signal</td><td>Change history (manual)</td><td>Quarterly</td></tr>
+          <tr><td>Reduction in technical risk and escalations</td><td>Escalation rate <em>and</em> proactive finds <em>and</em> materialised risks that were not on the register</td><td>Ticketing · risk register</td><td>Monthly</td></tr>
+          <tr><td>Time to resolve escalations</td><td>MTTR by severity, containment and permanent fix kept separate, with a stop-clock rule, split by detection source</td><td>Ticketing + escalation log</td><td>Monthly, as a triple</td></tr>
+          <tr><td>Retention / renewal contribution</td><td>T-90 technical verdict filed per renewal · technical blockers closed before the window opens</td><td>Renewal calendar <span class="ni">NEEDS INPUT</span></td><td>Per cycle at T-90</td></tr>
+          <tr><td>Expansion opportunities influenced</td><td>Qualified technical signals recorded in the CRM <em>at creation</em> that became pipeline</td><td>CRM</td><td>Monthly</td></tr>
+          <tr><td>NPS tracking and evolution</td><td>Account NPS <em>and</em> a technical-contact pulse, reported side by side, both labelled</td><td><span class="ni">NEEDS INPUT</span> + the TAM's own pulse</td><td>Quarterly, fixed date</td></tr>
+
+          <tr><td colspan="4"><strong>Operational (4)</strong></td></tr>
+          <tr><td>Processes and playbooks established</td><td><strong>Coverage, not count:</strong> % of the catalogue with a playbook another person could execute</td><td>Template library</td><td>Monthly</td></tr>
+          <tr><td>Efficiency improvements and automation</td><td>Turnaround per service, first instance vs. latest · manual steps removed</td><td>Service log</td><td>Quarterly</td></tr>
+          <tr><td>Reusable technical assets created</td><td><strong>Reuse count, not asset count:</strong> uses by someone other than the author</td><td>Reuse log</td><td>Monthly</td></tr>
+          <tr><td>Reduction in recurring implementation / support issues</td><td><strong>Repeat-issue rate:</strong> problem records opened and retired per quarter</td><td>Problem register</td><td>Monthly</td></tr>
+
+          <tr><td colspan="4"><strong>Leadership (3)</strong></td></tr>
+          <tr><td>Onboarding and mentoring of new TAMs</td><td>Ramp time of the next TAM to first solo health check · self-sufficiency at 90 days</td><td>Onboarding record</td><td>Per hire</td></tr>
+          <tr><td>Contribution to TAM hiring</td><td>Profile and interview kit shipped · interviews run</td><td>Hiring record</td><td>Per loop</td></tr>
+          <tr><td>Development of a scalable TAM operating model</td><td>Tiering in force · second-TAM threshold agreed in advance · playbook coverage · a version history with a revision by another author</td><td>Document B's version history</td><td>Quarterly</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card warn">
+      <h4>Two restatements that need agreeing explicitly</h4>
+      <p style="margin-bottom:0">"Playbooks established" is proposed as <strong>coverage</strong>
+        rather than count, and "reusable assets created" as <strong>reuse by a non-author</strong>
+        rather than count. Both literal phrasings are countable and both reward producing artefacts
+        nobody uses. These are the two rows worth arguing about when the scorecard is signed.</p>
+    </div>
+
+    <div class="card stop">
+      <h4>Anti-metrics — what the practice asks not to be measured on</h4>
+      <p>A newly defined role gets measured on whatever is easiest to count, so naming the wrong
+        metrics is part of the proposal.</p>
+      <ul>
+        <li><strong>Tickets closed</strong> — volume over prevention; a genuinely good quarter looks idle.</li>
+        <li><strong>Response time alone</strong> — fast acknowledgements with no content.</li>
+        <li><strong>Usage minutes / logins</strong> — confuses presence with decisions being made.</li>
+        <li><strong>Hours logged per account / TAM billable hours</strong> — an inverted incentive: it
+          makes a well-run account look like a failure.</li>
+        <li><strong>CSAT on individual tickets</strong> — largely measures politeness during an outage.</li>
+        <li><strong>Any activity metric with no outcome tied to it</strong> — meetings held, reports
+          sent, checks run.</li>
+        <li><strong>"Scheduled QBR cadence adherence"</strong> — satisfied by holding a bad meeting.
+          Replaced by <em>dated actions produced per QBR and closed by the next one</em>.</li>
+        <li><strong>"No escalations last quarter"</strong> — possibly excellent, possibly a customer
+          who stopped reporting, possibly <strong>underdiagnosis</strong>. Absence of an event is not
+          evidence; the audit that ran and the checklist that was adopted are.</li>
+        <li><strong>"The system is working"</strong>, unqualified — working against what?</li>
+      </ul>
+      <p style="margin-bottom:0">Two definitions are non-negotiable and are set out in full in
+        <a class="link" href="operating-model.html#metrics">Document B</a>: <strong>MTTR keeps the
+        containment clock and the permanent-fix clock separate and never averages them</strong>, and
+        <strong>the TAM-moveable portion of NPS is "would recommend this TAM", reported alongside
+        account NPS with both labelled</strong> — not instead of it.</p>
+    </div>
+
+    <div class="card note">
+      <h4>The honest position in month one</h4>
+      <p style="margin-bottom:0">Of the fourteen criteria: <strong>nine measurable from month
+        one</strong> · <strong>three need a baseline captured first</strong> (a value statement per
+        account, a first NPS survey, the first instance of each service deliberately timed) ·
+        <strong>two cannot be scored until the team grows</strong>, and for those the deliverable is
+        the artefact, not the number. Roughly 70 % of the health index weight is hand-assembled until
+        the instrumentation asks in section 7 are answered. Saying this before being asked is the
+        difference between a scorecard that survives the year and one abandoned in month four.</p>
+    </div>
+
+<!-- ==================================================================== -->
+    <h3 id="decisions">7 · Open decisions log</h3>
+
+    <p>Every unresolved question, each with a proposed answer, an owner, a decision forum and a target
+      date. A ranked list with no addressee is a wish list; the same list with names and dates is a
+      plan. Dates are stated as days from the TAM's start so they survive a change of start date.</p>
+
+    <div class="card stop">
+      <h4>Decision zero — answer this one first</h4>
+      <p><strong>Does the TAM report into Customer Success or into Delivery &amp; Support?</strong>
+        The job description's header says <em>Department: Customer Success</em>. Its body says the
+        role is "a technical leader within <strong>Delivery and Support</strong>", and its closing
+        section refers to a Professional Services team.</p>
+      <p style="margin-bottom:0">This is not a naming question. It determines <strong>the reporting
+        line</strong>, <strong>whether the TAM carries delivery capacity</strong> (and therefore
+        whether the 50/25/25 split is real), and <strong>who owns the escalation queue the TAM is
+        pulled into</strong>. Every row of the boundary model in section 2 depends on it, and several
+        rows below cannot be assigned an owner until it is answered.<br>
+        <strong>Owner:</strong> hiring manager · <strong>Forum:</strong> first 1:1 ·
+        <strong>Target:</strong> day 5 · <strong>Status:</strong> open</p>
+    </div>
+
+    <h4>Blockers — the practice cannot operate as written without these</h4>
+    <div class="tscroll wide">
+      <table>
+        <thead><tr><th>#</th><th>Decision needed</th><th>Proposed answer</th><th>Owner</th><th>Forum</th><th>Target</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>0</strong></td><td>Reporting line — Customer Success or Delivery &amp; Support (C4)</td><td>None proposed. This one is VibeIQ's to answer.</td><td>Hiring manager</td><td>First 1:1</td><td>Day 5</td><td>Open</td></tr>
+          <tr><td><strong>1</strong></td><td>Approve or correct the boundary model in section 2, with a name and a date</td><td>The table as written, amended by whatever the reviewers correct</td><td>Depends on decision 0</td><td>Charter review</td><td>Day 45</td><td>Open</td></tr>
+          <tr><td><strong>2</strong></td><td><strong>Support SLA table and severity definitions</strong></td><td>None — this is a fact, not a proposal. Three of the five escalation pull-in triggers and one health-index signal are unusable until it exists.</td><td>Support lead</td><td>Support interface session</td><td>Day 20</td><td>Open</td></tr>
+          <tr><td><strong>3</strong></td><td><strong>Decision rights:</strong> which configuration changes may a TAM make directly in a customer org, and which need Implementation or the customer's own change control?</td><td>TAM advises only; the customer's admin or Implementation executes. Signed pre-load checklist is the TAM's control point. <span class="er">ER</span></td><td>Depends on decision 0</td><td>Charter review</td><td>Day 45</td><td>Open</td></tr>
+          <tr><td><strong>4</strong></td><td>Approve the capacity model — 3–4 Tier 1 accounts while building, and the 50/25/25 split</td><td>As written in section 5 <span class="er">ER</span></td><td>Depends on decision 0</td><td>Charter review</td><td>Day 45</td><td>Open</td></tr>
+          <tr><td><strong>5</strong></td><td><strong>Customer-facing alerting</strong> on load, publish and workflow failure</td><td>Does not exist today, so the customer is the alert. Until it does, log detection source per escalation and report MTTR split by it — the gap between the two series is the business case.</td><td>Product</td><td>Quarterly roadmap alignment</td><td>Day 90 for an answer</td><td>Open</td></tr>
+          <tr><td><strong>6</strong></td><td><strong>Workflow concurrency utilisation</strong> against the 25-per-workflow and 60-per-org ceilings</td><td>Not visible today. Blocks integration lag as a scored metric; proxy is consumer-side ack timestamps instrumented by the customer.</td><td>Engineering</td><td>Support interface session</td><td>Day 60</td><td>Open</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>System of record — one object, one system</h4>
+    <div class="tscroll wide">
+      <table>
+        <thead><tr><th>#</th><th>Decision needed</th><th>Proposed answer</th><th>Owner</th><th>Forum</th><th>Target</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>7</td><td>Which system holds the <strong>account plan</strong>?</td><td>Wherever the CSM's plan already lives; the TAM writes named sections into it rather than starting a parallel document <span class="er">ER</span></td><td>CS lead</td><td>CS interface session</td><td>Day 30</td><td>Open</td></tr>
+          <tr><td>8</td><td>Which system holds the <strong>risk register</strong>?</td><td>Must be readable by the CSM and reportable across the portfolio — which rules out a per-account spreadsheet <span class="er">ER</span></td><td>CS lead</td><td>CS interface session</td><td>Day 30</td><td>Open</td></tr>
+          <tr><td>9</td><td>Which system holds the <strong>health index and the portfolio dashboard</strong>?</td><td>A spreadsheet until a BI answer exists, and labelled as one <span class="er">ER</span></td><td>Depends on decision 0</td><td>Monthly practice review</td><td>Day 60</td><td>Open</td></tr>
+          <tr><td>10</td><td>Which system holds the <strong>artefact and template library</strong>?</td><td>One location, with a "when to use this, and when not to" page per artefact <span class="er">ER</span></td><td>Depends on decision 0</td><td>Monthly practice review</td><td>Day 60</td><td>Open</td></tr>
+          <tr><td>11</td><td>Which ticketing system is the <strong>incident and escalation log</strong>?</td><td>The Support ticketing system, deliberately — not a TAM spreadsheet. The TAM's own log holds only localisation time, update promises and detection source.</td><td>Support lead</td><td>Support interface session</td><td>Day 20</td><td>Open</td></tr>
+          <tr><td>12</td><td>Where do <strong>problem records</strong> live?</td><td>Engineering's tracker. A problem record outside it will not be worked. <span class="er">ER</span></td><td>Engineering lead</td><td>Support interface session</td><td>Day 60</td><td>Open</td></tr>
+          <tr><td>13</td><td>Where does the <strong>improvement pipeline</strong> live, and how does the customer see it?</td><td>Visibility to the customer is most of its value; a read-only view is the minimum <span class="er">ER</span></td><td>CS lead</td><td>CS interface session</td><td>Day 45</td><td>Open</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Operating facts the practice needs</h4>
+    <div class="tscroll wide">
+      <table>
+        <thead><tr><th>#</th><th>Decision needed</th><th>Proposed answer</th><th>Owner</th><th>Forum</th><th>Target</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>14</td><td>Does <strong>every account have a CSM</strong>? If not, who owns the business relationship on those accounts?</td><td>Where there is no CSM, the TAM does <em>not</em> absorb the business relationship; the account is a Tier 3 candidate <span class="er">ER</span></td><td>CS lead</td><td>CS interface session</td><td>Day 30</td><td>Open</td></tr>
+          <tr><td>15</td><td><strong>Current account count, ACV bands and integration counts</strong> — the inputs to tiering</td><td>None. Tiering cannot be applied to a portfolio that has not been enumerated.</td><td>CS lead</td><td>Quarterly portfolio review</td><td>Day 60</td><td>Open</td></tr>
+          <tr><td>16</td><td>Who owns <strong>pre-sales architecture</strong> today?</td><td>Sales Engineering / Solutions. Needs a name, so the exclusion in section 3 has somewhere to point. <span class="er">ER</span></td><td>Sales lead</td><td>Charter review</td><td>Day 45</td><td>Open</td></tr>
+          <tr><td>17</td><td>Is there an <strong>NPS programme</strong>, and at what level?</td><td>Run the technical-contact pulse from quarter one regardless, and hand it over intact if a programme starts <span class="er">ER</span></td><td>CS lead</td><td>CS interface session</td><td>Day 45</td><td>Open</td></tr>
+          <tr><td>18</td><td><strong>Where are renewal dates held</strong>, and who triggers T-90?</td><td>The TAM files the verdict automatically at T-90 whether or not anyone asks <span class="er">ER</span></td><td>CS lead</td><td>CS interface session</td><td>Day 45</td><td>Open</td></tr>
+          <tr><td>19</td><td>Confirm the <strong>implementation stage gates</strong> that trigger pre-handoff shadowing</td><td>Final UAT, or go-live minus six weeks, whichever is earlier <span class="er">ER</span></td><td>Implementation lead</td><td>Implementation interface session</td><td>Day 45</td><td>Open</td></tr>
+          <tr><td>20</td><td>Approve <strong>eight weeks of hypercare</strong>, extendable once by exception, and the exit criteria</td><td>As written in Document B <span class="er">ER</span></td><td>Depends on decision 0</td><td>Charter review</td><td>Day 45</td><td>Open</td></tr>
+          <tr><td>21</td><td><strong>Job levels and titles</strong> the TAM ladder must map onto</td><td>TAM → Senior → Lead/Principal → Manager, differentiated by portfolio complexity and practice contribution, not tenure <span class="er">ER</span></td><td>Depends on decision 0</td><td>Quarterly portfolio review</td><td>Day 90</td><td>Open</td></tr>
+          <tr><td>22</td><td>Are <strong>documented rate limits</strong> published, and are rule sets enforced on API and Loader writes?</td><td>None — a fact to establish. Both change what the TAM may safely assert to a customer.</td><td>Engineering</td><td>Support interface session</td><td>Day 60</td><td>Open</td></tr>
+          <tr><td>23</td><td>Who owns <strong>internal tooling and automation</strong> across Delivery &amp; Support?</td><td>The TAM identifies; someone else builds and owns. Needs a name. <span class="er">ER</span></td><td>Depends on decision 0</td><td>Monthly practice review</td><td>Day 60</td><td>Open</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card keystone">
+      <h4>What happens to a row that is never answered</h4>
+      <p style="margin-bottom:0">It is not quietly dropped. At each quarterly portfolio review, every
+        row still open is either answered, re-dated with a reason, or <strong>closed by adopting the
+        proposed answer as the operating assumption</strong> — recorded as such, with the risk of
+        being wrong stated. An unanswered question that keeps blocking work is worse than a decision
+        taken on incomplete information and labelled as one. <span class="er">ER</span></p>
+    </div>
+
+    <hr class="divider">
+    <div class="foot">
+      <p><strong>Document A · TAM Practice Charter</strong> — version 1.0, draft, unsigned.
+        Derived from <a class="link" href="operating-model.html">Document B</a>, which carries the
+        reasoning and the operating detail behind every line here.
+        <a class="link" href="first-90-days.html">Document C</a> carries the ramp plan and the worked
+        examples.</p>
+      <p><span class="er">ER</span> = expert recommendation, not a VibeIQ decision.
+        <span class="ni">NEEDS INPUT</span> = a fact this document does not have and will not invent.</p>
+    </div>
+
+  </div>
+</main>
+</div>
+<div class="scrim"></div>
+<script src="practice.js"></script>
+</body>
+</html>

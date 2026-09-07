@@ -23,12 +23,14 @@ written to be read *after* attempting, not instead of.
 | Activity solutions | Complete — 31 across all 10 modules |
 | TAM practice charter & KPIs | Drafted — boundary table pending internal confirmation |
 | JD success criteria mapped | Complete — all 14, with a plan and an evidence line each |
+| TAM practice rebuild (`practice/`) | Complete — three documents, resolved against the job description |
 
 ## Contents
 
 | Path | What it is |
 |---|---|
 | `index.html` | The training hub — a single self-contained page, no build step and no external requests. Sidebar navigation across the dashboard, all ten modules, the TAM practice page, and four reference pages. Every module expands in the sidebar to its own sections, and opens with an **On this page** agenda. Every quiz question carries a model answer behind a **Show answer** toggle, with a **Reveal all answers** button per quiz. The practical exercise, customer scenario and hands-on challenge each carry a worked solution behind a **Show the solution** toggle — the answer, how to think about the problem, and cited sources. Sidebar sub-items and the **On this page** agenda rows are prefixed with a section-type glyph (📚 orientation · 🤝 TAM knowledge · ⚙️ tech knowledge · ✅ knowledge testing). The dashboard carries three maps built the same way — a **Course map** over the ten curriculum weeks, a **Practice map** over the thirteen sections of Building the TAM practice, and a **Reference map** over Key findings, Priority matrix, Colleague questions, Doc links and the Exam Kit. Each entry expands to its sections, and every section expands to a short note on what it covers plus a link straight to it. The **Building the TAM practice** page collapses its reference-dense blocks (the KPI tables, the fourteen JD criteria, the escalation checklists) behind labelled disclosures, each summary carrying a peek line, with an **Expand all sections** button for printing or sending onward. |
+| `practice/` | **The rebuilt TAM practice** — three separate documents, one audience each, in their own folder rather than inside the hub. `charter.html` (Document A, for leadership), `operating-model.html` (Document B, the blueprint), `first-90-days.html` (Document C, the ramp plan and worked examples), plus `index.html` as the overview and `practice.css` / `practice.js`. Static pages, no router; they reuse `theme.css` and `theme.js` for the day/night palette. See **The three-document rebuild** below. |
 | `modules/practice-tam-operating-model.md` | Source note for the **Building the TAM practice** page — charter, service catalogue, cadence, KPIs, and the job description's fourteen success criteria mapped to a plan each. Not a curriculum week; the practice built on top of the ten. |
 | `dashboard.md` | Progress tracker: week status, confidence by topic, running glossary, and the open questions for VibeIQ colleagues. Carry this between tutoring sessions. |
 | `modules/` | Long-form source notes, one per week. The hub is the study surface; these are the working notes behind it. |
@@ -67,6 +69,57 @@ written to be read *after* attempting, not instead of.
   actually move. Ends with what is not measurable yet and the proxy to use meanwhile
   — and the honest month-one summary: 9 of 14 measurable now, 3 needing a baseline,
   2 needing the team to grow.
+
+## The three-document rebuild (`practice/`)
+
+The `#practice` page inside the hub was strong on technical substance and weak as
+an operating model, and the cause was structural: it interleaved **three audiences
+with three different completion bars** in one continuous page — which is why its
+actual asks ended up at section 13, addressed to nobody. It has been rebuilt as
+three documents, live at
+[`practice/`](https://thibaudatl.github.io/vibeiq-tam-training/practice/).
+
+| Doc | Audience | What it is |
+|---|---|---|
+| **A · [Practice Charter](practice/charter.html)** | The hiring manager, the Delivery & Support lead, the CS lead | The decisions that need sign-off, stated as decisions: mission and value, the boundary model (one row per contested activity), what the TAM does not do, cross-functional ownership, portfolio and capacity, the KPI charter, and a **24-row open decisions log** with a proposed answer, an owner, a forum and a date each. Short enough to approve in one sitting. |
+| **B · [Operating Model](practice/operating-model.html)** | Whoever runs or joins the practice | The blueprint, in five numbered parts — **I Mandate · II Customer operating model · III Technical ownership · IV Cross-functional operating model · V Running and scaling**. The engagement lifecycle including hypercare, the service catalogue with triggers and required inputs, the technical health index, the Support boundary, problem records, the scorecard, and the hiring and career model. |
+| **C · [First 90 Days](practice/first-90-days.html)** | The person doing the job | The three ramp phases as exit criteria and stakeholder checkpoints, the day 10–20 baseline capture, the inherited sync-and-performance escalation worked end to end, the module-to-artefact map, and the open technical questions for colleagues. |
+
+**The original page is kept and unchanged** at `#practice` — it is the source the
+rebuild derives from and several modules link into its sections. Its only edit is
+a card at the top pointing here.
+
+### What changed, in brief
+
+- **Four contradictions resolved in writing.** The TAM *owns* escalated issues
+  through to resolution (the JD wins over the draft's "routing") · training is
+  split by audience, TAM for customer IT and platform admins, CS for end users ·
+  the TAM owns the expansion *signal* and Sales owns the deal, with attribution
+  recorded at signal creation · and the reporting line — the JD says both Customer
+  Success and Delivery & Support — is **decision zero**, unresolvable internally.
+- **Thirteen missing pieces written**, the largest being the **engagement
+  lifecycle including hypercare**, the **Support boundary** and its five pull-in
+  triggers, a **usable technical health index** built from six observable platform
+  signals, the **portfolio and capacity model** (50% proactive / 25% reactive /
+  25% practice-building), and the whole **leadership dimension** — hiring loop,
+  onboarding path on the ten-week curriculum, mentoring model and career ladder.
+- **One verb model everywhere**: *owns · contributes · advises · escalates · not
+  TAM*, with a named accountable party for everything that is not "owns".
+- **Two provenance markers**, used throughout: `[ER]` for an expert recommendation
+  rather than a VibeIQ decision, `[NEEDS INPUT]` for a fact the documents refuse
+  to invent. There are 45 of the latter, every one carried into Document A's
+  decisions log. A blueprint with honest gaps is usable; one with invented facts
+  is not.
+- **Four things deleted rather than softened**: the health score defined as risk
+  indicators found ÷ total possible (unknowable denominator, measures the TAM not
+  the account) · "scheduled QBR cadence adherence" (satisfied by holding a bad
+  meeting) · "zero drift incidents" as evidence (absence of an event is not
+  evidence) · and the 12-month roadmap *with a dependency tree*, downgraded to a
+  roadmap of **themes**.
+- **The draft's strongest material carried forward intact**: the anti-metrics
+  tier, the instrumentation caveats and validity horizons, the two-clock MTTR
+  treatment, the honest NPS treatment, the templating rule, the day-one sequence,
+  the attribute-ownership map, and every Week 1–10 artefact citation.
 
 ## Curriculum
 

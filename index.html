@@ -68,6 +68,10 @@
   nav a.todo{color:#8d948c}
   .sub{display:none;margin:1px 0 7px 13px;padding-left:11px;border-left:1px solid #2c353d}
   .sub.open{display:block}
+  /* The rebuilt-practice group is a set of plain links to another folder, not a
+     view of this page, so the router's open/close pass never touches it: it
+     stays expanded. Beats .sub's display:none on specificity. */
+  .sub.always{display:block}
   .sub a{font-size:12.5px;padding:5px 9px;color:#98a198;line-height:1.32;gap:0}
   .sub a:hover{background:#1e262d;color:#fff}
   .sub a.here{color:#7fd3b4;font-weight:600;background:transparent}
@@ -532,6 +536,20 @@
         <a class="subitem" href="#practice/practice-the-first-90-days" data-view="practice" data-anchor="practice-the-first-90-days"><span class="ty">🤝</span>11 · The first 90 days</a>
         <a class="subitem" href="#practice/practice-from-one-account-to-a-practice" data-view="practice" data-anchor="practice-from-one-account-to-a-practice"><span class="ty">🤝</span>12 · From one account to a practice</a>
         <a class="subitem" href="#practice/practice-what-the-practice-needs" data-view="practice" data-anchor="practice-what-the-practice-needs"><span class="ty">🤝</span>13 · What the practice needs</a>
+      </div>
+    </nav>
+
+    <!-- The rebuilt practice: three separate documents in their own folder, one
+         audience each. The single-page draft above is kept as it was; these are
+         plain links, so the hash router (which only claims a[data-view]) leaves
+         them alone. -->
+    <div class="navlabel">PRACTICE — REBUILT</div>
+    <nav>
+      <a href="practice/index.html"><span class="wk">◈</span> The TAM practice · A B C</a>
+      <div class="sub always">
+        <a class="subitem" href="practice/charter.html"><span class="ty">🤝</span>A · Practice Charter</a>
+        <a class="subitem" href="practice/operating-model.html"><span class="ty">🤝</span>B · Operating Model</a>
+        <a class="subitem" href="practice/first-90-days.html"><span class="ty">🤝</span>C · First 90 Days</a>
       </div>
     </nav>
 
@@ -6173,6 +6191,15 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
         <p class="eyebrow">Practice · beyond the curriculum</p>
         <h2 class="title">Building the TAM practice</h2>
         <p class="lede">Weeks 1&ndash;10 build the knowledge. This page is how the job is <em>run</em> — written because the role is not defined at VibeIQ yet, which makes the definition itself the first deliverable. Two layers in one document: the charter and the KPIs are written to be sent upward; everything between them is the weekly operating detail. Built for one post-implementation account with a live synchronisation and performance escalation, with an explicit path from that to a repeatable practice.</p>
+
+        <!-- Superseded-by notice. This page is kept intact on purpose: it is the
+             source the three rebuilt documents were derived from, and several
+             modules link into its sections. -->
+        <div class="card keystone">
+          <h4>Superseded by the three-document rebuild</h4>
+          <p>This page has been rebuilt against the job description as <strong>three separate documents</strong>, because it interleaves three audiences with three different completion bars — a charter that needs approving, a blueprint that needs executing, and one person's ninety-day plan. It is kept here unchanged as the source they were derived from.</p>
+          <p style="margin-bottom:0"><a class="link" href="practice/index.html"><strong>Open the rebuilt practice →</strong></a> &nbsp;·&nbsp; <a class="link" href="practice/charter.html">A · Practice Charter</a> &nbsp;·&nbsp; <a class="link" href="practice/operating-model.html">B · Operating Model</a> &nbsp;·&nbsp; <a class="link" href="practice/first-90-days.html">C · First 90 Days</a></p>
+        </div>
 
         <nav class="toc">
           <h4>On this page</h4>

@@ -4,7 +4,7 @@ Living status doc. Update at the end of each working session so a fresh
 conversation can pick up cold. (`HANDOFF.md` is the original design-session
 handoff, kept for provenance — this file supersedes it for current status.)
 
-**Last updated:** 2026-09-06 — cheat sheet now exists in French and English as twin files with a locale toggle, English by default; practice page reorganised behind disclosures and its section ids de-numbered; JD success criteria mapped (section 10); activity solutions complete; sidebar glyphs; dashboard course map
+**Last updated:** 2026-09-07 — the TAM practice rebuilt as three separate documents in `practice/` (charter · operating model · first 90 days), resolved against the real job description; the original `#practice` page kept intact. Previously: cheat sheet now exists in French and English as twin files with a locale toggle, English by default; practice page reorganised behind disclosures and its section ids de-numbered; JD success criteria mapped (section 10); activity solutions complete; sidebar glyphs; dashboard course map
 
 ## What this is
 A self-paced 10-week technical training program for Leo, starting as a
@@ -381,3 +381,74 @@ irreversible decisions and new unverified claims all belong there.
 - CLI auth caches to ~/.vibeiq/configs/ on every laptop that ran it — an offboarding
   and handover risk nobody raises.
 - An "environment" is just another org; there is no environment abstraction.
+
+## The three-document practice rebuild (added 2026-09-07) — `practice/`
+The single-page `#practice` view was rebuilt against the real JD as **three
+separate documents in their own folder**, `practice/`. The old page is
+**kept and unchanged** except for one added "superseded by" card at the top;
+several modules link into its sections and it is the source the rebuild
+derives from. Nothing was deleted from `index.html`.
+
+**Files.** `practice/index.html` (overview, how to read, what changed) ·
+`practice/charter.html` (Document A) · `practice/operating-model.html`
+(Document B, the main deliverable) · `practice/first-90-days.html`
+(Document C) · `practice/practice.css` · `practice/practice.js`.
+
+**Why three.** The draft interleaved three audiences with three different
+completion bars — a charter that needs approving, a blueprint that needs
+executing, one person's 90-day plan — which is why the actual asks ended up at
+section 13 addressed to nobody. A = leadership (approvable in one sitting),
+B = whoever runs the practice, C = the person doing the job.
+
+**Technical notes.**
+- Plain static pages, no router. They reuse `../theme.css` and `../theme.js`
+  (the toggle is any `[data-theme-toggle]` element), and re-declare the hub's
+  `:root` token names in `practice.css` so the night palette works unchanged.
+  Adding a colour still means adding a token first.
+- `practice.js` does three things only: the mobile drawer, expand/collapse-all
+  over `<details>` inside `.col`, and sidebar scroll-spy. Everything degrades
+  with the script absent.
+- The hub's sidebar gained a **PRACTICE — REBUILT** group. Its sub-list uses
+  `class="sub always"` and a new `.sub.always{display:block}` rule, because the
+  router's `show()` strips `.open` from every `.sub` that has no matching
+  `data-for`. The links are plain `href`s with no `data-view`, so the hash
+  router (which only claims `a[data-view]`) leaves them alone.
+
+**Decisions taken in the rebuild — do not silently reverse them.**
+- **One verb model everywhere**: owns · contributes · advises · escalates ·
+  not TAM. Everything that is not "owns" names an accountable party.
+- **Four contradictions resolved in writing** (C1 escalation *ownership*, not
+  routing — the JD wins; C2 training split by audience; C3 TAM owns the
+  expansion *signal*, Sales owns the deal, attribution recorded at signal
+  creation; C4 reporting line is **decision zero**, unresolvable internally).
+- **Two provenance markers used throughout**: `[ER]` = expert recommendation,
+  not a VibeIQ decision; `[NEEDS INPUT]` = a fact the documents refuse to
+  invent. 45 `NEEDS INPUT` marks across the three, each carried into Document
+  A's 24-row decisions log. **Never fill one in with a plausible tool name.**
+- **The health score was deleted, not adjusted.** "Risk indicators identified ÷
+  total possible" had an unknowable denominator and measured the TAM rather
+  than the account. Replaced by a six-signal composite (integration error rate
+  25% · load failure rate 15% · workflow observability coverage 15% · unowned
+  attributes 15% · age of oldest open Sev 2 15% · configuration drift 15%),
+  every threshold marked `[ER]`, three of six inputs manual today.
+- **The Support boundary is load-bearing.** Five pull-in triggers; without them
+  the practice becomes a second-tier support queue. Three of the five are
+  unusable until VibeIQ's SLA table exists — that is decision 2 in the log.
+- **50 / 25 / 25 capacity split** (proactive / reactive / practice-building) is
+  the single number that protects proactive work. One hypercare account per TAM.
+- Also deleted and not softened: "scheduled QBR cadence adherence", "zero drift
+  incidents" as evidence, and the 12-month roadmap *with dependency tree*
+  (downgraded to a roadmap of **themes**, co-authored, conditional on VibeIQ
+  roadmap confirmation).
+- Preserved deliberately, because they are the draft's most credible material:
+  the anti-metrics tier, the instrumentation caveats and validity horizons
+  (90-day workflow window, 24-hour baseline link), the MTTR two-clock treatment
+  (**never average them**), the NPS treatment ("would recommend this TAM",
+  reported *alongside* account NPS), the templating rule and its Tier 1/2/3
+  classification, the day-one sequence, the attribute-ownership map, "bring one
+  risk you found before they did", "named repeatable deliverables rather than
+  availability", and every Week 1–10 artefact citation.
+
+The JD PDF is still not in the repo (`~/Downloads/Job Description _ Technical
+Account Manager (TAM) - LT.pdf`). All fourteen success measures and every
+essential function are mapped in Document B's scorecard.

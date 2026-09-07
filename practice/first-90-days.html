@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>First 90 Days and Worked Examples — VibeIQ TAM</title>
+<link rel="stylesheet" href="practice.css">
+<link rel="stylesheet" href="../theme.css">
+<script src="../theme.js"></script>
+<body>
+<div class="wrap">
+
+<aside class="sidebar">
+  <div class="brand">
+    <div class="dot">V</div>
+    <h1>VibeIQ TAM practice</h1>
+    <p>Documents A · B · C</p>
+  </div>
+
+  <div class="navlabel">DOCUMENTS</div>
+  <nav>
+    <a href="index.html"><span class="wk">·</span> Overview and how to read</a>
+    <a href="charter.html"><span class="wk">A</span> Practice Charter</a>
+    <a href="operating-model.html"><span class="wk">B</span> Operating Model</a>
+    <a href="first-90-days.html" class="active"><span class="wk">C</span> First 90 Days &amp; examples</a>
+    <div class="sub">
+      <a href="#why">Why this is a separate document</a>
+      <a href="#phase-1">Phase 1 · Days 1–30</a>
+      <a href="#baseline">— Baseline capture, days 10–20</a>
+      <a href="#phase-2">Phase 2 · Days 31–60</a>
+      <a href="#phase-3">Phase 3 · Days 61–90</a>
+      <a href="#worked-escalation">Worked example · the inherited escalation</a>
+      <a href="#artefact-map">Module-to-artefact map</a>
+      <a href="#questions">Open technical questions</a>
+    </div>
+  </nav>
+
+  <div class="navlabel">CONTEXT</div>
+  <nav>
+    <a href="../index.html">↩ Training hub (Weeks 1–10)</a>
+    <a href="../index.html#practice">↩ Original practice draft</a>
+  </nav>
+
+  <div class="navlabel">DISPLAY</div>
+  <button class="themectl" data-theme-toggle type="button"></button>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <button data-nav-toggle type="button">☰</button>
+    <span>Document C · First 90 Days</span>
+  </div>
+
+  <div class="col">
+
+    <p class="eyebrow">Document C · appendix</p>
+    <h2 class="title">First 90 Days and worked examples</h2>
+    <p class="lede">Personal sequencing and reference material, deliberately removed from the
+      blueprint. The first ninety days of one person's tenure, the inherited sync-and-performance
+      escalation worked end to end, the map from curriculum week to reusable artefact, and the
+      technical unknowns to close in the first quarter.</p>
+
+    <div class="card keystone">
+      <h4>Markers</h4>
+      <p style="margin-bottom:0"><span class="er">ER</span> = an expert recommendation, not a VibeIQ
+        decision. <span class="ni">NEEDS INPUT</span> = a fact this document does not have and will not
+        invent. Both carry through from
+        <a class="link" href="operating-model.html">Document B</a>.</p>
+    </div>
+
+    <h3 id="why">Why this is a separate document</h3>
+    <p>The first ninety days is one person's onboarding plan. Left inside the operating model it makes
+      a function look like a job, and it dates within a quarter while the blueprint does not. The same
+      goes for the worked escalation: it is excellent onboarding material, and sitting in the middle
+      of a section that defines a function it made the whole practice read as an escalation practice.
+      Both live here, and the operating model references them.</p>
+
+    <div class="toc plain">
+      <h4>On this page</h4>
+      <ol>
+        <li><a href="#phase-1">Phase 1 · Days 1–30 — inherit and stabilise</a></li>
+        <li><a href="#phase-2">Phase 2 · Days 31–60 — define and baseline</a></li>
+        <li><a href="#phase-3">Phase 3 · Days 61–90 — prove and adjust</a></li>
+        <li><a href="#worked-escalation">Worked example · the inherited sync and performance escalation</a></li>
+        <li><a href="#artefact-map">The module-to-artefact map</a></li>
+        <li><a href="#questions">Open technical questions for colleagues</a></li>
+      </ol>
+    </div>
+
+    <button class="expandall" data-expand-all type="button">Expand all sections</button>
+
+<!-- ==================================================================== -->
+    <h3 id="phase-1">Phase 1 · Days 1–30 — inherit and stabilise</h3>
+
+    <p>The sequence matters more than the speed, and the order below is not arbitrary: each step
+      narrows what the next one has to search. Take it nearly as written.</p>
+
+    <ol class="steps">
+      <li><strong><code>contrail types getAll</code> — the configuration export, on day one.</strong>
+        Ground truth about the configuration rather than anyone's memory of it, taken
+        <em>before</em> anyone's memory becomes the only record. It is also the first entry in the
+        configuration-drift signal, so every later drift measurement dates from this file.</li>
+      <li><strong>An end-to-end record trace.</strong> One record, source system → loader → entity →
+        workflow → publish → downstream consumer. Not a diagram from someone else — the trace, done
+        by hand, watching where it actually goes. This is the exit test for the pre-handoff stage and
+        it is the fastest way to find out which parts of the documented architecture are fiction.</li>
+      <li><strong>The attribute-ownership audit and the data-model health check</strong>
+        (<a class="link" href="../index.html#m2">W2</a>). One row per attribute across the three
+        systems, naming which is authoritative, who owns it as a person, and the conflict rule when
+        two disagree. Item layers, property levels, <code>federatedId</code> sources, duplicate
+        detection. This produces the most valuable single artefact the practice has.</li>
+      <li><strong>Workflow inventory plus the 90-day failure chart</strong>
+        (<a class="link" href="../index.html#m6">W6</a>). Every production workflow: trigger, path,
+        concurrency and message grouping, named owner, and — the question nobody has asked —
+        <em>who actually sees it when one goes FAILED?</em></li>
+      <li><strong>Integration review</strong> (<a class="link" href="../index.html#m3">W3</a> /
+        <a class="link" href="../index.html#m5">W5</a>) — and take control of the live escalation:
+        localise it first, then set the update rhythm, <em>before</em> attempting any fix. See the
+        <a class="link" href="#worked-escalation">worked example</a> below.</li>
+      <li><strong>Platform and operations</strong> (<a class="link" href="../index.html#m8">W8</a>):
+        org topology, credentials and where they live, custom apps and which runtime they sit in,
+        concurrency headroom against the ceilings.</li>
+      <li><strong>The people map.</strong> Who decides, who lags, who is sceptical, who has been
+        burned by a previous system. Adoption problems are almost never evenly distributed, and the
+        weak link is a person, not a feature.</li>
+      <li><strong>Write it up, ranked, and share it.</strong> Blockers separated from follow-ups. That
+        document is the credibility, and it is worth more than any fix delivered in the same period.</li>
+    </ol>
+
+    <div class="card warn" id="baseline">
+      <h4>Days 10–20 · Baseline capture — the step that cannot be done later</h4>
+      <p>Every outcome measure on the scorecard is a <em>reduction</em> or an <em>improvement</em>.
+        Without a number from before the TAM arrived, none of them is provable, and the entire
+        "evidence by end of year one" column becomes an assertion. This step captures those numbers
+        while the evidence still exists.</p>
+      <div class="tscroll">
+        <table>
+          <thead><tr><th>Baseline</th><th>Definition</th><th>Source</th><th>Caveat</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Cycle time</strong></td><td>Line plan opened → assortment locked and published, for each of the two seasons preceding arrival</td><td><code>AssortmentPublishChange</code> plus the customer's own calendar</td><td>Their calendar is authoritative on intent; the platform is authoritative on what happened. Record both.</td></tr>
+            <tr><td><strong>Duplicate rate</strong></td><td>Duplicate entities per thousand, by cause — <code>federatedId</code> generation vs. UI-created records that never had one</td><td>Data-model health check</td><td>Manual. Record the query used, or the second measurement will not be comparable.</td></tr>
+            <tr><td><strong>Load failure rate</strong></td><td>Failed loader runs ÷ total, per month, for the two preceding seasons</td><td><code>LoaderProcess</code></td><td>Retention undocumented — capture it now, not in month three.</td></tr>
+            <tr><td><strong>Escalation volume</strong></td><td>Sev 1 and Sev 2 raised per quarter, and time to close</td><td>Ticketing</td><td>Severity was assigned by whoever raised it. Note that beside the number rather than correcting it retrospectively.</td></tr>
+            <tr><td><strong>Adoption</strong></td><td>Active deciders per team; export-to-Excel frequency</td><td>Change history by user; observation and asking</td><td>Manual. The export habit is the truest of the two and the hardest to measure — ask, do not infer.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-bottom:0"><strong>Then get the customer to agree them in writing.</strong> Not
+        approval — agreement that these are the numbers, with the caveats attached. A baseline the
+        customer has not seen becomes a disputed baseline exactly when it starts showing improvement.
+        The <strong>90-day evidence horizon</strong> makes this urgent: workflow evidence older than a
+        quarter is gone, and no amount of later effort recovers it.</p>
+    </div>
+
+    <details open>
+      <summary><span class="plabel">Phase 1 exit criteria and checkpoints</span>
+        <span class="ppeek">what must be true, who confirms it, what is presented and to whom</span></summary>
+      <h5>What must be true to leave Phase 1</h5>
+      <ul>
+        <li>Configuration baseline exported, dated and stored.</li>
+        <li>One record traced end to end, in writing, unaided.</li>
+        <li>Attribute-ownership map v1 exists, with a conflict rule per contested attribute.</li>
+        <li>Data-model health check delivered; workflow inventory and 90-day failure chart complete.</li>
+        <li><strong>Baselines captured and agreed with the customer in writing.</strong></li>
+        <li>The live escalation is localised to a named checkpoint and running on a committed update
+          rhythm — <em>localised</em>, not fixed. Fixing it is Phase 3's exit criterion.</li>
+        <li>People map written; risk register opened with at least the risks the trace surfaced.</li>
+      </ul>
+      <h5>Who confirms</h5>
+      <ul>
+        <li><strong>Customer technical lead</strong> — confirms the baselines and that the end-to-end
+          trace matches their understanding.</li>
+        <li><strong>Delivery &amp; Support lead</strong> <span class="ni">NEEDS INPUT — <em>depends on
+          decision zero</em></span> — confirms the escalation status and the update rhythm.</li>
+        <li><strong>CSM</strong> — confirms the people map against their own stakeholder view.</li>
+      </ul>
+      <h5>What is presented, and to whom</h5>
+      <p style="margin-bottom:0">The <strong>ranked written findings</strong>, blockers separated from
+        follow-ups, to the customer's IT lead and internally in the same week. Same document, same
+        rankings, both audiences — a findings report that differs by audience is not a findings
+        report.</p>
+    </details>
+
+<!-- ==================================================================== -->
+    <h3 id="phase-2">Phase 2 · Days 31–60 — define and baseline</h3>
+
+    <p>Phase 1 was discovery, which mostly rewards effort. Phase 2 rewards getting other people to
+      decide things, which is slower and is the actual job. It is stated here as outcomes rather than
+      as a week-by-week list, because the sequencing depends on other people's calendars.</p>
+
+    <details open>
+      <summary><span class="plabel">Phase 2 exit criteria and checkpoints</span>
+        <span class="ppeek">the charter approved or decision zero escalated · the health index live · one account plan</span></summary>
+      <h5>What must be true to leave Phase 2</h5>
+      <ul>
+        <li><strong>The boundary model is approved with a name and a date</strong> — or decision zero
+          is formally escalated as blocking it, in writing, with the consequence named. Either outcome
+          closes the phase; neither being true does not.</li>
+        <li><strong>Health index v1 is computed, with its criteria published before the first score.</strong>
+          Coarse is acceptable; unpublished criteria are not.</li>
+        <li><strong>The risk register is live</strong>, every entry with a named owner, a target date
+          and a closure path.</li>
+        <li><strong>One account plan exists with the technical sections written</strong> — not a second
+          plan alongside the CSM's.</li>
+        <li>The weekly leading-indicator review and the <strong>monthly snapshot</strong> are both
+          running. The snapshot is the non-negotiable one.</li>
+        <li>Hypercare exit criteria agreed and minuted, if the account is in hypercare.</li>
+        <li><strong>Document A has been sent to leadership</strong> and every decision-log row has an
+          owner and a date against it — including the rows that are still open.</li>
+        <li>The Support interface session has happened, and the five pull-in triggers are either
+          agreed or the SLA gap that blocks three of them is escalated.</li>
+      </ul>
+      <h5>Who confirms</h5>
+      <ul>
+        <li><strong>Hiring manager</strong> — approves the charter, or answers decision zero.</li>
+        <li><strong>Support lead</strong> — confirms the pull-in triggers and the queue boundary.</li>
+        <li><strong>CSM</strong> — confirms the single-account-plan model and the section ownership.</li>
+        <li><strong>Customer technical lead</strong> — receives the first ranked health report.</li>
+      </ul>
+      <h5>What is presented, and to whom</h5>
+      <p style="margin-bottom:0"><strong>Document A to leadership</strong>, as a decision request and
+        not as a status update — twenty-one questions with proposed answers, owners and dates. And the
+        <strong>first ranked health report to the customer</strong>, with the health index and its
+        published criteria attached.</p>
+    </details>
+
+<!-- ==================================================================== -->
+    <h3 id="phase-3">Phase 3 · Days 61–90 — prove and adjust</h3>
+
+    <p>The test of Phase 3 is not whether the work was done. It is whether anything now exists that
+      would survive this person leaving.</p>
+
+    <details open>
+      <summary><span class="plabel">Phase 3 exit criteria and checkpoints</span>
+        <span class="ppeek">a QBR delivered · the escalation closed with a mechanism · the charter revised in public</span></summary>
+      <h5>What must be true to leave Phase 3</h5>
+      <ul>
+        <li><strong>The full cadence is running</strong> — daily sweep, weekly sync and indicator
+          review, monthly pack and snapshot — and has survived at least one week where it was
+          inconvenient.</li>
+        <li><strong>The first QBR is delivered</strong> with the standing technical block, containing
+          <em>one risk the customer did not already know about</em>, and it produced dated actions
+          with named owners on both sides.</li>
+        <li><strong>The inherited escalation is closed with a mechanism</strong> and a written
+          post-incident note naming the decision that made it possible — <em>or</em> it has a dated
+          plan with a named Engineering owner and an accepted RCA. Closed-because-quiet does not
+          count.</li>
+        <li><strong>Two catalogue services have been run twice and templated</strong>, per the
+          templating rule: templated the second time, while the second time was still fresh.</li>
+        <li>The problem-record construct has been used at least once, or it is explicitly recorded that
+          no signature reached three occurrences.</li>
+        <li><strong>The charter has been revised and the revision presented.</strong> A role defined
+          once and never revisited was defined wrong, and revising it publicly is how the practice
+          earns the right to keep defining itself.</li>
+        <li><strong>A 12-month roadmap of <em>themes</em></strong> — co-authored with the customer's IT
+          lead, explicitly dependent on VibeIQ roadmap confirmation, and explicitly not a dependency
+          tree. See the note below.</li>
+      </ul>
+      <h5>Who confirms</h5>
+      <ul>
+        <li><strong>CSM and the customer sponsor</strong> — confirm the QBR landed and the actions are
+          owned.</li>
+        <li><strong>Customer technical lead</strong> — confirms the escalation mechanism holds and
+          co-signs the roadmap themes.</li>
+        <li><strong>Delivery &amp; Support lead</strong> — receives the charter revision and the first
+          quarter's exception log.</li>
+      </ul>
+      <h5>What is presented, and to whom</h5>
+      <p style="margin-bottom:0">The <strong>quarterly portfolio review</strong>: the charter revision,
+        the first quarter's scorecard with everything that could not yet be measured named as such,
+        the capacity actuals against 50/25/25, and the exception log. If the practice-building 25 %
+        was zero for two of the three months, that is the headline, not a footnote.</p>
+    </details>
+
+    <div class="card warn">
+      <h4>Why the roadmap is themes, not a dependency tree</h4>
+      <p style="margin-bottom:0">A "12-month technical roadmap with a dependency tree" presumes
+        authority and inputs a ninety-day TAM does not have — the customer's own programme plans,
+        Implementation capacity, and VibeIQ's unreleased roadmap. Neither the job description nor the
+        charter grants that authority. What is deliverable, and useful, is a roadmap
+        <strong>of themes</strong>: four or five directions co-authored with the customer's IT lead,
+        each with the dependency named rather than resolved, and each explicitly conditional on VibeIQ
+        roadmap confirmation. Publishing a dependency tree built on three unknowns is how a TAM
+        acquires commitments nobody agreed to.</p>
+    </div>
+
+<!-- ==================================================================== -->
+    <h3 id="worked-escalation">Worked example · the inherited sync and performance escalation</h3>
+
+    <p>A live synchronisation and performance escalation is the situation being walked into, so it
+      deserves method rather than energy. <a class="link" href="../index.html#m9">Week 9</a> applies
+      directly, and its first rule is the one people break under pressure: the first question is not
+      "why is this happening?" but <strong>"which segment of the pipeline is this in?"</strong>
+      Localisation is cheap; theorising is expensive, and when you are new it is expensive in
+      credibility too.</p>
+
+    <p>This is referenced from
+      <a class="link" href="operating-model.html#escalation">Document B's escalation section</a> as the
+      worked example of what "the TAM owns escalated issues through to resolution" looks like in
+      practice.</p>
+
+    <h4>Localise first, and bisect at CP3</h4>
+    <p>Six checkpoints — source, loader, entities, workflows and formulas, publish, consumer. Start at
+      the <strong>entities</strong> (CP3): if the value is correct there, the problem is downstream; if
+      it is wrong, it is upstream. One look halves the search space, and it can be done before you
+      understand the customer's business.</p>
+
+    <details open>
+      <summary><span class="plabel">Separate three words the customer uses interchangeably</span>
+        <span class="ppeek">slow · late · lossy — different causes, different owners, different fixes</span></summary>
+      <div class="tscroll">
+        <table>
+          <thead><tr><th>They say</th><th>It means</th><th>Look at</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Slow</strong></td><td>The operation takes a long time</td><td>Shared capacity, concurrency ceilings, batch size, and "everything is slow" as a symptom shape</td></tr>
+            <tr><td><strong>Late</strong></td><td>It arrives, eventually</td><td>Polling window and interval, queue depth, serialisation via message grouping</td></tr>
+            <tr><td><strong>Lossy</strong></td><td>It never arrives at all</td><td>The integration seam, unprocessed deletes, silent skips, filters</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-bottom:0">Different causes, different owners, different fixes — and "the sync
+        is slow" gets used for all three. Ask which one they mean before anything else. Very often the
+        honest answer is <em>"two of them, and we have been treating it as one problem."</em></p>
+    </details>
+
+    <details>
+      <summary><span class="plabel">The eight synchronisation checks worth running first</span>
+        <span class="ppeek">publish · deletes · partial loads · concurrency — the ones that fail silently</span></summary>
+      <p>These are the ones that fail silently, which is exactly why a post-implementation escalation
+        reaches a TAM rather than being caught by an alert.</p>
+      <ol>
+        <li><strong>Event-driven or polled?</strong> Polling has a seam. The fix is overlap,
+          idempotency and data-derived timestamps — <em>not</em> "last successful run time".</li>
+        <li><strong>Did a publish actually happen?</strong> Is there an
+          <code>AssortmentPublishChange</code> at all?</li>
+        <li><strong><code>shouldSkipAssortmentPublish</code></strong> on the loader config bypasses the
+          publish workflow entirely. The load succeeds, and downstream never hears about it.</li>
+        <li><strong><code>partialAssortmentUpdate</code> defaults to <code>false</code></strong>, which
+          means <em>replace</em>. A partial file wipes everything not in it.</li>
+        <li><strong>Are deletes processed by the consumer?</strong> Publish deletes do not accumulate
+          across publishes — miss one and it is gone.</li>
+        <li><strong>Gaps in change IDs</strong> mean missed publishes. The recovery is a re-baseline,
+          and <strong>baseline links expire in 24 hours</strong> (refetching refreshes them).</li>
+        <li><strong>Intermittent, load-correlated, different records each time</strong> is a
+          concurrency race. <code>messageGroupId</code> / <code>dynamicMessageGroupId</code> is the fix.</li>
+        <li><strong>Duplicates</strong> point at <code>federatedId</code> generation, and at records
+          created by hand in the UI that never had one.</li>
+      </ol>
+    </details>
+
+    <div class="card keystone">
+      <h4>The highest-yield question in the whole method</h4>
+      <p style="margin-bottom:0"><strong>"If you retry, does the same record fail?"</strong> Same
+        record → logic or configuration. Different record → timing or concurrency. One question, asked
+        in the first five minutes, eliminates half the possibility space — and it is a question the
+        customer can answer without you.</p>
+    </div>
+
+    <div class="card warn">
+      <h4>Evidence has a lifetime</h4>
+      <p style="margin-bottom:0">Process List, the Workflows Dashboard and Workflow Artifacts retain
+        <strong>90 days</strong>. Baseline links expire in <strong>24 hours</strong>. Establish what
+        still exists before promising root cause on a problem that started months ago — and if the
+        trail is gone, say so plainly rather than producing a theory that cannot be tested.</p>
+    </div>
+
+    <details>
+      <summary><span class="plabel">The communication protocol</span>
+        <span class="ppeek">six rules — and why running the escalation well outranks fixing it fast</span></summary>
+      <p>How an escalation is run matters more to the relationship than how fast it is fixed, and it is
+        the part entirely within the TAM's control.</p>
+      <ol>
+        <li><strong>State known / suspected / unknown separately</strong>, every single time. Blurring
+          them is how trust is lost.</li>
+        <li><strong>Commit to the next update time</strong>, never a resolution time.</li>
+        <li><strong>Always give them something to do.</strong> A customer with a task is a participant;
+          one without is an audience.</li>
+        <li><strong>Say the business impact back in their terms</strong>, so they know you understood
+          what it costs them.</li>
+        <li><strong>Never answer "who's wrong?"</strong> Answer "here is what happened and here is what
+          we change."</li>
+        <li><strong>Close with the mechanism, not "fixed"</strong>, then write a short post-incident
+          note naming the decision that made the incident possible.</li>
+      </ol>
+      <p style="margin-bottom:0">That last note is not ceremony. Repeat-issue rate is on the scorecard,
+        and a post-incident note is the only thing that reliably moves it. It is also the input to a
+        problem record when the same signature turns up on a third account.</p>
+    </details>
+
+    <h4>How this example maps onto the operating model</h4>
+    <div class="tscroll">
+      <table>
+        <thead><tr><th>In this example</th><th>In Document B</th></tr></thead>
+        <tbody>
+          <tr><td>Bisecting at CP3 and naming the checkpoint in writing</td><td>Step 1 of <a class="link" href="operating-model.html#escalation">what the TAM owns during an escalation</a> — target under one business day</td></tr>
+          <tr><td>Known / suspected / unknown, and the committed update time</td><td>Steps 2 and 3 — the customer-facing narrative and the status cadence</td></tr>
+          <tr><td>Closing with the mechanism, not the status change</td><td>Step 5 — the follow-through that stops recurrence</td></tr>
+          <tr><td>The same signature appearing on a third account</td><td>The <a class="link" href="operating-model.html#escalation">problem-record construct</a></td></tr>
+          <tr><td>The eight silent checks becoming a customer-facing module</td><td>Enablement modules <strong>E2</strong> and <strong>E3</strong> — the mechanism that removes the failure class rather than the instance</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+<!-- ==================================================================== -->
+    <h3 id="artefact-map">The module-to-artefact map</h3>
+
+    <p>Eight artefacts are built across the ten-week programme, and they matter more than the modules
+      that produced them — they are what actually gets used on the job. The catalogue's credibility
+      comes from each service being backed by an artefact that <em>already exists</em> rather than one
+      that is promised.</p>
+
+    <div class="tscroll wide">
+      <table>
+        <thead><tr><th>Week</th><th>Module</th><th>Artefact produced</th><th>Which catalogue service uses it</th></tr></thead>
+        <tbody>
+          <tr><td><strong>W1</strong></td><td><a class="link" href="../index.html#m1">Business domain and where VibeIQ sits</a></td><td>The value statement — <em>decisions get made in VibeIQ, and context survives downstream</em></td><td>The mission itself; the QBR's value question; the account plan's value statement</td></tr>
+          <tr><td><strong>W2</strong></td><td><a class="link" href="../index.html#m2">Core data model</a></td><td><strong>Data-model health check</strong> + the attribute-ownership map</td><td>Health check · data mapping specification · enablement module E1 · the <em>unowned attributes</em> health signal</td></tr>
+          <tr><td><strong>W3</strong></td><td><a class="link" href="../index.html#m3">Apps and the publish lifecycle</a></td><td><strong>Publish integration review</strong></td><td>Architecture &amp; design review · release-readiness note · the publish-cadence adoption signal</td></tr>
+          <tr><td><strong>W4</strong></td><td><a class="link" href="../index.html#m4">The Loader framework</a></td><td><strong>Pre-load checklist</strong> (Tier 1 template — reuse as-is)</td><td>Load execution sign-off · enablement module E2 · the <em>load failure rate</em> health signal</td></tr>
+          <tr><td><strong>W5</strong></td><td><a class="link" href="../index.html#m5">Integration patterns</a></td><td><strong>Integration design review</strong></td><td>Architecture &amp; design review · integration performance review · enablement module E3 · the <em>integration error rate</em> health signal</td></tr>
+          <tr><td><strong>W6</strong></td><td><a class="link" href="../index.html#m6">Event workflows</a></td><td><strong>Workflow review</strong> + the workflow inventory</td><td>Health check · enablement module E4 · the <em>workflow observability coverage</em> health signal</td></tr>
+          <tr><td><strong>W7</strong></td><td><a class="link" href="../index.html#m7">Apps, extensions and the config boundary</a></td><td><strong>"Can it do X?" routing guide</strong> — the five-rung cost-of-ownership spectrum</td><td>Improvement-request triage and its routing rules · enablement module E5</td></tr>
+          <tr><td><strong>W8</strong></td><td><a class="link" href="../index.html#m8">Platform, security and operations</a></td><td><strong>Security questionnaire response kit</strong> (Tier 1 template)</td><td>Security questionnaire response · the architecture record's credentials and tenancy sections</td></tr>
+          <tr><td><strong>W9</strong></td><td><a class="link" href="../index.html#m9">Troubleshooting and escalation</a></td><td><strong>Triage card</strong> — six checkpoints, three ladders, symptom shape</td><td>Escalation management · the localisation step · the escalation-narration hiring exercise</td></tr>
+          <tr><td><strong>W10</strong></td><td><a class="link" href="../index.html#m10">Applied TAM practice</a></td><td>The capstone: discovery, architecture review, incident, QBR</td><td>QBR technical block · the onboarding path's day-90 phase · the architecture-review hiring exercise</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Two artefacts are worth singling out. The <strong>attribute-ownership map</strong> is the most
+      valuable single artefact in the kit — one row per attribute across three systems with a conflict
+      rule — because it turns an argument into a lookup and prevents escalations rather than resolving
+      them. The <strong>pre-load checklist</strong> is the most reusable, because it is the only
+      artefact that is identical on every account and is therefore the first Tier 1 template.</p>
+
+<!-- ==================================================================== -->
+    <h3 id="questions">Open technical questions for colleagues</h3>
+
+    <p>The technical unknowns, as distinct from the organisational decisions in
+      <a class="link" href="charter.html#decisions">Document A</a>. Each carries an owner, a target and
+      — the part that makes it a work item rather than a curiosity — <strong>the metric or the
+      practice decision it blocks</strong>. <em>"I'll find out" is a commitment, not a deflection:</em>
+      track these with owners and dates, and age them. Anything older than thirty days is a
+      follow-through failure, and it is a leading indicator on the TAM's own dashboard.</p>
+
+    <div class="tscroll wide">
+      <table>
+        <thead><tr><th>Question</th><th>Why it matters</th><th>Blocks</th><th>Owner</th><th>Target</th></tr></thead>
+        <tbody>
+          <tr><td>Is there <strong>customer-facing alerting</strong> on load, publish and workflow failure — or is the customer the alert?</td><td>Determines whether the MTTR clock starts when the failure happens or when someone notices</td><td>The true start of the MTTR clock; proxy is detection-source splitting</td><td>Product</td><td>Day 90</td></tr>
+          <tr><td>What is the <strong>documented retention</strong> of <code>LoaderProcess</code> records?</td><td>The 90-day figure is confirmed for workflow evidence; loader retention is undocumented</td><td>How far back the load-failure baseline can reach</td><td>Engineering</td><td>Day 30</td></tr>
+          <tr><td>How is <strong>workflow concurrency utilisation</strong> observed against the 25-per-workflow and 60-per-org ceilings?</td><td>Without it, "approaching a capacity ceiling" is a guess</td><td>Integration lag as a scored metric</td><td>Engineering</td><td>Day 60</td></tr>
+          <tr><td>Are <strong>rule sets enforced on API and Loader writes</strong>, or only in the UI?</td><td>Changes what can safely be asserted to a customer about data integrity</td><td>The data-model hygiene half of the health check; what enablement module E1 teaches</td><td>Engineering</td><td>Day 30</td></tr>
+          <tr><td>Are there <strong>documented numeric rate limits</strong>?</td><td>"Answer, and flag capacity early" requires a number to flag against</td><td>Design review conclusions on high-volume seams</td><td>Engineering</td><td>Day 60</td></tr>
+          <tr><td>Can <strong>baseline link expiry</strong> be extended, or is 24 hours fixed?</td><td>A re-baseline that must complete inside a day constrains recovery planning</td><td>The re-baseline runbook</td><td>Engineering</td><td>Day 45</td></tr>
+          <tr><td>What is <strong>GA versus roadmap in the AI layer</strong>?</td><td>The fastest way to lose technical credibility is to describe a roadmap item as available</td><td>What the TAM may say in a QBR</td><td>Product</td><td>Day 45</td></tr>
+          <tr><td>What is the <strong>real internal escalation routing</strong> — who is paged, in what order, on a Sev 1?</td><td>The routing in the original draft was inferred from the Week 9 default, not confirmed</td><td>Escalation pull-in trigger 1; the Support boundary</td><td>Support lead</td><td>Day 20</td></tr>
+          <tr><td>Is <strong>configuration drift</strong> observable any way other than diffing exports?</td><td>Three of the six health-index signals are manual; this is the most tedious of them</td><td>Automating 15 % of the health index weight</td><td>Engineering</td><td>Day 60</td></tr>
+          <tr><td>What <strong>consumer-side instrumentation</strong> do existing integrations already have?</td><td>Integration lag is invisible from inside VibeIQ; someone may already be measuring it</td><td>25 % of the health index weight (integration error rate)</td><td>Customer technical lead</td><td>Day 20</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card keystone">
+      <h4>The habit underneath all of this</h4>
+      <p style="margin-bottom:0"><strong>Bring one risk you found before the customer did, every
+        time.</strong> Every weekly sync, every QBR. It is the single habit that separates a technical
+        reference from a well-liked contact, and it is the entire basis of being believed during an
+        incident. And <strong>disagree well</strong>: lead with what is right in their design, argue
+        <em>consequence</em> rather than correctness, give the symptom they will experience rather than
+        the principle they are violating. You are not winning the argument — you are getting the change
+        made by someone who still calls you next time.</p>
+    </div>
+
+    <hr class="divider">
+    <div class="foot">
+      <p><strong>Document C · First 90 Days and worked examples</strong> — version 1.0, draft.
+        The blueprint is <a class="link" href="operating-model.html">Document B</a>; the decisions
+        needing sign-off are in <a class="link" href="charter.html">Document A</a>. This document dates
+        faster than either of them, and that is the point of separating it.</p>
+    </div>
+
+  </div>
+</main>
+</div>
+<div class="scrim"></div>
+<script src="practice.js"></script>
+</body>
+</html>
