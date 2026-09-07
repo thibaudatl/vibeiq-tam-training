@@ -712,7 +712,7 @@
             </tr>
             <tr>
               <td><strong>Weekly · leading-indicator review</strong><br>Internal, alone</td>
-              <td>The eight leading indicators, direction only</td>
+              <td>The <a class="link" href="#leading-indicators">eight leading indicators</a>, direction only</td>
               <td>The instrumentation dashboard</td>
               <td>Risk-register entries. This review <em>is</em> the mechanism behind "reduction in technical risk".</td>
               <td>10 min</td>
@@ -1448,7 +1448,7 @@
     <div class="tscroll">
       <table>
         <tbody>
-          <tr><th style="width:11em">What it is</th><td>One portfolio view: health index per account with its six inputs, the eight leading indicators, open escalations with their clocks, problem records, and capacity actuals against the 50/25/25 split.</td></tr>
+          <tr><th style="width:11em">What it is</th><td>One portfolio view: health index per account with its six inputs, the <a class="link" href="#leading-indicators">eight leading indicators</a>, the <a class="link" href="#practice-kpis">eight practice KPIs</a>, open escalations with their clocks, problem records, and capacity actuals against the 50/25/25 split.</td></tr>
           <tr><th>Owner</th><td>The TAM. Once there is more than one TAM, the practice lead — a dashboard nobody owns is stale within two months.</td></tr>
           <tr><th>Refresh</th><td>Leading indicators weekly, at the indicator review. Everything else monthly, at the snapshot, on the first working day.</td></tr>
           <tr><th>Built on</th><td><span class="ni">NEEDS INPUT — <em>VibeIQ's BI or reporting stack</em></span>. Until that is answered it is a spreadsheet, and saying so is better than implying a tool exists.</td></tr>
@@ -1494,7 +1494,10 @@
     <p>Every metric on the scorecard is one of: <strong>outcome</strong> (what the business buys),
       <strong>practice</strong> (whether the job is being run well), <strong>leading</strong> (early
       warning, watched for direction not value), or <strong>anti-metric</strong> (named so it can be
-      argued against). The tiers are a classification, not a separate scorecard.</p>
+      argued against). Outcome metrics are the fourteen job-description criteria below; the practice
+      and leading tiers are set out in
+      <a class="link" href="#practice-kpis">their own tables</a> at the end of this section, and the
+      anti-metrics are next.</p>
 
     <div class="card stop">
       <h4>Anti-metrics — argue against being measured on these</h4>
@@ -1553,7 +1556,7 @@
               <td>Escalation rate (Sev 1+2 per quarter) · risks surfaced proactively · <strong>materialised risks that were not on the register</strong></td>
               <td>Ticketing · risk register</td>
               <td>Monthly</td>
-              <td>The weekly leading-indicator review is the entire mechanism: a risk found on Tuesday's dashboard is not next month's escalation. Track proactive finds alongside the count, or a falling rate cannot be told apart from a customer who stopped calling.</td>
+              <td>The weekly <a class="link" href="#leading-indicators">leading-indicator review</a> is the entire mechanism: a risk found on Tuesday's dashboard is not next month's escalation. Track proactive finds alongside the count, or a falling rate cannot be told apart from a customer who stopped calling.</td>
               <td>Escalation rate down quarter on quarter <em>with</em> proactive finds up — the pair, never the first alone</td>
             </tr>
             <tr>
@@ -1757,6 +1760,74 @@
           the number. Saying that out loud before anyone asks is the difference between a scorecard
           that survives the year and one quietly abandoned in month four.</p>
       </div>
+    </details>
+
+    <h4>The two tiers the scorecard does not name</h4>
+    <p>The fourteen criteria above are the outcome tier: what the business is buying. Two tiers sit
+      underneath them and are what the job is actually run on week to week — <strong>practice
+      KPIs</strong>, which say whether the job is being done well, and <strong>leading
+      indicators</strong>, which warn you before any of it shows up in an outcome number. Neither
+      belongs on the scorecard leadership signs; both belong on the dashboard the TAM reads.</p>
+
+    <details id="practice-kpis">
+      <summary><span class="plabel">Practice KPIs — eight numbers, reviewed monthly</span>
+        <span class="ppeek">whether the job is being run well · four of these are the second-TAM triggers</span></summary>
+      <div class="tscroll wide">
+        <table>
+          <thead><tr><th>KPI</th><th>Definition</th><th>Target</th><th>Source</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Time to localise</strong></td><td>Escalation opened → a checkpoint (CP1–6) named in writing</td><td>&lt; 1 business day</td><td>Escalation log</td></tr>
+            <tr><td><strong>Time to first meaningful update</strong></td><td>Not an acknowledgement — known / suspected / unknown stated separately</td><td>≤ 4 hours</td><td>Escalation log</td></tr>
+            <tr><td><strong>Update promises kept</strong></td><td>% of committed update times actually met</td><td><strong>100%</strong> — the one number that must never slip</td><td>Escalation log</td></tr>
+            <tr><td><strong>Post-incident coverage</strong></td><td>% of Sev 1 / Sev 2 closed with a written note naming the mechanism</td><td>100%</td><td>Escalation log</td></tr>
+            <tr><td><strong>Improvement cycle time</strong></td><td>Intake → classified and routed, measured by class</td><td>≤ 5 working days to routed</td><td>Improvement pipeline</td></tr>
+            <tr><td><strong>Health-check currency</strong></td><td>% of accounts in the portfolio with a health check less than 90 days old</td><td>100%</td><td>Service log</td></tr>
+            <tr><td><strong>Unknowns closed</strong></td><td>Open technical questions answered and written down</td><td>≥ 3 per month in the first quarter</td><td>The open-questions list</td></tr>
+            <tr><td><strong>Self-sufficiency</strong></td><td>% of customer technical questions answered without escalating internally</td><td>≥ 70% by month 3</td><td>The TAM's own log</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Time to localise is the distinctive one.</strong> It measures the thing the whole
+        <a class="link" href="../index.html#m9">Week 9</a> method exists to produce, it is entirely
+        within the TAM's control, and it improves fast with practice — which makes it a good number to
+        be judged on while everything else is still being baselined. It is also one of the three
+        reported beside MTTR, for the reason given above: MTTR is only partly the TAM's, localisation
+        and communication are entirely the TAM's.</p>
+      <p style="margin-bottom:0">Four of these — health-check currency, time to first meaningful
+        update, unknowns aging past 30 days, and the practice-building share of capacity — are the
+        agreed triggers for hiring a second TAM. See
+        <a class="link" href="#people">Hiring, onboarding and career path</a>. That is what makes the
+        headcount argument a plan rather than a complaint: the threshold is set before it is crossed.</p>
+    </details>
+
+    <details id="leading-indicators">
+      <summary><span class="plabel">Leading indicators — eight signals, ten minutes a week</span>
+        <span class="ppeek">watch the direction, not the value — none of these is a target</span></summary>
+      <p>Reviewed in the weekly ten-minute <a class="link" href="#cadence">indicator review</a>.
+        <strong>Watch the direction, not the value.</strong> None of these is a target and none has a
+        threshold; each is a prompt to go and look, and the output of the review is a risk-register
+        entry or nothing. This review is the mechanism behind the "reduction in technical risk and
+        escalations" criterion — a risk found on Tuesday's dashboard is not next month's escalation.</p>
+      <div class="tscroll wide">
+        <table>
+          <thead><tr><th>Indicator</th><th>Watch for</th><th>What it means</th><th>Source</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Workflow failure count, 90-day</strong></td><td>Any upward slope</td><td>Degradation, days or weeks before a ticket</td><td>Process List / Workflows Dashboard</td></tr>
+            <tr><td><strong>Load success rate and volume</strong></td><td>A drop, or a step change in volume</td><td>A broken feed — or a new season starting</td><td><code>LoaderProcess</code></td></tr>
+            <tr><td><strong>Publish cadence</strong></td><td>A gap against their seasonal calendar</td><td>A team disengaged, or blocked on something</td><td><code>AssortmentPublishChange</code></td></tr>
+            <tr><td><strong>Integration lag</strong></td><td>Widening</td><td>Approaching a capacity ceiling</td><td>Consumer-side ack <span class="ni">NEEDS INPUT</span></td></tr>
+            <tr><td><strong>Adoption breadth by team</strong></td><td>One team flat while others grow</td><td>The weak link that eventually costs the renewal</td><td>Change history — manual</td></tr>
+            <tr><td><strong>Export-to-Excel behaviour</strong></td><td>Rising again</td><td>They have stopped trusting the system</td><td>Observation; ask, do not infer</td></tr>
+            <tr><td><strong>Open-unknown age</strong></td><td>Anything older than 30 days</td><td>The TAM's own follow-through failing</td><td>The open-questions list</td></tr>
+            <tr><td><strong>Sponsor engagement</strong></td><td>Declining meeting attendance</td><td>Political risk — the earliest signal of all</td><td>Observation</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-bottom:0">The last four overlap with the account signals in
+        <a class="link" href="#health">technical health and risk</a>, deliberately: there they are read
+        per account as evidence of where the relationship is going, here they are read weekly across
+        the portfolio as a prompt to open something. Same signal, two cadences, one entry in the risk
+        register when it fires.</p>
     </details>
 
 <!-- ==================================================================== -->
@@ -1972,7 +2043,7 @@
         <tbody>
           <tr><th style="width:9em">At 3 TAMs</th><td>No manager. A <strong>practice lead</strong> carrying a reduced portfolio (two to three Tier 1) who owns the template standard, the monthly practice review and the health index definition. Everyone still carries accounts — a management layer at three is overhead that produces process instead of coverage.</td></tr>
           <tr><th>At 8 TAMs</th><td>A <strong>TAM Manager with no portfolio</strong>. Two pods of three to four with a Senior TAM in each. One named owner for the enablement curriculum across the portfolio, because by eight it is a product and not a favour. The second-TAM threshold argument becomes a standing capacity model reviewed quarterly.</td></tr>
-          <tr><th>The threshold, argued in advance</th><td>A second TAM is justified when: health-check currency drops below 100% · time-to-first-meaningful-update starts slipping · open unknowns age past 30 days · the practice-building 25% has been zero for two consecutive months · or Tier 1 count exceeds the point where the weekly cadence stops fitting in a week. <strong>Set the threshold before it is crossed</strong> — a threshold agreed in advance is a plan; the same argument made afterwards is a complaint.</td></tr>
+          <tr><th>The threshold, argued in advance</th><td>A second TAM is justified when: <a class="link" href="#practice-kpis">health-check currency</a> drops below 100% · time-to-first-meaningful-update starts slipping · open unknowns age past 30 days · the practice-building 25% has been zero for two consecutive months · or Tier 1 count exceeds the point where the weekly cadence stops fitting in a week. <strong>Set the threshold before it is crossed</strong> — a threshold agreed in advance is a plan; the same argument made afterwards is a complaint.</td></tr>
         </tbody>
       </table>
     </div>

@@ -59,6 +59,43 @@
     sync();
   }
 
+  /* ---- Deep links into a closed <details> --------------------------------
+     A hash that lands on a collapsed disclosure — or on anything inside one —
+     scrolls to it and leaves it shut, so the reader arrives at a summary line
+     with no content under it. Open the target and every <details> above it,
+     then re-scroll, because opening one changes the layout underneath it.
+
+     closest() on the element itself matches a <details> when the target IS
+     that details (or its summary), so step up via parentElement each time. */
+  var openTo = function (el) {
+    if (!el) return;
+    for (var d = el.closest('details'); d; d = d.parentElement && d.parentElement.closest('details')) {
+      d.open = true;
+    }
+    el.scrollIntoView({ block: 'start' });
+  };
+  var revealHash = function () {
+    if (!location.hash || location.hash.length < 2) return;
+    var el;
+    try { el = document.getElementById(decodeURIComponent(location.hash.slice(1))); }
+    catch (e) { return; }
+    openTo(el);
+  };
+  window.addEventListener('hashchange', revealHash);
+  revealHash();
+
+  // Same for same-page links clicked in the document or the rail: the browser
+  // fires hashchange only when the hash actually changes, so a second click on
+  // the link you are already at would otherwise do nothing.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var id = a.getAttribute('href').slice(1);
+    if (!id) return;
+    var el = document.getElementById(id);
+    if (el) { openTo(el); }
+  });
+
   /* ---- Current section in the sidebar -----------------------------------
      Cheap and approximate on purpose: the heading nearest the top of the
      viewport wins. No IntersectionObserver, no polyfill, no layout thrash

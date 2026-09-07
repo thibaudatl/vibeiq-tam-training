@@ -490,3 +490,30 @@ record and a future session needs to know what was deleted and why — in
 particular that the old health score was removed rather than adjusted, and that
 the anti-metrics, MTTR and NPS treatments are carried-forward material that must
 not be softened. Do not strip this section to match the pages.
+
+### The two missing metric tiers restored (2026-09-07)
+The merge of old §9 and §10 into Document B's `#metrics` dropped two tables and
+left three dangling references to them. Restored under a new h4, **"The two
+tiers the scorecard does not name"**, at the end of `#metrics`:
+
+- `#practice-kpis` — the eight practice KPIs with definition, target and source
+  (time to localise · time to first meaningful update · update promises kept ·
+  post-incident coverage · improvement cycle time · health-check currency ·
+  unknowns closed · self-sufficiency), plus the "time to localise is the
+  distinctive one" paragraph. Four of them are the agreed second-TAM triggers,
+  and Part V's threshold row now links here.
+- `#leading-indicators` — the eight weekly signals with what to watch for, what
+  it means and a source. The last four overlap the account signals in `#health`
+  on purpose: same signal, two cadences. Said out loud in the section so it does
+  not read as duplication.
+
+The three references that used to dangle — the cadence table's "eight leading
+indicators", the dashboard spec, and the risk-reduction criterion calling the
+weekly review "the entire mechanism" — are now links.
+
+`practice.js` gained **deep-link reveal**: a hash landing on a closed `<details>`
+(or anything inside one) opens it and every ancestor, then re-scrolls, because
+opening one changes the layout beneath it. Runs on load, on `hashchange`, and on
+click of any same-page link — the click path matters because `hashchange` does
+not fire when the hash is already what you clicked. Without it, every deep link
+into a disclosure landed on a summary line with nothing under it.
