@@ -411,8 +411,14 @@ B = whoever runs the practice, C = the person doing the job.
 - The hub's sidebar gained a **PRACTICE — REBUILT** group. Its sub-list uses
   `class="sub always"` and a new `.sub.always{display:block}` rule, because the
   router's `show()` strips `.open` from every `.sub` that has no matching
-  `data-for`. The links are plain `href`s with no `data-view`, so the hash
-  router (which only claims `a[data-view]`) leaves them alone.
+  `data-for`. The links are plain `href`s with **no `data-view` and no
+  `.subitem` class** — both matter. `.subitem` has no CSS attached at all; it is
+  purely the router's click hook, and a link carrying it without a `data-view`
+  called `show(null)`, which hid every view (blank page), marked every subitem
+  `.here`, and rewrote the hash to `#null`. Two guards were added at the same
+  time: `subs` now selects `a.subitem[data-view]`, and `show()` returns early
+  when no `#view-<id>` element exists rather than clearing the page. The init
+  call already validated its id, so neither guard changes normal routing.
 
 **Decisions taken in the rebuild — do not silently reverse them.**
 - **One verb model everywhere**: owns · contributes · advises · escalates ·

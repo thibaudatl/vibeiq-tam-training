@@ -547,9 +547,9 @@
     <nav>
       <a href="practice/index.html"><span class="wk">◈</span> The TAM practice · A B C</a>
       <div class="sub always">
-        <a class="subitem" href="practice/charter.html"><span class="ty">🤝</span>A · Practice Charter</a>
-        <a class="subitem" href="practice/operating-model.html"><span class="ty">🤝</span>B · Operating Model</a>
-        <a class="subitem" href="practice/first-90-days.html"><span class="ty">🤝</span>C · First 90 Days</a>
+        <a href="practice/charter.html"><span class="ty">🤝</span>A · Practice Charter</a>
+        <a href="practice/operating-model.html"><span class="ty">🤝</span>B · Operating Model</a>
+        <a href="practice/first-90-days.html"><span class="ty">🤝</span>C · First 90 Days</a>
       </div>
     </nav>
 
@@ -7011,7 +7011,7 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
 <script>
   const views = document.querySelectorAll('.view');
   const links = document.querySelectorAll('nav a[data-view]:not(.subitem)');
-  const subs  = document.querySelectorAll('a.subitem');
+  const subs  = document.querySelectorAll('a.subitem[data-view]');
   const topTitle = document.getElementById('topTitle');
   const titles = {
     dashboard:'Dashboard', m1:'Module 1 · Domain', m2:'Module 2', m3:'Module 3', m4:'Module 4 · Loader',
@@ -7019,9 +7019,13 @@ IMPACT    Line review 14:00 today. Nightly load disabled pending answer.
     practice:'TAM practice', findings:'Key findings', priority:'Priority matrix', questions:'Colleague questions', links:'Doc links'
   };
   function show(id, anchor){
-    views.forEach(v=>v.classList.remove('show'));
+    // No view for this id means the caller is not ours to handle (an external
+    // link that picked up a router class, say). Do nothing rather than hide
+    // every view and leave a blank page behind.
     const el = document.getElementById('view-'+id);
-    if(el) el.classList.add('show');
+    if(!el) return;
+    views.forEach(v=>v.classList.remove('show'));
+    el.classList.add('show');
     links.forEach(a=>{
       const on = a.getAttribute('data-view')===id;
       a.classList.toggle('active', on);
