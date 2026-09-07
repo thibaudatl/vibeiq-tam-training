@@ -452,3 +452,35 @@ B = whoever runs the practice, C = the person doing the job.
 The JD PDF is still not in the repo (`~/Downloads/Job Description _ Technical
 Account Manager (TAM) - LT.pdf`). All fourteen success measures and every
 essential function are mapped in Document B's scorecard.
+
+### The documents no longer reference the old page (2026-09-07, from Leo)
+Leo asked for every mention of and comparison to the single-page `#practice`
+view to be removed from the three documents. They now read as standalone work
+rather than as a diff against a predecessor.
+
+- "Four contradictions, resolved in writing" → **"Four positions, stated
+  explicitly"**. The substance of C1–C4 is unchanged and the ids and labels
+  C1–C4 are kept; the framing changed from *draft vs. JD* to *this is commonly
+  read the other way round*. C4 was always JD-internal and needed no reframing.
+- The health-index rationale is now "why this is built from platform signals
+  rather than from a count of findings" — the critique of *risk indicators
+  identified ÷ total possible* survives in full, but as a design warning rather
+  than as a description of what was replaced.
+- `practice/index.html` lost its "What changed from the draft" section (the
+  M1–M13 / deleted / preserved / E1–E9 lists). It gained **"Where to find
+  things"**, a 23-row index into Document B, and **"Commitments that hold"**,
+  which carries the nine preserve-list items reframed as positions that will not
+  be traded away in review. The acceptance checklist became "How these documents
+  were checked" and lost its two predecessor-relative rows.
+- Every `↩ Original practice draft` sidebar link is gone from all four pages.
+- The card on the hub's `#practice` view is now a plain forward pointer ("there
+  is a fuller version of this in its own folder") rather than a superseded-by
+  notice. The old page's own content is still untouched.
+- README's rebuild section became **"The TAM practice"** and describes the
+  documents and the rules they follow instead of diffing them.
+
+**This file deliberately keeps the comparison**, because it is the provenance
+record and a future session needs to know what was deleted and why — in
+particular that the old health score was removed rather than adjusted, and that
+the anti-metrics, MTTR and NPS treatments are carried-forward material that must
+not be softened. Do not strip this section to match the pages.
