@@ -4,7 +4,7 @@ Living status doc. Update at the end of each working session so a fresh
 conversation can pick up cold. (`HANDOFF.md` is the original design-session
 handoff, kept for provenance — this file supersedes it for current status.)
 
-**Last updated:** 2026-09-07 — the TAM practice rebuilt as three separate documents in `practice/` (charter · operating model · first 90 days), resolved against the real job description; the original `#practice` page kept intact. Previously: cheat sheet now exists in French and English as twin files with a locale toggle, English by default; practice page reorganised behind disclosures and its section ids de-numbered; JD success criteria mapped (section 10); activity solutions complete; sidebar glyphs; dashboard course map
+**Last updated:** 2026-09-07 — the TAM practice is now three separate documents in `practice/` (charter · operating model · first 90 days), written against the real job description; the old single-page `#practice` view has been **removed** from `index.html`. Previously: cheat sheet now exists in French and English as twin files with a locale toggle, English by default; practice page reorganised behind disclosures and its section ids de-numbered; JD success criteria mapped (section 10); activity solutions complete; sidebar glyphs; dashboard course map
 
 ## What this is
 A self-paced 10-week technical training program for Leo, starting as a
@@ -517,3 +517,38 @@ opening one changes the layout beneath it. Runs on load, on `hashchange`, and on
 click of any same-page link — the click path matters because `hashchange` does
 not fire when the hash is already what you clicked. Without it, every deep link
 into a disclosure landed on a summary line with nothing under it.
+
+## The old single-page practice view is gone (2026-09-07, from Leo)
+`practice/` is now *the* practice. The `#practice` view was deleted from
+`index.html` — 64 KB, thirteen sections — along with its thirteen-item sidebar
+group and its dashboard Practice map.
+
+What moved where:
+
+| Was | Now |
+|---|---|
+| Sidebar group **PRACTICE** (13 subitems) | **PRACTICE** → three plain links into `practice/` |
+| Dashboard **Practice map** (13 sections) | Practice map over documents **A / B / C**, with A's five sections, B's five Parts and C's four sections |
+| W10 "bridge to the TAM practice page" | → `practice/index.html` |
+| W10 service-catalogue cross-reference | → `practice/operating-model.html#catalogue` |
+| W10 KPI cross-reference | → `practice/operating-model.html#metrics` |
+| W10 pagers, top and bottom | → `practice/index.html` |
+| Colleague questions → "practice page, section 10" | → `practice/operating-model.html#metrics` |
+| Router `titles` entry `practice:` | removed |
+
+Checked after: zero `#practice` hrefs and zero `data-view="practice"` remain;
+every `data-view` still resolves to a real view; no broken hash links, file
+links or cross-document anchors in either direction; the document parses with
+no unbalanced tags. Verified in-browser that the practice map, the sidebar group
+and the Week 10 "Next →" pager all land correctly.
+
+`modules/practice-tam-operating-model.md` was **kept but relabelled an
+archive** — nothing links to it, it is not maintained, and its header now warns
+that several of its positions were reversed (escalation ownership and the health
+score above all). Deleting it was deliberately not done: it is the only readable
+record of what the three documents were derived from, and this file's notes on
+what was dropped only make sense against it.
+
+Known pre-existing behaviour, unchanged and unrelated: the hub routes on click,
+not on `hashchange`, so editing the address bar hash without reloading does not
+switch views.

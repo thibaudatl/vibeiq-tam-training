@@ -1,13 +1,15 @@
 # Practice — Building the TAM function at VibeIQ
 
-> **Superseded (2026-09-07).** This note is the source for the `#practice` page in
-> `index.html`, both of which are kept as they are. The practice has since been
-> rebuilt against the real job description as three separate documents in
-> [`practice/`](../practice/) — A the charter, B the operating model, C the first
-> 90 days. Those are HTML and have no markdown twin: duplicating them here would
-> be two copies of the same truth, which is the thing their own "one object, one
-> system" rule forbids. Read this note for what the rebuild derived from; read
-> `practice/` for what the practice now is.
+> **Archive — not maintained (2026-09-07).** This was the working note behind the
+> single-page `#practice` view in `index.html`. That view has been removed and
+> replaced by three documents in [`practice/`](../practice/) — A the charter,
+> B the operating model, C the first 90 days. Nothing links here any more.
+>
+> It is kept for provenance: it is what the three documents were derived from,
+> and `docs/STATE.md` records which of its decisions were carried forward, which
+> were deleted and why. **Do not edit it, and do not treat it as current** —
+> several positions in it were reversed, most importantly escalation ownership
+> and the account health score.
 
 Not a week of the curriculum. Weeks 1–10 build the knowledge; this is how the job
 is *run*. Written because the role is not defined at VibeIQ yet — so the first
