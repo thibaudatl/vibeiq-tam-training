@@ -4,7 +4,7 @@ Living status doc. Update at the end of each working session so a fresh
 conversation can pick up cold. (`HANDOFF.md` is the original design-session
 handoff, kept for provenance — this file supersedes it for current status.)
 
-**Last updated:** 2026-09-07 — the TAM practice is now three separate documents in `practice/` (charter · operating model · first 90 days), written against the real job description; the old single-page `#practice` view has been **removed** from `index.html`. Previously: cheat sheet now exists in French and English as twin files with a locale toggle, English by default; practice page reorganised behind disclosures and its section ids de-numbered; JD success criteria mapped (section 10); activity solutions complete; sidebar glyphs; dashboard course map
+**Last updated:** 2026-11-03 — Module 1 gained a **Learn the business** deep dive (13 stages, see below). Previously, 2026-09-07 — the TAM practice is now three separate documents in `practice/` (charter · operating model · first 90 days), written against the real job description; the old single-page `#practice` view has been **removed** from `index.html`. Previously: cheat sheet now exists in French and English as twin files with a locale toggle, English by default; practice page reorganised behind disclosures and its section ids de-numbered; JD success criteria mapped (section 10); activity solutions complete; sidebar glyphs; dashboard course map
 
 ## What this is
 A self-paced 10-week technical training program for Leo, starting as a
@@ -552,3 +552,43 @@ what was dropped only make sense against it.
 Known pre-existing behaviour, unchanged and unrelated: the hub routes on click,
 not on `hashchange`, so editing the address bar hash without reloading does not
 switch views.
+
+## Module 1 — "Learn the business" (added 2026-11-03, from Leo)
+A deep dive on how a big apparel brand runs product creation, written from two
+sources Leo supplied: the infographic *How a Big Brand Creates Apparel Product
+Creation Deep Dive.pdf* (13 stages, 3 phases) and the note *VibeIQ Ramp-Up
+Business of Apparel.md* (9 stages, personas, KPIs, glossary, self-study plan).
+Neither source file is committed; both sit untracked in the repo root.
+
+- **One `<h3>`** (`m1-learn-the-business`), placed after Concept 5 and before
+  Recommended reading, so the sidebar gains one entry and Concepts 1–5 keep
+  their ids. Concept 1 and Concept 4 carry a one-line pointer to it.
+- The **13-stage infographic is the spine**; the note's detail is folded into
+  the matching stage (line-planning concepts → 03, design cycle → 02/04,
+  dev artefacts → 06–09, KPIs → their own disclosure after 03).
+- Parts are `<h4>` anchors (`m1-lb-glance`, `-room`, `-decide`, `-develop`,
+  `-deliver`, `-systems`, `-practise`, `-glossary`), reached from an in-section
+  mini nav. **The mini nav is a `<div role="navigation">`, not a `<nav>`**:
+  the router's `links` selector is `nav a[data-view]`, so links inside any
+  `<nav>` get sidebar styling and route without their anchor.
+- Stages and reference tables reuse the `.pdis` disclosures (CSS left over
+  from the old practice page) and the view-scoped **Expand all** button.
+- Three inline SVGs: the overlapping calendar, the landed-cost stack, the
+  systems flow. Marker id is `ar-lb` (`ar2` was already taken).
+- Discrepancy between the sources, resolved in the text: the note puts
+  regional adoption before development, the infographic at stage 11. Stage 11
+  says brands differ and tells the TAM to ask.
+- Statistics are labelled as cited in the infographic (McKinsey, Uphance,
+  HUGO BOSS, Perry Ellis), not verified against primary sources.
+- Also updated in the same edit: learning objective (5), sidebar, on-page
+  agenda and the dashboard course map entry.
+- **The section has its own quiz** (`<h4 id="m1-lb-quiz">` "Check yourself",
+  8 questions with model answers, its own Reveal-all button), placed after
+  the glossary. It is deliberately **separate from the module quiz**, which
+  stays at 8 questions so the dashboard's recorded "✅ 8/8" stays true. The
+  section quiz is tracked separately on the dashboard ("Learn the business
+  0/8"). Q5 and Q6 are calculations (options/SKUs; landed cost → IMU); if a
+  figure in the section changes, re-check them.
+- Dashboard (hub and `dashboard.md`): one new Critical row in Confidence by
+  major topic, and the Week 1 status/quiz cells mention the section. Nothing
+  deeper — the dashboard tracks topics, not sections.

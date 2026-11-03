@@ -283,6 +283,18 @@
     border-radius:7px;padding:6px 12px;font-size:12.5px;font-weight:600;cursor:pointer;
     font-family:inherit;margin:4px 0 18px}
   .expandall:hover{background:var(--accent-soft);border-color:var(--accent)}
+  /* ---- Learn the business (Module 1) ------------------------------------
+     A stat strip and an in-section mini nav. The section is one <h3> so the
+     sidebar gets one entry; its parts are <h4> anchors reached from here. */
+  .lbstats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0 6px}
+  .lbstats > div{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px}
+  .lbstats b{display:block;font-size:20px;color:var(--accent-ink);line-height:1.2;margin-bottom:4px}
+  .lbstats span{font-size:13px;color:var(--ink-2);line-height:1.45;display:block}
+  .lbmini{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;font-size:14px;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 0;margin:16px 0 10px}
+  .lbmini-h{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+  .pdis > table th, .pdis .tscroll tbody th{width:130px}
+  @media (max-width:760px){ .lbstats{grid-template-columns:repeat(2,1fr)} }
   @media (max-width:640px){
     .pdis > summary{gap:2px 10px}
     .ppeek{flex-basis:100%}
@@ -379,6 +391,7 @@
         <a class="subitem" href="#m1/m1-concept-3-where-vibeiq-sits" data-view="m1" data-anchor="m1-concept-3-where-vibeiq-sits"><span class="ty">🤝</span>3. Where VibeIQ sits</a>
         <a class="subitem" href="#m1/m1-concept-4-who-the-users-are" data-view="m1" data-anchor="m1-concept-4-who-the-users-are"><span class="ty">🤝</span>4. Who the users are</a>
         <a class="subitem" href="#m1/m1-concept-5-contrail-vs-the-marketing-brand" data-view="m1" data-anchor="m1-concept-5-contrail-vs-the-marketing-brand"><span class="ty">🤝</span>5. Contrail vs. the marketing brand</a>
+        <a class="subitem" href="#m1/m1-learn-the-business" data-view="m1" data-anchor="m1-learn-the-business"><span class="ty">🤝</span>Learn the business</a>
         <a class="subitem" href="#m1/m1-recommended-reading" data-view="m1" data-anchor="m1-recommended-reading"><span class="ty">📚</span>Recommended reading</a>
         <a class="subitem" href="#m1/m1-practical-exercise" data-view="m1" data-anchor="m1-practical-exercise"><span class="ty">✅</span>Practical exercise</a>
         <a class="subitem" href="#m1/m1-realistic-customer-scenario" data-view="m1" data-anchor="m1-realistic-customer-scenario"><span class="ty">✅</span>Realistic customer scenario</a>
@@ -622,6 +635,11 @@
               <summary><span class="ty">🤝</span>5. Contrail vs. the marketing brand</summary>
               <p>Contrail is the engineering sub-brand behind the docs and the <code>@contrail/*</code> packages; VibeIQ is the commercial brand. Also the caution on AI claims: heavily marketed, thinly documented — confirm GA vs. roadmap before repeating any of it.</p>
               <p class="cgo"><a class="link" href="#m1/m1-concept-5-contrail-vs-the-marketing-brand" data-view="m1" data-anchor="m1-concept-5-contrail-vs-the-marketing-brand">Go to this section →</a></p>
+            </details>
+            <details class="csec">
+              <summary><span class="ty">🤝</span>Learn the business</summary>
+              <p>The deep dive behind Concepts 1 and 4: how a big brand gets from season strategy to shelf in thirteen stages and three phases (Decide, Develop, Deliver). Each stage has its goal, teams, output, decision gate and the system it lives in, plus the merchandiser's KPIs, sampling rounds, landed cost, the systems map, sandbox exercises, a forty-term glossary and an eight-question quiz of its own.</p>
+              <p class="cgo"><a class="link" href="#m1/m1-learn-the-business" data-view="m1" data-anchor="m1-learn-the-business">Go to this section →</a></p>
             </details>
             <details class="csec">
               <summary><span class="ty">📚</span>Recommended reading</summary>
@@ -1417,7 +1435,7 @@
         <table>
           <thead><tr><th>Wk</th><th>Module</th><th>Status</th><th>Quiz</th><th>Challenge</th></tr></thead>
           <tbody>
-            <tr><td>1</td><td>Business domain &amp; where VibeIQ sits</td><td>🟡 Quiz passed (open book)</td><td>✅ 8/8</td><td>⬜ Pitches</td></tr>
+            <tr><td>1</td><td>Business domain &amp; where VibeIQ sits</td><td>🟡 Quiz passed (open book) · Learn the business to read</td><td>✅ 8/8 · ⬜ Learn the business 0/8</td><td>⬜ Pitches</td></tr>
             <tr><td>2</td><td>Core data model (keystone)</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>3</td><td>End-user apps &amp; publish lifecycle</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
             <tr><td>4</td><td>Data in: the Loader framework</td><td>📖 Ready to read</td><td>—</td><td>—</td></tr>
@@ -1436,6 +1454,7 @@
           <thead><tr><th>Topic</th><th>Priority</th><th>Confidence</th></tr></thead>
           <tbody>
             <tr><td>VibeIQ positioning (upstream, "sits alongside")</td><td><span class="pill p-crit">Critical</span></td><td>🟡</td></tr>
+            <tr><td>The business: how a brand creates product (13 stages, triad, KPIs, hand-offs)</td><td><span class="pill p-crit">Critical</span></td><td>🔴</td></tr>
             <tr><td>Core data model: Item / ProjectItem / AssortmentItem</td><td><span class="pill p-crit">Critical</span></td><td>🔴</td></tr>
             <tr><td>Property levels (Family / Option / Override)</td><td><span class="pill p-crit">Critical</span></td><td>🔴</td></tr>
             <tr><td>Project (season) / Assortment structure</td><td><span class="pill p-crit">Critical</span></td><td>🔴</td></tr>
@@ -1481,6 +1500,7 @@
             <li><a href="#m1/m1-concept-3-where-vibeiq-sits" class="subitem" data-view="m1" data-anchor="m1-concept-3-where-vibeiq-sits"><span class="ty">🤝</span>Where VibeIQ sits</a></li>
             <li><a href="#m1/m1-concept-4-who-the-users-are" class="subitem" data-view="m1" data-anchor="m1-concept-4-who-the-users-are"><span class="ty">🤝</span>Who the users are</a></li>
             <li><a href="#m1/m1-concept-5-contrail-vs-the-marketing-brand" class="subitem" data-view="m1" data-anchor="m1-concept-5-contrail-vs-the-marketing-brand"><span class="ty">🤝</span>Contrail vs. the marketing brand</a></li>
+            <li><a href="#m1/m1-learn-the-business" class="subitem" data-view="m1" data-anchor="m1-learn-the-business"><span class="ty">🤝</span>Learn the business — how a big brand creates product</a></li>
             <li><a href="#m1/m1-recommended-reading" class="subitem" data-view="m1" data-anchor="m1-recommended-reading"><span class="ty">📚</span>Recommended reading</a></li>
             <li><a href="#m1/m1-practical-exercise" class="subitem" data-view="m1" data-anchor="m1-practical-exercise"><span class="ty">✅</span>Practical exercise</a></li>
             <li><a href="#m1/m1-realistic-customer-scenario" class="subitem" data-view="m1" data-anchor="m1-realistic-customer-scenario"><span class="ty">✅</span>Realistic customer scenario</a></li>
@@ -1492,7 +1512,7 @@
 
         <div class="card keystone">
           <h4>Learning objectives</h4>
-          <p style="margin-bottom:0">By the end of this week you can (1) describe the seasonal go-to-market process at the level a merchandiser would recognize, using their vocabulary, (2) explain in one minute what VibeIQ does and why it is <em>not</em> a PLM, (3) draw a customer's system landscape and say which system owns which attribute, and (4) navigate the "Contrail vs. marketing brand" distinction.</p>
+          <p style="margin-bottom:0">By the end of this week you can (1) describe the seasonal go-to-market process at the level a merchandiser would recognize, using their vocabulary, (2) explain in one minute what VibeIQ does and why it is <em>not</em> a PLM, (3) draw a customer's system landscape and say which system owns which attribute, (4) navigate the "Contrail vs. marketing brand" distinction, and (5) walk a big brand's season stage by stage, naming who owns each stage, the gate that closes it and the system it lives in.</p>
         </div>
 
         <h3 id="m1-concept-1-the-domain-seasonal-product-creati">Concept 1 — The domain: seasonal product creation</h3>
@@ -1513,6 +1533,7 @@
           </tbody>
         </table>
         <p>VibeIQ lives in the <strong>top half</strong> — concept through line review, and again at sell-in. The bottom half (tech packs, BOM, costing, POs) belongs to PLM and ERP.</p>
+        <p>This is the seven-row version. The thirteen-stage version, with each stage's teams, output, gate and system, is in <a class="link" href="#m1/m1-learn-the-business" data-view="m1" data-anchor="m1-learn-the-business">Learn the business</a>.</p>
 
         <h4>Key vocabulary — learn these cold</h4>
         <p>Customers use these constantly and will not stop to define them. Not knowing them is the fastest way to sound external in a room of merchants.</p>
@@ -1668,6 +1689,7 @@
           <h4></h4>
           <p style="margin-bottom:0">"Adoption" is never monolithic. Merchandisers can be all-in while design still works elsewhere — meaning creative context enters VibeIQ late or not at all. That's a real, diagnosable health problem. Know <em>which</em> team is the weak link.</p>
         </div>
+        <p>The full cast, including the product triad and the eleven teams it relies on, is in <a class="link" href="#m1/m1-lb-room" data-view="m1" data-anchor="m1-lb-room">Learn the business → Who is in the room</a>.</p>
 
         <h3 id="m1-concept-5-contrail-vs-the-marketing-brand">Concept 5 — Contrail vs. the marketing brand</h3>
         <p>The platform has two voices for the same thing:</p>
@@ -1680,6 +1702,715 @@
           <h4>Caution — don't overpromise AI</h4>
           <p style="margin-bottom:0">AI capabilities are heavily marketed but thinly documented publicly. Until you confirm internally what's GA vs. beta vs. roadmap, don't promise AI functionality you can't substantiate. Overpromising on AI is the fastest way for a new TAM to create a trust problem.</p>
         </div>
+
+        <h3 id="m1-learn-the-business">Learn the business — how a big brand creates product</h3>
+        <p>Concepts 1 and 4 give the short version: the season in seven rows and the users in five. This section is the long version, a stage-by-stage walk through how a large apparel brand gets from season strategy to a product on the shelf. It covers who sits in each room, what each room produces, the decision that closes it, and which system holds the product at that point. Read it end to end once, then come back to the stage a customer is in before you talk to them.</p>
+        <div class="card keystone">
+          <h4>The rule underneath all of it</h4>
+          <p style="margin-bottom:0">The earlier a decision is made, the cheaper it is to change. Cutting a weak style at line review costs a meeting. Cutting it after the buy costs inventory and markdowns. VibeIQ's whole value claim rests on moving decisions earlier: stages 01–05 decide most of the cost and risk that stages 06–13 then pay for.</p>
+        </div>
+        <div class="lbmini" role="navigation" aria-label="Learn the business, in this section">
+          <span class="lbmini-h">In this section</span>
+          <a class="link" href="#m1/m1-lb-glance" data-view="m1" data-anchor="m1-lb-glance">The season at a glance</a>
+          <a class="link" href="#m1/m1-lb-room" data-view="m1" data-anchor="m1-lb-room">Who is in the room</a>
+          <a class="link" href="#m1/m1-lb-decide" data-view="m1" data-anchor="m1-lb-decide">Phase 1 · Decide</a>
+          <a class="link" href="#m1/m1-lb-develop" data-view="m1" data-anchor="m1-lb-develop">Phase 2 · Develop</a>
+          <a class="link" href="#m1/m1-lb-deliver" data-view="m1" data-anchor="m1-lb-deliver">Phase 3 · Deliver</a>
+          <a class="link" href="#m1/m1-lb-systems" data-view="m1" data-anchor="m1-lb-systems">The systems behind it</a>
+          <a class="link" href="#m1/m1-lb-practise" data-view="m1" data-anchor="m1-lb-practise">Practise it</a>
+          <a class="link" href="#m1/m1-lb-glossary" data-view="m1" data-anchor="m1-lb-glossary">Glossary</a>
+          <a class="link" href="#m1/m1-lb-quiz" data-view="m1" data-anchor="m1-lb-quiz">Check yourself</a>
+        </div>
+        <button class="expandall" type="button">Expand all sections</button>
+
+        <h4 id="m1-lb-glance">The season at a glance</h4>
+        <p>A big brand runs each season through <strong>thirteen stages in three phases</strong>, and a dozen teams take part. Each stage has one goal, a set of owners, an output and a <strong>decision gate</strong> that closes it. Brands rename and merge stages, but the shape below is what you will find under almost every customer's calendar.</p>
+        <div class="lbstats">
+          <div><b>&gt;40 wks</b><span>Typical industry lead time from first collection decisions to launch. Top performers do it in 6–8 weeks.</span></div>
+          <div><b>44 vs 28 wks</b><span>Average lead time of hybrid (wholesale + DTC) brands vs vertically integrated players.</span></div>
+          <div><b>15–30%</b><span>What freight, duty and handling typically add on top of the factory (FOB) price.</span></div>
+          <div><b>30–50%</b><span>Fewer physical samples reported by brands moving sampling to 3D.</span></div>
+        </div>
+        <p class="metric">Figures as cited in the source infographic: McKinsey (lead times, including a survey of 54 executives), Uphance (freight and duty), HUGO BOSS and Perry Ellis (3D sampling). Treat them as orders of magnitude, not as numbers to quote to a customer.</p>
+        <table>
+          <thead><tr><th>Phase</th><th>Stages</th><th>The question it answers</th><th>VibeIQ's role</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1 · Decide</strong></td><td>01–05</td><td>What goes into the line, at what price, for which markets?</td><td><span class="pill p-green">Core territory</span> Plan and Board</td></tr>
+            <tr><td><strong>2 · Develop</strong></td><td>06–10</td><td>How do approved styles become specified, sampled, costed, tested products?</td><td><span class="pill p-nice">PLM</span> VibeIQ publishes approved styles in</td></tr>
+            <tr><td><strong>3 · Deliver</strong></td><td>11–13</td><td>Orders, inventory, production and the selling season.</td><td><span class="pill p-green">Sell-in</span> Showcase, then ERP / PIM</td></tr>
+          </tbody>
+        </table>
+        <figure>
+          <svg viewBox="0 0 680 400" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Illustrative season calendar: thirteen overlapping stages across Decide, Develop and Deliver, from about 9 to 18 months out to the in-store date">
+          <text x="210" y="26" font-size="12" fill="#6b7883" font-family="sans-serif">← Season work starts ~9–18 months out</text>
+          <text x="650" y="26" text-anchor="end" font-size="12" fill="#6b7883" font-family="sans-serif">In store →</text>
+          <line x1="210" y1="38" x2="650" y2="38" stroke="#cfc8ba" stroke-width="1"/>
+          <text x="20" y="72" font-size="11.5" font-weight="700" fill="#1d6e56" font-family="sans-serif">01</text>
+          <text x="44" y="72" font-size="11.5" fill="#3d4954" font-family="sans-serif">Strategy &amp; targets</text>
+          <line x1="210" y1="68" x2="650" y2="68" stroke="#efeadf" stroke-width="1"/>
+          <rect x="210" y="61" width="53" height="14" rx="4" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1"/>
+          <text x="20" y="94" font-size="11.5" font-weight="700" fill="#1d6e56" font-family="sans-serif">02</text>
+          <text x="44" y="94" font-size="11.5" fill="#3d4954" font-family="sans-serif">Research &amp; concept</text>
+          <line x1="210" y1="90" x2="650" y2="90" stroke="#efeadf" stroke-width="1"/>
+          <rect x="236" y="83" width="62" height="14" rx="4" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1"/>
+          <text x="20" y="116" font-size="11.5" font-weight="700" fill="#1d6e56" font-family="sans-serif">03</text>
+          <text x="44" y="116" font-size="11.5" fill="#3d4954" font-family="sans-serif">Line planning</text>
+          <line x1="210" y1="112" x2="650" y2="112" stroke="#efeadf" stroke-width="1"/>
+          <rect x="263" y="105" width="70" height="14" rx="4" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1"/>
+          <text x="20" y="138" font-size="11.5" font-weight="700" fill="#1d6e56" font-family="sans-serif">04</text>
+          <text x="44" y="138" font-size="11.5" fill="#3d4954" font-family="sans-serif">Design &amp; colourways</text>
+          <line x1="210" y1="134" x2="650" y2="134" stroke="#efeadf" stroke-width="1"/>
+          <rect x="289" y="127" width="88" height="14" rx="4" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1"/>
+          <text x="20" y="160" font-size="11.5" font-weight="700" fill="#1d6e56" font-family="sans-serif">05</text>
+          <text x="44" y="160" font-size="11.5" fill="#3d4954" font-family="sans-serif">Line review &amp; edit</text>
+          <line x1="210" y1="156" x2="650" y2="156" stroke="#efeadf" stroke-width="1"/>
+          <rect x="360" y="149" width="35" height="14" rx="4" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1"/>
+          <text x="20" y="182" font-size="11.5" font-weight="700" fill="#9a6410" font-family="sans-serif">06</text>
+          <text x="44" y="182" font-size="11.5" fill="#3d4954" font-family="sans-serif">Tech packs &amp; specs</text>
+          <line x1="210" y1="178" x2="650" y2="178" stroke="#efeadf" stroke-width="1"/>
+          <rect x="377" y="171" width="62" height="14" rx="4" fill="#f6ecd8" stroke="#9a6410" stroke-width="1"/>
+          <text x="20" y="204" font-size="11.5" font-weight="700" fill="#9a6410" font-family="sans-serif">07</text>
+          <text x="44" y="204" font-size="11.5" fill="#3d4954" font-family="sans-serif">Materials &amp; sourcing</text>
+          <line x1="210" y1="200" x2="650" y2="200" stroke="#efeadf" stroke-width="1"/>
+          <rect x="342" y="193" width="123" height="14" rx="4" fill="#f6ecd8" stroke="#9a6410" stroke-width="1"/>
+          <text x="20" y="226" font-size="11.5" font-weight="700" fill="#9a6410" font-family="sans-serif">08</text>
+          <text x="44" y="226" font-size="11.5" fill="#3d4954" font-family="sans-serif">Sampling &amp; fit</text>
+          <line x1="210" y1="222" x2="650" y2="222" stroke="#efeadf" stroke-width="1"/>
+          <rect x="404" y="215" width="97" height="14" rx="4" fill="#f6ecd8" stroke="#9a6410" stroke-width="1"/>
+          <text x="20" y="248" font-size="11.5" font-weight="700" fill="#9a6410" font-family="sans-serif">09</text>
+          <text x="44" y="248" font-size="11.5" fill="#3d4954" font-family="sans-serif">Costing</text>
+          <line x1="210" y1="244" x2="650" y2="244" stroke="#efeadf" stroke-width="1"/>
+          <rect x="368" y="237" width="132" height="14" rx="4" fill="#f6ecd8" stroke="#9a6410" stroke-width="1"/>
+          <text x="20" y="270" font-size="11.5" font-weight="700" fill="#9a6410" font-family="sans-serif">10</text>
+          <text x="44" y="270" font-size="11.5" fill="#3d4954" font-family="sans-serif">Testing &amp; compliance</text>
+          <line x1="210" y1="266" x2="650" y2="266" stroke="#efeadf" stroke-width="1"/>
+          <rect x="465" y="259" width="70" height="14" rx="4" fill="#f6ecd8" stroke="#9a6410" stroke-width="1"/>
+          <text x="20" y="292" font-size="11.5" font-weight="700" fill="#1a5a94" font-family="sans-serif">11</text>
+          <text x="44" y="292" font-size="11.5" fill="#3d4954" font-family="sans-serif">Sell-in &amp; adoption</text>
+          <line x1="210" y1="288" x2="650" y2="288" stroke="#efeadf" stroke-width="1"/>
+          <rect x="456" y="281" width="70" height="14" rx="4" fill="#e4eef7" stroke="#1a5a94" stroke-width="1"/>
+          <text x="20" y="314" font-size="11.5" font-weight="700" fill="#1a5a94" font-family="sans-serif">12</text>
+          <text x="44" y="314" font-size="11.5" fill="#3d4954" font-family="sans-serif">Buy &amp; production</text>
+          <line x1="210" y1="310" x2="650" y2="310" stroke="#efeadf" stroke-width="1"/>
+          <rect x="500" y="303" width="106" height="14" rx="4" fill="#e4eef7" stroke="#1a5a94" stroke-width="1"/>
+          <text x="20" y="336" font-size="11.5" font-weight="700" fill="#1a5a94" font-family="sans-serif">13</text>
+          <text x="44" y="336" font-size="11.5" fill="#3d4954" font-family="sans-serif">Launch, sell &amp; learn</text>
+          <line x1="210" y1="332" x2="650" y2="332" stroke="#efeadf" stroke-width="1"/>
+          <rect x="597" y="325" width="53" height="14" rx="4" fill="#e4eef7" stroke="#1a5a94" stroke-width="1"/>
+          <text x="403" y="160" font-size="11" font-weight="700" fill="#0f4536" font-family="sans-serif">← cheapest moment to cut a style</text>
+          <rect x="210" y="362" width="14" height="12" rx="3" fill="#e1f0ea" stroke="#1d6e56"/>
+          <text x="230" y="373" font-size="11.5" fill="#3d4954" font-family="sans-serif">Decide</text>
+          <rect x="330" y="362" width="14" height="12" rx="3" fill="#f6ecd8" stroke="#9a6410"/>
+          <text x="350" y="373" font-size="11.5" fill="#3d4954" font-family="sans-serif">Develop</text>
+          <rect x="450" y="362" width="14" height="12" rx="3" fill="#e4eef7" stroke="#1a5a94"/>
+          <text x="470" y="373" font-size="11.5" fill="#3d4954" font-family="sans-serif">Deliver</text>
+          <text x="20" y="373" font-size="11" fill="#6b7883" font-family="sans-serif">Illustrative sequence</text>
+          </svg>
+          <figcaption>The calendar is built backwards from the in-store date, and the stages overlap</figcaption>
+        </figure>
+        <p>Three things about the calendar matter more than the exact stage order:</p>
+        <ul>
+          <li><strong>It is built backwards from the in-store date.</strong> Fabric and factory lead times fix the late deadlines. Everything upstream is squeezed to fit them.</li>
+          <li><strong>Stages overlap.</strong> Materials and costing start while design is still moving, so a "locked" line is often still changing at the edges.</li>
+          <li><strong>Several seasons run at once.</strong> A merchandiser may review Fall 2027 concepts while Spring 2027 is in sampling and Fall 2026 is selling. Your customer is never in "one" stage.</li>
+        </ul>
+        <p>Season work starts roughly 9 to 18 months before product is in store. That range is approximate: ask each customer for their own calendar, because their dates are the ones that matter.</p>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Before you propose a change window, find out where each of the customer's live seasons is on the calendar. A configuration change, a data migration or a new integration that lands in the week of a line review or a market week will be remembered for the wrong reason. Learn the customer's gate dates the way an SRE learns peak traffic hours.</p>
+        </div>
+
+        <h4 id="m1-lb-room">Who is in the room</h4>
+        <p>Big brands run each category with a <strong>product triad</strong>: merchandising, design and product development. Their goals pull against each other on purpose, and most stages are where those tensions get settled. Merchandisers and designers are VibeIQ's core daily users.</p>
+        <div class="tscroll"><table>
+          <thead><tr><th>Triad role</th><th>Owns</th><th>Cares about</th><th>Typical friction</th><th>Main VibeIQ touchpoint</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Merchandising</strong></td><td>The line: what's in, at what price, for which channel</td><td>Margin, option count, price architecture, sell-through</td><td>Too many SKUs; spreadsheets that drift from reality</td><td>Plan</td></tr>
+            <tr><td><strong>Design</strong></td><td>The look: creative direction, newness, brand identity</td><td>Trend, story, newness, design integrity</td><td>Designing in isolation; late cuts after the work is done</td><td>Board</td></tr>
+            <tr><td><strong>Product development</strong></td><td>Makeability: turns approved designs into specified, sampled, costed products</td><td>Feasibility, cost, quality, the calendar</td><td>Incomplete hand-offs; missing specs</td><td>Board → PLM hand-off</td></tr>
+          </tbody>
+        </table></div>
+        <p>How the three pull against each other:</p>
+        <ul>
+          <li><strong>Design vs merchandising:</strong> newness and creative freedom against coverage, margin and fewer options.</li>
+          <li><strong>Merchandising vs development:</strong> the price and margin the line needs against what the product actually costs to make, and by when.</li>
+          <li><strong>Development vs design:</strong> construction, fit and cost reality against design integrity. Late design changes cause rework downstream.</li>
+        </ul>
+        <details class="pdis">
+          <summary><span class="plabel">Everyone the triad relies on</span><span class="ppeek">eleven supporting teams · what each owns · where they touch VibeIQ</span></summary>
+          <div class="tscroll"><table>
+            <thead><tr><th>Team</th><th>Owns</th><th>Typical friction</th><th>VibeIQ touchpoint</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Merchandise planning</strong></td><td>Financial targets, buy quantities, open-to-buy, inventory turns</td><td>Late changes that break the plan</td><td>Plan (targets in, line out)</td></tr>
+              <tr><td><strong>Technical design</strong></td><td>Fit, measurements, construction, grading</td><td>Rework from late design changes</td><td>Mostly PLM</td></tr>
+              <tr><td><strong>Colour &amp; materials</strong></td><td>Palettes, fabric development, lab dips</td><td>Palette changes after colourways are set</td><td>Board (palette), then PLM</td></tr>
+              <tr><td><strong>Sourcing &amp; costing</strong></td><td>Factories, mills, quotes, landed cost, MOQs</td><td>Designs that miss target cost</td><td>Downstream of VibeIQ; early cost check at line planning</td></tr>
+              <tr><td><strong>Quality &amp; compliance</strong></td><td>Testing, safety rules, product integrity</td><td>Problems found late, after bulk is booked</td><td>PLM and lab portals</td></tr>
+              <tr><td><strong>Sales &amp; wholesale</strong></td><td>Line sheets, showrooms, buyer orders</td><td>Rebuilding line sheets and decks by hand</td><td>Showcase</td></tr>
+              <tr><td><strong>Regional &amp; channel merch</strong></td><td>Local assortments and price points</td><td>Global lines that ignore local needs</td><td>Plan / Showcase</td></tr>
+              <tr><td><strong>Supply chain &amp; logistics</strong></td><td>Production flow, shipping, distribution</td><td>Calendar slips upstream that land on them</td><td>ERP and supply-chain systems</td></tr>
+              <tr><td><strong>Marketing &amp; ecommerce</strong></td><td>Launch story, product content, digital shelf</td><td>Content that arrives late or incomplete</td><td>PIM and commerce, fed downstream</td></tr>
+              <tr><td><strong>Calendar / GTM management</strong></td><td>Milestones, gates, keeping every team on time</td><td>Gates that pass with open decisions</td><td>Reviews and dashboards</td></tr>
+              <tr><td><strong>Executive / GTM leadership</strong></td><td>The season's outcome</td><td>No single view of the line</td><td>Line reviews, dashboards</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <p>At <strong>private-label retailers</strong> the buyer often acts as the merchandiser and the vendor does much of the development work. Expect different workflows, and a different answer to "who owns the hand-off", in those accounts.</p>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">When a complaint reaches you, work out which corner of the triad it comes from before you work out what it is about. "The plan is wrong" from a merchandiser, "my concepts got cut" from a designer and "the hand-off was incomplete" from development are three different problems, and the person who escalates is often not the person whose process broke.</p>
+        </div>
+
+        <h4 id="m1-lb-decide">Phase 1 · Decide — stages 01–05</h4>
+        <p>What goes into the line, at what price, for which markets. In every stage card below, the lead teams are in bold. This is VibeIQ's core territory, and every stage here ends in a decision that gets more expensive to reverse once the next phase starts.</p>
+
+        <details class="pdis" id="m1-lb-stage-01">
+          <summary><span class="plabel">01 · Strategy &amp; financial targets</span><span class="ppeek">gate: strategy sign-off · lives in Planning / MFP</span></summary>
+          <p><strong>Goal:</strong> set the season's financial envelope and strategic intent before anyone designs a thing.</p>
+          <ul>
+            <li>Review last season: sell-through, markdowns, best and worst sellers.</li>
+            <li>Build the <strong>merchandise financial plan (MFP)</strong>: sales, margin, inventory and open-to-buy by category, channel and region.</li>
+            <li>Set targets for option count, price points and carryover vs new.</li>
+            <li>Align on brand priorities, category roles and the key consumer.</li>
+          </ul>
+          <div class="tscroll"><table>
+            <tbody>
+              <tr><th>Teams</th><td><strong>Merchandise planning</strong> · <strong>Merchandising leadership</strong> · Finance · Brand &amp; marketing · Consumer insights</td></tr>
+              <tr><th>Output</th><td>Season targets and a strategic brief</td></tr>
+              <tr><th>Decision gate</th><td>Strategy sign-off / season kickoff</td></tr>
+              <tr><th>Lives in</th><td>Planning &amp; MFP system. Targets flow <em>into</em> VibeIQ from here.</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+
+        <details class="pdis" id="m1-lb-stage-02">
+          <summary><span class="plabel">02 · Research &amp; seasonal concept</span><span class="ppeek">gate: concept review · lives in VibeIQ Board</span></summary>
+          <p><strong>Goal:</strong> decide what the season stands for and why the consumer will care.</p>
+          <ul>
+            <li><strong>Research and inspiration:</strong> trend services (WGSN and similar), street and runway, competitor shopping, the brand's archive.</li>
+            <li><strong>Consumer insight and sales data</strong> on what is and isn't working.</li>
+            <li><strong>Themes and mood boards</strong> that tell the season's story, often presented as a "concept" or "story".</li>
+            <li><strong>Seasonal direction:</strong> colour palette, key materials, prints and graphics.</li>
+          </ul>
+          <div class="tscroll"><table>
+            <tbody>
+              <tr><th>Teams</th><td><strong>Design leadership</strong> · <strong>Colour &amp; materials</strong> · Consumer insights · Merchandising · Marketing</td></tr>
+              <tr><th>Output</th><td>Concept boards, colour palette, material direction</td></tr>
+              <tr><th>Decision gate</th><td>Concept review</td></tr>
+              <tr><th>Lives in</th><td>VibeIQ Board</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+
+        <details class="pdis" id="m1-lb-stage-03">
+          <summary><span class="plabel">03 · Line planning</span><span class="ppeek">gate: line plan sign-off · lives in VibeIQ Plan · the merchandiser's home</span></summary>
+          <p><strong>Goal:</strong> turn financial targets into a structured plan of open slots, before any product exists. Line planning answers one question: which products, how many, at what prices, for which channels and regions, to hit the season's targets. It is the heart of VibeIQ Plan.</p>
+          <ul>
+            <li>Slot the line by category, gender, price tier and delivery window.</li>
+            <li>Set the price architecture (good / better / best) and a target margin per slot.</li>
+            <li>Decide carryover vs new, and how many options each slot gets.</li>
+            <li>Write a brief per slot: customer, price, key features, target cost.</li>
+          </ul>
+          <p><strong>Core concepts</strong></p>
+          <ul>
+            <li><strong>Line plan:</strong> the structured outline of the season, by category (tops, bottoms, footwear), subcategory, gender, price tier and delivery window.</li>
+            <li><strong>Placeholders / open slots:</strong> planned needs before a product exists, such as "women's fleece crew, $68, Delivery 2". VibeIQ calls these <em>target-backed placeholders</em>, promoted as real products land.</li>
+            <li><strong>Option vs SKU:</strong> an option (style-colour) is one style in one colourway; a SKU adds size. Option count is a key lever: too many options dilutes inventory and drives cost.</li>
+            <li><strong>Price architecture:</strong> the ladder of price points, often good / better / best, so each tier has a clear role.</li>
+            <li><strong>Carryover vs new:</strong> core styles that return each season vs newness. The mix sets risk and margin.</li>
+            <li><strong>Deliveries / drops:</strong> the line is split into flows that land in stores on different dates.</li>
+            <li><strong>Assortment:</strong> the subset of the line a given region, channel or account actually carries.</li>
+          </ul>
+          <div class="tscroll"><table>
+            <tbody>
+              <tr><th>Teams</th><td><strong>Merchandisers</strong> · <strong>Merchandise planning</strong> · Design · Sourcing (early cost check)</td></tr>
+              <tr><th>Output</th><td>Line plan with placeholders, briefs and a target cost per slot</td></tr>
+              <tr><th>Decision gate</th><td>Line plan sign-off</td></tr>
+              <tr><th>Lives in</th><td>VibeIQ Plan</td></tr>
+            </tbody>
+          </table></div>
+          <p style="margin-bottom:0">The placeholder is where the Week 2 data model starts: a product record is often <em>born</em> here, in VibeIQ, as an empty slot with a price and a brief, long before PLM knows it exists.</p>
+        </details>
+
+        <details class="pdis" id="m1-lb-kpis">
+          <summary><span class="plabel">The numbers merchandisers watch</span><span class="ppeek">AUR · IMU · gross margin · sell-through · option count · OTB · markdown rate</span></summary>
+          <div class="tscroll"><table>
+            <thead><tr><th>Metric</th><th>What it means</th><th>Why it matters</th></tr></thead>
+            <tbody>
+              <tr><td><strong>AUR</strong> (average unit retail)</td><td>Average selling price per unit</td><td>Shows whether the line hits its price positioning</td></tr>
+              <tr><td><strong>IMU</strong> (initial markup)</td><td>Planned margin between cost and initial retail price</td><td>Sets the margin ceiling before markdowns</td></tr>
+              <tr><td><strong>Gross margin</strong></td><td>Revenue minus cost of goods, as a %</td><td>The number leadership judges the season on</td></tr>
+              <tr><td><strong>Sell-through</strong></td><td>% of received units sold in a period</td><td>Shows whether the assortment was right</td></tr>
+              <tr><td><strong>Option count</strong></td><td>Number of style-colours in the line</td><td>Proxy for complexity and development cost</td></tr>
+              <tr><td><strong>Open-to-buy (OTB)</strong></td><td>Budget left to buy inventory</td><td>Limits how much can be added late</td></tr>
+              <tr><td><strong>Markdown rate</strong></td><td>% of sales at reduced price</td><td>The cost of getting the assortment wrong</td></tr>
+            </tbody>
+          </table></div>
+          <p><strong>A worked IMU, to make it concrete.</strong> IMU % = (initial retail − cost) ÷ initial retail. A fleece crew planned at $68 retail with a $17 landed cost has an IMU of (68 − 17) ÷ 68 = 75%. If costing (stage 09) brings it in at $21, IMU falls to 69%, and the merchandiser has to choose between repricing, re-engineering and dropping it.</p>
+          <p style="margin-bottom:0">VibeIQ shows rollups (option count, price, units, margin, mix) live against targets as products change, so the plan doesn't drift from a spreadsheet. When a customer says "Plan's numbers are wrong", the question is usually which of these rollups, and which input fed it.</p>
+        </details>
+
+        <details class="pdis" id="m1-lb-stage-04">
+          <summary><span class="plabel">04 · Design &amp; colourways</span><span class="ppeek">gate: design reviews · lives in VibeIQ Board, Illustrator, 3D tools</span></summary>
+          <p><strong>Goal:</strong> fill every slot with an on-brand product that answers its brief and can be made at target cost. VibeIQ Board is built for this stage, with AI generation and recolouring layered on top.</p>
+          <ol class="steps">
+            <li><strong>Briefs.</strong> Merchandising tells design what each slot needs: category, price, target customer, key features. VibeIQ keeps the brief tied to the slot as the plan changes ("living briefs").</li>
+            <li><strong>Sketches and concepts.</strong> Flats (2D CAD), illustrations or 3D renders, with several concepts per slot. Proven blocks and silhouettes are reused where that lowers risk.</li>
+            <li><strong>Colourways.</strong> Each style is offered in several colours from the seasonal palette. Every colourway adds an option, so colourway count directly drives option count.</li>
+            <li><strong>Materials, prints and trims.</strong> Fabrics (knit vs woven), prints and graphics, trims (zippers, buttons, labels).</li>
+            <li><strong>Lineboards and reviews.</strong> The line laid out visually by category and delivery for review with merchandising and leadership.</li>
+          </ol>
+          <p><strong>Vocabulary to recognise</strong></p>
+          <ul>
+            <li><strong>Flat / CAD:</strong> a technical 2D drawing of a garment, front and back.</li>
+            <li><strong>Lineboard / range board:</strong> a visual grid of the line, used in reviews.</li>
+            <li><strong>Silhouette / block:</strong> the base shape and pattern a style is built from. Brands reuse blocks across seasons.</li>
+            <li><strong>3D sampling:</strong> digital garments (CLO 3D, Browzwear) used to cut physical samples.</li>
+          </ul>
+          <div class="tscroll"><table>
+            <tbody>
+              <tr><th>Teams</th><td><strong>Apparel designers</strong> · <strong>Graphic &amp; print design</strong> · <strong>Colour</strong> · Merchandising · Product development</td></tr>
+              <tr><th>Output</th><td>Concepts, flats, colourways, first material picks</td></tr>
+              <tr><th>Decision gate</th><td>Design reviews</td></tr>
+              <tr><th>Lives in</th><td>VibeIQ Board · Illustrator · 3D tools</td></tr>
+            </tbody>
+          </table></div>
+          <p style="margin-bottom:0"><strong>Where tension shows up:</strong> late cuts after weeks of design work are a constant pain point. VibeIQ's angle is to design against visible open needs, so fewer concepts get cut late.</p>
+        </details>
+
+        <details class="pdis" id="m1-lb-stage-05">
+          <summary><span class="plabel">05 · Line review &amp; edit</span><span class="ppeek">gate: line lock / adoption · lives in VibeIQ Plan + Board · the cheapest moment to cut</span></summary>
+          <p><strong>Goal:</strong> judge the line as one set and commit to it.</p>
+          <ul>
+            <li>Check gaps, duplicates and the price ladder against the plan.</li>
+            <li>Roll up option count, margin and mix against targets.</li>
+            <li>Cut, swap, adapt or approve each style.</li>
+            <li>Lock the line so development starts on a stable set.</li>
+          </ul>
+          <div class="tscroll"><table>
+            <tbody>
+              <tr><th>Teams</th><td><strong>Merchandising</strong> · <strong>Design</strong> · <strong>Leadership</strong> · Product development · Sourcing · Regions</td></tr>
+              <tr><th>Output</th><td>Approved (adopted) line and a drop list</td></tr>
+              <tr><th>Decision gate</th><td>Line lock / adoption</td></tr>
+              <tr><th>Lives in</th><td>VibeIQ Plan + Board</td></tr>
+            </tbody>
+          </table></div>
+          <p style="margin-bottom:0">This is the moment Concept 1 calls "the single most important moment VibeIQ has to make good". The line lock is also usually what triggers the publish to PLM, so it is where the business calendar and the integration meet.</p>
+        </details>
+        <p>The decisions in Phase 1, in order:</p>
+        <ol class="steps">
+          <li>Set targets per category and channel (from planning).</li>
+          <li>Build the line against targets with placeholders.</li>
+          <li>Fill placeholders with designs and carryovers.</li>
+          <li>Evaluate the set: gaps, duplication, price ladder, margin.</li>
+          <li>Cut, swap, adapt, approve.</li>
+          <li>Let regions adopt and adjust before the buy.</li>
+        </ol>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Phase 1 is where VibeIQ earns its renewal. The health questions for an account are all Phase 1 questions: are placeholders created in Plan or still in a spreadsheet? Does design work against those slots in Board, or upload finished concepts at the end? Is the line review run live in the tool, or from an exported deck? An account can have a flawless PLM integration and still be failing here.</p>
+        </div>
+
+        <h4 id="m1-lb-develop">Phase 2 · Develop — stages 06–10</h4>
+        <p>Approved styles become specified, sampled, costed and tested products. Once a style is approved it leaves VibeIQ's core territory and enters development, usually inside a PLM. You still need to understand this phase, because the <strong>hand-off</strong> is where integration questions land on a TAM's desk, and because Phase 2 constraints push back on Phase 1 decisions.</p>
+
+        <details class="pdis" id="m1-lb-stage-06">
+          <summary><span class="plabel">06 · Tech packs &amp; specs</span><span class="ppeek">gate: tech pack sent to factory · lives in PLM</span></summary>
+          <p><strong>Goal:</strong> describe the product so precisely that a factory on another continent can make it right.</p>
+          <ul>
+            <li><strong>Tech pack:</strong> the full instruction set sent to a factory: flats, construction, stitching, measurements, materials, colours, labels, packaging.</li>
+            <li><strong>BOM (bill of materials):</strong> every fabric, lining, thread, zipper and label, with quantities and suppliers.</li>
+            <li><strong>Spec sheet / POM:</strong> points of measure and tolerances for each size, graded from a base size.</li>
+            <li><strong>Patterns and grading,</strong> often built from an existing block.</li>
+          </ul>
+          <div class="tscroll"><table>
+            <tbody>
+              <tr><th>Teams</th><td><strong>Product developers</strong> · <strong>Technical designers</strong> · Pattern makers · Materials · Design</td></tr>
+              <tr><th>Output</th><td>Tech pack, BOM and spec sheet per style</td></tr>
+              <tr><th>Decision gate</th><td>Tech pack complete / sent to factory</td></tr>
+              <tr><th>Lives in</th><td>PLM. Approved styles publish into it from VibeIQ.</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+
+        <details class="pdis" id="m1-lb-stage-07">
+          <summary><span class="plabel">07 · Materials, colour &amp; sourcing</span><span class="ppeek">gate: material &amp; colour approval · lives in PLM, supplier portals</span></summary>
+          <p><strong>Goal:</strong> secure the right fabrics, trims and factory at the target cost and lead time.</p>
+          <ul>
+            <li>Choose factories and mills, request FOB quotes, book capacity.</li>
+            <li><strong>Lab dips</strong> approve solid colours; <strong>strike-offs</strong> approve prints on the real fabric.</li>
+            <li>Approve trims: zippers, buttons, labels, embroidery.</li>
+            <li>Negotiate minimum order quantities (MOQ) and fabric lead times.</li>
+          </ul>
+          <div class="tscroll"><table>
+            <tbody>
+              <tr><th>Teams</th><td><strong>Sourcing</strong> · <strong>Materials / R&amp;D</strong> · Colour · Costing · Mills &amp; factories</td></tr>
+              <tr><th>Output</th><td>Approved materials and colours, assigned factory, quotes</td></tr>
+              <tr><th>Decision gate</th><td>Material &amp; colour approval</td></tr>
+              <tr><th>Lives in</th><td>PLM · supplier portals</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+
+        <details class="pdis" id="m1-lb-stage-08">
+          <summary><span class="plabel">08 · Sampling &amp; fit</span><span class="ppeek">six rounds, proto to TOP · gate: PP approval = go for bulk</span></summary>
+          <p><strong>Goal:</strong> prove the product round by round, physically or digitally, until it is right. Names and number of rounds vary by brand.</p>
+          <div class="tscroll"><table>
+            <thead><tr><th>Round</th><th>Sample</th><th>What it checks</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td><strong>Proto</strong></td><td>First physical version; checks the design idea</td></tr>
+              <tr><td>2</td><td><strong>Fit</strong></td><td>Tried on a fit model; comments go back to the factory, repeated until approved</td></tr>
+              <tr><td>3</td><td><strong>Size set</strong></td><td>Several sizes made to check grading across the range</td></tr>
+              <tr><td>4</td><td><strong>Salesman (SMS)</strong></td><td>Used for sell-in, showrooms and photography</td></tr>
+              <tr><td>5</td><td><strong>Pre-production (PP)</strong></td><td>Real fabric, trims and methods; final sign-off before bulk</td></tr>
+              <tr><td>6</td><td><strong>Top of production (TOP)</strong></td><td>Pulled from the bulk run to check it matches the PP</td></tr>
+            </tbody>
+          </table></div>
+          <p><strong>Going digital:</strong> 3D samples replace early physical rounds. HUGO BOSS reports 30%+ fewer physical samples per collection; Perry Ellis cut salesman samples by 50% and took two months off its calendar (as cited in the source infographic).</p>
+          <div class="tscroll"><table>
+            <tbody>
+              <tr><th>Teams</th><td><strong>Technical designers</strong> · <strong>Product developers</strong> · Fit model · Design · Factory · Quality</td></tr>
+              <tr><th>Output</th><td>Approved fit and an approved pre-production sample</td></tr>
+              <tr><th>Decision gate</th><td>PP approval = go for bulk</td></tr>
+              <tr><th>Lives in</th><td>PLM · 3D sampling</td></tr>
+            </tbody>
+          </table></div>
+          <p style="margin-bottom:0">Each round costs money and weeks. <strong>Fewer cut styles reaching sampling</strong> is one of VibeIQ's clearest value levers: every style dropped at line review is a proto, a fit round and an SMS that never get made.</p>
+        </details>
+
+        <details class="pdis" id="m1-lb-stage-09">
+          <summary><span class="plabel">09 · Costing &amp; margin check</span><span class="ppeek">FOB → landed cost vs target · gate: keep, re-engineer, reprice or drop</span></summary>
+          <p><strong>Goal:</strong> confirm every style lands at or under target cost so the season's margin holds.</p>
+          <figure>
+            <svg viewBox="0 0 680 190" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="How a landed cost stacks up: materials, CMT labour and factory margin make the FOB price; freight, duty and fees on top make the landed cost. Proportions illustrative.">
+            <rect x="20" y="50" width="320" height="44" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1"/>
+            <text x="180" y="77" text-anchor="middle" font-size="11.5" fill="#3d4954" font-family="sans-serif">Materials</text>
+            <rect x="340" y="50" width="128" height="44" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1"/>
+            <text x="404" y="77" text-anchor="middle" font-size="11.5" fill="#3d4954" font-family="sans-serif">CMT labour</text>
+            <rect x="468" y="50" width="64" height="44" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1"/>
+            <text x="500" y="77" text-anchor="middle" font-size="11.5" fill="#3d4954" font-family="sans-serif">Margin</text>
+            <rect x="532" y="50" width="51" height="44" fill="#e4eef7" stroke="#1a5a94" stroke-width="1"/>
+            <text x="558" y="77" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">Freight</text>
+            <rect x="583" y="50" width="51" height="44" fill="#e4eef7" stroke="#1a5a94" stroke-width="1"/>
+            <text x="609" y="77" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">Duty</text>
+            <rect x="634" y="50" width="26" height="44" fill="#e4eef7" stroke="#1a5a94" stroke-width="1"/>
+            <text x="647" y="77" text-anchor="middle" font-size="10" fill="#3d4954" font-family="sans-serif">Fees</text>
+            <path d="M20 106 V114 H532 V106" fill="none" stroke="#1d6e56" stroke-width="1.5"/>
+            <text x="276" y="132" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0f4536" font-family="sans-serif">= FOB price (the factory quote)</text>
+            <path d="M532 106 V114 H660 V106" fill="none" stroke="#1a5a94" stroke-width="1.5"/>
+            <text x="596" y="132" text-anchor="middle" font-size="12" fill="#12456f" font-family="sans-serif">+ to your warehouse</text>
+            <path d="M20 42 V34 H660 V42" fill="none" stroke="#6b7883" stroke-width="1"/>
+            <text x="340" y="28" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3d4954" font-family="sans-serif">Landed cost — compared with the target cost set at line planning</text>
+            <text x="20" y="170" font-size="11" fill="#6b7883" font-family="sans-serif">Proportions illustrative. Freight, duty and handling typically add 15–30% on top of FOB for imported apparel.</text>
+            </svg>
+            <figcaption>How a landed cost stacks up</figcaption>
+          </figure>
+          <ul>
+            <li><strong>Cost sheet:</strong> materials + labour + overhead + duties + freight = landed cost, compared with the target cost set per slot at line planning.</li>
+            <li><strong>Fabric is often 60–70% of a basic garment's cost,</strong> so material choices drive cost most.</li>
+            <li><strong>Freight, duty and handling</strong> typically add 15–30% on top of FOB for imported apparel.</li>
+            <li><strong>Landed vs target:</strong> a miss means the style is re-engineered, repriced or dropped.</li>
+          </ul>
+          <div class="tscroll"><table>
+            <tbody>
+              <tr><th>Teams</th><td><strong>Costing</strong> · <strong>Sourcing</strong> · Merchandising · Finance</td></tr>
+              <tr><th>Output</th><td>Signed-off cost sheet per style</td></tr>
+              <tr><th>Decision gate</th><td>Cost sign-off: keep, re-engineer, reprice or drop</td></tr>
+              <tr><th>Lives in</th><td>PLM costing</td></tr>
+            </tbody>
+          </table></div>
+          <p style="margin-bottom:0">Cost is one of the attributes most likely to flow <em>back</em> from PLM into VibeIQ, so that Plan's margin rollups reflect reality. Whether it does, how often, and which number wins when the two disagree, is a question to settle on every account.</p>
+        </details>
+
+        <details class="pdis" id="m1-lb-stage-10">
+          <summary><span class="plabel">10 · Testing &amp; compliance</span><span class="ppeek">gate: product integrity sign-off · lives in PLM, lab portals</span></summary>
+          <p><strong>Goal:</strong> make sure the product is safe, legal and holds up to real wear.</p>
+          <ul>
+            <li><strong>Performance tests:</strong> shrinkage, colourfastness, pilling, seam strength.</li>
+            <li><strong>Flammability:</strong> 16 CFR 1610 applies to apparel textiles sold in the US.</li>
+            <li><strong>Children's products</strong> (12 and under): CPSIA third-party testing and a Children's Product Certificate.</li>
+            <li><strong>Restricted substances</strong> (e.g. REACH, Prop 65), fibre content and care labels.</li>
+          </ul>
+          <div class="tscroll"><table>
+            <tbody>
+              <tr><th>Teams</th><td><strong>Quality &amp; compliance</strong> · <strong>Accredited labs</strong> · Factory · Product development</td></tr>
+              <tr><th>Output</th><td>Test reports, certificates, approved labels</td></tr>
+              <tr><th>Decision gate</th><td>Product integrity sign-off</td></tr>
+              <tr><th>Lives in</th><td>PLM · lab portals</td></tr>
+            </tbody>
+          </table></div>
+          <p style="margin-bottom:0">Know these names so you recognise them in a conversation. Never advise a customer on what a regulation requires: that belongs to their compliance team.</p>
+        </details>
+
+        <p><strong>Three constraints from Phase 2 push back on the line plan</strong>, and each one can reopen a Phase 1 decision:</p>
+        <ul>
+          <li><strong>Target cost:</strong> if landed cost misses target, the style is re-engineered, repriced or dropped.</li>
+          <li><strong>MOQ:</strong> factories and mills need minimum volumes, which kills low-volume options.</li>
+          <li><strong>Lead times:</strong> fabric and production lead times set the calendar's hard deadlines.</li>
+        </ul>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Ask early, on every account: which attributes cross over at the hand-off, which system is master for each one, and <strong>what happens when a product changes after hand-off</strong>. A style repriced at stage 09 or dropped for MOQ at stage 07 has to be reflected back in VibeIQ, or the next line review is run on numbers that are no longer true.</p>
+        </div>
+
+        <h4 id="m1-lb-deliver">Phase 3 · Deliver — stages 11–13</h4>
+        <p>Orders, inventory, production and the selling season. VibeIQ comes back in at sell-in, through Showcase, and then hands over to ERP, PIM and commerce.</p>
+
+        <details class="pdis" id="m1-lb-stage-11">
+          <summary><span class="plabel">11 · Sell-in &amp; regional adoption</span><span class="ppeek">gate: order deadline / final adoption · lives in VibeIQ Showcase, B2B ordering</span></summary>
+          <p><strong>Goal:</strong> turn the line into orders and local assortments.</p>
+          <ul>
+            <li>Line sheets, showrooms and market weeks for wholesale buyers.</li>
+            <li>Salesman samples or digital showrooms carry the product story.</li>
+            <li>Regions and channels pick from the global line and flag local needs.</li>
+            <li>Orders and forecasts set the depth of the buy.</li>
+          </ul>
+          <div class="tscroll"><table>
+            <tbody>
+              <tr><th>Teams</th><td><strong>Sales &amp; wholesale</strong> · <strong>Regional merchandisers</strong> · DTC &amp; ecommerce merch · Planning · Marketing</td></tr>
+              <tr><th>Output</th><td>Buyer orders, regional assortments, forecasts</td></tr>
+              <tr><th>Decision gate</th><td>Order deadline / final adoption</td></tr>
+              <tr><th>Lives in</th><td>VibeIQ Showcase · B2B ordering</td></tr>
+            </tbody>
+          </table></div>
+          <p style="margin-bottom:0"><strong>Brands differ on timing.</strong> Some let regions adopt at line lock, before development starts; others wait for market week. Find out which model your customer runs, because it decides whether regional assortments in VibeIQ are built from the line plan or from a line that has already been through costing.</p>
+        </details>
+
+        <details class="pdis" id="m1-lb-stage-12">
+          <summary><span class="plabel">12 · Buy &amp; production</span><span class="ppeek">gate: PO placement · ex-factory date · lives in ERP, supply chain</span></summary>
+          <p><strong>Goal:</strong> commit to inventory and make it on time and to standard.</p>
+          <ul>
+            <li>Final buy quantities within open-to-buy; purchase orders placed.</li>
+            <li>Bulk fabric ordered, PP sample approved, bulk production starts.</li>
+            <li>Inline and final inspections; TOP samples check the bulk.</li>
+            <li>Ship, clear customs, receive into distribution centres.</li>
+          </ul>
+          <div class="tscroll"><table>
+            <tbody>
+              <tr><th>Teams</th><td><strong>Planning &amp; buying</strong> · <strong>Sourcing</strong> · Factories · Quality · Supply chain &amp; logistics</td></tr>
+              <tr><th>Output</th><td>Finished goods in distribution centres</td></tr>
+              <tr><th>Decision gate</th><td>PO placement · ex-factory date</td></tr>
+              <tr><th>Lives in</th><td>ERP · supply-chain systems</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+
+        <details class="pdis" id="m1-lb-stage-13">
+          <summary><span class="plabel">13 · Launch, sell &amp; learn</span><span class="ppeek">gate: post-season review · lives in PIM, commerce, ERP, POS</span></summary>
+          <p><strong>Goal:</strong> put the right product in front of the customer and sell it at full price.</p>
+          <ul>
+            <li>Allocate inventory to stores, ecommerce and wholesale accounts.</li>
+            <li>Product content (copy, imagery, attributes) goes live through PIM and commerce.</li>
+            <li>Track sell-through weekly: chase winners, mark down slow sellers.</li>
+            <li>The post-season review feeds the next season's targets, which closes the loop back to stage 01.</li>
+          </ul>
+          <div class="tscroll"><table>
+            <tbody>
+              <tr><th>Teams</th><td><strong>Planning &amp; allocation</strong> · <strong>Ecommerce &amp; retail</strong> · Marketing · Content · Customer service</td></tr>
+              <tr><th>Output</th><td>Sales, sell-through, markdown and margin results</td></tr>
+              <tr><th>Decision gate</th><td>Post-season review</td></tr>
+              <tr><th>Lives in</th><td>PIM · commerce · ERP · POS</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0"><strong>Your edge.</strong> Coming from PIM, stage 13 is home ground. You can explain to a customer how a decision made in VibeIQ at stage 03 (a placeholder's name, a colourway, a delivery) travels all the way to product content and the digital shelf, and which attributes get rewritten on the way. Most people on the customer side see only one end of that chain.</p>
+        </div>
+
+        <h4 id="m1-lb-systems">The systems behind it</h4>
+        <p>VibeIQ doesn't replace planning or PLM; it owns the decisions in between. Planning systems stay the source of commercial targets, and PLM and downstream systems manage approved products through development and selling. (Concept 3 has the vendor names for each box.)</p>
+        <figure>
+          <svg viewBox="0 0 680 250" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Where the product lives as it moves: planning and MFP, VibeIQ, PLM, ERP and supply chain, PIM and commerce">
+          <defs><marker id="ar-lb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+          <rect x="10" y="60" width="116" height="110" rx="10" fill="#efeadf" stroke="#cfc8ba" stroke-width="1"/>
+          <text x="68.0" y="84" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3d4954" font-family="sans-serif">Planning / MFP</text>
+          <text x="68.0" y="110" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">financial targets</text>
+          <text x="68.0" y="127" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">OTB, forecasts</text>
+          <line x1="128" y1="115" x2="144" y2="115" stroke="#6b7883" stroke-width="1.5" marker-end="url(#ar-lb)"/>
+          <rect x="146" y="60" width="116" height="110" rx="10" fill="#e1f0ea" stroke="#1d6e56" stroke-width="1"/>
+          <text x="204.0" y="84" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0f4536" font-family="sans-serif">VibeIQ</text>
+          <text x="204.0" y="110" text-anchor="middle" font-size="10.5" fill="#0f4536" font-family="sans-serif">Plan, Board,</text>
+<text x="204.0" y="125" text-anchor="middle" font-size="10.5" fill="#0f4536" font-family="sans-serif">Showcase</text>
+<text x="204.0" y="140" text-anchor="middle" font-size="10.5" fill="#0f4536" font-family="sans-serif">line plan, concepts,</text>
+<text x="204.0" y="155" text-anchor="middle" font-size="10.5" fill="#0f4536" font-family="sans-serif">review, sell-in</text>
+          <line x1="264" y1="115" x2="280" y2="115" stroke="#6b7883" stroke-width="1.5" marker-end="url(#ar-lb)"/>
+          <rect x="282" y="60" width="116" height="110" rx="10" fill="#efeadf" stroke="#cfc8ba" stroke-width="1"/>
+          <text x="340.0" y="84" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3d4954" font-family="sans-serif">PLM</text>
+          <text x="340.0" y="110" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">tech packs, BOMs,</text>
+          <text x="340.0" y="127" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">samples, costing,</text>
+          <text x="340.0" y="144" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">suppliers</text>
+          <line x1="400" y1="115" x2="416" y2="115" stroke="#6b7883" stroke-width="1.5" marker-end="url(#ar-lb)"/>
+          <rect x="418" y="60" width="116" height="110" rx="10" fill="#efeadf" stroke="#cfc8ba" stroke-width="1"/>
+          <text x="476.0" y="84" text-anchor="middle" font-size="11.5" font-weight="700" fill="#3d4954" font-family="sans-serif">ERP &amp; supply chain</text>
+          <text x="476.0" y="110" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">purchase orders,</text>
+          <text x="476.0" y="127" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">production,</text>
+          <text x="476.0" y="144" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">inventory</text>
+          <line x1="536" y1="115" x2="552" y2="115" stroke="#6b7883" stroke-width="1.5" marker-end="url(#ar-lb)"/>
+          <rect x="554" y="60" width="116" height="110" rx="10" fill="#efeadf" stroke="#cfc8ba" stroke-width="1"/>
+          <text x="612.0" y="84" text-anchor="middle" font-size="12.5" font-weight="700" fill="#3d4954" font-family="sans-serif">PIM &amp; commerce</text>
+          <text x="612.0" y="110" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">product content,</text>
+          <text x="612.0" y="127" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">ecommerce,</text>
+          <text x="612.0" y="144" text-anchor="middle" font-size="10.5" fill="#3d4954" font-family="sans-serif">selling</text>
+          <text x="136.0" y="50" text-anchor="middle" font-size="10.5" fill="#6b7883" font-family="sans-serif">targets in</text>
+          <text x="272.0" y="50" text-anchor="middle" font-size="10.5" fill="#6b7883" font-family="sans-serif">approved styles publish</text>
+          <path d="M204.0 172 V200 H68.0 V176" fill="none" stroke="#1d6e56" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#ar-lb)"/>
+          <text x="136.0" y="216" text-anchor="middle" font-size="10.5" fill="#0f4536" font-family="sans-serif">finished line back: forecast, depth, buy</text>
+          <path d="M340.0 172 V200 H234.0 V176" fill="none" stroke="#6b7883" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#ar-lb)"/>
+          <text x="348.0" y="216" font-size="10.5" fill="#6b7883" font-family="sans-serif">cost, materials, status back</text>
+          </svg>
+          <figcaption>Where the product lives as it moves</figcaption>
+        </figure>
+        <div class="tscroll"><table>
+          <thead><tr><th>System</th><th>What lives there</th><th>Stages</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Planning / MFP</strong></td><td>Financial targets, OTB, forecasts</td><td>01, and again at 11–13</td></tr>
+            <tr><td><strong>VibeIQ</strong> Plan · Board · Showcase</td><td>Line plan, design concepts, line review, sell-in</td><td>02–05, 11</td></tr>
+            <tr><td><strong>PLM</strong></td><td>Tech packs, BOMs, samples, costing, suppliers</td><td>06–10</td></tr>
+            <tr><td><strong>ERP &amp; supply chain</strong></td><td>Purchase orders, production, inventory</td><td>12</td></tr>
+            <tr><td><strong>PIM &amp; commerce</strong></td><td>Product content, ecommerce, selling</td><td>13</td></tr>
+          </tbody>
+        </table></div>
+        <p>Targets flow in from planning; the finished line flows back for forecast, depth, allocation and buy decisions. Approved products publish to PLM, or straight into development workflows where a customer has no PLM. VibeIQ Board can turn design concepts into structured product definitions and publish them directly.</p>
+        <p><strong>The integration questions a TAM should be ready for</strong> all live at these hand-offs:</p>
+        <ul>
+          <li>Which system is master for each attribute: style number, colours, price, cost, status?</li>
+          <li>What triggers a publish to PLM, and what happens when a product changes afterwards?</li>
+          <li>How are targets refreshed when planning re-forecasts mid-season?</li>
+          <li>How do images and 3D assets move between Board, PLM and downstream PIM?</li>
+        </ul>
+        <div class="card tam">
+          <h4></h4>
+          <p style="margin-bottom:0">Every row of the attribute-ownership map from Concept 3 can now be placed on the calendar: an attribute is <em>born</em> at a stage, <em>owned</em> by a system during a phase, and <em>changes hands</em> at a gate. When a customer reports that "the data is wrong", the fastest first question is often <em>which stage was the product in when it changed?</em></p>
+        </div>
+
+        <h4 id="m1-lb-practise">Practise it</h4>
+        <p>The goal: be able to explain a customer's season back to them in their own words by the end of week 3. Mix reading, hands-on practice and conversations.</p>
+        <details class="pdis">
+          <summary><span class="plabel">Six sandbox exercises</span><span class="ppeek">mini line plan · placeholders → Board · AI recolour · mock line review · regional Showcase · trace a publish</span></summary>
+          <ol class="steps">
+            <li>Build a mini line plan in Plan: one category, three price tiers, two deliveries, targets for option count and margin.</li>
+            <li>Create placeholders and fill them with concepts from Board; watch the rollups move.</li>
+            <li>Generate and recolour a concept with the AI tools; note what context the AI uses.</li>
+            <li>Run a mock line review: cut two styles, swap one, and check the effect on margin and option count.</li>
+            <li>Build a regional assortment and a Showcase presentation from the same line.</li>
+            <li>Trace a product's publish to PLM (or the downstream hand-off) and list the attributes that cross over.</li>
+          </ol>
+        </details>
+        <details class="pdis">
+          <summary><span class="plabel">Questions to ask internally</span><span class="ppeek">model implementations · how customers start · common PLMs · a merchandiser's day · value KPIs</span></summary>
+          <ul>
+            <li>Which customer workflow is the best "model" implementation to learn from?</li>
+            <li>How do customers usually start: Plan first, Board first, or one category end to end?</li>
+            <li>Which planning systems and PLMs do our customers connect most often, and how?</li>
+            <li>What does a merchandiser's typical day in VibeIQ look like? Can I watch one, recorded or live?</li>
+            <li>Which KPIs do customers use to judge VibeIQ's value: option reduction, hours saved, earlier visibility?</li>
+            <li>Where do implementations struggle on the business side, not the technical side?</li>
+            <li>Is there an internal enablement deck, a recorded demo or a sample customer line plan I can study? Do we have a WGSN (or similar) login, so I can see what designers see?</li>
+          </ul>
+        </details>
+        <details class="pdis">
+          <summary><span class="plabel">Questions to ask customers, once you're introduced</span><span class="ppeek">four openers that map the customer's calendar onto this one</span></summary>
+          <ul>
+            <li>Walk me through your seasonal calendar. Where do decisions get stuck?</li>
+            <li>How did you build a line plan before VibeIQ?</li>
+            <li>What happens when a product changes after it's handed off to development?</li>
+            <li>What would make your next line review faster?</li>
+          </ul>
+          <p style="margin-bottom:0">Listen for which of the thirteen stages they merge, rename or skip. That is their dialect, and their gate names are the words to use back to them.</p>
+        </details>
+
+        <h4 id="m1-lb-glossary">Glossary</h4>
+        <p>Add terms as you hear them on calls; every brand has its own dialect. The terms already defined in Concept 1 are repeated here so this is one place to look.</p>
+        <details class="pdis">
+          <summary><span class="plabel">Forty terms, A to W</span><span class="ppeek">assortment · BOM · CMT · FOB · IMU · lab dip · MFP · MOQ · OTB · PP · SMS · strike-off · TOP …</span></summary>
+          <div class="tscroll"><table>
+            <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Assortment</strong></td><td>The products a given region, channel or account carries, drawn from the line</td></tr>
+              <tr><td><strong>AUR</strong></td><td>Average unit retail: average selling price per unit</td></tr>
+              <tr><td><strong>Block</strong></td><td>The base pattern a style is built from; reused across seasons</td></tr>
+              <tr><td><strong>BOM</strong></td><td>Bill of materials: every component of a product, with quantities and suppliers</td></tr>
+              <tr><td><strong>Carryover</strong></td><td>A style repeated from a previous season, often with new colours</td></tr>
+              <tr><td><strong>CMT</strong></td><td>Cut, make, trim: the factory's labour cost to assemble a garment</td></tr>
+              <tr><td><strong>Colourway</strong></td><td>One colour version of a style</td></tr>
+              <tr><td><strong>Delivery / drop / flow</strong></td><td>A batch of products landing in stores on a set date</td></tr>
+              <tr><td><strong>DTC</strong></td><td>Direct to consumer: the brand's own stores and ecommerce</td></tr>
+              <tr><td><strong>Flat</strong></td><td>2D technical drawing of a garment, front and back</td></tr>
+              <tr><td><strong>FOB</strong></td><td>Free on board: the factory's quoted price, before freight, duty and fees</td></tr>
+              <tr><td><strong>Good / better / best</strong></td><td>Three-tier price architecture</td></tr>
+              <tr><td><strong>Grading</strong></td><td>Scaling a pattern and its measurements from the base size to the full size range</td></tr>
+              <tr><td><strong>GTM</strong></td><td>Go-to-market: the calendar and process from concept to selling</td></tr>
+              <tr><td><strong>IMU</strong></td><td>Initial markup: planned margin at first price</td></tr>
+              <tr><td><strong>Lab dip</strong></td><td>A dyed fabric swatch used to approve a solid colour</td></tr>
+              <tr><td><strong>Landed cost</strong></td><td>Product cost including freight, duties and fees</td></tr>
+              <tr><td><strong>Line lock</strong></td><td>The gate at which the line is approved and development starts on a stable set</td></tr>
+              <tr><td><strong>Line plan</strong></td><td>Structured plan of the season's products by category, price and delivery</td></tr>
+              <tr><td><strong>Line review</strong></td><td>Meeting where the line is evaluated and edited</td></tr>
+              <tr><td><strong>Line sheet</strong></td><td>Document showing styles, colours and prices for buyers</td></tr>
+              <tr><td><strong>Lineboard / range board</strong></td><td>Visual grid of the line, used in reviews</td></tr>
+              <tr><td><strong>MFP</strong></td><td>Merchandise financial plan: sales, margin, inventory and OTB targets</td></tr>
+              <tr><td><strong>MOQ</strong></td><td>Minimum order quantity at a factory or mill</td></tr>
+              <tr><td><strong>Option</strong></td><td>A style in one colourway (style-colour)</td></tr>
+              <tr><td><strong>OTB</strong></td><td>Open-to-buy: remaining inventory budget</td></tr>
+              <tr><td><strong>Placeholder</strong></td><td>An open slot in the line plan before a product exists</td></tr>
+              <tr><td><strong>PLM</strong></td><td>Product lifecycle management: system of record for product development</td></tr>
+              <tr><td><strong>POM</strong></td><td>Points of measure on a spec sheet</td></tr>
+              <tr><td><strong>PP sample</strong></td><td>Pre-production sample: final sign-off before bulk</td></tr>
+              <tr><td><strong>Private label</strong></td><td>Retailer-owned brand, often developed with vendors</td></tr>
+              <tr><td><strong>Range</strong></td><td>UK and European term for line or assortment</td></tr>
+              <tr><td><strong>Sell-in</strong></td><td>Selling the line to wholesale buyers or internal channels</td></tr>
+              <tr><td><strong>Sell-through</strong></td><td>% of received units sold in a period</td></tr>
+              <tr><td><strong>SKU</strong></td><td>Style + colour + size: the unit tracked in inventory</td></tr>
+              <tr><td><strong>SMS</strong></td><td>Salesman sample, used for sell-in and photography</td></tr>
+              <tr><td><strong>Strike-off</strong></td><td>A print sample on the real fabric, used to approve a print</td></tr>
+              <tr><td><strong>Tech pack</strong></td><td>Full product specification package sent to a factory</td></tr>
+              <tr><td><strong>TOP</strong></td><td>Top of production: a sample pulled from the bulk run to check it matches the PP</td></tr>
+              <tr><td><strong>Wholesale</strong></td><td>Selling to other retailers rather than to consumers</td></tr>
+            </tbody>
+          </table></div>
+        </details>
+
+        <h4 id="m1-lb-quiz">Check yourself</h4>
+        <p>Eight questions on this section only, separate from the module quiz below. Answer them before you open the model answers. The calculation and diagnosis questions (Q5, Q6 and Q8) are the ones that show whether the model has stuck.</p>
+        <div class="q">
+          <button class="revealall" type="button">Reveal all answers</button>
+          <ol class="quiz">
+            <li>Why is line review called "the cheapest moment to cut a style"? Name three costs a style dropped at line review avoids, compared with one dropped after the buy.
+              <details><summary></summary><p>Because line review (stage 05) is the last gate before money starts being spent on the style itself. Cutting there costs a meeting. Once the line is locked, each surviving style goes on to collect a tech pack and BOM (06), material and colour approvals and factory quotes (07), sampling rounds (08: proto, fit, size set, SMS, PP), a cost sheet (09) and lab testing (10). After the buy (12) it also carries a purchase order, bulk fabric and finished inventory. Any three of those is a good answer; the strongest also name the <strong>markdown</strong> at stage 13 if the style sells badly. That is VibeIQ's value claim in one sentence: decisions in stages 01–05 decide most of the cost and risk downstream.</p></details>
+            </li>
+            <li>At stage 09 a style's landed cost comes in above its target. What are the three options, which team owns the call, and what has to happen in VibeIQ afterwards?
+              <details><summary></summary><p>The three options are <strong>re-engineer</strong> (a cheaper fabric, fewer trims, a simpler construction), <strong>reprice</strong> (raise retail, if the price architecture allows it) or <strong>drop</strong> the style. Costing and sourcing lead the cost sign-off, but the decision is made with merchandising, because it is their margin and their price ladder. Afterwards the change has to come back into VibeIQ: the new cost or price, or the drop, needs to reach Plan, or its margin and option-count rollups are wrong at the next review. That is the "what happens when a product changes after hand-off?" question, and the answer belongs on the account's attribute-ownership map.</p></details>
+            </li>
+            <li>Name the three roles of the product triad, what each one owns, and one tension between each pair.
+              <details><summary></summary><p><strong>Merchandising</strong> owns the line (what's in, at what price, for which channel). <strong>Design</strong> owns the look (creative direction, newness, brand identity). <strong>Product development</strong> owns makeability (turning approved designs into specified, sampled, costed products). Tensions: design vs merchandising is newness against coverage, margin and fewer options. Merchandising vs development is the price and margin the line needs against what the product actually costs, and by when. Development vs design is construction, fit and cost reality against design integrity. The tensions are deliberate, and most stages exist to settle them.</p></details>
+            </li>
+            <li>Name the three phases of a big brand's season, the stages in each, and the stages where VibeIQ is the system the work happens in.
+              <details><summary></summary><p><strong>Decide</strong> (01–05: strategy &amp; targets, research &amp; concept, line planning, design &amp; colourways, line review &amp; edit). <strong>Develop</strong> (06–10: tech packs &amp; specs, materials &amp; sourcing, sampling &amp; fit, costing, testing &amp; compliance). <strong>Deliver</strong> (11–13: sell-in &amp; regional adoption, buy &amp; production, launch, sell &amp; learn). VibeIQ is the working system for <strong>02–05</strong> (Board for concept and design, Plan for line planning and review) and again at <strong>11</strong> (Showcase for sell-in). Stage 01 lives in the planning / MFP system and <em>feeds</em> VibeIQ its targets; 06–10 live in PLM, 12 in ERP, 13 in PIM and commerce.</p></details>
+            </li>
+            <li>A slot in the line plan has three styles, each in four colourways and six sizes. How many options and how many SKUs is that? Why do merchandisers watch the first number rather than the second?
+              <details><summary></summary><p><strong>12 options</strong> (3 styles × 4 colourways) and <strong>72 SKUs</strong> (× 6 sizes). Merchandisers manage <strong>option count</strong> because it is the decision they control at line planning and review, and each option carries its own development cost: colour approvals, samples, a minimum order quantity. Size runs follow largely from the category. This is why "every colourway adds an option" matters: cutting one colourway across the three styles removes three options and eighteen SKUs, which is often the cheapest way to hit an option-count target without losing a style.</p></details>
+            </li>
+            <li>A style's factory quote (FOB) is $20, and freight, duty and fees add 25% on top. It is planned at $80 retail with a target IMU of 72%. Does it hold its margin, and what is the most it can land at?
+              <details><summary></summary><p>Landed cost = $20 × 1.25 = <strong>$25</strong>. IMU = (80 − 25) ÷ 80 = <strong>68.75%</strong>, so it misses the 72% target. The most it can land at is 80 × (1 − 0.72) = <strong>$22.40</strong>, which means an FOB of about $17.92 at the same 25% uplift. The options are the stage 09 three: re-engineer (fabric is often 60–70% of a basic garment's cost, so start there), reprice (if $85 fits the price ladder, IMU at $25 landed is 70.6%, still short) or drop. The point of the question: a cost miss is a merchandising decision, not just a costing one.</p></details>
+            </li>
+            <li>Put these samples in order and say which one is the "go for bulk" gate: SMS, fit, TOP, proto, PP, size set. Why does VibeIQ care how many styles reach this stage?
+              <details><summary></summary><p><strong>Proto → fit → size set → SMS → PP → TOP.</strong> Approval of the <strong>PP</strong> (pre-production) sample is the go-for-bulk gate; TOP is pulled <em>from</em> bulk to check it matches the PP. VibeIQ cares because every round costs money and weeks, and every style still alive at stage 08 pays for all of them. A style cut at line review (05) never gets a proto, a fit round or an SMS. "Fewer cut styles reaching sampling" is one of the clearest value levers VibeIQ can claim, and 3D sampling (30–50% fewer physical samples) is where some brands are cutting the cost from the other end.</p></details>
+            </li>
+            <li>A merchandiser tells you: "Plan's margin rollups have been wrong for the last three weeks." Using the stage model, what are the first questions you ask?
+              <details><summary></summary><p>Start from <em>where the product was when the number changed</em>, not from the rollup. Three weeks ago, which stage were the affected styles in? If they were at costing (09) or materials and sourcing (07), costs are being revised in PLM, so ask: does cost flow back from PLM into VibeIQ, how often, and which system is master for cost and price? Were any styles repriced or dropped after line lock without that reaching Plan? Has planning re-forecast, changing the targets the rollups are compared against? Only then look at the rollup itself. A good answer recognises that "the data is wrong" is usually a hand-off problem on the attribute-ownership map, and that the person reporting it (merchandising) is often not the one whose process changed (costing or development).</p></details>
+            </li>
+          </ol>
+        </div>
+
+        <p><strong>Sources for this section</strong></p>
+        <ul class="srcs">
+          <li><a class="link" href="https://vibeiq.com/platform/" target="_blank" rel="noopener">vibeiq.com/platform</a> — VibeIQ's own framing of line planning, target-backed placeholders, living briefs, rollups and the publish to PLM.</li>
+          <li><a class="link" href="https://vibeiq.com/our-story/" target="_blank" rel="noopener">vibeiq.com/our-story</a> — the Board-to-PLM hand-off and the no-PLM case.</li>
+          <li><span class="ext">External — not official documentation:</span> the stage model, teams, outputs and gates come from the "How a big apparel brand creates product" infographic, a brand-agnostic industry synthesis. Its statistics are cited there to McKinsey, Uphance, HUGO BOSS and Perry Ellis; check the primary source before repeating a figure to a customer.</li>
+          <li><span class="ext">External — not official documentation:</span> 16 CFR 1610, CPSIA, REACH and Prop 65 are named for recognition only. They are not legal guidance.</li>
+        </ul>
+
 
         <hr class="divider">
 

@@ -3,7 +3,7 @@
 **Owner:** Leo
 **Program:** 10-week VibeIQ Technical Account Manager readiness
 **Started:** _[fill in]_
-**Last updated:** 2026-09-06 (JD success criteria mapped — practice page section 10)
+**Last updated:** 2026-11-03 (Module 1 gained "Learn the business", with its own 8-question quiz)
 
 **How to use this file:** Bring it into each new training conversation. At the end of every module, ask Claude to update it, then save the new version. Status key below.
 
@@ -27,7 +27,7 @@
 
 | Wk | Module | Status | Quiz | Exercise | Challenge |
 |----|--------|--------|------|----------|-----------|
-| 1 | Business domain & where VibeIQ sits | 🟡 Quiz passed | ✅ 8/8 (open book) | ⬜ | ⬜ |
+| 1 | Business domain & where VibeIQ sits | 🟡 Quiz passed · Learn the business to read | ✅ 8/8 (open book) · ⬜ Learn the business 0/8 | ⬜ | ⬜ |
 | 2 | Core data model (keystone) | 📖 Ready to read | — | — | — |
 | 3 | End-user apps & the publish lifecycle | 📖 Ready to read | — | — | — |
 | 4 | Data in: the Loader framework | 📖 Ready to read | — | — | — |
@@ -45,6 +45,7 @@
 | Topic | Priority | Confidence |
 |---|---|---|
 | VibeIQ positioning (upstream of PLM, "sits alongside") | 🔴 | 🟡 |
+| The business: how a brand creates product (13 stages, triad, KPIs, hand-offs) | 🔴 | 🔴 |
 | Core data model: Item / ProjectItem / AssortmentItem | 🔴 | 🔴 |
 | Property levels (Family / Option / Override) | 🔴 | 🔴 |
 | Project (season) / Assortment structure | 🔴 | 🔴 |
